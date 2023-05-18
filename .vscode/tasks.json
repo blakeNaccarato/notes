@@ -23,26 +23,6 @@
     // * -------------------------------------------------------------------------- * //
     // * Changes below should persist in significant template updates.
     {
-      "label": "dvc: repro force downstream (debug)",
-      "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize paths"],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
-      "label": "dvc: repro (debug)",
-      "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize paths"],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro ${input:stage}"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
       "label": "dvc: repro force downstream",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize paths"],
@@ -63,29 +43,11 @@
       "problemMatcher": []
     },
     {
-      "label": "dvc: repro force all",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "setup: Update project",
-        "dvc: synchronize paths",
-        "dvc: freeze",
-        "git: Stage all files",
-        "pre-commit",
-        "git: Stage all files"
-      ],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro --force"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
       "label": "dvc: repro all",
       "dependsOrder": "sequence",
       "dependsOn": [
         "setup: Update project",
         "dvc: synchronize paths",
-        "dvc: freeze",
         "git: Stage all files",
         "pre-commit",
         "git: Stage all files"
@@ -113,18 +75,7 @@
       "label": "dvc: synchronize paths",
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "python -m boilercv.models.paths"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
-      "label": "dvc: freeze",
-      "type": "process",
-      "command": "pwsh",
-      "args": [
-        "-Command",
-        "pip freeze --requirement requirements.txt --local --exclude-editable > repro.txt"
-      ],
+      "args": ["-Command", "python -m notes.models.paths"],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },

@@ -74,12 +74,11 @@ class Paths(MyBaseModel):
     paths_module: FilePath = models / "paths.py"
 
     # ! STAGES
+    stage_schema: FilePath = stages / "schema.py"
 
     # ! DATA
     data: DirectoryPath = DATA_DIR
     examples: DirectoryPath = data / "examples"
-
-    # ! PREVIEW DATA
 
     # ! SCHEMA
     # Can't be "schema", which is a special member of BaseClass

@@ -5,6 +5,7 @@ paths:
   stages: src/notes/stages
   models: src/notes/models
   paths_module: src/notes/models/paths.py
+  stage_schema: src/notes/stages/schema.py
   data: data
   examples: data/examples
   project_schema: data/schema

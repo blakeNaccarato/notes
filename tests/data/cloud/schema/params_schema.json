@@ -53,21 +53,27 @@
           "format": "file-path",
           "type": "string"
         },
+        "stage_schema": {
+          "title": "Stage Schema",
+          "default": "src/notes/stages/schema.py",
+          "format": "file-path",
+          "type": "string"
+        },
         "data": {
           "title": "Data",
-          "default": "data",
+          "default": "tests/data/cloud",
           "format": "directory-path",
           "type": "string"
         },
         "examples": {
           "title": "Examples",
-          "default": "data/examples",
+          "default": "tests/data/cloud/examples",
           "format": "directory-path",
           "type": "string"
         },
         "project_schema": {
           "title": "Project Schema",
-          "default": "data/schema",
+          "default": "tests/data/cloud/schema",
           "format": "directory-path",
           "type": "string"
         }
@@ -81,7 +87,7 @@
       "properties": {
         "data": {
           "title": "Data",
-          "default": "C:\\Users\\Blake\\.local\\notes",
+          "default": "tests\\data\\local",
           "format": "directory-path",
           "type": "string"
         }

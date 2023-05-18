@@ -1,4 +1,4 @@
-"""Computer vision routines suitable for nucleate pool boiling bubble analysis."""
+"""Centralized repository of my Obsidian vaults and shared tooling."""
 
 from pathlib import Path
 
