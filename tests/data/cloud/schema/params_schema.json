@@ -1,0 +1,92 @@
+{
+  "title": "Params",
+  "description": "Project parameters.",
+  "type": "object",
+  "properties": {
+    "paths": {
+      "$ref": "#/definitions/Paths"
+    },
+    "local_paths": {
+      "$ref": "#/definitions/LocalPaths"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Paths": {
+      "title": "Paths",
+      "description": "Directories relevant to the project.",
+      "type": "object",
+      "properties": {
+        "requirements": {
+          "title": "Requirements",
+          "default": "requirements.txt",
+          "format": "file-path",
+          "type": "string"
+        },
+        "dev_requirements": {
+          "title": "Dev Requirements",
+          "default": ".tools/requirements",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "package": {
+          "title": "Package",
+          "default": "src/notes",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "stages": {
+          "title": "Stages",
+          "default": "src/notes/stages",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "models": {
+          "title": "Models",
+          "default": "src/notes/models",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "paths_module": {
+          "title": "Paths Module",
+          "default": "src/notes/models/paths.py",
+          "format": "file-path",
+          "type": "string"
+        },
+        "data": {
+          "title": "Data",
+          "default": "data",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "examples": {
+          "title": "Examples",
+          "default": "data/examples",
+          "format": "directory-path",
+          "type": "string"
+        },
+        "project_schema": {
+          "title": "Project Schema",
+          "default": "data/schema",
+          "format": "directory-path",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LocalPaths": {
+      "title": "LocalPaths",
+      "description": "Local paths for larger files not stored in the cloud.",
+      "type": "object",
+      "properties": {
+        "data": {
+          "title": "Data",
+          "default": "C:\\Users\\Blake\\.local\\notes",
+          "format": "directory-path",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

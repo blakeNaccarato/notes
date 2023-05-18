@@ -4,9 +4,130 @@
 
 {
   "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "stage",
+      "type": "pickString",
+      "description": "stage",
+      "default": "",
+      "options": ["", "schema"]
+    },
+    {
+      "id": "version",
+      "type": "promptString",
+      "description": "version",
+      "default": "0.0.0"
+    }
+  ],
   "tasks": [
     // * -------------------------------------------------------------------------- * //
     // * Changes below should persist in significant template updates.
+    {
+      "label": "dvc: repro force downstream (debug)",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize paths"],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro (debug)",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize paths"],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro ${input:stage}"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro force downstream",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize paths"],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize paths"],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro ${input:stage}"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro force all",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "setup: Update project",
+        "dvc: synchronize paths",
+        "dvc: freeze",
+        "git: Stage all files",
+        "pre-commit",
+        "git: Stage all files"
+      ],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro --force"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro all",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "setup: Update project",
+        "dvc: synchronize paths",
+        "dvc: freeze",
+        "git: Stage all files",
+        "pre-commit",
+        "git: Stage all files"
+      ],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: dag",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize paths"],
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "(dvc dag --md) -Replace 'mermaid', '{mermaid}' > docs/dag.md && . '~/.local/nodeenvs/markdownlint/Scripts/Activate.ps1' && markdownlint --fix docs/dag.md"
+      ],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: synchronize paths",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "python -m boilercv.models.paths"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: freeze",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "pip freeze --requirement requirements.txt --local --exclude-editable > repro.txt"
+      ],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
 
     // * -------------------------------------------------------------------------- * //
     // * Changes below may be lost in significant template updates.
@@ -111,6 +232,27 @@
       "problemMatcher": []
     },
     {
+      "label": "git: Push with tags",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "git push; git push --tags"],
+      "icon": { "id": "git-branch" },
+      "problemMatcher": []
+    },
+    {
+      "label": "git: Prepare to release new version",
+      "dependsOrder": "sequence",
+      "dependsOn": ["setup: Compose pyproject.toml", "git: Stage all files"],
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "git commit -m 'Release ${input:version}'; git tag ${input:version}"
+      ],
+      "icon": { "id": "git-branch" },
+      "problemMatcher": []
+    },
+    {
       "label": "git: Rebase back to fork",
       "type": "process",
       "command": "pwsh",
@@ -184,14 +326,6 @@
         "autoflake -i --remove-all-unused-imports --ignore-init-module-imports ${file}"
       ],
       "icon": { "id": "code" },
-      "problemMatcher": []
-    },
-    {
-      "label": "task: pytest-cov: Generate coverage",
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "pytest --cov --cov-report xml"],
-      "icon": { "id": "beaker" },
       "problemMatcher": []
     }
   ]

@@ -1,0 +1,8 @@
+stages:
+  schema:
+    cmd: "python -m boilercv.stages.schema"
+    deps:
+      - "${paths.stage_schema}"
+      - "${paths.paths_module}"
+    outs:
+      - "${paths.project_schema}"
