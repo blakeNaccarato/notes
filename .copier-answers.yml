@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 30d9aee
-_src_path: gh:blakeNaccarato/copier-python-init
+_commit: 5b00e5c
+_src_path: gh:blakeNaccarato/copier-python
 actions_runner: ubuntu-latest
 github_repo_name: notes
 project_description: Centralized repository of my Obsidian vaults and shared tooling.
