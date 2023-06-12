@@ -8,5 +8,5 @@ stages:
     outs:
       - "${paths.grad_vscode}"
       - "${paths.grad_scripts}"
-      - "${paths.local_vscode}"
-      - "${paths.local_scripts}"
+      - "${paths.personal_vscode}"
+      - "${paths.personal_scripts}"

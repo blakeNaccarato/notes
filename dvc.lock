@@ -22,26 +22,26 @@ stages:
       size: 91226
       nfiles: 26
     - path: src/notes/models
-      md5: a0c3eba4c550647c2c897cd83f60a641.dir
-      size: 19734
+      md5: 4beb72dc2004f644aa4dda61a36325d6.dir
+      size: 19754
       nfiles: 6
     - path: src/notes/stages/update_common.py
-      md5: fc652d39e2b3ca4272dc87ff190cad62
-      size: 325
+      md5: b0824a019572516c0c99b92d04449a91
+      size: 328
     outs:
+    - path: data/local/vaults/grad/.scripts
+      md5: bfa086117e844b353067cf0487791b48.dir
+      size: 88196
+      nfiles: 23
     - path: data/local/vaults/grad/.vscode
       md5: f24b06199f81551b8881157295ce1e08.dir
       size: 3030
       nfiles: 3
-    - path: data/local/vaults/grad/scripts
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0
-    - path: data/local/vaults/local/.vscode
+    - path: data/local/vaults/personal/.scripts
+      md5: bfa086117e844b353067cf0487791b48.dir
+      size: 88196
+      nfiles: 23
+    - path: data/local/vaults/personal/.vscode
       md5: f24b06199f81551b8881157295ce1e08.dir
       size: 3030
       nfiles: 3
-    - path: data/local/vaults/local/scripts
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0

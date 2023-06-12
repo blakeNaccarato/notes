@@ -1,6 +1,5 @@
 ci:
   skip:
-    - "synchronize-params"
     - "dvc-repro"
     - "compose-pyproject"
     - "pytest-fast-only"
@@ -21,23 +20,13 @@ repos:
       # * -------------------------------------------------------------------------- * #
       # * Changes below should persist in significant template updates.
 
-      - id: "synchronize-params"
-        name: "synchronize-params"
-        fail_fast: true
-        pass_filenames: false
-        language: "system"
-        entry: "pwsh -Command python -m notes.models.params"
-        files: |
-          (?x)^(
-            src/notes/models/.*
-            |params.yaml
-          )$
       - id: "dvc-repro"
         name: "dvc-repro"
         fail_fast: true
         pass_filenames: false
         language: "system"
-        entry: "pwsh -Command dvc repro"
+        entry: |
+          pwsh -Command python -m notes.models.params && dvc repro && (dvc dag --md) -Replace \'mermaid\', \'{mermaid}\' > docs/dag.md && . \'~/.local/nodeenvs/markdownlint/Scripts/Activate.ps1\' && markdownlint --fix docs/dag.md
         files: |
           (?x)^(
             src/.*

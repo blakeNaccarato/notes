@@ -76,25 +76,25 @@
         },
         "grad_scripts": {
           "title": "Grad Scripts",
-          "default": "data/local/vaults/grad/scripts",
+          "default": "data/local/vaults/grad/.scripts",
           "format": "directory-path",
           "type": "string"
         },
-        "local": {
-          "title": "Local",
-          "default": "data/local/vaults/local",
+        "personal": {
+          "title": "Personal",
+          "default": "data/local/vaults/personal",
           "format": "directory-path",
           "type": "string"
         },
-        "local_vscode": {
-          "title": "Local Vscode",
-          "default": "data/local/vaults/local/.vscode",
+        "personal_vscode": {
+          "title": "Personal Vscode",
+          "default": "data/local/vaults/personal/.vscode",
           "format": "directory-path",
           "type": "string"
         },
-        "local_scripts": {
-          "title": "Local Scripts",
-          "default": "data/local/vaults/local/scripts",
+        "personal_scripts": {
+          "title": "Personal Scripts",
+          "default": "data/local/vaults/personal/.scripts",
           "format": "directory-path",
           "type": "string"
         }
