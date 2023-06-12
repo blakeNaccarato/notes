@@ -3,6 +3,9 @@
 :relative-images:
 ```
 
+```{include} dag.md
+```
+
 ```{toctree}
 :hidden:
 changelog

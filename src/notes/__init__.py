@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+PROJECT_DIR = Path(".")
+"""Project directory."""
 # Monkeypatch these when testing.
 PARAMS_FILE = Path("params.yaml")
 """Location of the parameters file."""

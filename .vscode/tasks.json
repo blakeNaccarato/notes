@@ -10,7 +10,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": []
+      "options": ["", "update_common"]
     },
     {
       "id": "version",

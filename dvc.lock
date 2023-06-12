@@ -14,3 +14,34 @@ stages:
       md5: 6435b0330d6dbd85ebeb56cb06b1761c.dir
       size: 2699
       nfiles: 1
+  update_common:
+    cmd: python -m notes.stages.update_common
+    deps:
+    - path: data/common
+      md5: 88cba6e158885c737e6e190225602b82.dir
+      size: 91226
+      nfiles: 26
+    - path: src/notes/models
+      md5: a0c3eba4c550647c2c897cd83f60a641.dir
+      size: 19734
+      nfiles: 6
+    - path: src/notes/stages/update_common.py
+      md5: fc652d39e2b3ca4272dc87ff190cad62
+      size: 325
+    outs:
+    - path: data/local/vaults/grad/.vscode
+      md5: f24b06199f81551b8881157295ce1e08.dir
+      size: 3030
+      nfiles: 3
+    - path: data/local/vaults/grad/scripts
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    - path: data/local/vaults/local/.vscode
+      md5: f24b06199f81551b8881157295ce1e08.dir
+      size: 3030
+      nfiles: 3
+    - path: data/local/vaults/local/scripts
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0

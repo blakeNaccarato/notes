@@ -1,1 +1,12 @@
-stages: {}
+stages:
+  update_common:
+    cmd: "python -m notes.stages.update_common"
+    deps:
+      - "${paths.models}"
+      - "${paths.stage_update_common}"
+      - "${paths.common}"
+    outs:
+      - "${paths.grad_vscode}"
+      - "${paths.grad_scripts}"
+      - "${paths.local_vscode}"
+      - "${paths.local_scripts}"

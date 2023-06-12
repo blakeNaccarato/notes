@@ -1,2 +1,15 @@
 paths:
   data: data
+  project: .
+  packages: src/notes
+  models: src/notes/models
+  stages: src/notes/stages
+  common: data/common
+  stage_update_common: src/notes/stages/update_common.py
+  vaults: data/local/vaults
+  grad: data/local/vaults/grad
+  grad_vscode: data/local/vaults/grad/.vscode
+  grad_scripts: data/local/vaults/grad/scripts
+  local: data/local/vaults/local
+  local_vscode: data/local/vaults/local/.vscode
+  local_scripts: data/local/vaults/local/scripts

@@ -23,11 +23,32 @@ repos:
       - id: "synchronize-params"
         name: "synchronize-params"
         fail_fast: true
+        pass_filenames: false
         language: "system"
-        entry: "pwsh -Command python -m boilercv.models.params"
+        entry: "pwsh -Command python -m notes.models.params"
         files: |
           (?x)^(
-            src/boilercv/models/.*
+            src/notes/models/.*
+            |params.yaml
+          )$
+      - id: "dvc-repro"
+        name: "dvc-repro"
+        fail_fast: true
+        pass_filenames: false
+        language: "system"
+        entry: "pwsh -Command dvc repro"
+        files: |
+          (?x)^(
+            src/.*
+            |tests/.*
+            |pyproject.toml
+            |requirements.txt
+            |.tools/(
+              pyproject.toml
+              |requirements/.*
+            )
+            |data/.*
+            |dvc.yaml
             |params.yaml
           )$
 
