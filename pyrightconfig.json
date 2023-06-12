@@ -2,6 +2,8 @@
   // * ----------------------------------------------------------------------------- * #
   // * Changes below should persist in significant template updates.
 
+  "extraPaths": ["common"],
+
   // * ----------------------------------------------------------------------------- * #
   // * Changes below may be lost in significant template updates.
 

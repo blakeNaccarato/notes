@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "find",
+      "icon": { "id": "eye" },
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "python -m find projects/write-dissertation/attend-the-ai-for-thermal-energy-science-conference/conference.md [-\\b]source\\b"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "preview",
+      "icon": { "id": "eye" },
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "python -m preview reports/23-02-01_to_23-05-03.md"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Update library on change",
+      "icon": { "id": "book" },
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "python -m watch"],
+      "problemMatcher": []
+    },
+    {
+      "label": "markdownlint",
+      "icon": { "id": "markdown" },
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        ". 'C:/Users/Blake/.local/nodeenvs/markdownlint/Scripts/Activate.ps1'; markdownlint -f ."
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "ConvertTo-ReviewObsidian",
+      "icon": { "id": "markdown" },
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", ".scripts/ConvertTo-ReviewObsidian.ps1 '${file}'"],
+      "problemMatcher": []
+    },
+    {
+      "label": "ConvertTo-ReportObsidian",
+      "icon": { "id": "markdown" },
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", ".scripts/ConvertTo-ReportObsidian.ps1 '${file}'"],
+      "problemMatcher": []
+    }
+  ]
+}
