@@ -22,8 +22,8 @@ stages:
       size: 91226
       nfiles: 26
     - path: src/notes/models
-      md5: 4beb72dc2004f644aa4dda61a36325d6.dir
-      size: 19754
+      md5: d90ddf1d5d07d13ac45da9705e14c9d6.dir
+      size: 19871
       nfiles: 6
     - path: src/notes/stages/update_common.py
       md5: b0824a019572516c0c99b92d04449a91

@@ -6,6 +6,7 @@ from shutil import copytree
 import pytest
 
 TEST_DATA = Path("tests/data")
+TEST_DATA.mkdir(exist_ok=True)
 
 
 @pytest.fixture()
