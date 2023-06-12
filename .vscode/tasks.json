@@ -161,6 +161,14 @@
       "problemMatcher": []
     },
     {
+      "label": "setup: Perform first-time setup",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["first_time_setup.ps1"],
+      "icon": { "id": "file-symlink-directory" },
+      "problemMatcher": []
+    },
+    {
       "label": "setup: Remove *.rej",
       "type": "process",
       "command": "pwsh",
@@ -193,6 +201,27 @@
 
     // * -------------------------------------------------------------------------- * //
     // * GIT * //
+    {
+      "label": "git: Push with tags",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "git push; git push --tags"],
+      "icon": { "id": "git-branch" },
+      "problemMatcher": []
+    },
+    {
+      "label": "git: Prepare to release new version",
+      "dependsOrder": "sequence",
+      "dependsOn": ["setup: Compose pyproject.toml", "git: Stage all files"],
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "git commit -m 'Release ${input:version}'; git tag ${input:version}"
+      ],
+      "icon": { "id": "git-branch" },
+      "problemMatcher": []
+    },
     {
       "label": "git: Push with tags",
       "type": "process",

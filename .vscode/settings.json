@@ -150,6 +150,7 @@
   "git.autofetch": true,
   "git.commandsToLog": ["commit", "push"],
   "git.confirmSync": false,
+  "git.ignoredRepositories": ["template", "typings"],
   //* Markdown editor moves jarringly when this is "true"
   "markdown.preview.scrollEditorWithPreview": false,
   //* Exclude
