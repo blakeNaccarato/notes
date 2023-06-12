@@ -1,1 +1,1 @@
-"""Data processing pipeline stages."""
+"""Data processing stages."""

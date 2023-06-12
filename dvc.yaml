@@ -1,8 +1,1 @@
-stages:
-  schema:
-    cmd: "python -m notes.stages.schema"
-    deps:
-      - "${paths.stage_schema}"
-      - "${paths.paths_module}"
-    outs:
-      - "${paths.project_schema}"
+stages: {}

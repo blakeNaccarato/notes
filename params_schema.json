@@ -1,0 +1,27 @@
+{
+  "title": "Params",
+  "description": "Project parameters.",
+  "type": "object",
+  "properties": {
+    "paths": {
+      "$ref": "#/definitions/Paths"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Paths": {
+      "title": "Paths",
+      "description": "Paths associated with project data.",
+      "type": "object",
+      "properties": {
+        "data": {
+          "title": "Data",
+          "default": "data",
+          "format": "directory-path",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

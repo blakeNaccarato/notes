@@ -2,6 +2,14 @@
   // * ---------------------------------------------------------------------------- * //
   // * Changes below should persist in significant template updates.
 
+  //! Schema
+  "yaml.schemas": {
+    "params_schema.json": "params.yaml"
+  },
+
+  //! DVC
+  "dvc.studio.shareExperimentsLive": true,
+
   // * ---------------------------------------------------------------------------- * //
   // * Changes below may be lost in significant template updates.
 
@@ -104,6 +112,17 @@
     ".nest_tools_config": "plaintext",
     ".sourcery.yaml": "yaml"
   },
+  //* Exclude problematic files in Problems panel filter and elsewhere
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    //? Pylance notebook cell temp files that get picked up in Problems pane before deletion
+    "**/*pylance-notebook-cell*": true
+  },
   //* File icon associations
   "workbench.iconTheme": "vscode-icons",
   "vsicons.presets.hideExplorerArrows": true,
@@ -129,6 +148,7 @@
   "files.trimFinalNewlines": true,
   //* Periodically fetch changes to tracked repo. Don't confirm on push/pull.
   "git.autofetch": true,
+  "git.commandsToLog": ["commit", "push"],
   "git.confirmSync": false,
   //* Markdown editor moves jarringly when this is "true"
   "markdown.preview.scrollEditorWithPreview": false,
@@ -207,5 +227,6 @@
   },
 
   //! Extension: Jupyter Notebooks
-  "jupyter.notebookFileRoot": "${workspaceFolder}"
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "jupyter.showVariableViewWhenDebugging": true
 }

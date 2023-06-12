@@ -7,5 +7,3 @@ PARAMS_FILE = Path("params.yaml")
 """Location of the parameters file."""
 DATA_DIR = Path("data")
 """Data directory."""
-LOCAL_DATA = Path("~").expanduser() / ".local/notes"
-"""Local data directory."""

@@ -10,7 +10,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": ["", "schema"]
+      "options": []
     },
     {
       "id": "version",
@@ -25,7 +25,7 @@
     {
       "label": "dvc: repro force downstream",
       "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize paths"],
+      "dependsOn": ["dvc: synchronize params"],
       "type": "process",
       "command": "pwsh",
       "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
@@ -35,10 +35,27 @@
     {
       "label": "dvc: repro",
       "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize paths"],
+      "dependsOn": ["dvc: synchronize params"],
       "type": "process",
       "command": "pwsh",
       "args": ["-Command", "dvc repro ${input:stage}"],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro force all",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "setup: Update project",
+        "dvc: synchronize params",
+        "dvc: freeze",
+        "git: Stage all files",
+        "pre-commit",
+        "git: Stage all files"
+      ],
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "dvc repro --force"],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
@@ -47,7 +64,8 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "setup: Update project",
-        "dvc: synchronize paths",
+        "dvc: synchronize params",
+        "dvc: freeze",
         "git: Stage all files",
         "pre-commit",
         "git: Stage all files"
@@ -61,7 +79,7 @@
     {
       "label": "dvc: dag",
       "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize paths"],
+      "dependsOn": ["dvc: synchronize params"],
       "type": "process",
       "command": "pwsh",
       "args": [
@@ -72,10 +90,10 @@
       "problemMatcher": []
     },
     {
-      "label": "dvc: synchronize paths",
+      "label": "dvc: synchronize params",
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "python -m notes.models.paths"],
+      "args": ["-Command", "python -m notes.models.params"],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
@@ -94,18 +112,32 @@
       "problemMatcher": []
     },
     {
-      "label": "setup: Re-answer template questions",
+      "label": "setup: Update from template, prompt for responses",
       "type": "process",
       "command": "pwsh",
-      "args": [".tools/scripts/Update-Template.ps1"],
+      "args": ["-Command", ".tools/scripts/Copy-Template.ps1 -Update"],
       "icon": { "id": "file-symlink-directory" },
       "problemMatcher": []
     },
     {
-      "label": "setup: Bump template",
+      "label": "setup: Recopy from template",
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", ".tools/scripts/Update-Template.ps1 -Remote -Force"],
+      "args": [
+        "-Command",
+        ".tools/scripts/Copy-Template.ps1 -Recopy -Defaults"
+      ],
+      "icon": { "id": "file-symlink-directory" },
+      "problemMatcher": []
+    },
+    {
+      "label": "setup: Update from template",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        ".tools/scripts/Copy-Template.ps1 -Update -Defaults"
+      ],
       "icon": { "id": "file-symlink-directory" },
       "problemMatcher": []
     },
@@ -129,7 +161,7 @@
       "problemMatcher": []
     },
     {
-      "label": "task: Remove *.rej",
+      "label": "setup: Remove *.rej",
       "type": "process",
       "command": "pwsh",
       "args": [
@@ -223,7 +255,7 @@
     // * -------------------------------------------------------------------------- * //
     // * BLACK * //
     {
-      "label": "task: black: Ignore magic comma in this file",
+      "label": "black: Ignore magic comma in this file",
       "type": "process",
       "command": "pwsh",
       "args": ["-Command", "black -C ${file}"],
@@ -231,7 +263,7 @@
       "problemMatcher": []
     },
     {
-      "label": "task: black: Ignore magic comma in all project files",
+      "label": "black: Ignore magic comma in all project files",
       "type": "process",
       "command": "pwsh",
       "args": ["-Command", "black -C src tests"],
@@ -241,6 +273,44 @@
 
     // * -------------------------------------------------------------------------- * //
     // * OTHER TASKS * //
+    {
+      "label": "task: format notebook, clear outputs",
+      "dependsOrder": "sequence",
+      "dependsOn": ["task: format notebook"],
+      "type": "shell",
+      "options": {
+        "shell": { "executable": "pwsh", "args": ["-Command"] }
+      },
+      "command": "nb-clean clean --remove-empty-cells --preserve-cell-metadata tags slideshow special -- ${file}",
+      "icon": { "id": "notebook" },
+      "problemMatcher": []
+    },
+    {
+      "label": "task: format notebook",
+      "type": "shell",
+      "options": {
+        "shell": { "executable": "pwsh", "args": ["-Command"] }
+      },
+      "command": "nbqa black ${file}; nbqa ruff --fix-only ${file}; nb-clean clean --remove-empty-cells --preserve-cell-outputs --preserve-cell-metadata tags slideshow special -- ${file}",
+      "icon": { "id": "notebook" },
+      "problemMatcher": []
+    },
+    {
+      "label": "task: Run pytest with coverage",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-Command", "pytest --cov --cov-report xml"],
+      "icon": { "id": "type-hierarchy-sub" },
+      "problemMatcher": []
+    },
+    {
+      "label": "task: Invoke pyright",
+      "type": "process",
+      "command": "pwsh",
+      "args": [".tools/scripts/Invoke-Pyright.ps1"],
+      "icon": { "id": "type-hierarchy-sub" },
+      "problemMatcher": []
+    },
     {
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "process",
