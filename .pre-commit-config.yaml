@@ -1,6 +1,7 @@
 ci:
   skip:
     - "synchronize-params"
+    - "dvc-repro"
     - "compose-pyproject"
     - "pytest-fast-only"
     - "pytest-slow-only"
