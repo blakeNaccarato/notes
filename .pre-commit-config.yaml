@@ -22,7 +22,6 @@ repos:
 
       - id: "dvc-repro"
         name: "dvc-repro"
-        fail_fast: true
         pass_filenames: false
         language: "system"
         entry: |
@@ -47,7 +46,6 @@ repos:
 
       - id: "compose-pyproject"
         name: "compose-pyproject"
-        fail_fast: true
         pass_filenames: false
         language: "system"
         entry: "pwsh -Command python .tools/scripts/compose_pyproject.py"
@@ -59,7 +57,6 @@ repos:
           )$
       - id: "pyright"
         name: "pyright"
-        fail_fast: true
         pass_filenames: false
         language: "system"
         entry: "pwsh .tools/scripts/Invoke-Pyright.ps1"
@@ -76,7 +73,6 @@ repos:
           )$
       - id: "pytest-fast-only"
         name: "pytest-fast-only"
-        fail_fast: true
         verbose: true
         pass_filenames: false
         language: "system"
@@ -93,7 +89,6 @@ repos:
           )$
       - id: "pytest-slow-only"
         name: "pytest-slow-only"
-        fail_fast: true
         verbose: true
         pass_filenames: false
         language: "system"

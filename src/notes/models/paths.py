@@ -1,5 +1,7 @@
 """Paths for this project."""
 
+from pathlib import Path
+
 from pydantic import DirectoryPath, FilePath
 
 from notes import DATA_DIR, PROJECT_DIR
@@ -20,6 +22,8 @@ class Paths(CreatePathsModel):
     grad: DirectoryPath = vaults / "grad"
     grad_vscode: DirectoryPath = grad / ".vscode"
     grad_scripts: DirectoryPath = grad / ".scripts"
+    grad_env: Path = grad / ".env"
     personal: DirectoryPath = vaults / "personal"
     personal_vscode: DirectoryPath = personal / ".vscode"
     personal_scripts: DirectoryPath = personal / ".scripts"
+    personal_env: Path = personal / ".env"

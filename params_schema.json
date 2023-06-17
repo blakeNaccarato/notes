@@ -80,6 +80,12 @@
           "format": "directory-path",
           "type": "string"
         },
+        "grad_env": {
+          "title": "Grad Env",
+          "default": "data/local/vaults/grad/.env",
+          "type": "string",
+          "format": "path"
+        },
         "personal": {
           "title": "Personal",
           "default": "data/local/vaults/personal",
@@ -97,6 +103,12 @@
           "default": "data/local/vaults/personal/.scripts",
           "format": "directory-path",
           "type": "string"
+        },
+        "personal_env": {
+          "title": "Personal Env",
+          "default": "data/local/vaults/personal/.env",
+          "type": "string",
+          "format": "path"
         }
       },
       "additionalProperties": false
