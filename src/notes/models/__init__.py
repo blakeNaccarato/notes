@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, Extra, validator
+from pydantic import BaseModel, DirectoryPath, Extra, validator
 from ruamel.yaml import YAML
 
 YAML_INDENT = 2
@@ -131,11 +131,10 @@ class CreatePathsModel(DefaultPathsModel):
     """Parent directories will be created for all fields in this model."""
 
     @validator("*", always=True, pre=True, each_item=True)
-    def create_directories(cls, value):
+    def create_directories(cls, value, field):
         """Create directories associated with each value."""
         path = Path(value)
-        if path.is_file():
-            return value
-        directory = path.parent if path.suffix else path
-        directory.mkdir(parents=True, exist_ok=True)
+        if field.type_ is DirectoryPath:
+            directory = path.parent if path.suffix else path
+            directory.mkdir(parents=True, exist_ok=True)
         return value
