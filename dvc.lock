@@ -18,9 +18,9 @@ stages:
     cmd: python -m notes.stages.update_common
     deps:
     - path: data/common
-      md5: 10f694d1ed9da185394f2f43d6f607c8.dir
-      size: 91276
-      nfiles: 27
+      md5: 66e0e21ffdcaa2bfe5f32445761b2262.dir
+      size: 1457335
+      nfiles: 32
     - path: src/notes/models
       md5: c2073aa0bfe4a873e8d51326bdd27e32.dir
       size: 6807
