@@ -104,6 +104,7 @@
   //* File associations
   "files.associations": {
     ".coveragerc": "ini",
+    ".dvcignore": "ignore",
     "*.env": "dotenv",
     ".pylintrc": "ini",
     "pyrightconfig.json": "jsonc",
