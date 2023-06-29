@@ -2,3 +2,49 @@ schema: '2.0'
 stages:
   temp:
     cmd: echo hello
+  update_common:
+    cmd: python -m notes.stages.update_common
+    deps:
+    - path: data/common
+      hash: md5
+      md5: 2f3308b74390fcb90b30b382e04c2d36.dir
+      size: 91276
+      nfiles: 27
+    - path: src/notes/models
+      hash: md5
+      md5: 69590371dd68e3342e231e1bacef23af.dir
+      size: 6807
+      nfiles: 3
+    - path: src/notes/stages/update_common.py
+      hash: md5
+      md5: bc393e16169ed0f1e24c785b75b5bd82
+      size: 328
+    outs:
+    - path: data/local/vaults/grad/.env
+      hash: md5
+      md5: 5a09fd9e3e35b49851923df29ec69b17
+      size: 50
+    - path: data/local/vaults/grad/.scripts
+      hash: md5
+      md5: 8f77561f1be661cf68a27e9e6fba11e6.dir
+      size: 88196
+      nfiles: 23
+    - path: data/local/vaults/grad/.vscode
+      hash: md5
+      md5: f829b66d4e1484801941cc4363e6c6ce.dir
+      size: 3030
+      nfiles: 3
+    - path: data/local/vaults/personal/.env
+      hash: md5
+      md5: 5a09fd9e3e35b49851923df29ec69b17
+      size: 50
+    - path: data/local/vaults/personal/.scripts
+      hash: md5
+      md5: 8f77561f1be661cf68a27e9e6fba11e6.dir
+      size: 88196
+      nfiles: 23
+    - path: data/local/vaults/personal/.vscode
+      hash: md5
+      md5: f829b66d4e1484801941cc4363e6c6ce.dir
+      size: 3030
+      nfiles: 3
