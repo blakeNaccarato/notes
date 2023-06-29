@@ -1,14 +1,3 @@
 stages:
-  update_common:
-    cmd: "python -m notes.stages.update_common"
-    deps:
-      - "${paths.models}"
-      - "${paths.stage_update_common}"
-      - "${paths.common}"
-    outs:
-      - "${paths.grad_vscode}"
-      - "${paths.grad_scripts}"
-      - "${paths.grad_env}"
-      - "${paths.personal_vscode}"
-      - "${paths.personal_scripts}"
-      - "${paths.personal_env}"
+  temp:
+    cmd: "echo hello"
