@@ -86,6 +86,12 @@
           "type": "string",
           "format": "path"
         },
+        "grad_gitignore": {
+          "title": "Grad Gitignore",
+          "default": "data/local/vaults/grad/.gitignore",
+          "type": "string",
+          "format": "path"
+        },
         "personal": {
           "title": "Personal",
           "default": "data/local/vaults/personal",
@@ -107,6 +113,12 @@
         "personal_env": {
           "title": "Personal Env",
           "default": "data/local/vaults/personal/.env",
+          "type": "string",
+          "format": "path"
+        },
+        "personal_gitignore": {
+          "title": "Personal Gitignore",
+          "default": "data/local/vaults/personal/.gitignore",
           "type": "string",
           "format": "path"
         }

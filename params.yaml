@@ -11,7 +11,9 @@ paths:
   grad_vscode: data/local/vaults/grad/.vscode
   grad_scripts: data/local/vaults/grad/.scripts
   grad_env: data/local/vaults/grad/.env
+  grad_gitignore: data/local/vaults/grad/.gitignore
   personal: data/local/vaults/personal
   personal_vscode: data/local/vaults/personal/.vscode
   personal_scripts: data/local/vaults/personal/.scripts
   personal_env: data/local/vaults/personal/.env
+  personal_gitignore: data/local/vaults/personal/.gitignore
