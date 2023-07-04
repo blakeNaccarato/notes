@@ -1,0 +1,79 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "data/local/vaults"
+		}
+	],
+	"settings": {
+		"yaml.schemas": {
+			"params_schema.json": "params.yaml"
+		},
+		"terminal.integrated.defaultProfile.linux": "pwsh",
+		"python.languageServer": "Pylance",
+		"ruff.importStrategy": "fromEnvironment",
+		"github-actions.workflows.pinned.workflows": [
+			".github/workflows/main.yml"
+		],
+		"shellLauncher.shells.windows": [
+			{
+				"label": "IPython (.venv)",
+				"shell": "pwsh.exe",
+				"args": [
+					"-NoExit",
+					"-Command",
+					"python",
+					"-m",
+					"IPython"
+				]
+			}
+		],
+		"explorer.sortOrder": "foldersNestsFiles",
+		"explorer.fileNesting.expand": false,
+		"files.associations": {
+			".coveragerc": "ini",
+			".dvcignore": "ignore",
+			"*.env": "dotenv",
+			".pylintrc": "ini",
+			"pyrightconfig.json": "jsonc",
+			"*requirements*.txt": "pip-requirements",
+			".nest_md": "markdown",
+			".nest_tools_config": "plaintext",
+			".sourcery.yaml": "yaml"
+		},
+		"workbench.iconTheme": "vscode-icons",
+		"vsicons.presets.hideExplorerArrows": true,
+		"vsicons.dontShowNewVersionMessage": false,
+		"vsicons.associations.files": [
+			{
+				"icon": "ini",
+				"extensions": [
+					"nest_tools_config"
+				],
+				"format": "svg"
+			},
+			{
+				"icon": "markdown",
+				"extensions": [
+					"nest_md"
+				],
+				"format": "svg"
+			}
+		],
+		"task.allowAutomaticTasks": "on",
+		"git.commandsToLog": [
+			"commit",
+			"push"
+		],
+		"git.confirmSync": false,
+		"git.ignoredRepositories": [
+			"template",
+			"typings"
+		],
+		"git.inputValidationSubjectLength": 88,
+		"git.inputValidationLength": 1e+100,
+		"yaml.format.printWidth": 88
+	}
+}
