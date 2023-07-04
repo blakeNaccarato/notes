@@ -1,4 +1,5 @@
 *
 !.gitignore
-!.dvcignore
-!*.dvc
+!vaults
+!vaults/grad
+!vaults/personal
