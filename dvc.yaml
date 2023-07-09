@@ -9,8 +9,6 @@ stages:
       - "${paths.grad_vscode}"
       - "${paths.grad_scripts}"
       - "${paths.grad_env}"
-      - "${paths.grad_gitignore}"
       - "${paths.personal_vscode}"
       - "${paths.personal_scripts}"
       - "${paths.personal_env}"
-      - "${paths.personal_gitignore}"

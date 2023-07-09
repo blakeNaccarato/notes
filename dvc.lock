@@ -7,13 +7,13 @@ stages:
     deps:
     - path: data/common
       hash: md5
-      md5: b43876b6dfd5d6fe0e55428689fecd04.dir
-      size: 96219
-      nfiles: 28
+      md5: be33d7ee98838328bee896ffcac16f22.dir
+      size: 89159
+      nfiles: 27
     - path: src/notes/models
       hash: md5
-      md5: 480d19952a2b8e3402c02bfaed709adf.dir
-      size: 6911
+      md5: 69590371dd68e3342e231e1bacef23af.dir
+      size: 6807
       nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5
@@ -24,14 +24,10 @@ stages:
       hash: md5
       md5: 5a09fd9e3e35b49851923df29ec69b17
       size: 50
-    - path: data/local/vaults/grad/.gitignore
-      hash: md5
-      md5: ff1a5eee86f0e40108e7f54572870b84
-      size: 4956
     - path: data/local/vaults/grad/.scripts
       hash: md5
-      md5: 8f77561f1be661cf68a27e9e6fba11e6.dir
-      size: 88196
+      md5: 48e353a407bdaa6437876fc518aec05b.dir
+      size: 86079
       nfiles: 23
     - path: data/local/vaults/grad/.vscode
       hash: md5
@@ -42,14 +38,10 @@ stages:
       hash: md5
       md5: 5a09fd9e3e35b49851923df29ec69b17
       size: 50
-    - path: data/local/vaults/personal/.gitignore
-      hash: md5
-      md5: ff1a5eee86f0e40108e7f54572870b84
-      size: 4956
     - path: data/local/vaults/personal/.scripts
       hash: md5
-      md5: 8f77561f1be661cf68a27e9e6fba11e6.dir
-      size: 88196
+      md5: 48e353a407bdaa6437876fc518aec05b.dir
+      size: 86079
       nfiles: 23
     - path: data/local/vaults/personal/.vscode
       hash: md5
