@@ -1,0 +1,82 @@
+<green>2023-07-23 16:58:01</green> | <yellow>START</yellow> pre_repro
+<green>2023-07-23 16:58:01</green> | <yellow>START</yellow> CLEAN
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> proposed_plot.ipynb
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:01</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:03</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T12_single_bubble.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:03</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:03</green> |     <green>Finish</green> <yellow>nbqa</yellow> proposed_plot.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:03</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> proposed_plot.ipynb
+<green>2023-07-23 16:58:03</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T16_broader_search.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:03</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:03</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-13T14_full_frame.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:03</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:03</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-13T14_full_video.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:03</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:04</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T15_multi_bubble.ipynb: All done! \u2728 \U0001f370 \u...
+<green>2023-07-23 16:58:04</green> |     <yellow>Start </yellow> <yellow>nbqa</yellow> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:05</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:05</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:05</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:05</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:05</green> |     <green>Finish</green> <yellow>nbqa</yellow> proposed_plot.ipynb
+<green>2023-07-23 16:58:05</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> proposed_plot.ipynb
+<green>2023-07-23 16:58:05</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:05</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:05</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:05</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <magenta>nb-clean</magenta> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <magenta>nb-clean</magenta> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <magenta>nb-clean</magenta> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <magenta>nb-clean</magenta> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <yellow>nbqa</yellow> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:06</green> |     <yellow>Start </yellow> <magenta>nb-clean</magenta> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:06</green> |     <green>Finish</green> <magenta>nb-clean</magenta> proposed_plot.ipynb
+<green>2023-07-23 16:58:07</green> |     <green>Finish</green> <magenta>nb-clean</magenta> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:07</green> | <green>FINISH</green> CLEAN
+<green>2023-07-23 16:58:07</green> | <yellow>START</yellow> EXPORT
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> proposed_plot.ipynb
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:07</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T15_multi_bubble.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T15_multi_bubble.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T16_broader_search.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T16_broader_search.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> proposed_plot.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> proposed_plot.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T12_single_bubble.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-11T12_single_bubble.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_frame.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_frame.ipynb
+<green>2023-07-23 16:58:11</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_video.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:11</green> |     <yellow>Start </yellow> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_video.ipynb
+<green>2023-07-23 16:58:15</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T12_single_bubble.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:15</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> proposed_plot.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:15</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T16_broader_search.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:15</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-11T15_multi_bubble.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:15</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_frame.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <cyan>jupyter-nbconvert</cyan> 23-07-13T14_full_video.ipynb: [NbConvertApp] Converting note...
+<green>2023-07-23 16:58:16</green> | <green>FINISH</green> EXPORT
+<green>2023-07-23 16:58:16</green> | <yellow>START</yellow> REPORT
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> proposed_plot.md
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> 23-07-11T12_single_bubble.md
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> 23-07-11T15_multi_bubble.md
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> 23-07-11T16_broader_search.md
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> 23-07-13T14_full_frame.md
+<green>2023-07-23 16:58:16</green> |     <yellow>Start </yellow> <blue>pandoc</blue> 23-07-13T14_full_video.md
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> proposed_plot.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> 23-07-11T12_single_bubble.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> 23-07-11T15_multi_bubble.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> 23-07-13T14_full_frame.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> 23-07-13T14_full_video.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> |     <green>Finish</green> <blue>pandoc</blue> 23-07-11T16_broader_search.md: zotero-live-citations f47be20...
+<green>2023-07-23 16:58:16</green> | <green>FINISH</green> REPORT
+<green>2023-07-23 16:58:16</green> | <yellow>START</yellow> COMMIT
+<green>2023-07-23 16:58:17</green> | <green>FINISH</green> COMMIT
+<green>2023-07-23 16:58:17</green> | <green>FINISH</green> pre_repro

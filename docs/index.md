@@ -3,10 +3,9 @@
 :relative-images:
 ```
 
-```{include} dag.md
-```
-
 ```{toctree}
 :hidden:
+concurrency-in-python/index
+dag
 changelog
 ```

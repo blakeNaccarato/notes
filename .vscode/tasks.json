@@ -313,7 +313,7 @@
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
-      "command": "sphinx-autobuild -n docs _site --watch README.md --watch CHANGELOG.md",
+      "command": "sphinx-autobuild -n docs _site --watch README.md --watch CHANGELOG.md --watch data",
       "icon": { "id": "book" },
       "problemMatcher": []
     },
