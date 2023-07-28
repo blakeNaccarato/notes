@@ -2,9 +2,9 @@ ci:
   skip:
     - "dvc-repro"
     - "compose-pyproject"
+    # - "pyright"
     - "pytest-fast-only"
-    - "pytest-slow-only"
-    - "pyright"
+    # - "pytest-slow-only"
     - "dvc-post-checkout"
     - "dvc-pre-push"
   autoupdate_schedule: "quarterly"
@@ -55,22 +55,22 @@ repos:
             |requirements.txt
             |.tools/pyproject.toml
           )$
-      - id: "pyright"
-        name: "pyright"
-        pass_filenames: false
-        language: "system"
-        entry: "pwsh .tools/scripts/Invoke-Pyright.ps1"
-        files: |
-          (?x)^(
-            src/.*
-            |tests/.*
-            |pyproject.toml
-            |requirements.txt
-            |.tools/(
-              pyproject.toml
-              |requirements/.*
-            )
-          )$
+      # - id: "pyright"
+      #   name: "pyright"
+      #   pass_filenames: false
+      #   language: "system"
+      #   entry: "pwsh .tools/scripts/Invoke-Pyright.ps1"
+      #   files: |
+      #     (?x)^(
+      #       src/.*
+      #       |tests/.*
+      #       |pyproject.toml
+      #       |requirements.txt
+      #       |.tools/(
+      #         pyproject.toml
+      #         |requirements/.*
+      #       )
+      #     )$
       - id: "pytest-fast-only"
         name: "pytest-fast-only"
         verbose: true
@@ -81,24 +81,29 @@ repos:
         files: |
           (?x)^(
             pyproject.toml
+
+            # exclude these if running pytest-slow-only again below
+            src/.*
+            |tests/.*
+
             |requirements.txt
             |.tools/(
               pyproject.toml
               |requirements/.*
             )
           )$
-      - id: "pytest-slow-only"
-        name: "pytest-slow-only"
-        verbose: true
-        pass_filenames: false
-        language: "system"
-        entry: |
-          pwsh -Command "pytest -m slow --suppress-no-test-exit-code"
-        files: |
-          (?x)^(
-            src/.*
-            |tests/.*
-          )$
+      # - id: "pytest-slow-only"
+      #   name: "pytest-slow-only"
+      #   verbose: true
+      #   pass_filenames: false
+      #   language: "system"
+      #   entry: |
+      #     pwsh -Command "pytest -m 'slow' --suppress-no-test-exit-code"
+      #   files: |
+      #     (?x)^(
+      #       src/.*
+      #       |tests/.*
+      #     )$
 
   # * ------------------------------------------------------------------------------ * #
   # * Changes below should persist in significant template updates.
@@ -107,6 +112,7 @@ repos:
     rev: "3.2.3"
     hooks:
       - id: "dvc-post-checkout"
+        additional_dependencies: [".[gdrive]"]
       - id: "dvc-pre-push"
         additional_dependencies: [".[gdrive]"]
 
