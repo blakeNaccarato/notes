@@ -6,6 +6,7 @@
 ```{toctree}
 :hidden:
 concurrency-in-python/index
+pork-beans-and-greens
 dag
 changelog
 ```
