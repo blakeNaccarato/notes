@@ -57,20 +57,14 @@ Empty the 2 lbs of butter beans into a one-gallon bowl. Pick out the ugly/split 
 
 ### The day of
 
-Cook the wild rice. I like using chicken stock (or half a frozen stock puck in the water) and a tablespoon of butter to 1 cup dry wild rice. It will take about an hour to cook.
-
-Pour the bean brine out and dump beans in a colander. Rinse gently, separate into two portions for two Dutch ovens.
+Cook the wild rice. I like using chicken stock (or half a frozen stock puck in the water) and a tablespoon of butter to 1 cup dry wild rice. It will take about an hour to cook. Pour the bean brine out and dump beans in a colander. Rinse gently, separate into two portions for two Dutch ovens.
 
 Cook down the onions a bit with some vegetable oil, don't let them brown too much. Put the garlic in and cook briefly. Season to taste what you have so far with salt, pepper, and any other spices. I used some cumin and chipotle chile powder in this step one time.
 
 Put the beans in the pot, then nestle all the pork items in. Cover with water or stock (add concentrate cubes if using). Taste the broth and salt as needed. For the meatless stew, consider pouring over about a half cup of EVOO to cap the pot of beans as they cook. Bring both pots to a simmer, cover simmer for a half hour.
 
-Check the beans, they will still be tough. Add the collards and simmer until done, for another half hour to an hour. Add more stock as needed to keep the beans and greens covered.
+Check the beans, they will still be tough. Add the collards and simmer until done, for another half hour or more. Add more stock as needed to keep the beans covered.
 
 The beans are done when there is no significant resistance when biting through the skin of the bean, and the whole bean chews easily but doesn't totally fall apart. Try pressing a bean between your tongue and the roof of your mouth. If it gives easily, then it's done.
 
-Since we added salt at every stage of cooking, we shouldn't need to add much (or any) salt at the end of cooking. By cooking the beans in appropriately-salted water the whole time, they should taste even better than if we salted only at the end.
-
-You can pull the pig ear out at this point. Try letting it cool, chopping it up into thin strips, and eating with a sprinkle of salt and hot sauce. The tip of the ear and the fleshy part near the base are the best bits! Separate the rest of the bones out from the hocks and necks, and discard the bones.
-
-Serve with rice and hot sauce, sherry/red vinegar, or some other acidic component.
+Since we added salt at every stage of cooking, we shouldn't need to add much (or any) salt at the end of cooking. You can pull the pig ear out at this point (if using). Separate the rest of the bones out from the hocks and necks, and discard the bones. Serve with rice and hot sauce, sherry/red vinegar, or some other acidic component.
