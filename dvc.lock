@@ -10,6 +10,14 @@ stages:
       md5: be33d7ee98838328bee896ffcac16f22.dir
       size: 89159
       nfiles: 27
+    - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
+      hash: md5
+      md5: da8c57150473ab4c8920fe48c7404a27
+      size: 241612
+    - path: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
+      hash: md5
+      md5: da8c57150473ab4c8920fe48c7404a27
+      size: 241612
     - path: data/obsidian_common
       hash: md5
       md5: 957b187e194623b1bed6c13a8b93ef2b.dir
@@ -17,8 +25,8 @@ stages:
       nfiles: 1
     - path: src/notes/models
       hash: md5
-      md5: 6f8870d3b1efc337b6063173fa0af04a.dir
-      size: 6870
+      md5: b64abc6a835c12b434f4562551ab5392.dir
+      size: 7070
       nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5

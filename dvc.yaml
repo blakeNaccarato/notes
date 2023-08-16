@@ -6,6 +6,8 @@ stages:
       - "${paths.stage_update_common}"
       - "${paths.common}"
       - "${paths.obsidian_common}"
+      - "${paths.grad_text_expand_source}"
+      - "${paths.personal_text_expand_source}"
     outs:
       - "${paths.grad_vscode}"
       - "${paths.grad_scripts}"
