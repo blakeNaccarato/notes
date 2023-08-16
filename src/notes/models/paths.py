@@ -17,6 +17,7 @@ class Paths(CreatePathsModel):
     models: DirectoryPath = packages / "models"
     stages: DirectoryPath = packages / "stages"
     common: DirectoryPath = data / "common"
+    obsidian_common: DirectoryPath = data / "obsidian_common"
     stage_update_common: FilePath = stages / "update_common.py"
     vaults: DirectoryPath = data / "local" / "vaults"
     grad: DirectoryPath = vaults / "grad"

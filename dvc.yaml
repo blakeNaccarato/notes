@@ -5,6 +5,7 @@ stages:
       - "${paths.models}"
       - "${paths.stage_update_common}"
       - "${paths.common}"
+      - "${paths.obsidian_common}"
     outs:
       - "${paths.grad_vscode}"
       - "${paths.grad_scripts}"

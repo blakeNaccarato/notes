@@ -10,15 +10,20 @@ stages:
       md5: be33d7ee98838328bee896ffcac16f22.dir
       size: 89159
       nfiles: 27
+    - path: data/obsidian_common
+      hash: md5
+      md5: 957b187e194623b1bed6c13a8b93ef2b.dir
+      size: 241612
+      nfiles: 1
     - path: src/notes/models
       hash: md5
-      md5: 69590371dd68e3342e231e1bacef23af.dir
-      size: 6807
+      md5: 6f8870d3b1efc337b6063173fa0af04a.dir
+      size: 6870
       nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5
-      md5: bc393e16169ed0f1e24c785b75b5bd82
-      size: 328
+      md5: dc226e0d05b4abfe2246e315dbc5045e
+      size: 435
     outs:
     - path: data/local/vaults/grad/.env
       hash: md5
