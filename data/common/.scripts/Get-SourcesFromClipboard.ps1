@@ -7,6 +7,6 @@ begin {
     . '.scripts/LiteratureCommon.ps1'
 }
 process {
-    (Get-Clipboard) -Split ', ' | Open-SharedItems -Sources '_sources'
+    (Get-Clipboard) -Split ', ' | Open-SharedItems -Sources '_sources/zotero'
 }
 clean { Pop-Location }

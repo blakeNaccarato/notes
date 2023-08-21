@@ -10,5 +10,5 @@ begin {
     Push-Location "$PSSCriptRoot/.."
     . '.scripts/LiteratureCommon.ps1'
 }
-process { Open-SharedItems $Citekey '_sources' }
+process { Open-SharedItems $Citekey '_sources/zotero' }
 clean { Pop-Location }
