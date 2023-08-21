@@ -1,12 +1,11 @@
 ci:
   skip:
     - "dvc-repro"
-    - "compose-pyproject"
-    # - "pyright"
-    - "pytest-fast-only"
-    # - "pytest-slow-only"
     - "dvc-post-checkout"
     - "dvc-pre-push"
+    - "update-warning-filters"
+    - "pytest-fast-only"
+    - "fawltydeps"
   autoupdate_schedule: "quarterly"
 
 repos:
@@ -44,33 +43,16 @@ repos:
       # * -------------------------------------------------------------------------- * #
       # * Changes below may be lost in significant template updates.
 
-      - id: "compose-pyproject"
-        name: "compose-pyproject"
+      - id: "update-warning-filters"
+        name: "update-warning-filters"
+        verbose: true
         pass_filenames: false
         language: "system"
-        entry: "pwsh -Command python .tools/scripts/compose_pyproject.py"
+        entry: "pwsh -Command python .tools/scripts/warning_filters.py"
         files: |
           (?x)^(
-            pyproject.toml
-            |requirements.txt
-            |.tools/pyproject.toml
+            .tools/scripts/warning_filters.py
           )$
-      # - id: "pyright"
-      #   name: "pyright"
-      #   pass_filenames: false
-      #   language: "system"
-      #   entry: "pwsh .tools/scripts/Invoke-Pyright.ps1"
-      #   files: |
-      #     (?x)^(
-      #       src/.*
-      #       |tests/.*
-      #       |pyproject.toml
-      #       |requirements.txt
-      #       |.tools/(
-      #         pyproject.toml
-      #         |requirements/.*
-      #       )
-      #     )$
       - id: "pytest-fast-only"
         name: "pytest-fast-only"
         verbose: true
@@ -81,29 +63,23 @@ repos:
         files: |
           (?x)^(
             pyproject.toml
-
-            # exclude these if running pytest-slow-only again below
             src/.*
             |tests/.*
-
-            |requirements.txt
             |.tools/(
               pyproject.toml
               |requirements/.*
             )
           )$
-      # - id: "pytest-slow-only"
-      #   name: "pytest-slow-only"
-      #   verbose: true
-      #   pass_filenames: false
-      #   language: "system"
-      #   entry: |
-      #     pwsh -Command "pytest -m 'slow' --suppress-no-test-exit-code"
-      #   files: |
-      #     (?x)^(
-      #       src/.*
-      #       |tests/.*
-      #     )$
+      - id: "fawltydeps"
+        name: "fawltydeps"
+        verbose: true
+        pass_filenames: false
+        language: "system"
+        entry: "pwsh -Command fawltydeps"
+        files: |
+          (?x)^(
+            .*
+          )$
 
   # * ------------------------------------------------------------------------------ * #
   # * Changes below should persist in significant template updates.
@@ -124,18 +100,29 @@ repos:
     hooks:
       - id: "end-of-file-fixer"
       - id: "trailing-whitespace"
-  - repo: "https://github.com/DavidAnson/markdownlint-cli2"
-    rev: "v0.7.1"
+  - repo: "https://github.com/asottile/blacken-docs"
+    rev: "1.16.0"
     hooks:
-      - id: "markdownlint-cli2-fix"
-  - repo: "https://github.com/psf/black"
-    rev: "23.3.0"
-    hooks:
-      - id: "black"
+      - id: "blacken-docs"
+        additional_dependencies: ["black==23.7.0"]
   - repo: "https://github.com/charliermarsh/ruff-pre-commit"
-    rev: "v0.0.270"
+    rev: "v0.0.284"
     hooks:
       - id: "ruff"
+  - repo: "https://github.com/DavidAnson/markdownlint-cli2"
+    rev: "v0.8.1"
+    hooks:
+      - id: "markdownlint-cli2-fix"
+  - repo: "https://github.com/nbQA-dev/nbQA"
+    rev: "1.7.0"
+    hooks:
+      - id: "nbqa-ruff"
+        additional_dependencies: ["ruff==0.0.284"]
+  - repo: "https://github.com/psf/black"
+    rev: "23.7.0"
+    hooks:
+      - id: "black"
+      - id: "black-jupyter"
   - repo: "https://github.com/srstevenson/nb-clean"
     rev: "2.4.0"
     hooks:
@@ -169,10 +156,3 @@ repos:
     hooks:
       - id: "blacken-docs"
         additional_dependencies: ["black==23.3.0"]
-  - repo: "https://github.com/nbQA-dev/nbQA"
-    rev: "1.7.0"
-    hooks:
-      - id: "nbqa-black"
-        additional_dependencies: ["black==23.3.0"]
-      - id: "nbqa-ruff"
-        additional_dependencies: ["ruff==0.0.270"]

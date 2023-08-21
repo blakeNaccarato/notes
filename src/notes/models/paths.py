@@ -26,11 +26,9 @@ class Paths(CreatePathsModel):
     grad: DirectoryPath = vaults / "grad"
     grad_vscode: DirectoryPath = grad / ".vscode"
     grad_scripts: DirectoryPath = grad / ".scripts"
-    grad_env: Path = grad / ".env"
     grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
 
     personal: DirectoryPath = vaults / "personal"
     personal_vscode: DirectoryPath = personal / ".vscode"
     personal_scripts: DirectoryPath = personal / ".scripts"
-    personal_env: Path = personal / ".env"
     personal_text_expand_source = personal / TEXT_EXPAND_SOURCE

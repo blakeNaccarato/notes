@@ -6,23 +6,21 @@
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
-
 from pydantic import BaseModel, Field
 
 
 class Accessed(BaseModel):
-    date_parts: List[List[int]] = Field(..., alias="date-parts")
+    date_parts: list[list[int]] = Field(..., alias="date-parts")
 
 
 class AuthorItem(BaseModel):
-    family: Optional[str] = None
-    given: Optional[str] = None
-    literal: Optional[str] = None
+    family: str | None = None
+    given: str | None = None
+    literal: str | None = None
 
 
 class Issued(BaseModel):
-    date_parts: List[List[int]] = Field(..., alias="date-parts")
+    date_parts: list[list[int]] = Field(..., alias="date-parts")
 
 
 class DirectorItem(BaseModel):
@@ -40,54 +38,54 @@ class CollectionEditorItem(BaseModel):
 
 
 class Submitted(BaseModel):
-    date_parts: List[List[Union[int, str]]] = Field(..., alias="date-parts")
+    date_parts: list[list[int | str]] = Field(..., alias="date-parts")
 
 
 class ModelItem(BaseModel):
     id: str
-    abstract: Optional[str] = None
-    accessed: Optional[Accessed] = None
-    author: Optional[List[AuthorItem]] = None
+    abstract: str | None = None
+    accessed: Accessed | None = None
+    author: list[AuthorItem] | None = None
     citation_key: str = Field(..., alias="citation-key")
-    container_title: Optional[str] = Field(None, alias="container-title")
-    DOI: Optional[str] = None
-    issued: Optional[Issued] = None
-    language: Optional[str] = None
-    license: Optional[str] = None
-    page: Optional[str] = None
-    publisher: Optional[str] = None
-    section: Optional[str] = None
-    source: Optional[str] = None
+    container_title: str | None = Field(None, alias="container-title")
+    DOI: str | None = None
+    issued: Issued | None = None
+    language: str | None = None
+    license: str | None = None
+    page: str | None = None
+    publisher: str | None = None
+    section: str | None = None
+    source: str | None = None
     title: str
-    title_short: Optional[str] = Field(None, alias="title-short")
+    title_short: str | None = Field(None, alias="title-short")
     type: str
-    URL: Optional[str] = None
-    ISBN: Optional[str] = None
-    number_of_pages: Optional[str] = Field(None, alias="number-of-pages")
-    container_title_short: Optional[str] = Field(None, alias="container-title-short")
-    ISSN: Optional[str] = None
-    issue: Optional[str] = None
-    volume: Optional[str] = None
-    number: Optional[str] = None
-    note: Optional[str] = None
-    dimensions: Optional[str] = None
-    director: Optional[List[DirectorItem]] = None
-    PMID: Optional[str] = None
-    collection_title: Optional[str] = Field(None, alias="collection-title")
-    editor: Optional[List[EditorItem]] = None
-    event_place: Optional[str] = Field(None, alias="event-place")
-    publisher_place: Optional[str] = Field(None, alias="publisher-place")
-    edition: Optional[str] = None
-    collection_editor: Optional[List[CollectionEditorItem]] = Field(
+    URL: str | None = None
+    ISBN: str | None = None
+    number_of_pages: str | None = Field(None, alias="number-of-pages")
+    container_title_short: str | None = Field(None, alias="container-title-short")
+    ISSN: str | None = None
+    issue: str | None = None
+    volume: str | None = None
+    number: str | None = None
+    note: str | None = None
+    dimensions: str | None = None
+    director: list[DirectorItem] | None = None
+    PMID: str | None = None
+    collection_title: str | None = Field(None, alias="collection-title")
+    editor: list[EditorItem] | None = None
+    event_place: str | None = Field(None, alias="event-place")
+    publisher_place: str | None = Field(None, alias="publisher-place")
+    edition: str | None = None
+    collection_editor: list[CollectionEditorItem] | None = Field(
         None, alias="collection-editor"
     )
-    event_title: Optional[str] = Field(None, alias="event-title")
-    genre: Optional[str] = None
-    PMCID: Optional[str] = None
-    authority: Optional[str] = None
-    call_number: Optional[str] = Field(None, alias="call-number")
-    submitted: Optional[Submitted] = None
+    event_title: str | None = Field(None, alias="event-title")
+    genre: str | None = None
+    PMCID: str | None = None
+    authority: str | None = None
+    call_number: str | None = Field(None, alias="call-number")
+    submitted: Submitted | None = None
 
 
 class Model(BaseModel):
-    __root__: List[ModelItem]
+    __root__: list[ModelItem]

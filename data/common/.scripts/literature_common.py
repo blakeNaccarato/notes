@@ -59,7 +59,7 @@ class DirWatcher:
         while True:
             sleep(self.interval)
 
-    def __exit__(self, exc_type: Exception | None, *_) -> bool:
+    def __exit__(self, exc_type: type[BaseException] | None, *_) -> bool:
         if exc_type and exc_type is KeyboardInterrupt:
             self.observer.stop()
             handled_exception = True

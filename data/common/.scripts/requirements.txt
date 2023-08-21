@@ -1,7 +1,0 @@
-clipboard
-loguru
-marko
-pydantic
-rich
-typer
-watchdog

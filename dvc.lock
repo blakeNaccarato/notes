@@ -7,9 +7,9 @@ stages:
     deps:
     - path: data/common
       hash: md5
-      md5: edfecdfab762f2b998bbf759d45d5534.dir
-      size: 91297
-      nfiles: 27
+      md5: 563ab22c1c0173819b3a32012ecb4c5e.dir
+      size: 91028
+      nfiles: 25
     - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
       hash: md5
       md5: a8e5418edfb65bd351629666a2fe474f
@@ -25,37 +25,29 @@ stages:
       nfiles: 1
     - path: src/notes/models
       hash: md5
-      md5: b64abc6a835c12b434f4562551ab5392.dir
-      size: 7070
+      md5: 5b3ae6b25a8b6664a0d0e03cf1f10d92.dir
+      size: 6990
       nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5
       md5: dc226e0d05b4abfe2246e315dbc5045e
       size: 435
     outs:
-    - path: data/local/vaults/grad/.env
-      hash: md5
-      md5: 5a09fd9e3e35b49851923df29ec69b17
-      size: 50
     - path: data/local/vaults/grad/.scripts
       hash: md5
-      md5: cd6100ab75afa7d458d21983bc54f2ee.dir
-      size: 88217
-      nfiles: 23
+      md5: bebbffd01f595a0b1721ab0267a37406.dir
+      size: 87998
+      nfiles: 22
     - path: data/local/vaults/grad/.vscode
       hash: md5
       md5: f829b66d4e1484801941cc4363e6c6ce.dir
       size: 3030
       nfiles: 3
-    - path: data/local/vaults/personal/.env
-      hash: md5
-      md5: 5a09fd9e3e35b49851923df29ec69b17
-      size: 50
     - path: data/local/vaults/personal/.scripts
       hash: md5
-      md5: cd6100ab75afa7d458d21983bc54f2ee.dir
-      size: 88217
-      nfiles: 23
+      md5: bebbffd01f595a0b1721ab0267a37406.dir
+      size: 87998
+      nfiles: 22
     - path: data/local/vaults/personal/.vscode
       hash: md5
       md5: f829b66d4e1484801941cc4363e6c6ce.dir
