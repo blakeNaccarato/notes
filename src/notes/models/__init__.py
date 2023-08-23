@@ -1,12 +1,15 @@
 """Parameter models for this project."""
 
 from pathlib import Path
-from typing import Any
+from typing import Any, get_origin
 
-from pydantic import BaseModel, DirectoryPath, Extra, validator
+from pydantic import BaseModel, validator
 from ruamel.yaml import YAML
 
 YAML_INDENT = 2
+yaml = YAML()
+yaml.indent(mapping=YAML_INDENT, sequence=YAML_INDENT, offset=YAML_INDENT)
+yaml.preserve_quotes = True
 
 
 class YamlModel(BaseModel):
@@ -14,9 +17,6 @@ class YamlModel(BaseModel):
 
     Updates a JSON schema next to the YAML file with each initialization.
     """
-
-    class Config:
-        extra = Extra.forbid
 
     def __init__(self, data_file: Path):
         """Initialize and update the schema."""
@@ -71,8 +71,11 @@ class SynchronizedPathsYamlModel(YamlModel):
         excludes = set(maybe_excludes.keys()) if maybe_excludes else set()
         defaults: dict[str, dict[str, str]] = {}
         for key, field in self.__fields__.items():
-            type_ = field.type_
-            if issubclass(type_, DefaultPathsModel) and key not in excludes:
+            if generic_ := get_origin(field.type_):
+                type_ = type(generic_)
+            else:
+                type_ = field.type_
+            if key not in excludes and issubclass(type_, DefaultPathsModel):
                 defaults[key] = type_.get_paths()
         return defaults
 
@@ -81,8 +84,6 @@ class DefaultPathsModel(BaseModel):
     """All fields must be path-like and have defaults specified in this model."""
 
     class Config:
-        extra = Extra.forbid
-
         @staticmethod
         def schema_extra(schema: dict[str, Any], model):
             """Replace backslashes with forward slashes in paths."""
@@ -131,10 +132,11 @@ class CreatePathsModel(DefaultPathsModel):
     """Parent directories will be created for all fields in this model."""
 
     @validator("*", always=True, pre=True, each_item=True)
-    def create_directories(cls, value, field):
+    def create_directories(cls, value):
         """Create directories associated with each value."""
         path = Path(value)
-        if field.type_ is DirectoryPath:
-            directory = path.parent if path.suffix else path
-            directory.mkdir(parents=True, exist_ok=True)
+        if path.is_file():
+            return value
+        directory = path.parent if path.suffix else path
+        directory.mkdir(parents=True, exist_ok=True)
         return value
