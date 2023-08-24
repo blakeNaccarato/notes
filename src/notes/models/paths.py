@@ -2,10 +2,10 @@
 
 from pathlib import Path
 
+from boilercore.models import CreatePathsModel
 from pydantic import DirectoryPath, FilePath
 
 from notes import DATA_DIR, PROJECT_DIR
-from notes.models import CreatePathsModel
 
 TEXT_EXPAND_SOURCE = Path(".obsidian/plugins/mrj-text-expand/main.js")
 
