@@ -25,8 +25,8 @@ stages:
       nfiles: 1
     - path: src/notes/models
       hash: md5
-      md5: c1dcb779c49393017ff5922f79b56a7b.dir
-      size: 7130
+      md5: b84436a7794515caff2ef977b98e18b6.dir
+      size: 7217
       nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5
