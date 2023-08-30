@@ -3,36 +3,49 @@
 from pathlib import Path
 
 from boilercore.models import CreatePathsModel
+from boilercore.paths import get_package_dir, map_stages
 from pydantic import DirectoryPath, FilePath
 
-from notes import DATA_DIR, PROJECT_DIR
+import notes
+from notes.models import CWD
 
 TEXT_EXPAND_SOURCE = Path(".obsidian/plugins/mrj-text-expand/main.js")
+
+
+def get_common(root: Path, dirs: list[Path]):
+    return [root / dir_.name for dir_ in dirs]
 
 
 class Paths(CreatePathsModel):
     """Paths associated with project data."""
 
-    data: DirectoryPath = DATA_DIR
-    project: DirectoryPath = PROJECT_DIR
-
+    # * Roots
+    # ! Project
+    project: DirectoryPath = CWD
+    # ! Package
+    package: DirectoryPath = get_package_dir(notes)
+    # ! Data
+    data: DirectoryPath = project / "data"
     external: DirectoryPath = data / "external"
+    stages: dict[str, FilePath] = map_stages(package / "stages", package)
 
-    packages: DirectoryPath = project / "src" / "notes"
-    models: DirectoryPath = packages / "models"
-    stages: DirectoryPath = packages / "stages"
-
+    # * Git-Tracked Inputs
     common: DirectoryPath = data / "common"
+    common_dirs: list[DirectoryPath] = list(common.iterdir())  # noqa: RUF012
     obsidian_common: DirectoryPath = data / "obsidian_common"
-    stage_update_common: FilePath = stages / "update_common.py"
 
+    # * DVC-Tracked Inputs
+
+    # * Local Inputs
     local: DirectoryPath = data / "local"
     vaults: DirectoryPath = local / "vaults"
+    # ! Grad
     grad: DirectoryPath = vaults / "grad"
-    grad_vscode: DirectoryPath = grad / ".vscode"
-    grad_scripts: DirectoryPath = grad / ".scripts"
-    grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
+    # ! Personal
     personal: DirectoryPath = vaults / "personal"
-    personal_vscode: DirectoryPath = personal / ".vscode"
-    personal_scripts: DirectoryPath = personal / ".scripts"
+
+    # * DVC-Tracked Results
+    grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
+    grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
+    personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
     personal_text_expand_source = personal / TEXT_EXPAND_SOURCE

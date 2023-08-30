@@ -1,15 +1,14 @@
 stages:
   update_common:
-    cmd: "python -m notes.stages.update_common"
+    cmd: "python ${paths.stages.update_common}"
     deps:
-      - "${paths.models}"
-      - "${paths.stage_update_common}"
+      - "${paths.stages.update_common}"
       - "${paths.common}"
       - "${paths.obsidian_common}"
       - "${paths.grad_text_expand_source}"
       - "${paths.personal_text_expand_source}"
     outs:
-      - "${paths.grad_vscode}"
-      - "${paths.grad_scripts}"
-      - "${paths.personal_vscode}"
-      - "${paths.personal_scripts}"
+      - "${paths.grad_common[0]}"
+      - "${paths.grad_common[1]}"
+      - "${paths.personal_common[0]}"
+      - "${paths.personal_common[1]}"

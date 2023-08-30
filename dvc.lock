@@ -3,7 +3,7 @@ stages:
   temp:
     cmd: echo hello
   update_common:
-    cmd: python -m notes.stages.update_common
+    cmd: python src/notes/stages/update_common.py
     deps:
     - path: data/common
       hash: md5
@@ -23,11 +23,6 @@ stages:
       md5: 8e2ed493ebf7fea0986a04ed1b2ac72c.dir
       size: 243217
       nfiles: 1
-    - path: src/notes/models
-      hash: md5
-      md5: 5930d1bc65810e8f4050371e29d37c95.dir
-      size: 7222
-      nfiles: 3
     - path: src/notes/stages/update_common.py
       hash: md5
       md5: dc226e0d05b4abfe2246e315dbc5045e

@@ -1,20 +1,24 @@
 paths:
-  data: data
   project: .
+  package: src/notes
+  data: data
   external: data/external
-  packages: src/notes
-  models: src/notes/models
-  stages: src/notes/stages
+  stages:
+    update_common: src/notes/stages/update_common.py
   common: data/common
+  common_dirs:
+    - data/common/.scripts
+    - data/common/.vscode
   obsidian_common: data/obsidian_common
-  stage_update_common: src/notes/stages/update_common.py
   local: data/local
   vaults: data/local/vaults
   grad: data/local/vaults/grad
-  grad_vscode: data/local/vaults/grad/.vscode
-  grad_scripts: data/local/vaults/grad/.scripts
   personal: data/local/vaults/personal
-  personal_vscode: data/local/vaults/personal/.vscode
-  personal_scripts: data/local/vaults/personal/.scripts
+  grad_common:
+    - data/local/vaults/grad/.scripts
+    - data/local/vaults/grad/.vscode
+  personal_common:
+    - data/local/vaults/personal/.scripts
+    - data/local/vaults/personal/.vscode
   grad_text_expand_source: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
   personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
