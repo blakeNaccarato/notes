@@ -25,9 +25,6 @@ def main():
             source.rename(target)
 
 
-TAG = compile(rf"(?<=#)[^{whitespace}]+")
-
-
 def get_tags(file: Path) -> list[str]:
     """Get the tags in a Markdown file."""
     p = MarkdownIt().use(front_matter_plugin).parse(file.read_text(encoding="utf-8"))
@@ -45,6 +42,9 @@ def get_front_matter_tags(parsed: list[Token]) -> set[str]:
         front_matter = yaml.load(front_matter_tokens[0].content)
         return set(front_matter.get("tags")) or set()
     return set()
+
+
+TAG = compile(rf"(?<=#)[^{whitespace}]+")
 
 
 def get_inline_tags(parsed: list[Token]) -> set[str]:
