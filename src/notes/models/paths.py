@@ -7,7 +7,7 @@ from boilercore.paths import get_package_dir, map_stages
 from pydantic import DirectoryPath, FilePath
 
 import notes
-from notes.models import CWD
+from notes import PROJECT_PATH
 
 TEXT_EXPAND_SOURCE = Path(".obsidian/plugins/mrj-text-expand/main.js")
 
@@ -21,7 +21,7 @@ class Paths(CreatePathsModel):
 
     # * Roots
     # ! Project
-    project: DirectoryPath = CWD
+    project: DirectoryPath = PROJECT_PATH
     # ! Package
     package: DirectoryPath = get_package_dir(notes)
     # ! Data
@@ -35,7 +35,6 @@ class Paths(CreatePathsModel):
     obsidian_common: DirectoryPath = data / "obsidian_common"
 
     # * DVC-Tracked Inputs
-
     # * Local Inputs
     local: DirectoryPath = data / "local"
     vaults: DirectoryPath = local / "vaults"
@@ -44,6 +43,7 @@ class Paths(CreatePathsModel):
     # ! Personal
     personal: DirectoryPath = vaults / "personal"
 
+    # * Local Results
     # * DVC-Tracked Results
     grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
     grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
