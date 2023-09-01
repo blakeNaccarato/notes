@@ -15,7 +15,6 @@ EXCLUDE = "grad"
 
 
 def main():
-    PARAMS.paths.grad_timestamped
     for source in (p for p in PARAMS.paths.grad_timestamped.iterdir() if p.is_file()):
         target = PARAMS.paths.personal_timestamped / source.name
         if target.exists():
