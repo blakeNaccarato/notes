@@ -1,13 +1,11 @@
 """Tests."""
 
-import importlib
-
-import pytest
-
-from tests import STAGES
+from filecmp import dircmp
 
 
-@pytest.mark.parametrize("stage", STAGES)
-def test_stages(stage: str):
+def test_stages(stage, result, expected):
     """Test that stages can run."""
-    importlib.import_module(stage).main()
+    stage()
+    if result and expected:
+        cmp = dircmp(result, expected)
+        assert cmp.left_list == cmp.right_list

@@ -35,15 +35,17 @@ class Paths(CreatePathsModel):
     obsidian_common: DirectoryPath = data / "obsidian_common"
 
     # * DVC-Tracked Inputs
-    # * Local Inputs
+
+    # * LOCAL
     local: DirectoryPath = data / "local"
     vaults: DirectoryPath = local / "vaults"
-    # ! Grad
     grad: DirectoryPath = vaults / "grad"
-    # ! Personal
     personal: DirectoryPath = vaults / "personal"
+    # * Inputs
+    grad_timestamped: DirectoryPath = grad / "_timestamped"
+    # * Results
+    personal_timestamped: DirectoryPath = personal / "_timestamped"
 
-    # * Local Results
     # * DVC-Tracked Results
     grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
     grad_text_expand_source = grad / TEXT_EXPAND_SOURCE

@@ -4,6 +4,7 @@ paths:
   data: data
   external: data/external
   stages:
+    move_timestamped: src/notes/stages/move_timestamped.py
     update_common: src/notes/stages/update_common.py
   common: data/common
   common_dirs:
@@ -14,6 +15,8 @@ paths:
   vaults: data/local/vaults
   grad: data/local/vaults/grad
   personal: data/local/vaults/personal
+  grad_timestamped: data/local/vaults/grad/_timestamped
+  personal_timestamped: data/local/vaults/personal/_timestamped
   grad_common:
     - data/local/vaults/grad/.scripts
     - data/local/vaults/grad/.vscode

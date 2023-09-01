@@ -48,3 +48,15 @@ stages:
       md5: f829b66d4e1484801941cc4363e6c6ce.dir
       size: 3030
       nfiles: 3
+  move_timestamped:
+    cmd: python src/notes/stages/move_timestamped.py
+    deps:
+    - path: data/local/vaults/grad/_timestamped
+      hash: md5
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    - path: src/notes/stages/move_timestamped.py
+      hash: md5
+      md5: 03edec08dce04b9d76c4191cf492f44f
+      size: 1816

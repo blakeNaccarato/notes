@@ -1,5 +1,6 @@
 ci:
   skip:
+    - "dvc-repro"
     - "core-update"
     - "pytest-fast-only"
     - "fawltydeps"
@@ -20,8 +21,7 @@ repos:
         name: "dvc-repro"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command python -m notes.models.params && dvc repro && (dvc dag --md) -Replace \'mermaid\', \'{mermaid}\' > docs/dag.md && . \'~/.local/nodeenvs/markdownlint/Scripts/Activate.ps1\' && markdownlint --fix docs/dag.md
+        entry: "pwsh -Command python -m notes.models.params && dvc repro"
         files: |
           (?x)^(
             src/.*

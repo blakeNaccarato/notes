@@ -25,6 +25,12 @@
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
+      "description": "Don't bump pydantic until we're ready for migration.",
+      "matchManagers": ["pip_requirements"],
+      "matchPaths": [".tools/requirements/*"],
+      "ignoreDeps": ["pydantic"]
+    },
+    {
       "description": "Type checking dependencies.",
       "groupName": "type checking",
       "matchManagers": ["pip_requirements", "git-submodules"],
@@ -35,6 +41,12 @@
       "description": "Numba needs numpy<1.25. Pandas needs numpy>1.25 via stubs. https://github.com/numba/numba/issues/8698",
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": ["numpy", "numba", "pandas"]
+    },
+    {
+      "groupName": "markdown",
+      "description": "Myst-NB limits what versions of markdown-it-py and mdit-py-plugins we can install.",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["markdown-it-py", "mdit-py-plugins", "myst-nb"]
     },
     {
       "description": "Ignore changerelease.yml workflow deps managed by the template.",

@@ -20,8 +20,10 @@ dependencies = [
     "boilercore>=0.0.0",
     "dvc[gdrive]>=3.2.3",
     "loguru>=0.7.0",
-    "marko>=1.3.0",
+    "markdown-it-py>=2.2.0",
+    "mdit-py-plugins>=0.3.5",
     "pydantic>=1.10.12",
+    "ruamel.yaml>=0.17.32",
     "typer>=0.9.0",
     "watchdog>=3.0.0",
 ]
@@ -46,6 +48,7 @@ ignore_undeclared = [
     "numpy",         # docs/concurrency-in-python/example-notebook.ipynb
     "pandas",        # docs/concurrency-in-python/example-notebook.ipynb
     "pytest",
+    "_pytest",
     "seaborn",       # docs/concurrency-in-python/example-notebook.ipynb
     "trackpy",       # docs/concurrency-in-python/example-notebook.ipynb
 ]
@@ -53,7 +56,6 @@ ignore_unused = [
     "boilercore", # Not picked up by fawltydeps
     "dvc",        # For experiment orchestration
     "numba",      # Pin numba until it supports numpy>=1.25
-    "marko",      # data/common/.scripts
     "typer",      # data/common/.scripts
     "watchdog",   # data/common/.scripts
 ]
