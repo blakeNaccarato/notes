@@ -13,7 +13,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": ["", "update_common"]
+      "options": ["", "move_timestamped", "update_common"]
     },
 
     // * -------------------------------------------------------------------------- * //
