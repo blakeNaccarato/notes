@@ -58,5 +58,5 @@ stages:
       nfiles: 0
     - path: src/notes/stages/move_timestamped.py
       hash: md5
-      md5: 21a7703cf478f120b343ad3275a58032
-      size: 1782
+      md5: dd94643755f4ce7bd2191dafcc153cda
+      size: 1843
