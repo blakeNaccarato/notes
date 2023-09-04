@@ -16,7 +16,7 @@
       "options": ["", "move_timestamped", "update_common"]
     },
     {
-      "id": "pinnedDependencyOptions",
+      "id": "dependency",
       "description": "Options for bumping pinned dependencies.",
       "type": "pickString",
       "options": ["", "boilercore", "lookback"]
@@ -48,7 +48,7 @@
       "label": "proj: update pinned dependency",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh" } },
-      "command": ".tools/scripts/Update-PinnedDependency.ps1",
+      "command": ".tools/scripts/Update-PinnedDependency.ps1 ${input:dependency}",
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
