@@ -53,6 +53,14 @@
       "problemMatcher": []
     },
     {
+      "label": "proj: local pyrightconfig",
+      "type": "shell",
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "python .tools/scripts/local_pyrightconfig.py",
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
       "label": "dvc: repro force downstream",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize params"],
