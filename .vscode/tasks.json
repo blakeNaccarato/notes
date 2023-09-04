@@ -15,6 +15,12 @@
       "default": "",
       "options": ["", "move_timestamped", "update_common"]
     },
+    {
+      "id": "pinnedDependencyOptions",
+      "description": "Options for bumping pinned dependencies.",
+      "type": "pickString",
+      "options": ["", "boilercore", "lookback"]
+    },
 
     // * -------------------------------------------------------------------------- * //
     // * Changes below may be lost in significant template updates.
@@ -39,10 +45,10 @@
     // * Changes below should persist in significant template updates.
 
     {
-      "label": "proj: update boilercore",
+      "label": "proj: update pinned dependency",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh" } },
-      "command": ".tools/scripts/Update-Boilercore.ps1",
+      "command": ".tools/scripts/Update-PinnedDependency.ps1",
       "icon": { "id": "graph" },
       "problemMatcher": []
     },

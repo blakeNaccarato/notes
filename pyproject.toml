@@ -20,6 +20,7 @@ dependencies = [
     "boilercore>=0.0.0",
     "dvc[gdrive]>=3.2.3",
     "loguru>=0.7.0",
+    "lookback>=0.0.0",
     "markdown-it-py>=2.2.0",
     "mdit-py-plugins>=0.3.5",
     "pydantic>=1.10.12",
@@ -42,6 +43,7 @@ Tracker = "https://github.com/blakeNaccarato/notes/issues"
 ignore_undeclared = [
     "copier_python", # Used by the project template
     "boilercore",    # Not picked up by fawltydeps
+    "lookback",      # Not picked up by fawltydeps
     "boilercv",      # docs/concurrency-in-python/example-notebook.ipynb
     "janitor",       # docs/concurrency-in-python/example-notebook.ipynb
     "matplotlib",    # docs/concurrency-in-python/example-notebook.ipynb
@@ -54,6 +56,7 @@ ignore_undeclared = [
 ]
 ignore_unused = [
     "boilercore", # Not picked up by fawltydeps
+    "lookback",   # Not picked up by fawltydeps
     "dvc",        # For experiment orchestration
     "numba",      # Pin numba until it supports numpy>=1.25
     "typer",      # data/common/.scripts
@@ -73,6 +76,8 @@ ipykernel = ["IPython"]
 
 # Paths
 include = ["src", "tests", "docs"]
+# Stubs
+stubPath = "submodules/typings"
 # Type inference helps with untyped upstream but can be unpredictable
 useLibraryCodeForTypes = true
 # Sets most checks to "error". See overrides below

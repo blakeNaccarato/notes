@@ -4,6 +4,7 @@
 # * Changes below should persist in significant template updates.
 
 -e ../boilercore
+-e ../lookback
 
 # * -------------------------------------------------------------------------------- * #
 # * Changes below may be lost in significant template updates.
