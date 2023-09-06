@@ -20,9 +20,9 @@ stages:
       size: 243217
     - path: data/obsidian_common
       hash: md5
-      md5: 8e2ed493ebf7fea0986a04ed1b2ac72c.dir
-      size: 243217
-      nfiles: 1
+      md5: 4561dd6612e627e56e20ea5668f242c0.dir
+      size: 243667
+      nfiles: 4
     - path: src/notes/stages/update_common.py
       hash: md5
       md5: dc226e0d05b4abfe2246e315dbc5045e
@@ -58,5 +58,5 @@ stages:
       nfiles: 0
     - path: src/notes/stages/move_timestamped.py
       hash: md5
-      md5: dd94643755f4ce7bd2191dafcc153cda
-      size: 1843
+      md5: 21a7703cf478f120b343ad3275a58032
+      size: 1782
