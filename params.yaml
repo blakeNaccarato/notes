@@ -89,6 +89,8 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/reference-map/data.json
     - data/local/vaults/grad/.obsidian/plugins/reference-map/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/manifest.json
+    - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
+    - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/text-extractor/data.json
     - data/local/vaults/grad/.obsidian/plugins/text-extractor/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/dataview/styles.css
@@ -108,6 +110,7 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/grad/.obsidian/plugins/reference-map/styles.css
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/styles.css
+    - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/styles.css
     - data/local/vaults/grad/.obsidian/plugins/dataview/main.js
     - data/local/vaults/grad/.obsidian/plugins/folder-notes/main.js
     - data/local/vaults/grad/.obsidian/plugins/OA-file-hider/main.js
@@ -130,6 +133,7 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/grad/.obsidian/plugins/reference-map/main.js
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/main.js
+    - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/grad/.obsidian/plugins/text-extractor/main.js
   personal_settings:
     - data/local/vaults/personal/.obsidian/app.json
@@ -194,6 +198,8 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
     - data/local/vaults/personal/.obsidian/plugins/reference-map/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
+    - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/data.json
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/styles.css
@@ -213,6 +219,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/styles.css
+    - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
     - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
     - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
@@ -235,6 +242,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
+    - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
   grad_text_expand_source: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
   personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
