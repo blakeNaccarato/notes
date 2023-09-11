@@ -18,6 +18,8 @@ paths:
   personal: data/local/vaults/personal
   grad_obsidian: data/local/vaults/grad/.obsidian
   personal_obsidian: data/local/vaults/personal/.obsidian
+  grad_plugins: data/local/vaults/grad/.obsidian/plugins
+  personal_plugins: data/local/vaults/personal/.obsidian/plugins
   grad_timestamped: data/local/vaults/grad/_timestamped
   personal_timestamped: data/local/vaults/personal/_timestamped
   grad_common:
@@ -26,6 +28,8 @@ paths:
   personal_common:
     - data/local/vaults/personal/.scripts
     - data/local/vaults/personal/.vscode
+  grad_shell_settings: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
+  personal_shell_settings: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
   grad_settings:
     - data/local/vaults/grad/.obsidian/app.json
     - data/local/vaults/grad/.obsidian/appearance.json
@@ -77,7 +81,6 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-pandoc/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-plugin-toc/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-plugin-toc/manifest.json
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data-backup-version-0.19.0-before-upgrading-to-0.20.0.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-style-settings/manifest.json
@@ -186,7 +189,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/manifest.json
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data-backup-version-0.19.0-before-upgrading-to-0.20.0.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/manifest.json

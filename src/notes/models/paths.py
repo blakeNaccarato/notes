@@ -10,8 +10,11 @@ from pydantic import DirectoryPath, FilePath
 import notes
 from notes import PROJECT_PATH
 
-TEXT_EXPAND_SOURCE = Path(".obsidian/plugins/mrj-text-expand/main.js")
+TEXT_EXPAND_SOURCE = Path("mrj-text-expand/main.js")
 """This is patched externally whenever the plugin is updated."""
+
+SHELL_SETTINGS = Path("obsidian-shellcommands/data.json")
+"""Shell settings are slightly modified after sync."""
 
 
 def get_common(root: Path, dirs: list[Path]) -> list[Path]:
@@ -35,7 +38,7 @@ def get_settings(dot_obsidian: Path) -> list[Path]:
                 for extension in ["json", "css", "js"]
             ),
         ]
-        if path not in [dot_obsidian.parent / TEXT_EXPAND_SOURCE]
+        if path not in [dot_obsidian / "plugins" / TEXT_EXPAND_SOURCE]
     ]
 
 
@@ -66,14 +69,18 @@ class Paths(CreatePathsModel):
     # ! .obsidian folders
     grad_obsidian: DirectoryPath = grad / ".obsidian"
     personal_obsidian: DirectoryPath = personal / ".obsidian"
+    grad_plugins: DirectoryPath = grad_obsidian / "plugins"
+    personal_plugins: DirectoryPath = personal_obsidian / "plugins"
     # ! Inputs
     grad_timestamped: DirectoryPath = grad / "_timestamped"
     # ! Results
     personal_timestamped: DirectoryPath = personal / "_timestamped"
     grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
     personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
-    grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
-    personal_text_expand_source = personal / TEXT_EXPAND_SOURCE
+    grad_text_expand_source = grad_plugins / TEXT_EXPAND_SOURCE
+    personal_text_expand_source = personal_plugins / TEXT_EXPAND_SOURCE
     # ! Settings
+    grad_shell_settings: FilePath = grad_plugins / SHELL_SETTINGS
+    personal_shell_settings: FilePath = personal_plugins / SHELL_SETTINGS
     grad_settings: list[FilePath] = get_settings(grad_obsidian)
     personal_settings: list[FilePath] = get_settings(personal_obsidian)
