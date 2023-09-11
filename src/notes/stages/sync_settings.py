@@ -66,13 +66,23 @@ def repl_shell_settings(
 
 
 def update_command(
-    shell_settings: dict[str, Any], i: int, replacement: str
+    shell_settings: dict[str, Any], i: int, replacement: Literal["grad", "personal"]
 ) -> dict[str, Any]:
     """Return a copy of the dictionary with an updated command."""
+    if replacement == "grad":
+        command_order = "sync_grad_settings sync_personal_settings"
+    elif replacement == "personal":
+        command_order = "sync_personal_settings sync_grad_settings"
     shell_settings = deepcopy(shell_settings)
-    shell_settings["shell_commands"][i]["platform_specific_commands"][
-        "default"
-    ] = f"Set-Location ../../../.. && Set-PsEnv && dvc repro sync_{replacement}_settings && git commit -m 'Update {replacement} settings' && git push"
+    shell_settings["shell_commands"][i]["platform_specific_commands"]["default"] = (
+        # fmt: off
+         "Set-Location ../../../.."
+         " && Set-PsEnv"
+        f" && dvc repro {command_order}"
+        f" && git commit -m 'Update {replacement} settings'"
+         " && git push"
+        # fmt: on
+    )
     return shell_settings
 
 
