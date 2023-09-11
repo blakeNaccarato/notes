@@ -81,7 +81,7 @@ def update_command(
          "Set-Location ../../../.."
          " && Set-PsEnv"
         f" && dvc repro {command_order}"
-        f" && git commit -m 'Update {message} settings'"
+        f" && git commit -m 'Sync {message} settings'"
          " && git push"
         # fmt: on
     )
