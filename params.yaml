@@ -15,8 +15,84 @@ paths:
   vaults: data/local/vaults
   grad: data/local/vaults/grad
   personal: data/local/vaults/personal
+  personal_obsidian: data/local/vaults/personal/.obsidian
+  grad_obsidian: data/local/vaults/grad/.obsidian
   grad_timestamped: data/local/vaults/grad/_timestamped
   personal_timestamped: data/local/vaults/personal/_timestamped
+  settings_sources:
+    - data/local/vaults/personal/.obsidian/app.json
+    - data/local/vaults/personal/.obsidian/appearance.json
+    - data/local/vaults/personal/.obsidian/backlink.json
+    - data/local/vaults/personal/.obsidian/bookmarks.json
+    - data/local/vaults/personal/.obsidian/canvas.json
+    - data/local/vaults/personal/.obsidian/community-plugins.json
+    - data/local/vaults/personal/.obsidian/core-plugins-migration.json
+    - data/local/vaults/personal/.obsidian/core-plugins.json
+    - data/local/vaults/personal/.obsidian/daily-notes.json
+    - data/local/vaults/personal/.obsidian/global-search.json
+    - data/local/vaults/personal/.obsidian/graph.json
+    - data/local/vaults/personal/.obsidian/hotkeys.json
+    - data/local/vaults/personal/.obsidian/note-composer.json
+    - data/local/vaults/personal/.obsidian/starred.json
+    - data/local/vaults/personal/.obsidian/templates.json
+    - data/local/vaults/personal/.obsidian/zk-prefixer.json
+  settings_destinations:
+    - data/local/vaults/grad/.obsidian/app.json
+    - data/local/vaults/grad/.obsidian/appearance.json
+    - data/local/vaults/grad/.obsidian/backlink.json
+    - data/local/vaults/grad/.obsidian/bookmarks.json
+    - data/local/vaults/grad/.obsidian/canvas.json
+    - data/local/vaults/grad/.obsidian/community-plugins.json
+    - data/local/vaults/grad/.obsidian/core-plugins-migration.json
+    - data/local/vaults/grad/.obsidian/core-plugins.json
+    - data/local/vaults/grad/.obsidian/daily-notes.json
+    - data/local/vaults/grad/.obsidian/global-search.json
+    - data/local/vaults/grad/.obsidian/graph.json
+    - data/local/vaults/grad/.obsidian/hotkeys.json
+    - data/local/vaults/grad/.obsidian/note-composer.json
+    - data/local/vaults/grad/.obsidian/starred.json
+    - data/local/vaults/grad/.obsidian/templates.json
+    - data/local/vaults/grad/.obsidian/zk-prefixer.json
+  plugin_settings_sources:
+    - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
+    - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
+    - data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/data.json
+    - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
+    - data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
+    - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
+    - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
+    - data/local/vaults/personal/.obsidian/plugins/text-extractor/data.json
+  plugin_settings_destinations:
+    - data/local/vaults/grad/.obsidian/plugins/dataview/data.json
+    - data/local/vaults/grad/.obsidian/plugins/folder-notes/data.json
+    - data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/data.json
+    - data/local/vaults/grad/.obsidian/plugins/OA-file-hider/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-citation-plugin/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-full-calendar/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-html-plugin/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-linter/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-outliner/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-pandoc/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-plugin-toc/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
+    - data/local/vaults/grad/.obsidian/plugins/omnisearch/data.json
+    - data/local/vaults/grad/.obsidian/plugins/reference-map/data.json
+    - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
+    - data/local/vaults/grad/.obsidian/plugins/text-extractor/data.json
   grad_common:
     - data/local/vaults/grad/.scripts
     - data/local/vaults/grad/.vscode

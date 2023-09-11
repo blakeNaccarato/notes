@@ -7,6 +7,42 @@ stages:
       - "${paths.obsidian_common}"
       - "${paths.grad_text_expand_source}"
       - "${paths.personal_text_expand_source}"
+      # Will be easier after https://github.com/iterative/dvc/pull/9148
+      - data/local/vaults/personal/.obsidian/app.json
+      - data/local/vaults/personal/.obsidian/appearance.json
+      - data/local/vaults/personal/.obsidian/backlink.json
+      - data/local/vaults/personal/.obsidian/bookmarks.json
+      - data/local/vaults/personal/.obsidian/canvas.json
+      - data/local/vaults/personal/.obsidian/community-plugins.json
+      - data/local/vaults/personal/.obsidian/core-plugins-migration.json
+      - data/local/vaults/personal/.obsidian/core-plugins.json
+      - data/local/vaults/personal/.obsidian/daily-notes.json
+      - data/local/vaults/personal/.obsidian/global-search.json
+      - data/local/vaults/personal/.obsidian/graph.json
+      - data/local/vaults/personal/.obsidian/hotkeys.json
+      - data/local/vaults/personal/.obsidian/note-composer.json
+      - data/local/vaults/personal/.obsidian/starred.json
+      - data/local/vaults/personal/.obsidian/templates.json
+      - data/local/vaults/personal/.obsidian/zk-prefixer.json
+      - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
+      - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
+      - data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/data.json
+      - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
+      - data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
+      - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
+      - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
+      - data/local/vaults/personal/.obsidian/plugins/text-extractor/data.json
     outs:
       - "${paths.grad_common[0]}"
       - "${paths.grad_common[1]}"
