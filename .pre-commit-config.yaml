@@ -26,15 +26,15 @@ repos:
           (?x)^(
             src/.*
             |tests/.*
-            |pyproject.toml
-            |requirements.txt
-            |.tools/(
-              pyproject.toml
+            |pyproject\.toml
+            |requirement\.txt
+            |\.tools/(
+              pyproject\.toml
               |requirements/.*
             )
             |data/.*
-            |dvc.yaml
-            |params.yaml
+            |dvc\.yaml
+            |params\.yaml
           )$
 
       # * -------------------------------------------------------------------------- * #
@@ -57,10 +57,10 @@ repos:
           pwsh -Command "pytest -m 'not slow' --suppress-no-test-exit-code"
         files: |
           (?x)^(
-            pyproject.toml
+            pyproject\.toml
             src/.*
             |tests/.*
-            |.tools/requirements/.*
+            |\.tools/requirements/.*
           )$
       - id: "fawltydeps"
         name: "fawltydeps"
@@ -71,9 +71,9 @@ repos:
         files: |
           (?x)^(
             src/.*
-            |pyproject.toml
-            |requirements.txt
-            |.tools/requirements/.*
+            |pyproject\.toml
+            |requirements\.txt
+            |\.tools/requirements/.*
           )$
 
   # * ------------------------------------------------------------------------------ * #
@@ -87,7 +87,10 @@ repos:
     hooks:
       - id: "end-of-file-fixer"
       - id: "trailing-whitespace"
-        exclude: "dvc.lock"
+        exclude: |
+          (?x)^(
+            dvc\.lock
+          )$
   - repo: "https://github.com/asottile/blacken-docs"
     rev: "1.16.0"
     hooks:
