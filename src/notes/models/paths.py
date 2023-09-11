@@ -74,13 +74,14 @@ class Paths(CreatePathsModel):
     # ! Inputs
     grad_timestamped: DirectoryPath = grad / "_timestamped"
     # ! Results
-    personal_timestamped: DirectoryPath = personal / "_timestamped"
+    personal_timestamped: Path = personal / "_timestamped"
+    grad_text_expand_source: Path = grad_plugins / TEXT_EXPAND_SOURCE
+    personal_text_expand_source: Path = personal_plugins / TEXT_EXPAND_SOURCE
+    # ? DVC-tracked results
     grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
     personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
-    grad_text_expand_source = grad_plugins / TEXT_EXPAND_SOURCE
-    personal_text_expand_source = personal_plugins / TEXT_EXPAND_SOURCE
     # ! Settings
-    grad_shell_settings: FilePath = grad_plugins / SHELL_SETTINGS
-    personal_shell_settings: FilePath = personal_plugins / SHELL_SETTINGS
-    grad_settings: list[FilePath] = get_settings(grad_obsidian)
-    personal_settings: list[FilePath] = get_settings(personal_obsidian)
+    grad_shell_settings: Path = grad_plugins / SHELL_SETTINGS
+    personal_shell_settings: Path = personal_plugins / SHELL_SETTINGS
+    grad_settings: list[Path] = get_settings(grad_obsidian)
+    personal_settings: list[Path] = get_settings(personal_obsidian)

@@ -22,6 +22,8 @@ paths:
   personal_plugins: data/local/vaults/personal/.obsidian/plugins
   grad_timestamped: data/local/vaults/grad/_timestamped
   personal_timestamped: data/local/vaults/personal/_timestamped
+  grad_text_expand_source: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
+  personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
   grad_common:
     - data/local/vaults/grad/.scripts
     - data/local/vaults/grad/.vscode
@@ -246,5 +248,3 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
-  grad_text_expand_source: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
-  personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
