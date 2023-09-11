@@ -71,15 +71,17 @@ def update_command(
     """Return a copy of the dictionary with an updated command."""
     if replacement == "grad":
         command_order = "sync_grad_settings sync_personal_settings"
+        message = "grad settings to personal"
     elif replacement == "personal":
         command_order = "sync_personal_settings sync_grad_settings"
+        message = "personal settings to grad"
     shell_settings = deepcopy(shell_settings)
     shell_settings["shell_commands"][i]["platform_specific_commands"]["default"] = (
         # fmt: off
          "Set-Location ../../../.."
          " && Set-PsEnv"
         f" && dvc repro {command_order}"
-        f" && git commit -m 'Update {replacement} settings'"
+        f" && git commit -m 'Update {message} settings'"
          " && git push"
         # fmt: on
     )
