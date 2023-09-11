@@ -21,7 +21,6 @@ def get_common(root: Path, dirs: list[Path]) -> list[Path]:
 
 def get_settings(dot_obsidian: Path) -> list[Path]:
     """Get files in `.obsidian` to be synchronized."""
-    plugins = dot_obsidian / "plugins"
     return [
         path
         for path in [
@@ -30,8 +29,10 @@ def get_settings(dot_obsidian: Path) -> list[Path]:
                 for path in dot_obsidian.glob("*.json")
                 if path.name not in ["workspace.json", "workspaces.json"]
             ],
+            *(dot_obsidian / "snippets").glob("*.css"),
             *chain.from_iterable(
-                plugins.glob(f"*/*.{extension}") for extension in ["json", "css", "js"]
+                (dot_obsidian / "plugins").glob(f"*/*.{extension}")
+                for extension in ["json", "css", "js"]
             ),
         ]
         if path not in [dot_obsidian.parent / TEXT_EXPAND_SOURCE]

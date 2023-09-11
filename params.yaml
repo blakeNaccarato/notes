@@ -43,6 +43,9 @@ paths:
     - data/local/vaults/grad/.obsidian/starred.json
     - data/local/vaults/grad/.obsidian/templates.json
     - data/local/vaults/grad/.obsidian/zk-prefixer.json
+    - data/local/vaults/grad/.obsidian/snippets/callouts.css
+    - data/local/vaults/grad/.obsidian/snippets/canvas.css
+    - data/local/vaults/grad/.obsidian/snippets/checkbox.css
     - data/local/vaults/grad/.obsidian/plugins/dataview/data.json
     - data/local/vaults/grad/.obsidian/plugins/dataview/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/folder-notes/data.json
@@ -145,6 +148,9 @@ paths:
     - data/local/vaults/personal/.obsidian/starred.json
     - data/local/vaults/personal/.obsidian/templates.json
     - data/local/vaults/personal/.obsidian/zk-prefixer.json
+    - data/local/vaults/personal/.obsidian/snippets/callouts.css
+    - data/local/vaults/personal/.obsidian/snippets/canvas.css
+    - data/local/vaults/personal/.obsidian/snippets/checkbox.css
     - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
