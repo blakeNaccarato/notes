@@ -1,5 +1,6 @@
 """Paths for this project."""
 
+from itertools import chain
 from pathlib import Path
 
 from boilercore.models import CreatePathsModel
@@ -10,16 +11,37 @@ import notes
 from notes import PROJECT_PATH
 
 TEXT_EXPAND_SOURCE = Path(".obsidian/plugins/mrj-text-expand/main.js")
+"""This is patched externally whenever the plugin is updated."""
 
 
-def get_common(root: Path, dirs: list[Path]):
+def get_common(root: Path, dirs: list[Path]) -> list[Path]:
+    """Get directories common to both vaults."""
     return [root / dir_.name for dir_ in dirs]
+
+
+def get_settings(dot_obsidian: Path) -> list[Path]:
+    """Get files in `.obsidian` to be synchronized."""
+    plugins = dot_obsidian / "plugins"
+    return [
+        path
+        for path in [
+            *[
+                path
+                for path in dot_obsidian.glob("*.json")
+                if path.name not in ["workspace.json", "workspaces.json"]
+            ],
+            *chain.from_iterable(
+                plugins.glob(f"*/*.{extension}") for extension in ["json", "css", "js"]
+            ),
+        ]
+        if path not in [dot_obsidian.parent / TEXT_EXPAND_SOURCE]
+    ]
 
 
 class Paths(CreatePathsModel):
     """Paths associated with project data."""
 
-    # * ROOTS
+    # * Roots
     # ! Project
     project: DirectoryPath = PROJECT_PATH
     # ! Package
@@ -29,91 +51,28 @@ class Paths(CreatePathsModel):
     external: DirectoryPath = data / "external"
     stages: dict[str, FilePath] = map_stages(package / "stages", package)
 
-    # * GIT-TRACKED
+    # * Git-tracked
     common: DirectoryPath = data / "common"
     common_dirs: list[DirectoryPath] = list(common.iterdir())  # noqa: RUF012
     obsidian_common: DirectoryPath = data / "obsidian_common"
 
-    # * LOCAL
+    # * Local
     local: DirectoryPath = data / "local"
+    # ! Vaults
     vaults: DirectoryPath = local / "vaults"
     grad: DirectoryPath = vaults / "grad"
     personal: DirectoryPath = vaults / "personal"
-    personal_obsidian: DirectoryPath = personal / ".obsidian"
+    # ! .obsidian folders
     grad_obsidian: DirectoryPath = grad / ".obsidian"
-
-    # * Inputs
+    personal_obsidian: DirectoryPath = personal / ".obsidian"
+    # ! Inputs
     grad_timestamped: DirectoryPath = grad / "_timestamped"
-    # * Results
+    # ! Results
     personal_timestamped: DirectoryPath = personal / "_timestamped"
-
-    # * Settings
-    settings_sources: list[FilePath] = (  # noqa: PLC3002
-        lambda personal_obsidian: [
-            personal_obsidian / path
-            for path in [
-                "app.json",
-                "appearance.json",
-                "backlink.json",
-                "bookmarks.json",
-                "canvas.json",
-                "community-plugins.json",
-                "core-plugins-migration.json",
-                "core-plugins.json",
-                "daily-notes.json",
-                "global-search.json",
-                "graph.json",
-                "hotkeys.json",
-                "note-composer.json",
-                "starred.json",
-                "templates.json",
-                "zk-prefixer.json",
-            ]
-        ]
-    )(personal_obsidian)
-    settings_destinations: list[Path] = (  # noqa: PLC3002
-        lambda personal_obsidian, grad_obsidian, settings_sources: [
-            grad_obsidian / file.relative_to(personal_obsidian)
-            for file in settings_sources
-        ]
-    )(personal_obsidian, grad_obsidian, settings_sources)
-
-    # * Plugin settings
-    plugin_settings_sources: list[FilePath] = (  # noqa: PLC3002
-        lambda personal_obsidian: [
-            personal_obsidian / "plugins" / path / "data.json"
-            for path in [
-                "dataview",
-                "folder-notes",
-                "mrj-text-expand",
-                "OA-file-hider",
-                "obsidian-citation-plugin",
-                "obsidian-excalidraw-plugin",
-                "obsidian-full-calendar",
-                "obsidian-html-plugin",
-                "obsidian-link-converter",
-                "obsidian-linter",
-                "obsidian-outliner",
-                "obsidian-pandoc",
-                "obsidian-plugin-toc",
-                "obsidian-shellcommands",
-                "obsidian-zotero-desktop-connector",
-                "omnisearch",
-                "reference-map",
-                "templater-obsidian",
-                "text-extractor",
-            ]
-        ]
-    )(personal_obsidian)
-    plugin_settings_destinations: list[Path] = (  # noqa: PLC3002
-        lambda personal_obsidian, grad_obsidian, plugin_settings_sources: [
-            grad_obsidian / file.relative_to(personal_obsidian)
-            for file in plugin_settings_sources
-        ]
-    )(personal_obsidian, grad_obsidian, plugin_settings_sources)
-
-    # * DVC-Tracked Results
     grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
-    grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
     personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
+    grad_text_expand_source = grad / TEXT_EXPAND_SOURCE
     personal_text_expand_source = personal / TEXT_EXPAND_SOURCE
+    # ! Settings
+    grad_settings: list[FilePath] = get_settings(grad_obsidian)
+    personal_settings: list[FilePath] = get_settings(personal_obsidian)

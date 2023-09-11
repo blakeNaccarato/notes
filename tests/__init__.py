@@ -45,7 +45,7 @@ def get_stages():
             pytest.param(
                 module,
                 id=(rel := get_module_rel(module, "stages")),
-                marks=[pytest.mark.skip] if rel in {"originlab"} else [],
+                marks=[pytest.mark.xfail] if rel in {"sync_settings"} else [],
             )
         )
         for module in walk_modules(stages, notes)

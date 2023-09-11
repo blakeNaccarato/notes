@@ -9,14 +9,14 @@ from markdown_it.token import Token
 from mdit_py_plugins.front_matter.index import front_matter_plugin
 
 from notes import yaml
-from notes.models.params import PARAMS
+from notes.models.params import PATHS
 
 EXCLUDE = "grad"
 
 
 def main():
-    for source in (p for p in PARAMS.paths.grad_timestamped.iterdir() if p.is_file()):
-        target = PARAMS.paths.personal_timestamped / source.name
+    for source in (p for p in PATHS.grad_timestamped.iterdir() if p.is_file()):
+        target = PATHS.personal_timestamped / source.name
         if target.exists():
             continue
         tags = get_tags(source)

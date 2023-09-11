@@ -21,3 +21,6 @@ class Params(SynchronizedPathsYamlModel):
 
 PARAMS = Params()
 """All project parameters, including paths."""
+
+PATHS = PARAMS.paths
+"""All project paths."""
