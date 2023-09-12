@@ -21,7 +21,7 @@ repos:
         name: "dvc-repro"
         pass_filenames: false
         language: "system"
-        entry: "pwsh -Command python -m notes.models.params && dvc repro"
+        entry: "pwsh -Command python -m notes.models.params && dvc repro && dvc repro"
         files: |
           (?x)^(
             src/.*
