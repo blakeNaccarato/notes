@@ -24,17 +24,7 @@ repos:
         entry: "pwsh -Command python -m notes.models.params && dvc repro && dvc repro"
         files: |
           (?x)^(
-            src/.*
-            |tests/.*
-            |pyproject\.toml
-            |requirement\.txt
-            |\.tools/(
-              pyproject\.toml
-              |requirements/.*
-            )
-            |data/.*
-            |dvc\.yaml
-            |params\.yaml
+            .*
           )$
 
       # * -------------------------------------------------------------------------- * #
