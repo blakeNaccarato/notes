@@ -7,21 +7,21 @@ stages:
     deps:
     - path: data/common
       hash: md5
-      md5: 5e1d0d8800c5227dbdf1642c6f26f097.dir
-      size: 88911
+      md5: 563ab22c1c0173819b3a32012ecb4c5e.dir
+      size: 91028
       nfiles: 25
     - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
       hash: md5
-      md5: da8c57150473ab4c8920fe48c7404a27
-      size: 241612
+      md5: a8e5418edfb65bd351629666a2fe474f
+      size: 243217
     - path: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
       hash: md5
-      md5: da8c57150473ab4c8920fe48c7404a27
-      size: 241612
+      md5: a8e5418edfb65bd351629666a2fe474f
+      size: 243217
     - path: data/obsidian_common
       hash: md5
-      md5: 957b187e194623b1bed6c13a8b93ef2b.dir
-      size: 241612
+      md5: 8e2ed493ebf7fea0986a04ed1b2ac72c.dir
+      size: 243217
       nfiles: 1
     - path: src/notes/stages/update_common.py
       hash: md5
@@ -30,8 +30,8 @@ stages:
     outs:
     - path: data/local/vaults/grad/.scripts
       hash: md5
-      md5: b099b61846a426a4841b9bd75aefa485.dir
-      size: 85881
+      md5: bebbffd01f595a0b1721ab0267a37406.dir
+      size: 87998
       nfiles: 22
     - path: data/local/vaults/grad/.vscode
       hash: md5
@@ -40,8 +40,8 @@ stages:
       nfiles: 3
     - path: data/local/vaults/personal/.scripts
       hash: md5
-      md5: b099b61846a426a4841b9bd75aefa485.dir
-      size: 85881
+      md5: bebbffd01f595a0b1721ab0267a37406.dir
+      size: 87998
       nfiles: 22
     - path: data/local/vaults/personal/.vscode
       hash: md5
@@ -350,8 +350,8 @@ stages:
       size: 286
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 9a9351f9024eef665ded726decba4993
-      size: 8454
+      md5: 5754a7fdfd2abb61a82e1bde8881331d
+      size: 8455
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -509,8 +509,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: bbd893a6bbc29b5f112aac8e1b75612c
-      size: 3042
+      md5: ec689c4c147bf64c84f012d967f81698
+      size: 3140
   sync_grad_settings:
     cmd: python src/notes/stages/sync_settings.py grad
     deps:
@@ -952,5 +952,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: bbd893a6bbc29b5f112aac8e1b75612c
-      size: 3042
+      md5: ec689c4c147bf64c84f012d967f81698
+      size: 3140

@@ -76,7 +76,7 @@ def update_command(
         message = "grad settings to personal"
     elif replacement == "personal":
         command_order = (
-            "&& dvc repro sync_personal_settings && dvc repro sync_grad_settings"
+            " && dvc repro sync_personal_settings && dvc repro sync_grad_settings"
         )
         message = "personal settings to grad"
     shell_settings = deepcopy(shell_settings)
