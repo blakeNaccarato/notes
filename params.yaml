@@ -2,7 +2,6 @@ paths:
   project: .
   package: src/notes
   data: data
-  external: data/external
   stages:
     move_timestamped: src/notes/stages/move_timestamped.py
     sync_settings: src/notes/stages/sync_settings.py

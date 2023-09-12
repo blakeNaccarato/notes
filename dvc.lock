@@ -350,8 +350,8 @@ stages:
       size: 286
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: c9c0dcb20396d327ff5a55e9ef8d913c
-      size: 6888
+      md5: 6cae7f36eb1bf1a73fd686383f2674f4
+      size: 8428
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -516,11 +516,11 @@ stages:
     deps:
     - path: data/local/vaults/grad/.obsidian/app.json
       hash: md5
-      md5: 87f6c39ab94cc84688083dc6521c5f3f
-      size: 1660
+      md5: b0d85868e2302a1409743081f16de38d
+      size: 1668
     - path: data/local/vaults/grad/.obsidian/appearance.json
       hash: md5
-      md5: 4faaf11c32a2c24030a4b397c512127d
+      md5: 95c815ebd0255197f2016e9e1a30d36c
       size: 228
     - path: data/local/vaults/grad/.obsidian/backlink.json
       hash: md5
@@ -532,15 +532,15 @@ stages:
       size: 18
     - path: data/local/vaults/grad/.obsidian/canvas.json
       hash: md5
-      md5: 460c88caa120c26cf26201203ebe5180
-      size: 84
+      md5: d99b5f7110c82554153d7cf80a242066
+      size: 85
     - path: data/local/vaults/grad/.obsidian/community-plugins.json
       hash: md5
-      md5: ccf0ba807e7893d339ba6088d2eeb2f4
+      md5: 68bef3355ba333e4dc7934c616f69f41
       size: 656
     - path: data/local/vaults/grad/.obsidian/core-plugins-migration.json
       hash: md5
-      md5: 626d29dc9ca96c74f9f4c482b1b7ed12
+      md5: 0c89efddea176ec994d4a369dd0338bc
       size: 650
     - path: data/local/vaults/grad/.obsidian/core-plugins.json
       hash: md5
@@ -548,24 +548,24 @@ stages:
       size: 389
     - path: data/local/vaults/grad/.obsidian/daily-notes.json
       hash: md5
-      md5: e9c80c5b6a2a9584befeacafe8e10dd7
-      size: 106
+      md5: a85548cc9891deaeb960282ddeebb631
+      size: 107
     - path: data/local/vaults/grad/.obsidian/global-search.json
       hash: md5
       md5: 621c60f362bb700bef31e2d61abafcaf
       size: 74
     - path: data/local/vaults/grad/.obsidian/graph.json
       hash: md5
-      md5: c5db976c464c902b3c04a21d58407fa6
-      size: 758
+      md5: 857b74a296657c77febc8042b0a70fff
+      size: 759
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: 2d2bfb509b9cd3f0edf108e8927c37ff
-      size: 4239
+      md5: c30085e76c1d6e8c12fe8423b5171ce7
+      size: 3648
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
-      md5: 4cd54d0fffed6a098096a7c0e21bfecb
-      size: 48
+      md5: f431f73228fdd2a5db0a49685b1f69dd
+      size: 49
     - path: data/local/vaults/grad/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
       md5: 5b5fea610424060386163012adeeaf3e
@@ -612,8 +612,8 @@ stages:
       size: 3690
     - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/data.json
       hash: md5
-      md5: fee72d11733e259cc097b14a6a521369
-      size: 188
+      md5: 209ce3e8601da792a65682f3ac2bd38f
+      size: 189
     - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/manifest.json
       hash: md5
       md5: 8fc25f1f0602f45945ac4a34e9fefe21
@@ -644,8 +644,8 @@ stages:
       size: 2096
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: 5155e2849ecd6c85f8370ec01568dde2
-      size: 10386
+      md5: 514ef0f20e5269698fe1633108094846
+      size: 10387
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
       md5: 166f6f824a28bd21446333d87f961172
@@ -662,8 +662,8 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 0d274c4ef262d8bd0c6fd21443d6244a
-      size: 2022
+      md5: bbc7c0998e0f29fb6b2841270c65cd50
+      size: 1999
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
@@ -704,8 +704,8 @@ stages:
       size: 362
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/data.json
       hash: md5
-      md5: 41beee4bdf1c5c5834ba9a19f5d7b6c0
-      size: 108
+      md5: 168903e49bf5b73fe7e109adf1f25eb8
+      size: 109
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/main.js
       hash: md5
       md5: c362e05a5ea1ed605cefce0f1bc4978a
@@ -720,8 +720,8 @@ stages:
       size: 65
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: 2fbacad407d4c4fe07b2d4d022302ca2
-      size: 9954
+      md5: 9b23798ff88ea5eee18859e08a82ed81
+      size: 9922
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
       md5: 8efe252906692dbe1aad9e6b6781895e
@@ -796,7 +796,7 @@ stages:
       size: 286
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 41159683e6f7c41e4e0ba51963ef9f91
+      md5: ca16418be65b3ce970aab2f46c6c4465
       size: 8428
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
@@ -900,8 +900,8 @@ stages:
       size: 3230
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
       hash: md5
-      md5: a42d80e0d84e4a807e17352214a22e57
-      size: 616
+      md5: 0d37073d76a2d9085e3e9f28be9b6e02
+      size: 582
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
       hash: md5
       md5: 0573995c7ba51c8e3f165968a6ac8f37
@@ -940,12 +940,12 @@ stages:
       size: 292
     - path: data/local/vaults/grad/.obsidian/starred.json
       hash: md5
-      md5: f2610666ba8428bc2e5d4303396dd23f
-      size: 17
+      md5: c6b4a0e464a8ef1d2fcedea6424bda66
+      size: 18
     - path: data/local/vaults/grad/.obsidian/templates.json
       hash: md5
-      md5: 272522435c3735313b9755a7d25bb6f2
-      size: 98
+      md5: ee1f472d2ed6bcfce7ba05e8fba53b1e
+      size: 99
     - path: data/local/vaults/grad/.obsidian/zk-prefixer.json
       hash: md5
       md5: 612201a8b16256a3a132d37e679abb6a

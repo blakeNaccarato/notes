@@ -52,7 +52,6 @@ class Paths(CreatePathsModel):
     package: DirectoryPath = get_package_dir(notes)
     # ! Data
     data: DirectoryPath = project / "data"
-    external: DirectoryPath = data / "external"
     stages: dict[str, FilePath] = map_stages(package / "stages", package)
 
     # * Git-tracked
