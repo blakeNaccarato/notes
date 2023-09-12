@@ -350,8 +350,8 @@ stages:
       size: 286
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 6cae7f36eb1bf1a73fd686383f2674f4
-      size: 8428
+      md5: 9a9351f9024eef665ded726decba4993
+      size: 8454
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -509,8 +509,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 3029819712ba092faeb7f46497458ca2
-      size: 2930
+      md5: bbd893a6bbc29b5f112aac8e1b75612c
+      size: 3042
   sync_grad_settings:
     cmd: python src/notes/stages/sync_settings.py grad
     deps:
@@ -952,5 +952,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 3029819712ba092faeb7f46497458ca2
-      size: 2930
+      md5: bbd893a6bbc29b5f112aac8e1b75612c
+      size: 3042
