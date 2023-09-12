@@ -19,6 +19,7 @@ repos:
 
       - id: "dvc-repro"
         name: "dvc-repro"
+        verbose: true
         pass_filenames: false
         language: "system"
         entry: "pwsh -Command python -m notes.models.params && dvc repro && dvc repro"
