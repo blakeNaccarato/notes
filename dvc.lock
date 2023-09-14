@@ -399,13 +399,13 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       hash: md5
-      md5: 0f858efd96463e15335ba998d350839f
-      size: 998544
+      md5: 87a8fb566d7be8cc3e8c2e2b76407782
+      size: 998874
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
       hash: md5
-      md5: 04348e3a510b56ac46094fecc3d1b5d8
-      size: 350
+      md5: 2047d91400ef04d59228d6a5cb187f96
+      size: 351
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       hash: md5
@@ -417,11 +417,11 @@ stages:
       size: 730
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       hash: md5
-      md5: ad0936bf6bdb2f30f4ca6bac696507bf
-      size: 208237
+      md5: 4cb80ee1acf84a0c0bce96df9ffdad6a
+      size: 208221
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/manifest.json
       hash: md5
-      md5: aefe5a4626737c2ca1a7e5cdbde25c76
+      md5: 120f6b1522775a0d12379805dcaaf127
       size: 392
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
       hash: md5
@@ -842,13 +842,13 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       hash: md5
-      md5: 0f858efd96463e15335ba998d350839f
-      size: 998544
+      md5: 87a8fb566d7be8cc3e8c2e2b76407782
+      size: 998874
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
       hash: md5
-      md5: 04348e3a510b56ac46094fecc3d1b5d8
-      size: 350
+      md5: 2047d91400ef04d59228d6a5cb187f96
+      size: 351
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       hash: md5
@@ -860,11 +860,11 @@ stages:
       size: 730
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
       hash: md5
-      md5: ad0936bf6bdb2f30f4ca6bac696507bf
-      size: 208237
+      md5: 4cb80ee1acf84a0c0bce96df9ffdad6a
+      size: 208221
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/manifest.json
       hash: md5
-      md5: aefe5a4626737c2ca1a7e5cdbde25c76
+      md5: 120f6b1522775a0d12379805dcaaf127
       size: 392
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/styles.css
       hash: md5
