@@ -88,8 +88,8 @@ stages:
       size: 759
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
-      md5: c30085e76c1d6e8c12fe8423b5171ce7
-      size: 3648
+      md5: 0ffc71bc0857e5a0a7d3287cbc13e796
+      size: 4519
     - path: data/local/vaults/personal/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -436,8 +436,8 @@ stages:
       size: 3230
     - path: data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
       hash: md5
-      md5: 0d37073d76a2d9085e3e9f28be9b6e02
-      size: 582
+      md5: 116737b09320d76be43d4f2284ac5a67
+      size: 684
     - path: data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
       hash: md5
       md5: 0573995c7ba51c8e3f165968a6ac8f37
@@ -539,8 +539,8 @@ stages:
       size: 759
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: c30085e76c1d6e8c12fe8423b5171ce7
-      size: 3648
+      md5: 0ffc71bc0857e5a0a7d3287cbc13e796
+      size: 4519
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -879,8 +879,8 @@ stages:
       size: 3230
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
       hash: md5
-      md5: 0d37073d76a2d9085e3e9f28be9b6e02
-      size: 582
+      md5: 116737b09320d76be43d4f2284ac5a67
+      size: 684
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
       hash: md5
       md5: 0573995c7ba51c8e3f165968a6ac8f37
