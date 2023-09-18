@@ -7,11 +7,6 @@ stages:
       - "${paths.obsidian_common}"
       - "${paths.grad_text_expand_source}"
       - "${paths.personal_text_expand_source}"
-    outs:
-      - "${paths.grad_common[0]}"
-      - "${paths.grad_common[1]}"
-      - "${paths.personal_common[0]}"
-      - "${paths.personal_common[1]}"
   move_timestamped:
     cmd: "python ${paths.stages.move_timestamped}"
     deps:

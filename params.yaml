@@ -82,7 +82,6 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-pandoc/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-plugin-toc/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-plugin-toc/manifest.json
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data-backup-version-0.19.0-before-upgrading-to-0.20.0.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-style-settings/manifest.json
@@ -191,7 +190,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/manifest.json
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data-backup-version-0.19.0-before-upgrading-to-0.20.0.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/manifest.json
