@@ -3,8 +3,15 @@
 # * -------------------------------------------------------------------------------- * #
 # * Changes below should persist in significant template updates.
 
+# ? Decouple package install from DVC, an external tool used in this repo
+# ? Notes requires DVC for `sync_settings`, but we can specify extras in dev deps only
+dvc[gdrive]==3.21.1
+# ? For using the latest version of this core package during development
 -e ../boilercore
 -e ../lookback
+# ? Install tests package so modules can be run in debugging
+-e ../notes/tests/.
+-e ../boilercore/tests/.
 
 # * -------------------------------------------------------------------------------- * #
 # * Changes below may be lost in significant template updates.

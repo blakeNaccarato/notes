@@ -9,7 +9,7 @@ from boilercore import filter_certain_warnings
 from boilercore.testing import get_session_path
 
 import notes
-from tests import EXPECTED, STAGES
+from notes_tests import EXPECTED, STAGES
 
 
 @pytest.fixture(scope="session")
