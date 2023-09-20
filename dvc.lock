@@ -72,8 +72,8 @@ stages:
       size: 650
     - path: data/local/vaults/personal/.obsidian/core-plugins.json
       hash: md5
-      md5: c24b3b0a3b7937652b1283cb7a580c2d
-      size: 389
+      md5: 6d1848a51519b7c3a0cf3ec99fac8bb7
+      size: 373
     - path: data/local/vaults/personal/.obsidian/daily-notes.json
       hash: md5
       md5: a85548cc9891deaeb960282ddeebb631
@@ -523,8 +523,8 @@ stages:
       size: 650
     - path: data/local/vaults/grad/.obsidian/core-plugins.json
       hash: md5
-      md5: c24b3b0a3b7937652b1283cb7a580c2d
-      size: 389
+      md5: 6d1848a51519b7c3a0cf3ec99fac8bb7
+      size: 373
     - path: data/local/vaults/grad/.obsidian/daily-notes.json
       hash: md5
       md5: a85548cc9891deaeb960282ddeebb631
