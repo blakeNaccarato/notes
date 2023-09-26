@@ -88,8 +88,8 @@ stages:
       size: 759
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
-      md5: b768e7c43ee1c87b45834db1da79f6f1
-      size: 4519
+      md5: 3f6a3361bd744e7abf9e327cc561048a
+      size: 4831
     - path: data/local/vaults/personal/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -539,8 +539,8 @@ stages:
       size: 759
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: b768e7c43ee1c87b45834db1da79f6f1
-      size: 4519
+      md5: 3f6a3361bd744e7abf9e327cc561048a
+      size: 4831
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
