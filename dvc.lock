@@ -480,8 +480,8 @@ stages:
       size: 18
     - path: data/local/vaults/personal/.obsidian/templates.json
       hash: md5
-      md5: ee1f472d2ed6bcfce7ba05e8fba53b1e
-      size: 99
+      md5: 1bed460eaa96d8908ae45ee1a8d1d8f5
+      size: 100
     - path: data/local/vaults/personal/.obsidian/zk-prefixer.json
       hash: md5
       md5: 612201a8b16256a3a132d37e679abb6a
@@ -923,8 +923,8 @@ stages:
       size: 18
     - path: data/local/vaults/grad/.obsidian/templates.json
       hash: md5
-      md5: ee1f472d2ed6bcfce7ba05e8fba53b1e
-      size: 99
+      md5: 1bed460eaa96d8908ae45ee1a8d1d8f5
+      size: 100
     - path: data/local/vaults/grad/.obsidian/zk-prefixer.json
       hash: md5
       md5: 612201a8b16256a3a132d37e679abb6a
