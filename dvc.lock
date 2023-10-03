@@ -84,8 +84,8 @@ stages:
       size: 74
     - path: data/local/vaults/personal/.obsidian/graph.json
       hash: md5
-      md5: 857b74a296657c77febc8042b0a70fff
-      size: 759
+      md5: 8cb3b4286e695585ea65d511ed3aea9e
+      size: 558
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
       md5: 749837914f75fcea78a10dcc87835614
@@ -96,8 +96,8 @@ stages:
       size: 49
     - path: data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
-      md5: 504dcee58252515f42408cd1d624ddff
-      size: 40
+      md5: 1649c477095444cc8ce1842943f921ff
+      size: 41
     - path: data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
       hash: md5
       md5: 406e49818b11fc6afaa309ac5cb0be3f
@@ -534,8 +534,8 @@ stages:
       size: 74
     - path: data/local/vaults/grad/.obsidian/graph.json
       hash: md5
-      md5: 857b74a296657c77febc8042b0a70fff
-      size: 759
+      md5: 8cb3b4286e695585ea65d511ed3aea9e
+      size: 558
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
       md5: 749837914f75fcea78a10dcc87835614
@@ -546,8 +546,8 @@ stages:
       size: 49
     - path: data/local/vaults/grad/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
-      md5: 504dcee58252515f42408cd1d624ddff
-      size: 40
+      md5: 1649c477095444cc8ce1842943f921ff
+      size: 41
     - path: data/local/vaults/grad/.obsidian/plugins/OA-file-hider/main.js
       hash: md5
       md5: 406e49818b11fc6afaa309ac5cb0be3f
