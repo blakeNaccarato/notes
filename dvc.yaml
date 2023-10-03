@@ -51,8 +51,6 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       - data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
-      - data/local/vaults/grad/.obsidian/plugins/obsidian-full-calendar/data.json
-      - data/local/vaults/grad/.obsidian/plugins/obsidian-full-calendar/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/obsidian-html-plugin/data.json
       - data/local/vaults/grad/.obsidian/plugins/obsidian-html-plugin/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/data.json
@@ -77,6 +75,8 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/omnisearch/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/reference-map/data.json
       - data/local/vaults/grad/.obsidian/plugins/reference-map/manifest.json
+      - data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/data.json
+      - data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/manifest.json
       - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
       - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/manifest.json
@@ -86,7 +86,6 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/folder-notes/styles.css
       - data/local/vaults/grad/.obsidian/plugins/obsidian-citation-plugin/styles.css
       - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
-      - data/local/vaults/grad/.obsidian/plugins/obsidian-full-calendar/styles.css
       - data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/styles.css
       - data/local/vaults/grad/.obsidian/plugins/obsidian-linter/styles.css
       - data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/styles.css
@@ -98,6 +97,7 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       - data/local/vaults/grad/.obsidian/plugins/omnisearch/styles.css
       - data/local/vaults/grad/.obsidian/plugins/reference-map/styles.css
+      - data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/styles.css
       - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/styles.css
       - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/styles.css
       - data/local/vaults/grad/.obsidian/plugins/dataview/main.js
@@ -107,7 +107,6 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/obsidian-citation-plugin/main.js
       - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       - data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
-      - data/local/vaults/grad/.obsidian/plugins/obsidian-full-calendar/main.js
       - data/local/vaults/grad/.obsidian/plugins/obsidian-html-plugin/main.js
       - data/local/vaults/grad/.obsidian/plugins/obsidian-link-converter/main.js
       - data/local/vaults/grad/.obsidian/plugins/obsidian-linter/main.js
@@ -121,6 +120,7 @@ stages:
       - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       - data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
       - data/local/vaults/grad/.obsidian/plugins/reference-map/main.js
+      - data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/main.js
       - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/main.js
       - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
       - data/local/vaults/grad/.obsidian/plugins/text-extractor/main.js
@@ -163,8 +163,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/data.json
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/data.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/data.json
@@ -189,6 +187,8 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/omnisearch/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
       - data/local/vaults/personal/.obsidian/plugins/reference-map/manifest.json
+      - data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/data.json
+      - data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
       - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/manifest.json
@@ -198,7 +198,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/folder-notes/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/styles.css
@@ -210,6 +209,7 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
       - data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
+      - data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/styles.css
       - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/styles.css
       - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
       - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
@@ -219,7 +219,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-full-calendar/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/main.js
@@ -233,6 +232,7 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
+      - data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/main.js
       - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
       - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
       - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
