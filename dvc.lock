@@ -124,8 +124,8 @@ stages:
       size: 3159
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: c6eca7cf014960a4322335b5791f2fee
-      size: 1278
+      md5: d144912f916563a0268a54ca02c75290
+      size: 1286
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
       hash: md5
       md5: edaa98a91c6447bee34ed09393b4c185
@@ -574,8 +574,8 @@ stages:
       size: 3159
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: c6eca7cf014960a4322335b5791f2fee
-      size: 1278
+      md5: d144912f916563a0268a54ca02c75290
+      size: 1286
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/main.js
       hash: md5
       md5: edaa98a91c6447bee34ed09393b4c185
