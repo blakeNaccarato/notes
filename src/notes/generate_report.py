@@ -1,3 +1,5 @@
+"""Generate a report."""
+
 from contextlib import chdir
 from os import walk
 from pathlib import Path
@@ -15,8 +17,8 @@ MD = Path("C:/Users/Blake/Desktop/report.md")
 
 def main():
     md_full = ""
-    for w in walk(SOURCE):
-        for md in sorted(Path(w[0]) / file for file in w[2] if file.endswith(".md")):
+    for folder, _, files in walk(SOURCE):
+        for md in sorted(Path(folder) / file for file in files if file.endswith(".md")):
             depth = 1 + len(md.relative_to(SOURCE).parts) - (1 if "_" in md.stem else 0)
             md_full += "\n" + RE.sub("#" * depth, md.read_text(encoding="utf-8"))
     MD.write_text(encoding="utf-8", data=md_full)
