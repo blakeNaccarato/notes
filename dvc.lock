@@ -174,8 +174,8 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: 514ef0f20e5269698fe1633108094846
-      size: 10387
+      md5: 95fa391a859f245823b7f6830849fce1
+      size: 10386
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
       md5: 166f6f824a28bd21446333d87f961172
