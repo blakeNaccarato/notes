@@ -10,17 +10,21 @@ from subprocess import run
 
 def main():
     vault_root = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/grad")
-    report_root = vault_root / "projects"
-    text = ""
-    for folder, _, files in walk(report_root):
-        for file in sorted(Path(folder) / f for f in files if f.endswith(".md")):
-            text += f"\n{indent_from_root(file, report_root)}"
-    report(
-        text=text,
+    report_as_docx(
+        text=report(root=vault_root / "projects"),
         destination=Path("C:/Users/Blake/Desktop/report.docx"),
         template=Path("C:/Users/Blake/Code/mine/boilercv/data/scripts/template.dotx"),
         workdir=vault_root,
     )
+
+
+def report(root: Path) -> str:
+    """Report in combined Markdown from a folder of possibly nested Markdown files."""
+    text = ""
+    for folder, _, files in walk(root):
+        for file in sorted(Path(folder) / f for f in files if f.endswith(".md")):
+            text += f"\n{indent_from_root(file, root)}"
+    return text
 
 
 def indent_from_root(file: Path, root: Path) -> str:
@@ -36,11 +40,10 @@ def indent_headings(text: str, repeat: int) -> str:
     return first_heading_token.sub(repl=indented_heading_tokens, string=text)
 
 
-def report(text: str, destination: Path, template: Path, workdir: Path):
-    """Generate a DOCX report from a notebook.
+def report_as_docx(text: str, destination: Path, template: Path, workdir: Path):
+    """Report in DOCX format.
 
-    Requires changing the active directory to the Markdown folder outside of this
-    asynchronous function, due to how Pandoc generates links inside the documents.
+    Since result would be `bytes`, write directly to `destination`.
     """
     with chdir(workdir):  # Pandoc expects links relative to working directory
         run(
