@@ -1,6 +1,5 @@
 ci:
   skip:
-    - "dvc-repro"
     - "core-update"
     - "pytest-fast-only"
     - "fawltydeps"
@@ -16,17 +15,6 @@ repos:
     hooks:
       # * -------------------------------------------------------------------------- * #
       # * Changes below should persist in significant template updates.
-
-      - id: "dvc-repro"
-        name: "dvc-repro"
-        verbose: true
-        pass_filenames: false
-        language: "system"
-        entry: "pwsh -Command python -m notes.models.params && dvc repro && dvc repro"
-        files: |
-          (?x)^(
-            .*
-          )$
 
       # * -------------------------------------------------------------------------- * #
       # * Changes below may be lost in significant template updates.
