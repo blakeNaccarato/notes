@@ -7,52 +7,67 @@ from re import MULTILINE, compile
 from shlex import join, quote, split
 from subprocess import run
 
-RE = compile(r"^#", flags=MULTILINE)
-WORKDIR = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/grad")
-SOURCE = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/grad/projects")
-TEMPLATE = Path("C:/Users/Blake/Code/mine/boilercv/data/scripts/template.dotx")
-DOCX = Path("C:/Users/Blake/Desktop/report.docx")
-MD = Path("C:/Users/Blake/Desktop/report.md")
-
 
 def main():
-    md_full = ""
-    for folder, _, files in walk(SOURCE):
-        for md in sorted(Path(folder) / file for file in files if file.endswith(".md")):
-            depth = 1 + len(md.relative_to(SOURCE).parts) - (1 if "_" in md.stem else 0)
-            md_full += "\n" + RE.sub("#" * depth, md.read_text(encoding="utf-8"))
-    MD.write_text(encoding="utf-8", data=md_full)
-    with chdir(WORKDIR):
-        report(TEMPLATE, DOCX, MD)
+    vault_root = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/grad")
+    report_root = vault_root / "projects"
+    text = ""
+    for folder, _, files in walk(report_root):
+        for file in sorted(Path(folder) / f for f in files if f.endswith(".md")):
+            text += f"\n{indent_from_root(file, report_root)}"
+    report(
+        text=text,
+        destination=Path("C:/Users/Blake/Desktop/report.docx"),
+        template=Path("C:/Users/Blake/Code/mine/boilercv/data/scripts/template.dotx"),
+        workdir=vault_root,
+    )
 
 
-def report(template: Path, docx: Path, md: Path):
+def indent_from_root(file: Path, root: Path) -> str:
+    """Indent Markdown headings in `file` based on their depth relative to `root`."""
+    depth = len(file.relative_to(root).parts) - (1 if "_" in file.stem else 0)
+    return f"\n{indent_headings(file.read_text(encoding='utf-8'), depth)}"
+
+
+def indent_headings(text: str, repeat: int) -> str:
+    """Indent Markdown headings `repeat` times."""
+    first_heading_token = compile(pattern=r"^#", flags=MULTILINE)
+    indented_heading_tokens = f"#{'#' * repeat}"
+    return first_heading_token.sub(repl=indented_heading_tokens, string=text)
+
+
+def report(text: str, destination: Path, template: Path, workdir: Path):
     """Generate a DOCX report from a notebook.
 
     Requires changing the active directory to the Markdown folder outside of this
     asynchronous function, due to how Pandoc generates links inside the documents.
     """
-    run(
-        join(
-            split(
-                " pandoc"
-                # Pandoc configuration
-                "   --standalone"  # Don't produce a document fragment.
-                "   --from markdown-auto_identifiers"  # Avoids bookmark pollution around Markdown headers
-                "   --to docx"  # The output format
-                f"  --reference-doc {fold(template)}"  # The template to export literature reviews to
-                # I/O
-                f"  --output {fold(docx)}"
-                f"  {fold(md)}"
-            )
-        ),
-        shell=True,  # noqa: S602
-    )
+    with chdir(workdir):  # Pandoc expects links relative to working directory
+        run(
+            input=text,
+            encoding="utf-8",
+            shell=True,
+            args=spacefold(
+                # fmt: off
+                 "pandoc"
+                 "  --standalone"  # Produce standalone document
+                 "  --from markdown-auto_identifiers"  # Avoid bookmarked headers
+                 "  --to docx"  # Need to specify output format
+                f"  --reference-doc {pathfold(template)}"  # Use this template
+                f"  --output {pathfold(destination)}"
+                # fmt: on
+            ),
+        )
 
 
-def fold(path: Path):
-    """Resolve and normalize a path to a POSIX string path with forward slashes."""
-    return quote(path.as_posix())
+def spacefold(string: str):
+    """Normalize spaces."""
+    return join(split(string))
+
+
+def pathfold(path: Path):
+    """Resolve path to a quoted POSIX path."""
+    return quote(path.resolve().as_posix())
 
 
 if __name__ == "__main__":
