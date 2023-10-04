@@ -47,9 +47,8 @@ def report_as_docx(text: str, destination: Path, template: Path, workdir: Path):
     """
     with chdir(workdir):  # Pandoc expects links relative to working directory
         run(
-            input=text,
             encoding="utf-8",
-            shell=True,
+            input=text,
             args=spacefold(
                 # fmt: off
                  "pandoc"
