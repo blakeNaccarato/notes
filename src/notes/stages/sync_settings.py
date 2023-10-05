@@ -23,7 +23,7 @@ class Source(StrEnum):
 
 def main(source: Source):
     if get_changes():
-        return
+        raise RuntimeError("Cannot sync settings. There are pending changes.")
     if source == "grad":
         copy_settings(
             settings=PATHS.grad_settings,
