@@ -21,6 +21,10 @@ class Source(StrEnum):
     personal = auto()
 
 
+class NothingToSyncError(SystemExit):
+    code = 3
+
+
 def main(source: Source):
     changes = get_changes()
     if changes and all(change.name not in {"dvc.lock"} for change in changes):
@@ -42,7 +46,7 @@ def main(source: Source):
             dest_repl="grad",
         )
     if not get_changes():
-        raise RuntimeError("Nothing to sync.")
+        raise NothingToSyncError("Nothing to sync.")
 
 
 def get_changes() -> list[Path]:
