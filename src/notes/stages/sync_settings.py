@@ -43,16 +43,20 @@ def main(source: Source = Source.grad):
 
 
 def get_changes() -> list[Path]:
-    """Get pending changes, exluding submodules (considered always changed)."""
+    """Get pending changes."""
     staged, unstaged, _ = status(untracked_files="no")
     changes = {
-        # many dulwich functions return bytes for legacy reasons
+        # Many dulwich functions return bytes for legacy reasons
         Path(path.decode("utf-8")) if isinstance(path, bytes) else path
         for change in (*staged.values(), unstaged)
         for path in change
     }
-    submodules = {submodule.path for submodule in get_submodules()}
-    return sorted(change for change in changes if change not in submodules)
+    # Exclude submodules from the changeset (submodules are considered always changed)
+    return sorted(
+        change
+        for change in changes
+        if change not in {submodule.path for submodule in get_submodules()}
+    )
 
 
 @dataclass
@@ -70,7 +74,7 @@ class Submodule:
 
     def __post_init__(self):
         """Handle byte strings reported by some submodule sources, like dulwich."""
-        # many dulwich functions return bytes for legacy reasons
+        # Many dulwich functions return bytes for legacy reasons
         self.path = Path(
             self._path.decode("utf-8") if isinstance(self._path, bytes) else self._path
         )
