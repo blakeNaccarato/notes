@@ -124,23 +124,21 @@ def repl_shell_settings(
 
 
 def update_command(
-    shell_settings: dict[str, Any], i: int, replacement: Literal["grad", "personal"]
+    shell_settings: dict[str, Any], i: int, source: Literal["grad", "personal"]
 ) -> dict[str, Any]:
     """Return a copy of the dictionary with an updated command."""
-    if replacement == "grad":
-        command_order = "&& dvc repro sync_grad_settings && git add -A && dvc repro sync_personal_settings"
-        message = "grad settings to personal"
-    elif replacement == "personal":
-        command_order = "&& dvc repro sync_personal_settings && git add -A && dvc repro sync_grad_settings"
-        message = "personal settings to grad"
+    destination = "grad" if source == "personal" else "personal"
     shell_settings = deepcopy(shell_settings)
     shell_settings["shell_commands"][i]["platform_specific_commands"]["default"] = (
         # fmt: off
          "Set-Location ../../../.."
          " && Set-PsEnv"
-        f" {command_order}"
+        f" && python -m notes.stages.sync_settings {source}"
+        f" && dvc repro sync_{source}_settings"
          " && git add -A"
-        f" && git commit -m 'Sync {message} settings'"
+        f" && dvc repro sync_{destination}_settings"
+         " && git add -A"
+        f" && git commit -m 'Sync {source} settings to {destination} settings'"
          " && git push"
         # fmt: on
     )
