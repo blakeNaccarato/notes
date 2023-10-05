@@ -22,7 +22,8 @@ class Source(StrEnum):
 
 
 def main(source: Source):
-    if get_changes():
+    changes = get_changes()
+    if changes and all(change.name not in {"dvc.lock"} for change in changes):
         raise RuntimeError("Cannot sync settings. There are pending changes.")
     if source == "grad":
         copy_settings(

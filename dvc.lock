@@ -124,8 +124,8 @@ stages:
       size: 3159
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: 45d24f62d7b7a5e34be7d5aab65812d8
-      size: 1282
+      md5: d434ae9c1ae288d297f59b8583609085
+      size: 1274
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
       hash: md5
       md5: edaa98a91c6447bee34ed09393b4c185
@@ -268,8 +268,8 @@ stages:
       size: 508
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/data.json
       hash: md5
-      md5: c22966503b1ccb521506a23bcada7c8e
-      size: 261
+      md5: 5d1c4f7ddd09fd73be529551e1153fe1
+      size: 253
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/main.js
       hash: md5
       md5: 0c4bed30f4b13901f168188179bdf5bb
@@ -312,8 +312,8 @@ stages:
       size: 286
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 4eb45c1def9604c29eb5ad74d0dbc85e
-      size: 8457
+      md5: 2c9f07d311ca3337f42c1941e1f9ca54
+      size: 8463
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -503,8 +503,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: a504dff03da4ead1bfb1adba0a7d533e
-      size: 4882
+      md5: 203f22829918f3de5b8cd41c3c744ecb
+      size: 5032
   sync_grad_settings:
     cmd: python src/notes/stages/sync_settings.py grad
     deps:
@@ -774,8 +774,8 @@ stages:
       size: 286
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 56fc10df429df099389506a132f6fe00
-      size: 8457
+      md5: 1e64eb290a1be2c4421d99034adfe698
+      size: 6676
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -962,5 +962,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: a504dff03da4ead1bfb1adba0a7d533e
-      size: 4882
+      md5: 203f22829918f3de5b8cd41c3c744ecb
+      size: 5032
