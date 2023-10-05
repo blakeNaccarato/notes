@@ -1,6 +1,8 @@
-"""Update files common to all vaults."""
+"""Synchronize settings across vaults if there are no pending changes."""
 
+from contextlib import closing
 from copy import deepcopy
+from dataclasses import dataclass
 from enum import StrEnum, auto
 from json import dumps, loads
 from pathlib import Path
@@ -8,6 +10,8 @@ from shutil import copy
 from typing import Any, Literal
 
 import typer
+from dulwich.porcelain import status, submodule_list
+from dulwich.repo import Repo
 
 from notes.models.params import PATHS
 
@@ -17,7 +21,9 @@ class Source(StrEnum):
     personal = auto()
 
 
-def main(source: Source):
+def main(source: Source = Source.grad):
+    if get_changes():
+        return
     if source == "grad":
         copy_settings(
             settings=PATHS.grad_settings,
@@ -34,6 +40,47 @@ def main(source: Source):
             dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
             dest_repl="grad",
         )
+
+
+def get_changes() -> list[Path]:
+    """Get pending changes, exluding submodules (considered always changed)."""
+    staged, unstaged, _ = status(untracked_files="no")
+    changes = {
+        # many dulwich functions return bytes for legacy reasons
+        Path(path.decode("utf-8")) if isinstance(path, bytes) else path
+        for change in (*staged.values(), unstaged)
+        for path in change
+    }
+    submodules = {submodule.path for submodule in get_submodules()}
+    return sorted(change for change in changes if change not in submodules)
+
+
+@dataclass
+class Submodule:
+    """Represents a git submodule."""
+
+    _path: str | bytes
+    """Submodule path as reported by the submodule source."""
+    commit: str
+    """Commit hash currently tracked by the submodule."""
+    path: Path = Path()
+    """Submodule path."""
+    name: str = ""
+    """Submodule name."""
+
+    def __post_init__(self):
+        """Handle byte strings reported by some submodule sources, like dulwich."""
+        # many dulwich functions return bytes for legacy reasons
+        self.path = Path(
+            self._path.decode("utf-8") if isinstance(self._path, bytes) else self._path
+        )
+        self.name = self.path.name
+
+
+def get_submodules() -> list[Submodule]:
+    """Get the special template and typings submodules, as well as the rest."""
+    with closing(repo := Repo(str(Path.cwd()))):
+        return [Submodule(*item) for item in list(submodule_list(repo))]
 
 
 def copy_settings(

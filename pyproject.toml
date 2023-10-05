@@ -18,6 +18,7 @@ requires-python = ">=3.11"
 classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = [
     "boilercore>=0.0.0",
+    "dulwich>=0.21.5",
     "dvc>=3.2.3",
     "loguru>=0.7.0",
     "lookback>=0.0.0",
