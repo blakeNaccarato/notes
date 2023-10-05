@@ -21,10 +21,6 @@ class Source(StrEnum):
     personal = auto()
 
 
-class NothingToSyncError(SystemExit):
-    code = 3
-
-
 def main(source: Source):
     changes = get_changes()
     if changes and all(change.name not in {"dvc.lock"} for change in changes):
@@ -45,8 +41,6 @@ def main(source: Source):
             dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
             dest_repl="grad",
         )
-    if not get_changes():
-        raise NothingToSyncError("Nothing to sync.")
 
 
 def get_changes() -> list[Path]:
@@ -133,7 +127,6 @@ def update_command(
         # fmt: off
          "Set-Location ../../../.."
          " && Set-PsEnv"
-        f" && python -m notes.stages.sync_settings {source}"
         f" && dvc repro sync_{source}_settings"
          " && git add -A"
         f" && dvc repro sync_{destination}_settings"
