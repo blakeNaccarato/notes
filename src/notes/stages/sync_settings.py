@@ -41,6 +41,8 @@ def main(source: Source):
             dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
             dest_repl="grad",
         )
+    if not get_changes():
+        raise RuntimeError("Nothing to sync.")
 
 
 def get_changes() -> list[Path]:
