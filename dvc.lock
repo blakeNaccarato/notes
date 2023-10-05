@@ -64,8 +64,8 @@ stages:
       size: 85
     - path: data/local/vaults/personal/.obsidian/community-plugins.json
       hash: md5
-      md5: 7ffc487ee8ceadd0829cdb61f7bf38f2
-      size: 655
+      md5: 8ec15490abc039452e259a8736dc5e60
+      size: 674
     - path: data/local/vaults/personal/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 0c89efddea176ec994d4a369dd0338bc
@@ -353,6 +353,22 @@ stages:
       hash: md5
       md5: 2facb40b75bd11e31ae52a02fd984782
       size: 767
+    - path: data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/data.json
+      hash: md5
+      md5: 490e44482acea4a9e98d538ce2f38584
+      size: 73
+    - path: data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/main.js
+      hash: md5
+      md5: 06ba68a5454f670caa37217af09d6f4f
+      size: 153899
+    - path: data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/manifest.json
+      hash: md5
+      md5: 2efe1f6050bb154c7865a1b9873654aa
+      size: 250
+    - path: data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/styles.css
+      hash: md5
+      md5: c07ea83511bbae20f65aef22ff9bdfb7
+      size: 913
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
       hash: md5
@@ -487,8 +503,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: cb85e2f65f153915a1b5d8b8f5d4854c
-      size: 3116
+      md5: a504dff03da4ead1bfb1adba0a7d533e
+      size: 4882
   sync_grad_settings:
     cmd: python src/notes/stages/sync_settings.py grad
     deps:
@@ -514,8 +530,8 @@ stages:
       size: 85
     - path: data/local/vaults/grad/.obsidian/community-plugins.json
       hash: md5
-      md5: 7ffc487ee8ceadd0829cdb61f7bf38f2
-      size: 655
+      md5: 8ec15490abc039452e259a8736dc5e60
+      size: 674
     - path: data/local/vaults/grad/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 0c89efddea176ec994d4a369dd0338bc
@@ -574,8 +590,8 @@ stages:
       size: 3159
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: 45d24f62d7b7a5e34be7d5aab65812d8
-      size: 1282
+      md5: d434ae9c1ae288d297f59b8583609085
+      size: 1274
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/main.js
       hash: md5
       md5: edaa98a91c6447bee34ed09393b4c185
@@ -714,8 +730,8 @@ stages:
       size: 508
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-outliner/data.json
       hash: md5
-      md5: c22966503b1ccb521506a23bcada7c8e
-      size: 261
+      md5: 5d1c4f7ddd09fd73be529551e1153fe1
+      size: 253
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-outliner/main.js
       hash: md5
       md5: 0c4bed30f4b13901f168188179bdf5bb
@@ -796,6 +812,22 @@ stages:
       hash: md5
       md5: 2facb40b75bd11e31ae52a02fd984782
       size: 767
+    - path: data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/data.json
+      hash: md5
+      md5: 490e44482acea4a9e98d538ce2f38584
+      size: 73
+    - path: data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/main.js
+      hash: md5
+      md5: 06ba68a5454f670caa37217af09d6f4f
+      size: 153899
+    - path: data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/manifest.json
+      hash: md5
+      md5: 2efe1f6050bb154c7865a1b9873654aa
+      size: 250
+    - path: data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/styles.css
+      hash: md5
+      md5: c07ea83511bbae20f65aef22ff9bdfb7
+      size: 913
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
       hash: md5
@@ -930,5 +962,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: cb85e2f65f153915a1b5d8b8f5d4854c
-      size: 3116
+      md5: a504dff03da4ead1bfb1adba0a7d533e
+      size: 4882

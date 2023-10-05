@@ -21,7 +21,7 @@ class Source(StrEnum):
     personal = auto()
 
 
-def main(source: Source = Source.grad):
+def main(source: Source):
     if get_changes():
         return
     if source == "grad":

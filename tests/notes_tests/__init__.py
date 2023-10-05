@@ -2,11 +2,17 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TypeAlias
+from typing import Any, TypeAlias
 
 import pytest
 from _pytest.mark.structures import ParameterSet
 from boilercore.paths import get_module_rel, walk_modules
+
+
+@dataclass
+class Args:
+    args: list[Any]
+    kwargs: dict[str, Any]
 
 
 @dataclass
@@ -16,40 +22,50 @@ class Expectation:
 
 
 Stages: TypeAlias = list[ParameterSet]
+AllArgs: TypeAlias = dict[str, Args]
 Expected: TypeAlias = dict[str, Expectation]
 
 
-def init() -> tuple[Stages, Expected]:
-    """Get stages and expected results. Runs at the end of this module."""
-    return get_stages(), get_expected()
-
-
-def get_expected() -> Expected:
-    vaults = Path("data") / "local" / "vaults"
-    expected_root = Path("tests") / "expected"
-    expected: dict[str, Expectation] = {
-        module: Expectation(path, expected_root / path)
-        for module, path in {
-            "notes.stages.move_timestamped": vaults / "personal" / "_timestamped"
-        }.items()
-    }
-
-    return expected
-
-
-def get_stages():
+def get_stages() -> Stages:
     notes = Path("src") / "notes"
     stages = notes / "stages"
     return [
         (
             pytest.param(
                 module,
-                id=(rel := get_module_rel(module, "stages")),
-                marks=[pytest.mark.xfail] if rel in {"sync_settings"} else [],
+                id=get_module_rel(module, "stages"),
+                marks=(
+                    [pytest.mark.xfail]
+                    if module
+                    in {
+                        "notes.stages.sync_settings",  # Repo state not mocked yet
+                    }
+                    else []
+                ),
             )
         )
         for module in walk_modules(stages, notes)
     ]
 
 
-STAGES, EXPECTED = init()
+def get_args() -> AllArgs:
+    return {
+        module: Args(*args)
+        for module, args in {"notes.stages.sync_settings": (["grad"], {})}.items()
+    }
+
+
+def get_expected() -> Expected:
+    vaults = Path("data") / "local" / "vaults"
+    expected_root = Path("tests") / "expected"
+    return {
+        module: Expectation(path, expected_root / path)
+        for module, path in {
+            "notes.stages.move_timestamped": vaults / "personal" / "_timestamped"
+        }.items()
+    }
+
+
+STAGES = get_stages()
+ARGS = get_args()
+EXPECTED = get_expected()
