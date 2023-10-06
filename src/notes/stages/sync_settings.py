@@ -27,7 +27,7 @@ class ChangesPendingError(SystemExit):
 
 def main(source: Source):
     changes = get_changes()
-    if changes and all(change.name not in {"dvc.lock"} for change in changes):
+    if changes and any(change.name not in {"dvc.lock"} for change in changes):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")
     order = copy_grad_settings, copy_personal_settings
     for copy_settings in order if source == "grad" else reversed(order):
@@ -138,9 +138,7 @@ def update_command(
         # fmt: off
          "Set-Location ../../../.."
          " && Set-PsEnv"
-        f" && dvc repro sync_{source}_settings"
-         " && git add -A"
-        f" && dvc repro sync_{destination}_settings"
+        f" && dvc repro sync_{source}_settings sync_{destination}_settings"
          " && git add -A"
         f" && git commit -m 'Sync {source} settings to {destination} settings'"
          " && git push"
