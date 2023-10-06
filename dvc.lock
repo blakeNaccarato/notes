@@ -312,8 +312,8 @@ stages:
       size: 286
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 8b6dd71e10da38691d3c2bb5a3ea8ca0
-      size: 8516
+      md5: 1119c67a6e26d150a53b4cffa6f63315
+      size: 8509
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
@@ -774,8 +774,8 @@ stages:
       size: 286
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
       hash: md5
-      md5: 37c11c76b0f85cf60b8ab64258ce23a8
-      size: 8516
+      md5: 4fd46a84a6ce4534e4f39946dacf5167
+      size: 6697
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/main.js
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
