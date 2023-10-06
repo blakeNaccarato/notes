@@ -21,10 +21,14 @@ class Source(StrEnum):
     personal = auto()
 
 
+class ChangesPendingError(SystemExit):
+    code = 3
+
+
 def main(source: Source):
     changes = get_changes()
     if changes and all(change.name not in {"dvc.lock"} for change in changes):
-        raise RuntimeError("Cannot sync settings. There are pending changes.")
+        raise ChangesPendingError("Cannot sync settings. There are pending changes.")
     if source == "grad":
         copy_settings(
             settings=PATHS.grad_settings,
