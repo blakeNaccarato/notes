@@ -29,22 +29,29 @@ def main(source: Source):
     changes = get_changes()
     if changes and all(change.name not in {"dvc.lock"} for change in changes):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")
-    if source == "grad":
-        copy_settings(
-            settings=PATHS.grad_settings,
-            source_dir=PATHS.grad_obsidian,
-            dest_dir=PATHS.personal_obsidian,
-            dest_shell_settings_to_postprocess=PATHS.personal_shell_settings,
-            dest_repl="personal",
-        )
-    elif source == "personal":
-        copy_settings(
-            settings=PATHS.personal_settings,
-            source_dir=PATHS.personal_obsidian,
-            dest_dir=PATHS.grad_obsidian,
-            dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
-            dest_repl="grad",
-        )
+    order = copy_grad_settings, copy_personal_settings
+    for copy_settings in order if source == "grad" else reversed(order):
+        copy_settings()
+
+
+def copy_grad_settings():
+    copy_settings(
+        settings=PATHS.grad_settings,
+        source_dir=PATHS.grad_obsidian,
+        dest_dir=PATHS.personal_obsidian,
+        dest_shell_settings_to_postprocess=PATHS.personal_shell_settings,
+        dest_repl="personal",
+    )
+
+
+def copy_personal_settings():
+    copy_settings(
+        settings=PATHS.personal_settings,
+        source_dir=PATHS.personal_obsidian,
+        dest_dir=PATHS.grad_obsidian,
+        dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
+        dest_repl="grad",
+    )
 
 
 def get_changes() -> list[Path]:
