@@ -32,9 +32,9 @@ stages:
     deps:
     - path: data/local/vaults/grad/_timestamped
       hash: md5
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0
+      md5: 5e1dd34d390080777b8d9ea1a58464ff.dir
+      size: 315
+      nfiles: 1
     - path: src/notes/stages/move_timestamped.py
       hash: md5
       md5: cf0ad16a51d967c6749679b50a6865a8
@@ -96,8 +96,8 @@ stages:
       size: 49
     - path: data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
-      md5: 1649c477095444cc8ce1842943f921ff
-      size: 41
+      md5: 504dcee58252515f42408cd1d624ddff
+      size: 40
     - path: data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
       hash: md5
       md5: 406e49818b11fc6afaa309ac5cb0be3f
@@ -562,8 +562,8 @@ stages:
       size: 49
     - path: data/local/vaults/grad/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
-      md5: 1649c477095444cc8ce1842943f921ff
-      size: 41
+      md5: 504dcee58252515f42408cd1d624ddff
+      size: 40
     - path: data/local/vaults/grad/.obsidian/plugins/OA-file-hider/main.js
       hash: md5
       md5: 406e49818b11fc6afaa309ac5cb0be3f
