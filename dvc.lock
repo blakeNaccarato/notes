@@ -538,8 +538,8 @@ stages:
       size: 650
     - path: data/local/vaults/grad/.obsidian/core-plugins.json
       hash: md5
-      md5: 6d1848a51519b7c3a0cf3ec99fac8bb7
-      size: 373
+      md5: c24b3b0a3b7937652b1283cb7a580c2d
+      size: 389
     - path: data/local/vaults/grad/.obsidian/daily-notes.json
       hash: md5
       md5: a85548cc9891deaeb960282ddeebb631
@@ -550,12 +550,12 @@ stages:
       size: 74
     - path: data/local/vaults/grad/.obsidian/graph.json
       hash: md5
-      md5: 8cb3b4286e695585ea65d511ed3aea9e
+      md5: 1931bc990b2cb293fdbab91d255a5764
       size: 558
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: 749837914f75fcea78a10dcc87835614
-      size: 4892
+      md5: 462ff18e6de60e9ddb81f4b005931b2b
+      size: 5165
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -598,8 +598,8 @@ stages:
       size: 205961
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/manifest.json
       hash: md5
-      md5: 316a43db112381e4e7c82cac77e7e00d
-      size: 389
+      md5: d64939cb87595cc10b6f4205732100cc
+      size: 397
     - path: data/local/vaults/grad/.obsidian/plugins/folder-notes/styles.css
       hash: md5
       md5: df7c7974b0a20023eb8de9012f61d292
@@ -638,7 +638,7 @@ stages:
       size: 2096
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: d9b4a540a28c8d974dd133660755ff85
+      md5: b5428a3db9b5d32e3072f18fda578695
       size: 10386
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
@@ -647,8 +647,8 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       hash: md5
-      md5: f31eee95ca09ef136964d69118eac4dc
-      size: 338
+      md5: 20ff10baf3a447e313c45eb5386934b2
+      size: 326
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
       hash: md5
       md5: 511e48d2cc9bf863885bc3bfe8ebf1a4
@@ -656,7 +656,7 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 60c570832b95b683a6cb9a3110ec5940
+      md5: 276ea4effa8e50ad495e7accf34c1457
       size: 2066
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
@@ -698,7 +698,7 @@ stages:
       size: 65
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: 06a6412fca3b80b1de8e192fd101d9cb
+      md5: 40b62313fe78a19ffd1c6fe3b87fc2d2
       size: 9954
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
@@ -722,15 +722,15 @@ stages:
       size: 532563
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/manifest.json
       hash: md5
-      md5: 4c351838a8c19a1354038051a6aae4d6
-      size: 257
+      md5: 1c5e1f08b0ae1ec00c333467487fe75d
+      size: 265
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/styles.css
       hash: md5
       md5: ab2bc108eaa36a4b5ef9ad2f99ed0780
       size: 508
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-outliner/data.json
       hash: md5
-      md5: 5d1c4f7ddd09fd73be529551e1153fe1
+      md5: a54259259e944db0191f92b4b6cfa50a
       size: 253
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-outliner/main.js
       hash: md5
@@ -902,15 +902,15 @@ stages:
       size: 114543
     - path: data/local/vaults/grad/.obsidian/plugins/tag-wrangler/manifest.json
       hash: md5
-      md5: dd8c8bdefd889b8b95d32e3c97d58677
-      size: 331
+      md5: 3dcd81d2b0397310b89e05622ea11122
+      size: 330
     - path: data/local/vaults/grad/.obsidian/plugins/tag-wrangler/styles.css
       hash: md5
       md5: b1349d662a79ee5417726e63bb4eab40
       size: 418
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
       hash: md5
-      md5: 1eba535bf4fbaf414e37c2e799118b29
+      md5: 4c35d3655cf7ea300a45aac6d08e89ba
       size: 634
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
       hash: md5
@@ -918,8 +918,8 @@ stages:
       size: 281217
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/manifest.json
       hash: md5
-      md5: a915355330fc8681d6d44c2d8866c59d
-      size: 272
+      md5: 90531f2df852af4d9a696821708ca9a5
+      size: 255
     - path: data/local/vaults/grad/.obsidian/plugins/templater-obsidian/styles.css
       hash: md5
       md5: 8ee80c1099ded481c5169a81f2b4fb99
