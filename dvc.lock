@@ -32,9 +32,9 @@ stages:
     deps:
     - path: data/local/vaults/grad/_timestamped
       hash: md5
-      md5: 133f9180fd8c0579cc1a339a431c8b67.dir
-      size: 344
-      nfiles: 1
+      md5: bac692bd9d1da49a9ae5b8df161c5af8.dir
+      size: 589
+      nfiles: 2
     - path: src/notes/stages/move_timestamped.py
       hash: md5
       md5: cf0ad16a51d967c6749679b50a6865a8
