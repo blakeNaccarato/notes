@@ -72,7 +72,10 @@
       "dependsOn": ["dvc: synchronize params"],
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
+      "args": [
+        "-Command",
+        "dvc repro --force --downstream ${input:stage} && dvc repro sync_personal_settings sync_grad_settings"
+      ],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
@@ -82,41 +85,10 @@
       "dependsOn": ["dvc: synchronize params"],
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "dvc repro ${input:stage}"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
-      "label": "dvc: repro force all",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "setup: Update project",
-        "dvc: synchronize params",
-        "dvc: freeze",
-        "git: Stage all files",
-        "pre-commit",
-        "git: Stage all files"
+      "args": [
+        "-Command",
+        "dvc repro ${input:stage} && dvc repro sync_personal_settings sync_grad_settings"
       ],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro --force"],
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
-      "label": "dvc: repro all",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "setup: Update project",
-        "dvc: synchronize params",
-        "dvc: freeze",
-        "git: Stage all files",
-        "pre-commit",
-        "git: Stage all files"
-      ],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro"],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
