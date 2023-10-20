@@ -114,6 +114,10 @@ def copy_settings(
     repl_shell_settings(dest_shell_settings_to_postprocess, dest_repl)
 
 
+OBSIDIAN_SYNC_SETTINGS_SHELL_COMMAND = "ec1o3s5qeo"
+"""The unique ID associated with the sync settings shell command set up in Obsidian."""
+
+
 def repl_shell_settings(
     shell_settings_file: Path,
     replacement: Literal["grad", "personal"],
@@ -121,7 +125,7 @@ def repl_shell_settings(
     """Update the vault-specific shell command after sync."""
     shell_settings = loads(shell_settings_file.read_text(encoding="utf-8"))
     for i, cmd in enumerate(shell_settings["shell_commands"]):
-        if cmd["id"] == "ec1o3s5qeo":
+        if cmd["id"] == OBSIDIAN_SYNC_SETTINGS_SHELL_COMMAND:
             shell_settings = update_command(shell_settings, i, replacement)
     shell_settings_file.write_text(
         encoding="utf-8", data=dumps(shell_settings, indent=4)
@@ -135,15 +139,13 @@ def update_command(
     destination = "grad" if source == "personal" else "personal"
     shell_settings = deepcopy(shell_settings)
     shell_settings["shell_commands"][i]["platform_specific_commands"]["default"] = (
-        # fmt: off
          "Set-Location ../../../.."
          " && Set-PsEnv"
         f" && dvc repro sync_{source}_settings sync_{destination}_settings"
          " && git add -A"
         f" && git commit -m 'Sync {source} settings to {destination} settings'"
          " && git push"
-        # fmt: on
-    )
+    )  # fmt: skip
     return shell_settings
 
 
