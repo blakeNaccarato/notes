@@ -503,8 +503,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 5d0f58aa1d758381016963163336a0fc
-      size: 4958
+      md5: 2347a66427605fb13e73895c166671c8
+      size: 5102
   sync_grad_settings:
     cmd: python src/notes/stages/sync_settings.py grad
     deps:
@@ -962,5 +962,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 5d0f58aa1d758381016963163336a0fc
-      size: 4958
+      md5: 2347a66427605fb13e73895c166671c8
+      size: 5102
