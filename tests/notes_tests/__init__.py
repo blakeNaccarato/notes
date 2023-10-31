@@ -27,8 +27,6 @@ Expected: TypeAlias = dict[str, Expectation]
 
 
 def get_stages() -> Stages:
-    notes = Path("src") / "notes"
-    stages = notes / "stages"
     return [
         (
             pytest.param(
@@ -44,7 +42,7 @@ def get_stages() -> Stages:
                 ),
             )
         )
-        for module in walk_modules(stages, notes)
+        for module in (f"tests.{module}" for module in walk_modules(Path("src") / "notes" / "stages"))
     ]
 
 
