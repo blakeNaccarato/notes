@@ -41,26 +41,17 @@ Home = "https://github.com/blakeNaccarato/notes"
 Tracker = "https://github.com/blakeNaccarato/notes/issues"
 
 [tool.fawltydeps]
+output_format = "human_detailed"
+code = ["src"]
+deps = ["pyproject.toml"]
 ignore_undeclared = [
-    "copier_python", # Used by the project template
-    "boilercore",    # Not picked up by fawltydeps
-    "lookback",      # Not picked up by fawltydeps
-    "boilercv",      # docs/concurrency-in-python/example-notebook.ipynb
-    "janitor",       # docs/concurrency-in-python/example-notebook.ipynb
-    "matplotlib",    # docs/concurrency-in-python/example-notebook.ipynb
-    "numpy",         # docs/concurrency-in-python/example-notebook.ipynb
-    "pandas",        # docs/concurrency-in-python/example-notebook.ipynb
-    "pytest",
-    "_pytest",
-    "seaborn",       # docs/concurrency-in-python/example-notebook.ipynb
-    "trackpy",       # docs/concurrency-in-python/example-notebook.ipynb
+    "boilercore", # Not picked up by fawltydeps
 ]
 ignore_unused = [
     "boilercore", # Not picked up by fawltydeps
-    "lookback",   # Not picked up by fawltydeps
     "dvc",        # For experiment orchestration
-    "numba",      # Pin numba until it supports numpy>=1.25
-    "typer",      # data/common/.scripts
+    "loguru",     # data/common/literature_common.py
+    "lookback",   # Not picked up by fawltydeps
     "watchdog",   # data/common/.scripts
 ]
 
@@ -118,6 +109,7 @@ reportUnnecessaryTypeIgnoreComment = "none"
 reportUnusedCallResult = "none"
 
 [tool.ruff]
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 fix = true
 cache-dir = ".cache/.ruff_cache"
 select = ["ALL"]
@@ -183,16 +175,15 @@ unfixable = [
     "F601", # Don't fix duplicate mapping keys
 ]
 
-[tool.ruff.pydocstyle]
-convention = "google"
+[tool.ruff.format]
+preview = true
+skip-magic-trailing-comma = true
 
 [tool.ruff.isort]
-# * ---------------------------------------------------------------------------- * #
-# * Changes below should persist in significant template updates.
-
-# * ---------------------------------------------------------------------------- * #
-# * Changes below may be lost in significant template updates.
 split-on-trailing-comma = false
+
+[tool.ruff.pydocstyle]
+convention = "google"
 
 [tool.ruff.per-file-ignores]
 "docs/**" = [

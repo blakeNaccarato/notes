@@ -1,4 +1,4 @@
-"""Test setup."""
+"""Helper functions for tests."""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,13 +36,16 @@ def get_stages() -> Stages:
                     [pytest.mark.xfail]
                     if module
                     in {
-                        "notes.stages.sync_settings",  # Repo state not mocked yet
+                        "notes.stages.sync_settings"  # Repo state not mocked yet
                     }
                     else []
                 ),
             )
         )
-        for module in (f"tests.{module}" for module in walk_modules(Path("src") / "notes" / "stages"))
+        for module in (
+            f"notes.{module}"
+            for module in walk_modules(Path("src") / "notes" / "stages")
+        )
     ]
 
 

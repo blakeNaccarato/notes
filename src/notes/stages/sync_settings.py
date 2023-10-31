@@ -119,8 +119,7 @@ OBSIDIAN_SYNC_SETTINGS_SHELL_COMMAND = "ec1o3s5qeo"
 
 
 def repl_shell_settings(
-    shell_settings_file: Path,
-    replacement: Literal["grad", "personal"],
+    shell_settings_file: Path, replacement: Literal["grad", "personal"]
 ):
     """Update the vault-specific shell command after sync."""
     shell_settings = loads(shell_settings_file.read_text(encoding="utf-8"))

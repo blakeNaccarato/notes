@@ -49,17 +49,16 @@ def report_as_docx(text: str, destination: Path, template: Path, workdir: Path):
         run(
             encoding="utf-8",
             input=text,
+            check=False,
             args=spacefold(
-                # fmt: off
                  "pandoc"
                  "  --standalone"  # Produce standalone document
                  "  --from markdown-auto_identifiers"  # Avoid bookmarked headers
                  "  --to docx"  # Need to specify output format
                 f"  --reference-doc {pathfold(template)}"  # Use this template
                 f"  --output {pathfold(destination)}"
-                # fmt: on
-            ),
-        )
+            )
+        )  # fmt: skip
 
 
 def spacefold(string: str):
