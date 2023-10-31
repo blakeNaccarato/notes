@@ -52,7 +52,7 @@ class Paths(CreatePathsModel):
     package: DirectoryPath = get_package_dir(notes)
     # ! Data
     data: DirectoryPath = project / "data"
-    stages: dict[str, FilePath] = map_stages(package / "stages", package)
+    stages: dict[str, FilePath] = map_stages(package / "stages")
 
     # * Git-tracked
     common: DirectoryPath = data / "common"
