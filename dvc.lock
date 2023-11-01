@@ -176,7 +176,7 @@ stages:
       hash: md5
       md5: 1ae8c2c00904803155cd87462dbaf7bb
       size: 4757400
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       hash: md5
       md5: fb4efb52c6d780cf10e4b382e4954b9f
@@ -185,17 +185,17 @@ stages:
       hash: md5
       md5: e15ca147a7076a4670607f2b42cef247
       size: 9005
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
       md5: 60c570832b95b683a6cb9a3110ec5940
       size: 2066
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
       md5: e717b5460f074397f0ea7e60b4b7ad39
       size: 417376
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
       hash: md5
       md5: 3d52c02f028781f96134c81e6950af3c
@@ -360,22 +360,22 @@ stages:
       hash: md5
       md5: c07ea83511bbae20f65aef22ff9bdfb7
       size: 913
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
       hash: md5
       md5: 550cb12d388640f94a30d052957fd059
       size: 348
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       hash: md5
       md5: ce58efaeb54b14ff02803329988bf66a
       size: 999884
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
       hash: md5
       md5: cfa8f025f8d18f80cff094bc30ef8981
       size: 351
-    - path:
+    - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       hash: md5
       md5: 86b77025706f8894ee249846f8f99440
@@ -619,7 +619,7 @@ stages:
       hash: md5
       md5: 5d1be650afe62b7d16bbedc6a710a91b
       size: 5479115
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/manifest.json
       hash: md5
       md5: 206373f782fd732c23aadd30b7b1043a
@@ -628,7 +628,7 @@ stages:
       hash: md5
       md5: 8c2ce568edcf8843a01dd904be5c05b4
       size: 2096
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
       md5: b5428a3db9b5d32e3072f18fda578695
@@ -637,27 +637,27 @@ stages:
       hash: md5
       md5: 1ae8c2c00904803155cd87462dbaf7bb
       size: 4757400
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       hash: md5
       md5: fb4efb52c6d780cf10e4b382e4954b9f
       size: 338
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
       hash: md5
       md5: e15ca147a7076a4670607f2b42cef247
       size: 9005
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
       md5: 60c570832b95b683a6cb9a3110ec5940
       size: 2066
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
       md5: e717b5460f074397f0ea7e60b4b7ad39
       size: 417376
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
       hash: md5
       md5: 3d52c02f028781f96134c81e6950af3c
@@ -682,7 +682,7 @@ stages:
       hash: md5
       md5: c362e05a5ea1ed605cefce0f1bc4978a
       size: 50000
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/manifest.json
       hash: md5
       md5: a1f43f56e9987cec563e9b27c713670f
@@ -775,7 +775,7 @@ stages:
       hash: md5
       md5: 4eb4da1d97b16f6053efcd327d942357
       size: 2826933
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/manifest.json
       hash: md5
       md5: 9803d5a55aacde4dd5ae9c0bea843e1e
@@ -788,7 +788,7 @@ stages:
       hash: md5
       md5: c2aff7ec459f8830c14b18744744ec69
       size: 337374
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/manifest.json
       hash: md5
       md5: 21dd34ce383d360a73f766f3cac88076
@@ -801,7 +801,7 @@ stages:
       hash: md5
       md5: ff14a1941b2d5eb18da7665e194c69e1
       size: 58169
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/manifest.json
       hash: md5
       md5: 2fa26472e401ed7fd839984ac2d1fe3b
@@ -826,30 +826,30 @@ stages:
       hash: md5
       md5: c07ea83511bbae20f65aef22ff9bdfb7
       size: 913
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
       hash: md5
       md5: 550cb12d388640f94a30d052957fd059
       size: 348
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
       hash: md5
       md5: ce58efaeb54b14ff02803329988bf66a
       size: 999884
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
       hash: md5
       md5: cfa8f025f8d18f80cff094bc30ef8981
       size: 351
-    - path:
+    - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
       hash: md5
       md5: 86b77025706f8894ee249846f8f99440
       size: 4172
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: 245f89a98050663c85f1f17cf4cbff71
-      size: 782
+      md5: 247ecb61d8c5186c25a491d79a91c68c
+      size: 729
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       hash: md5
       md5: a8f4bc9e6392e9e9d5587dde25daa95f
