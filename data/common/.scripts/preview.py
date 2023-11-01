@@ -19,8 +19,8 @@ def main(source: Path):
         copy(".scripts/conf.py", tmp / "conf.py")
         site = tmp / "_site"
         result = site / "index.html"
-        run(["pwsh", "-C", f"python -m sphinx {tmp} {site}"])  # noqa: S603, S607
-        run(["pwsh", "-C", f"Invoke-Item {result}"])  # noqa: S603, S607
+        run(["pwsh", "-C", f"python -m sphinx {tmp} {site}"], check=False)  # noqa: S603, S607
+        run(["pwsh", "-C", f"Invoke-Item {result}"], check=False)  # noqa: S603, S607
         sleep(1)
 
 
