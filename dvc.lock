@@ -382,8 +382,8 @@ stages:
       size: 4172
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: 247ecb61d8c5186c25a491d79a91c68c
-      size: 729
+      md5: 245f89a98050663c85f1f17cf4cbff71
+      size: 782
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
       hash: md5
       md5: a8f4bc9e6392e9e9d5587dde25daa95f
@@ -848,8 +848,8 @@ stages:
       size: 4172
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: 247ecb61d8c5186c25a491d79a91c68c
-      size: 729
+      md5: 245f89a98050663c85f1f17cf4cbff71
+      size: 782
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       hash: md5
       md5: a8f4bc9e6392e9e9d5587dde25daa95f
