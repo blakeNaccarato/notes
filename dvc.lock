@@ -54,8 +54,8 @@ stages:
       size: 34
     - path: data/local/vaults/grad/.obsidian/bookmarks.json
       hash: md5
-      md5: c6b4a0e464a8ef1d2fcedea6424bda66
-      size: 18
+      md5: e8c22737f43a3c11c2478f71be73e291
+      size: 153
     - path: data/local/vaults/grad/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -170,7 +170,7 @@ stages:
       size: 2096
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: b5428a3db9b5d32e3072f18fda578695
+      md5: d9b4a540a28c8d974dd133660755ff85
       size: 10386
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
@@ -513,8 +513,8 @@ stages:
       size: 34
     - path: data/local/vaults/personal/.obsidian/bookmarks.json
       hash: md5
-      md5: c6b4a0e464a8ef1d2fcedea6424bda66
-      size: 18
+      md5: e8c22737f43a3c11c2478f71be73e291
+      size: 153
     - path: data/local/vaults/personal/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -631,7 +631,7 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: b5428a3db9b5d32e3072f18fda578695
+      md5: d9b4a540a28c8d974dd133660755ff85
       size: 10386
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
