@@ -569,11 +569,11 @@ stages:
       size: 807
     - path: data/local/vaults/personal/.obsidian/plugins/dataview/main.js
       hash: md5
-      md5: b299b40882a6a40629d9e289adb3dfa4
-      size: 2351299
+      md5: 15610042c8194f06cd92afba2a8e6fcc
+      size: 2352852
     - path: data/local/vaults/personal/.obsidian/plugins/dataview/manifest.json
       hash: md5
-      md5: 0d6a1339bd80742c40c7435821c23cad
+      md5: 75ebf9d7d275f16be242e5c14e67e68c
       size: 291
     - path: data/local/vaults/personal/.obsidian/plugins/dataview/styles.css
       hash: md5
@@ -581,15 +581,15 @@ stages:
       size: 3159
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: 9a7307fdecec03b03e872c87d39f2684
-      size: 1430
+      md5: 80e6f6642306c5e208276f82e7b5d3a5
+      size: 1471
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
       hash: md5
-      md5: 5d858c5a855ae174e75183315e7f0f37
-      size: 220439
+      md5: 7f30f6e4380498e1ad23605a04e16af2
+      size: 221879
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/manifest.json
       hash: md5
-      md5: 453883ff334cf3e8192cec0f2b401b15
+      md5: 20c48c532ee830801bba19aa3941493b
       size: 388
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/styles.css
       hash: md5
@@ -635,12 +635,12 @@ stages:
       size: 10386
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
-      md5: 1ae8c2c00904803155cd87462dbaf7bb
-      size: 4757400
+      md5: 9dd3199cf475ce0ec945fe67ddb59f62
+      size: 4773431
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
       hash: md5
-      md5: fb4efb52c6d780cf10e4b382e4954b9f
+      md5: b08a421c8a9c7dcc4aebc9e8c0d54675
       size: 338
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
@@ -655,12 +655,12 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
-      md5: e717b5460f074397f0ea7e60b4b7ad39
-      size: 417376
+      md5: 894079a833522cf08674c07fd4c401ca
+      size: 418754
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
       hash: md5
-      md5: 3d52c02f028781f96134c81e6950af3c
+      md5: ba3e992f6f600d7f295005e7bd8810b5
       size: 410
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/data.json
       hash: md5
@@ -868,16 +868,16 @@ stages:
       size: 1091
     - path: data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
       hash: md5
-      md5: d41d8cd98f00b204e9800998ecf8427e
-      size: 0
+      md5: edcd1e4307ede7858d16ed68e6b43693
+      size: 2981941
     - path: data/local/vaults/personal/.obsidian/plugins/reference-map/manifest.json
       hash: md5
-      md5: 4a35b4984d1c6beaea56a39a4db4cf39
+      md5: 877cb4d06bee06315b0927328cb535bd
       size: 321
     - path: data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
       hash: md5
-      md5: 0473c2dcd1fcd4d34ff6117db7bc58f3
-      size: 10782
+      md5: 39409c70511a4a5fff5acb6edaded053
+      size: 11241
     - path: data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/data.json
       hash: md5
       md5: a46e609f890d006b8df5369875ad2793
