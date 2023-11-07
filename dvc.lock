@@ -5,8 +5,8 @@ stages:
     deps:
     - path: data/common
       hash: md5
-      md5: 563ab22c1c0173819b3a32012ecb4c5e.dir
-      size: 91028
+      md5: 1f9c8d77aa3ec6fe41a32f332606fc93.dir
+      size: 91054
       nfiles: 25
     - path: data/local/vaults/grad/.obsidian/plugins/mrj-text-expand/main.js
       hash: md5
