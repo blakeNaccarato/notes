@@ -5,9 +5,6 @@
 {
   "version": "2.0.0",
   "inputs": [
-    // * -------------------------------------------------------------------------- * //
-    // * Changes below should persist in significant template updates.
-
     {
       "id": "stage",
       "type": "pickString",
@@ -27,10 +24,6 @@
       "type": "pickString",
       "options": ["", "boilercore", "lookback"]
     },
-
-    // * -------------------------------------------------------------------------- * //
-    // * Changes below may be lost in significant template updates.
-
     {
       "id": "templateOptions",
       "description": "Template options.",
@@ -47,9 +40,6 @@
     }
   ],
   "tasks": [
-    // * -------------------------------------------------------------------------- * //
-    // * Changes below should persist in significant template updates.
-
     {
       "label": "proj: update boilercore",
       "type": "shell",
@@ -108,10 +98,6 @@
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
-
-    // * -------------------------------------------------------------------------- * //
-    // * Changes below may be lost in significant template updates.
-
     // * -------------------------------------------------------------------------- * //
     // * PROJECT SETUP * //
 
