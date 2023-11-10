@@ -9,9 +9,9 @@ from pathlib import Path
 from shutil import copy
 from typing import Any, Literal
 
-import typer
 from dulwich.porcelain import status, submodule_list
 from dulwich.repo import Repo
+from typer import Typer
 
 from notes.models.params import PATHS
 
@@ -21,10 +21,10 @@ class Source(StrEnum):
     personal = auto()
 
 
-class ChangesPendingError(SystemExit):
-    code = 3
+app = Typer()
 
 
+@app.command()
 def main(source: Source = Source.personal):
     changes = get_changes()
     if changes and any(change.name not in {"dvc.lock"} for change in changes):
@@ -32,6 +32,9 @@ def main(source: Source = Source.personal):
     order = copy_grad_settings, copy_personal_settings
     for copy_settings in order if source == "grad" else reversed(order):
         copy_settings()
+
+
+class ChangesPendingError(Exception): ...
 
 
 def copy_grad_settings():
@@ -149,4 +152,4 @@ def update_command(
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    app()
