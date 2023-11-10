@@ -25,7 +25,7 @@ class ChangesPendingError(SystemExit):
     code = 3
 
 
-def main(source: Source):
+def main(source: Source = Source.personal):
     changes = get_changes()
     if changes and any(change.name not in {"dvc.lock"} for change in changes):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")

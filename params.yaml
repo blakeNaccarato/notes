@@ -163,6 +163,8 @@ paths:
     - data/local/vaults/personal/.obsidian/snippets/callouts.css
     - data/local/vaults/personal/.obsidian/snippets/canvas.css
     - data/local/vaults/personal/.obsidian/snippets/checkbox.css
+    - data/local/vaults/personal/.obsidian/plugins/cmdr/data.json
+    - data/local/vaults/personal/.obsidian/plugins/cmdr/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
@@ -211,6 +213,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/data.json
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/cmdr/styles.css
     - data/local/vaults/personal/.obsidian/plugins/dataview/styles.css
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/styles.css
@@ -230,6 +233,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/styles.css
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/styles.css
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
+    - data/local/vaults/personal/.obsidian/plugins/cmdr/main.js
     - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
     - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
