@@ -54,8 +54,8 @@ stages:
       size: 34
     - path: data/local/vaults/grad/.obsidian/bookmarks.json
       hash: md5
-      md5: e8c22737f43a3c11c2478f71be73e291
-      size: 153
+      md5: c670969f0af42818986fe0630b311c3d
+      size: 284
     - path: data/local/vaults/grad/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -246,8 +246,8 @@ stages:
       size: 65
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: 40b62313fe78a19ffd1c6fe3b87fc2d2
-      size: 9954
+      md5: 7add15426535ef1f905d2d9809aeb05a
+      size: 9970
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
       md5: a88659c36240ae80d2fbae12dd99e2f9
@@ -510,8 +510,8 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 475e55b742ce9c6bebc7f960551e7bf4
-      size: 5139
+      md5: 9d756c79c670902f7f4df6cb2d3f5e06
+      size: 5170
   sync_personal_settings:
     cmd: python src/notes/stages/sync_settings.py --source personal
     deps:
@@ -992,5 +992,5 @@ stages:
       size: 104
     - path: src/notes/stages/sync_settings.py
       hash: md5
-      md5: 475e55b742ce9c6bebc7f960551e7bf4
-      size: 5139
+      md5: 9d756c79c670902f7f4df6cb2d3f5e06
+      size: 5170
