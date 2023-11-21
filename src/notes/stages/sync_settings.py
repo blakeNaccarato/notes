@@ -27,7 +27,9 @@ app = Typer()
 @app.command()
 def main(source: Source = Source.personal):
     changes = get_changes()
-    if changes and any(change.name not in {"dvc.lock"} for change in changes):
+    if changes and any(
+        change.name not in {"dvc.lock", "params.yaml"} for change in changes
+    ):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")
     order = copy_grad_settings, copy_personal_settings
     for copy_settings in order if source == "grad" else reversed(order):
