@@ -204,8 +204,8 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 65ce4b46dd5eba61b562c02b140c4513
-      size: 2068
+      md5: ed2f4f967ad71f56a669f03c22189352
+      size: 2080
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
