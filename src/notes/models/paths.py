@@ -23,7 +23,13 @@ def get_common(root: Path, dirs: list[Path]) -> list[Path]:
 
 
 def get_settings(dot_obsidian: Path) -> list[Path]:
-    """Get files in `.obsidian` to be synchronized."""
+    """Get files in `.obsidian` to be synchronized.
+
+    Looks for `json`, `css`, and `js` files in `.obsidian` and immediate folders.
+    Because of this, plugin subfolders (such as text extractor caches) are not synced.
+    This is sensible as long as plugin subfolders contain caches and other
+    vault-specific items.
+    """
     return [
         path
         for path in [
