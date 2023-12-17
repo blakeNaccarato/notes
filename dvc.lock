@@ -82,8 +82,8 @@ stages:
       size: 74
     - path: data/local/vaults/grad/.obsidian/graph.json
       hash: md5
-      md5: 8cb3b4286e695585ea65d511ed3aea9e
-      size: 558
+      md5: 6d495d00d7f5f4a5d0ee58e73f4fc11f
+      size: 1293
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
       md5: b82a5cc5d40f0a4c6aabc29f6927ef96
