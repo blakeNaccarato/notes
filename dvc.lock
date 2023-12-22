@@ -557,8 +557,8 @@ stages:
       size: 74
     - path: data/local/vaults/personal/.obsidian/graph.json
       hash: md5
-      md5: 6d495d00d7f5f4a5d0ee58e73f4fc11f
-      size: 1293
+      md5: 26d71cd302a9248bbe99510dd85d6be3
+      size: 1289
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
       md5: b82a5cc5d40f0a4c6aabc29f6927ef96
