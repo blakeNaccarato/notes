@@ -42,8 +42,8 @@ stages:
     deps:
     - path: data/local/vaults/grad/.obsidian/app.json
       hash: md5
-      md5: 321d7cae7fde2ce0d0bc58fb29837cd7
-      size: 1754
+      md5: 9542ef25288c62c94b4ae8329117f5be
+      size: 1753
     - path: data/local/vaults/grad/.obsidian/appearance.json
       hash: md5
       md5: 95c815ebd0255197f2016e9e1a30d36c
@@ -82,8 +82,8 @@ stages:
       size: 74
     - path: data/local/vaults/grad/.obsidian/graph.json
       hash: md5
-      md5: 26d71cd302a9248bbe99510dd85d6be3
-      size: 1289
+      md5: 8cb3b4286e695585ea65d511ed3aea9e
+      size: 558
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
       md5: 57b534729f93b8090cf5c5d0bc249e55
@@ -262,7 +262,7 @@ stages:
       size: 5078
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 0c5b9b0cd4ead1271b68f691e82942cf
+      md5: 15c1e2e1b09f539bd5b31d998d0d6dfd
       size: 986
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
@@ -517,8 +517,8 @@ stages:
     deps:
     - path: data/local/vaults/personal/.obsidian/app.json
       hash: md5
-      md5: 321d7cae7fde2ce0d0bc58fb29837cd7
-      size: 1754
+      md5: 9542ef25288c62c94b4ae8329117f5be
+      size: 1753
     - path: data/local/vaults/personal/.obsidian/appearance.json
       hash: md5
       md5: 95c815ebd0255197f2016e9e1a30d36c
@@ -557,8 +557,8 @@ stages:
       size: 74
     - path: data/local/vaults/personal/.obsidian/graph.json
       hash: md5
-      md5: 26d71cd302a9248bbe99510dd85d6be3
-      size: 1289
+      md5: 8cb3b4286e695585ea65d511ed3aea9e
+      size: 558
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
       md5: 57b534729f93b8090cf5c5d0bc249e55
@@ -741,7 +741,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 0c5b9b0cd4ead1271b68f691e82942cf
+      md5: 15c1e2e1b09f539bd5b31d998d0d6dfd
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
