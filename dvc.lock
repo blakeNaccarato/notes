@@ -54,8 +54,8 @@ stages:
       size: 34
     - path: data/local/vaults/grad/.obsidian/bookmarks.json
       hash: md5
-      md5: 64ec61b697bb161f6fe528443f275b12
-      size: 419
+      md5: 3c60564c3dac3d42cc880a06c70cdd3d
+      size: 692
     - path: data/local/vaults/grad/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -86,8 +86,8 @@ stages:
       size: 1289
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: b82a5cc5d40f0a4c6aabc29f6927ef96
-      size: 5293
+      md5: 57b534729f93b8090cf5c5d0bc249e55
+      size: 5539
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -186,8 +186,8 @@ stages:
       size: 2096
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: d9b4a540a28c8d974dd133660755ff85
-      size: 10386
+      md5: aaa27037b6c5da8492e77e3728a0883e
+      size: 10555
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
       md5: 9dd3199cf475ce0ec945fe67ddb59f62
@@ -262,7 +262,7 @@ stages:
       size: 5078
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 73d106903e7122fef50e72754786dada
+      md5: 0c5b9b0cd4ead1271b68f691e82942cf
       size: 986
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
@@ -529,8 +529,8 @@ stages:
       size: 34
     - path: data/local/vaults/personal/.obsidian/bookmarks.json
       hash: md5
-      md5: 64ec61b697bb161f6fe528443f275b12
-      size: 419
+      md5: 3c60564c3dac3d42cc880a06c70cdd3d
+      size: 692
     - path: data/local/vaults/personal/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -561,8 +561,8 @@ stages:
       size: 1289
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
-      md5: b82a5cc5d40f0a4c6aabc29f6927ef96
-      size: 5293
+      md5: 57b534729f93b8090cf5c5d0bc249e55
+      size: 5539
     - path: data/local/vaults/personal/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -663,8 +663,8 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: d9b4a540a28c8d974dd133660755ff85
-      size: 10386
+      md5: aaa27037b6c5da8492e77e3728a0883e
+      size: 10555
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
       md5: 9dd3199cf475ce0ec945fe67ddb59f62
@@ -741,7 +741,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 73d106903e7122fef50e72754786dada
+      md5: 0c5b9b0cd4ead1271b68f691e82942cf
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
