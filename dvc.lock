@@ -54,8 +54,8 @@ stages:
       size: 34
     - path: data/local/vaults/grad/.obsidian/bookmarks.json
       hash: md5
-      md5: 3c60564c3dac3d42cc880a06c70cdd3d
-      size: 692
+      md5: f39c1b412be506fdfb35e14b330645df
+      size: 677
     - path: data/local/vaults/grad/.obsidian/canvas.json
       hash: md5
       md5: d99b5f7110c82554153d7cf80a242066
@@ -204,8 +204,8 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: ed2f4f967ad71f56a669f03c22189352
-      size: 2080
+      md5: c9229f2527093dc9474952d665d4c8a1
+      size: 2057
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
