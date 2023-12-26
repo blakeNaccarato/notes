@@ -62,8 +62,8 @@ stages:
       size: 85
     - path: data/local/vaults/grad/.obsidian/community-plugins.json
       hash: md5
-      md5: 9c07ee7a94a7546be6014c090fb5b5d8
-      size: 684
+      md5: 39e6983002399fb7e14571943a554644
+      size: 657
     - path: data/local/vaults/grad/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 0c89efddea176ec994d4a369dd0338bc
@@ -86,8 +86,8 @@ stages:
       size: 558
     - path: data/local/vaults/grad/.obsidian/hotkeys.json
       hash: md5
-      md5: 57b534729f93b8090cf5c5d0bc249e55
-      size: 5539
+      md5: 02d4ac9bda6698bb227092430d795c33
+      size: 5779
     - path: data/local/vaults/grad/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -428,22 +428,6 @@ stages:
       hash: md5
       md5: 2cd6c0ceb64a458928cf5b59220e9bfa
       size: 11678
-    - path: data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/data.json
-      hash: md5
-      md5: a46e609f890d006b8df5369875ad2793
-      size: 94
-    - path: data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/main.js
-      hash: md5
-      md5: 129150a64a0e60895986513ca75c5989
-      size: 3278172
-    - path: data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/manifest.json
-      hash: md5
-      md5: 5406e7cddfa9a0b47f63df9fa2cf39ab
-      size: 563
-    - path: data/local/vaults/grad/.obsidian/plugins/table-editor-obsidian/styles.css
-      hash: md5
-      md5: e623fd8ed278702f278434de134cfc47
-      size: 1751
     - path: data/local/vaults/grad/.obsidian/plugins/tag-wrangler/main.js
       hash: md5
       md5: bab2dd7e01535f9d5900e1fe75f888f2
@@ -537,8 +521,8 @@ stages:
       size: 85
     - path: data/local/vaults/personal/.obsidian/community-plugins.json
       hash: md5
-      md5: 9c07ee7a94a7546be6014c090fb5b5d8
-      size: 684
+      md5: 39e6983002399fb7e14571943a554644
+      size: 657
     - path: data/local/vaults/personal/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 0c89efddea176ec994d4a369dd0338bc
@@ -561,8 +545,8 @@ stages:
       size: 558
     - path: data/local/vaults/personal/.obsidian/hotkeys.json
       hash: md5
-      md5: 57b534729f93b8090cf5c5d0bc249e55
-      size: 5539
+      md5: 02d4ac9bda6698bb227092430d795c33
+      size: 5779
     - path: data/local/vaults/personal/.obsidian/note-composer.json
       hash: md5
       md5: f431f73228fdd2a5db0a49685b1f69dd
@@ -910,22 +894,6 @@ stages:
       hash: md5
       md5: 2cd6c0ceb64a458928cf5b59220e9bfa
       size: 11678
-    - path: data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/data.json
-      hash: md5
-      md5: a46e609f890d006b8df5369875ad2793
-      size: 94
-    - path: data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/main.js
-      hash: md5
-      md5: 129150a64a0e60895986513ca75c5989
-      size: 3278172
-    - path: data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/manifest.json
-      hash: md5
-      md5: 5406e7cddfa9a0b47f63df9fa2cf39ab
-      size: 563
-    - path: data/local/vaults/personal/.obsidian/plugins/table-editor-obsidian/styles.css
-      hash: md5
-      md5: e623fd8ed278702f278434de134cfc47
-      size: 1751
     - path: data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
       hash: md5
       md5: bab2dd7e01535f9d5900e1fe75f888f2
