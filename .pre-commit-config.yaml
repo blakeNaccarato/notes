@@ -49,7 +49,7 @@ repos:
             |\.tools/requirements/.*
           )$
   - repo: "https://github.com/srstevenson/nb-clean"
-    rev: "3.1.0"
+    rev: "3.2.0"
     hooks:
       - id: "nb-clean"
         name: "nb-clean (keep docs outputs)"
@@ -71,7 +71,7 @@ repos:
       - id: "trailing-whitespace"
         exclude: "^dvc.lock$"
   - repo: "https://github.com/srstevenson/nb-clean"
-    rev: "3.1.0"
+    rev: "3.2.0"
     hooks:
       - id: "nb-clean"
         args:
