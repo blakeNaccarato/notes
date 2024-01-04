@@ -270,7 +270,7 @@ stages:
       size: 5078
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: e39a34fe5e3948da4e5ef031396c5248
+      md5: ba1e45d000a5b6928067a60149f1aa32
       size: 986
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
@@ -742,7 +742,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: e39a34fe5e3948da4e5ef031396c5248
+      md5: ba1e45d000a5b6928067a60149f1aa32
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
