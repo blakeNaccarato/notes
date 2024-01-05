@@ -557,8 +557,8 @@ stages:
       size: 6319
     - path: data/local/vaults/personal/.obsidian/note-composer.json
       hash: md5
-      md5: f431f73228fdd2a5db0a49685b1f69dd
-      size: 49
+      md5: a83d1f223a19c551dbe7cac3bf29a737
+      size: 70
     - path: data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
       hash: md5
       md5: 1649c477095444cc8ce1842943f921ff
@@ -969,8 +969,8 @@ stages:
       size: 18
     - path: data/local/vaults/personal/.obsidian/templates.json
       hash: md5
-      md5: 1bed460eaa96d8908ae45ee1a8d1d8f5
-      size: 100
+      md5: 170c813865c4a8554eb6ba931c1a1d71
+      size: 102
     - path: data/local/vaults/personal/.obsidian/zk-prefixer.json
       hash: md5
       md5: 612201a8b16256a3a132d37e679abb6a
