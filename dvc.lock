@@ -605,8 +605,8 @@ stages:
       size: 3159
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
       hash: md5
-      md5: 70e917304a3a9e83d195f33c4d47c7e1
-      size: 2174
+      md5: 71a33ea3958343c34f5f88fc09555c4f
+      size: 2171
     - path: data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
       hash: md5
       md5: f2fbb7f57dfa0d249d98ab194d3618ea
@@ -664,8 +664,8 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
       hash: md5
-      md5: aaa27037b6c5da8492e77e3728a0883e
-      size: 10555
+      md5: ec188835bfda8d295ebfd8fd2c18a88a
+      size: 18443
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
       hash: md5
       md5: ee05540234a27fc0c81b17cc71fd8621
@@ -683,8 +683,8 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 3693b8715363e3ed6db605fbba4bddd4
-      size: 2058
+      md5: ec1cf855793ba3164673c6dbd5501abf
+      size: 2051
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
@@ -742,7 +742,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 24209fff75a68d0e24a8545a36ac9c40
+      md5: 41da3ebbb74935322a7c618efb9aaf80
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
