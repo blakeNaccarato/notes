@@ -742,7 +742,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 41da3ebbb74935322a7c618efb9aaf80
+      md5: eb00ed1f3953ae17a2fc9ea672a5788d
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
