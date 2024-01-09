@@ -977,8 +977,8 @@ stages:
       size: 108
     - path: data/local/vaults/personal/.obsidian/types.json
       hash: md5
-      md5: 44f4191817bc4f220167515795304af6
-      size: 155
+      md5: 2494a155b4ad4b592f73dc4569c2c984
+      size: 174
     - path: data/local/vaults/personal/.obsidian/zk-prefixer.json
       hash: md5
       md5: 612201a8b16256a3a132d37e679abb6a
