@@ -32,6 +32,7 @@ stages:
       - data/local/vaults/grad/.obsidian/note-composer.json
       - data/local/vaults/grad/.obsidian/starred.json
       - data/local/vaults/grad/.obsidian/templates.json
+      - data/local/vaults/grad/.obsidian/types.json
       - data/local/vaults/grad/.obsidian/zk-prefixer.json
       - data/local/vaults/grad/.obsidian/snippets/callouts.css
       - data/local/vaults/grad/.obsidian/snippets/canvas.css
@@ -150,6 +151,7 @@ stages:
       - data/local/vaults/personal/.obsidian/note-composer.json
       - data/local/vaults/personal/.obsidian/starred.json
       - data/local/vaults/personal/.obsidian/templates.json
+      - data/local/vaults/personal/.obsidian/types.json
       - data/local/vaults/personal/.obsidian/zk-prefixer.json
       - data/local/vaults/personal/.obsidian/snippets/callouts.css
       - data/local/vaults/personal/.obsidian/snippets/canvas.css
