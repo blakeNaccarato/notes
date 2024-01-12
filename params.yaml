@@ -46,6 +46,7 @@ paths:
     - data/local/vaults/grad/.obsidian/hotkeys.json
     - data/local/vaults/grad/.obsidian/note-composer.json
     - data/local/vaults/grad/.obsidian/starred.json
+    - data/local/vaults/grad/.obsidian/switcher.json
     - data/local/vaults/grad/.obsidian/templates.json
     - data/local/vaults/grad/.obsidian/types.json
     - data/local/vaults/grad/.obsidian/zk-prefixer.json
@@ -96,6 +97,8 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/reference-map/data.json
     - data/local/vaults/grad/.obsidian/plugins/reference-map/manifest.json
+    - data/local/vaults/grad/.obsidian/plugins/runjs/data.json
+    - data/local/vaults/grad/.obsidian/plugins/runjs/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/data.json
     - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/manifest.json
@@ -118,6 +121,7 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/grad/.obsidian/plugins/reference-map/styles.css
+    - data/local/vaults/grad/.obsidian/plugins/runjs/styles.css
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/styles.css
     - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/styles.css
     - data/local/vaults/grad/.obsidian/plugins/cmdr/main.js
@@ -143,6 +147,7 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/grad/.obsidian/plugins/reference-map/main.js
+    - data/local/vaults/grad/.obsidian/plugins/runjs/main.js
     - data/local/vaults/grad/.obsidian/plugins/tag-wrangler/main.js
     - data/local/vaults/grad/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/grad/.obsidian/plugins/text-extractor/main.js
@@ -161,6 +166,7 @@ paths:
     - data/local/vaults/personal/.obsidian/hotkeys.json
     - data/local/vaults/personal/.obsidian/note-composer.json
     - data/local/vaults/personal/.obsidian/starred.json
+    - data/local/vaults/personal/.obsidian/switcher.json
     - data/local/vaults/personal/.obsidian/templates.json
     - data/local/vaults/personal/.obsidian/types.json
     - data/local/vaults/personal/.obsidian/zk-prefixer.json
@@ -211,6 +217,8 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
     - data/local/vaults/personal/.obsidian/plugins/reference-map/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/runjs/data.json
+    - data/local/vaults/personal/.obsidian/plugins/runjs/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/data.json
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/manifest.json
@@ -233,6 +241,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
+    - data/local/vaults/personal/.obsidian/plugins/runjs/styles.css
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/styles.css
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
     - data/local/vaults/personal/.obsidian/plugins/cmdr/main.js
@@ -258,6 +267,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
+    - data/local/vaults/personal/.obsidian/plugins/runjs/main.js
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
