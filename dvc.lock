@@ -42,8 +42,8 @@ stages:
     deps:
     - path: data/local/vaults/grad/.obsidian/app.json
       hash: md5
-      md5: b447a3f44f3e934bdd48d055965d9b51
-      size: 1637
+      md5: ffa925cf510aedb0abe42e0fac2bdd5c
+      size: 1632
     - path: data/local/vaults/grad/.obsidian/appearance.json
       hash: md5
       md5: 8e43a7f65202e4ae8acefed4b93e5c55
@@ -513,8 +513,8 @@ stages:
     deps:
     - path: data/local/vaults/personal/.obsidian/app.json
       hash: md5
-      md5: b447a3f44f3e934bdd48d055965d9b51
-      size: 1637
+      md5: ffa925cf510aedb0abe42e0fac2bdd5c
+      size: 1632
     - path: data/local/vaults/personal/.obsidian/appearance.json
       hash: md5
       md5: 8e43a7f65202e4ae8acefed4b93e5c55
