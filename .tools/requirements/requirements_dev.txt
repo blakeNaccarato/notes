@@ -10,7 +10,7 @@ dvc[gdrive]==3.21.1
 # Introspection
 fawltydeps==0.13.3
 # Experiment
-ipykernel==6.27.1
+ipykernel==6.29.0
 # ? https://github.com/ipython/ipython/issues/14255
 ipython==8.17.2
 # Debug
