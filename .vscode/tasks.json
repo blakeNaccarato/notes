@@ -10,13 +10,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": [
-        "",
-        "move_timestamped",
-        "sync_grad_settings",
-        "sync_personal_settings",
-        "update_common"
-      ]
+      "options": ["", "move_timestamped", "update_common"]
     },
     {
       "id": "dependency",
@@ -73,6 +67,32 @@
       "args": [
         "-Command",
         "dvc repro --force --downstream ${input:stage} && dvc repro sync_personal_settings sync_grad_settings"
+      ],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: sync_personal_settings",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize params"],
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "dvc repro --force --downstream sync_personal_settings && dvc repro sync_personal_settings sync_grad_settings"
+      ],
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: sync_grad_settings",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize params"],
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-Command",
+        "dvc repro --force --downstream sync_grad_settings && dvc repro sync_personal_settings sync_grad_settings"
       ],
       "icon": { "id": "graph" },
       "problemMatcher": []
