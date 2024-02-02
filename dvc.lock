@@ -302,8 +302,8 @@ stages:
       size: 2163
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-pandoc/data.json
       hash: md5
-      md5: da833540f9e915337ae18ae36e718cbf
-      size: 365
+      md5: c523d03d5e709a817f44a231ac27a83b
+      size: 362
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-pandoc/main.js
       hash: md5
       md5: dd35f06d7cd97e3ad63e67b86d80b3a1
@@ -778,8 +778,8 @@ stages:
       size: 2163
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/data.json
       hash: md5
-      md5: da833540f9e915337ae18ae36e718cbf
-      size: 365
+      md5: c523d03d5e709a817f44a231ac27a83b
+      size: 362
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/main.js
       hash: md5
       md5: dd35f06d7cd97e3ad63e67b86d80b3a1
