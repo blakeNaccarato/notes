@@ -62,8 +62,8 @@ stages:
       size: 85
     - path: data/local/vaults/grad/.obsidian/community-plugins.json
       hash: md5
-      md5: 04de17a161135ad0af3008de50149402
-      size: 665
+      md5: 822906dfd15bc03d034f1b3ec27c2ef9
+      size: 646
     - path: data/local/vaults/grad/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 3ed0568c26e6c0462bb6cc3f37a6fd29
@@ -533,8 +533,8 @@ stages:
       size: 85
     - path: data/local/vaults/personal/.obsidian/community-plugins.json
       hash: md5
-      md5: 04de17a161135ad0af3008de50149402
-      size: 665
+      md5: 822906dfd15bc03d034f1b3ec27c2ef9
+      size: 646
     - path: data/local/vaults/personal/.obsidian/core-plugins-migration.json
       hash: md5
       md5: 3ed0568c26e6c0462bb6cc3f37a6fd29
