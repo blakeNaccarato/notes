@@ -730,7 +730,7 @@ stages:
       size: 65
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: 74cfc869457aaa1ba0cd56a817c96135
+      md5: f5b6733fb054d97e66cd798f3ef7b56f
       size: 10207
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
