@@ -89,8 +89,6 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-style-settings/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-trash-explorer/manifest.json
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/data.json
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/data.json
@@ -115,7 +113,6 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/styles.css
     - data/local/vaults/grad/.obsidian/plugins/obsidian-style-settings/styles.css
     - data/local/vaults/grad/.obsidian/plugins/obsidian-trash-explorer/styles.css
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/styles.css
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/grad/.obsidian/plugins/reference-map/styles.css
@@ -140,7 +137,6 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/main.js
     - data/local/vaults/grad/.obsidian/plugins/obsidian-style-settings/main.js
     - data/local/vaults/grad/.obsidian/plugins/obsidian-trash-explorer/main.js
-    - data/local/vaults/grad/.obsidian/plugins/obsidian-zoom/main.js
     - data/local/vaults/grad/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/grad/.obsidian/plugins/reference-map/main.js
@@ -205,8 +201,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/manifest.json
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/data.json
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
@@ -231,7 +225,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/styles.css
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
     - data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
@@ -256,7 +249,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/main.js
-    - data/local/vaults/personal/.obsidian/plugins/obsidian-zoom/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
     - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
