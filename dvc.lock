@@ -62,7 +62,7 @@ stages:
       size: 85
     - path: data/local/vaults/grad/.obsidian/community-plugins.json
       hash: md5
-      md5: 822906dfd15bc03d034f1b3ec27c2ef9
+      md5: c05207a1f795173a9b56b1d67d48ca40
       size: 646
     - path: data/local/vaults/grad/.obsidian/core-plugins-migration.json
       hash: md5
@@ -212,17 +212,17 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 8ac55c0926221ae05de3926f7104ddfe
-      size: 1945
+      md5: cf16ad3ceb8580962d8383a4b36c841c
+      size: 1948
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
-      md5: 98411022277a8c7762e1ecfdc0ccd1b8
-      size: 421750
+      md5: 8b2732c441a6b96f574819525bb1f873
+      size: 421834
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
       hash: md5
-      md5: fa4a07fb86bd8c438729dd1e970ae300
+      md5: 744b8904be3189970207a97532548a05
       size: 410
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-html-plugin/data.json
       hash: md5
@@ -254,8 +254,8 @@ stages:
       size: 65
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: f5b6733fb054d97e66cd798f3ef7b56f
-      size: 10207
+      md5: 46086dae88d38aca4c21a4dda9be8b33
+      size: 10155
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
       md5: 76f26ebf5256cc8fbd5eef7c5d397975
@@ -270,7 +270,7 @@ stages:
       size: 5078
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: e262c7bc16443bbf7f71e4a996caafe1
+      md5: 21f6427bfc0f3235eb69b852c3143b51
       size: 986
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
@@ -406,7 +406,7 @@ stages:
       size: 4172
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: a7c2400aa88691c9f4dc2c2e12ab6994
+      md5: f2954c3d7b575236a58bd4bd18249484
       size: 837
     - path: data/local/vaults/grad/.obsidian/plugins/omnisearch/main.js
       hash: md5
@@ -533,7 +533,7 @@ stages:
       size: 85
     - path: data/local/vaults/personal/.obsidian/community-plugins.json
       hash: md5
-      md5: 822906dfd15bc03d034f1b3ec27c2ef9
+      md5: c05207a1f795173a9b56b1d67d48ca40
       size: 646
     - path: data/local/vaults/personal/.obsidian/core-plugins-migration.json
       hash: md5
@@ -687,17 +687,17 @@ stages:
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: 8ac55c0926221ae05de3926f7104ddfe
-      size: 1945
+      md5: cf16ad3ceb8580962d8383a4b36c841c
+      size: 1948
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
-      md5: 98411022277a8c7762e1ecfdc0ccd1b8
-      size: 421750
+      md5: 8b2732c441a6b96f574819525bb1f873
+      size: 421834
     - path: 
         data/local/vaults/personal/.obsidian/plugins/obsidian-front-matter-title-plugin/manifest.json
       hash: md5
-      md5: fa4a07fb86bd8c438729dd1e970ae300
+      md5: 744b8904be3189970207a97532548a05
       size: 410
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/data.json
       hash: md5
@@ -730,8 +730,8 @@ stages:
       size: 65
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-linter/data.json
       hash: md5
-      md5: 9635006b711a4c63d5dbb24dd3477694
-      size: 10163
+      md5: 46086dae88d38aca4c21a4dda9be8b33
+      size: 10155
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-linter/main.js
       hash: md5
       md5: 76f26ebf5256cc8fbd5eef7c5d397975
@@ -746,7 +746,7 @@ stages:
       size: 5078
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: e262c7bc16443bbf7f71e4a996caafe1
+      md5: 21f6427bfc0f3235eb69b852c3143b51
       size: 986
     - path: data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
@@ -885,7 +885,7 @@ stages:
       size: 4172
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: a7c2400aa88691c9f4dc2c2e12ab6994
+      md5: f2954c3d7b575236a58bd4bd18249484
       size: 837
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       hash: md5
