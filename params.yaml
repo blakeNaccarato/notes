@@ -66,6 +66,7 @@ paths:
     - data/local/vaults/grad/.obsidian/plugins/obsidian-advanced-uri/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-citation-plugin/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-citation-plugin/manifest.json
+    - data/local/vaults/grad/.obsidian/plugins/obsidian-editor-shortcuts/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-editor-shortcuts/manifest.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
     - data/local/vaults/grad/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
@@ -178,6 +179,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-advanced-uri/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-editor-shortcuts/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-editor-shortcuts/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/manifest.json
