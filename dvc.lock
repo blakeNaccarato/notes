@@ -212,8 +212,8 @@ stages:
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/data.json
       hash: md5
-      md5: cf16ad3ceb8580962d8383a4b36c841c
-      size: 1948
+      md5: 83b5bae0edacdbe719b79fbe04816f59
+      size: 1947
     - path: 
         data/local/vaults/grad/.obsidian/plugins/obsidian-front-matter-title-plugin/main.js
       hash: md5
@@ -270,7 +270,7 @@ stages:
       size: 5078
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/data.json
       hash: md5
-      md5: 21f6427bfc0f3235eb69b852c3143b51
+      md5: 0a5d22915b59fd5303e07df979526bcb
       size: 986
     - path: data/local/vaults/grad/.obsidian/plugins/obsidian-omnivore/main.js
       hash: md5
