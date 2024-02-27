@@ -9,7 +9,7 @@ from subprocess import run
 
 
 def main():
-    vault_root = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/grad")
+    vault_root = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/personal")
     report_as_docx(
         text=report(root=vault_root / "projects"),
         destination=Path("C:/Users/Blake/Desktop/report.docx"),

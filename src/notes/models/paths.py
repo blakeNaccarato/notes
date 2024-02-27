@@ -13,8 +13,8 @@ from notes import PROJECT_PATH
 TEXT_EXPAND_SOURCE = Path("mrj-text-expand/main.js")
 """This is patched externally whenever the plugin is updated."""
 
-SHELL_SETTINGS = Path("obsidian-shellcommands/data.json")
-"""Shell settings are slightly modified after sync."""
+DEPRECATED_SHELL_SETTINGS = Path("obsidian-shellcommands/data.json")
+"""(DEPRECATED) Shell settings are slightly modified after sync."""
 
 
 def get_common(root: Path, dirs: list[Path]) -> list[Path]:
@@ -64,29 +64,31 @@ class Paths(CreatePathsModel):
     common: DirectoryPath = data / "common"
     common_dirs: list[DirectoryPath] = list(common.iterdir())  # noqa: RUF012
     obsidian_common: DirectoryPath = data / "obsidian_common"
-
     # * Local
     local: DirectoryPath = data / "local"
     # ! Vaults
     vaults: DirectoryPath = local / "vaults"
-    grad: DirectoryPath = vaults / "grad"
     personal: DirectoryPath = vaults / "personal"
     # ! .obsidian folders
-    grad_obsidian: DirectoryPath = grad / ".obsidian"
     personal_obsidian: DirectoryPath = personal / ".obsidian"
-    grad_plugins: DirectoryPath = grad_obsidian / "plugins"
     personal_plugins: DirectoryPath = personal_obsidian / "plugins"
     # ! Inputs
-    grad_timestamped: DirectoryPath = grad / "_timestamped"
     # ! Results
     personal_timestamped: Path = personal / "_timestamped"
-    grad_text_expand_source: Path = grad_plugins / TEXT_EXPAND_SOURCE
     personal_text_expand_source: Path = personal_plugins / TEXT_EXPAND_SOURCE
     # ? DVC-tracked results
-    grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
     personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
     # ! Settings
-    grad_shell_settings: Path = grad_plugins / SHELL_SETTINGS
-    personal_shell_settings: Path = personal_plugins / SHELL_SETTINGS
-    grad_settings: list[Path] = get_settings(grad_obsidian)
     personal_settings: list[Path] = get_settings(personal_obsidian)
+    # * Deprecated
+    # ? These paths aren't used since the "Grad" vault is now only used for
+    # ? sharing/dissemination among lab members
+    personal_shell_settings: Path = personal_plugins / DEPRECATED_SHELL_SETTINGS
+    grad: DirectoryPath = vaults / "grad"
+    grad_obsidian: DirectoryPath = grad / ".obsidian"
+    grad_plugins: DirectoryPath = grad_obsidian / "plugins"
+    grad_timestamped: DirectoryPath = grad / "_timestamped"
+    grad_text_expand_source: Path = grad_plugins / TEXT_EXPAND_SOURCE
+    grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
+    grad_shell_settings: Path = grad_plugins / DEPRECATED_SHELL_SETTINGS
+    grad_settings: list[Path] = get_settings(grad_obsidian)
