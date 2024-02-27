@@ -17,7 +17,7 @@ from notes_tests import ARGS, EXPECTED, STAGES
 @pytest.fixture(autouse=True)
 def _filter_certain_warnings():
     """Filter certain warnings."""
-    filter_certain_warnings()
+    filter_certain_warnings(notes)
 
 
 @pytest.fixture(scope="session")
