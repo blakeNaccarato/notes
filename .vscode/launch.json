@@ -19,7 +19,8 @@
       "name": "Python: Current file with args",
       "type": "debugpy",
       "request": "launch",
-      "program": "${file} ${input:input}",
+      "program": "${file}",
+      "args": ["${input:input}"],
       "console": "internalConsole"
     },
     {

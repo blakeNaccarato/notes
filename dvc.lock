@@ -1,0 +1,14 @@
+schema: '2.0'
+stages:
+  sanitize_source_tags:
+    cmd: python src/notes/stages/sanitize_source_tags.py
+    deps:
+    - path: data/local/vaults/personal/_sources/links
+      hash: md5
+      md5: 47886291f4319ffd1192c3af1bf36e1b.dir
+      size: 1893470
+      nfiles: 149
+    - path: src/notes/stages/sanitize_source_tags.py
+      hash: md5
+      md5: e1f016e7f42caf61f6ac80d5dfa5b088
+      size: 734

@@ -3,6 +3,7 @@ paths:
   package: src/notes
   data: data
   stages:
+    sanitize_source_tags: src/notes/stages/sanitize_source_tags.py
     update_common: src/notes/stages/update_common.py
   common: data/common
   common_dirs:
@@ -14,6 +15,7 @@ paths:
   personal: data/local/vaults/personal
   personal_obsidian: data/local/vaults/personal/.obsidian
   personal_plugins: data/local/vaults/personal/.obsidian/plugins
+  personal_links: data/local/vaults/personal/_sources/links
   personal_timestamped: data/local/vaults/personal/_timestamped
   personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
   personal_common:
@@ -41,10 +43,13 @@ paths:
     - data/local/vaults/personal/.obsidian/snippets/callouts.css
     - data/local/vaults/personal/.obsidian/snippets/canvas.css
     - data/local/vaults/personal/.obsidian/snippets/checkbox.css
+    - data/local/vaults/personal/.obsidian/snippets/todo.css
     - data/local/vaults/personal/.obsidian/plugins/cmdr/data.json
     - data/local/vaults/personal/.obsidian/plugins/cmdr/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/data.json
+    - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/data.json
@@ -77,6 +82,8 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-tasks-plugin/data.json
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-tasks-plugin/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/data.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
@@ -101,6 +108,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/styles.css
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-tasks-plugin/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
@@ -109,6 +117,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
     - data/local/vaults/personal/.obsidian/plugins/cmdr/main.js
     - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
+    - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/main.js
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
     - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-advanced-uri/main.js
@@ -125,6 +134,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-style-settings/main.js
+    - data/local/vaults/personal/.obsidian/plugins/obsidian-tasks-plugin/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js

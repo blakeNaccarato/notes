@@ -12,7 +12,6 @@ from notes import PROJECT_PATH
 
 TEXT_EXPAND_SOURCE = Path("mrj-text-expand/main.js")
 """This is patched externally whenever the plugin is updated."""
-
 DEPRECATED_SHELL_SETTINGS = Path("obsidian-shellcommands/data.json")
 """(DEPRECATED) Shell settings are slightly modified after sync."""
 
@@ -73,6 +72,7 @@ class Paths(CreatePathsModel):
     personal_obsidian: DirectoryPath = personal / ".obsidian"
     personal_plugins: DirectoryPath = personal_obsidian / "plugins"
     # ! Inputs
+    personal_links: DirectoryPath = personal / "_sources/links"
     # ! Results
     personal_timestamped: Path = personal / "_timestamped"
     personal_text_expand_source: Path = personal_plugins / TEXT_EXPAND_SOURCE

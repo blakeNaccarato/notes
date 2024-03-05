@@ -1,0 +1,6 @@
+stages:
+  sanitize_source_tags:
+    cmd: "python ${paths.stages.sanitize_source_tags}"
+    deps:
+      - "${paths.stages.sanitize_source_tags}"
+      - "${paths.personal_links}"
