@@ -1,5 +1,16 @@
 # Latest working requirements of the package, should be ahead of pyproject.toml
 # ! boilercore specified differently in dev and CI to allow editable package in dev
 # boilercore==...
+dulwich==0.21.7
+# ? Required by `sync_settings`
+dvc[gdrive]==3.48.2
+loguru==0.7.2
 # ! lookback specified differently in dev and CI to allow editable package in dev
 # lookback==...
+markdown-it-py==3.0.0
+mdit-py-plugins==0.4.0
+obsidiantools==0.10.0
+pydantic==2.6.3
+ruamel.yaml==0.18.6
+typer==0.9.0
+watchdog==4.0.0
