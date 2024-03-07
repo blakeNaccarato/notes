@@ -1,9 +1,4 @@
-# Requirements for both CI and dev environments.
-# ? Plots in tests
-seaborn==0.13.0
-# ? Additional testing plugin
-pytest-plt==1.1.0
-
+# Requirements for both CI and dev environments
 # Type checking
 pyright==1.1.350
 # * ---------------------------------------------------------------------------------- *

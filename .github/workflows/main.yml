@@ -23,10 +23,19 @@ jobs:
       - uses: "blakeNaccarato/copier-python-workflow-setup@v0.2.3"
         with:
           python-version: "3.11"
-      - run: "pytest --cov"
+      # ! Need to specify `cov-config` as below.
+      # ! See https://github.com/pytest-dev/pytest-cov/issues/479#issuecomment-1247444988
+      - run: "pytest --cov --cov-config=pyproject.toml"
       - uses: "codecov/codecov-action@v3.1.4"
+  fawltydeps:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "blakeNaccarato/copier-python-workflow-setup@v0.2.3"
+        with:
+          python-version: "3.11"
+      - run: "fawltydeps"
   bump_project:
-    needs: ["pyright", "ruff", "pytest"]
+    needs: ["pyright", "ruff", "pytest", "fawltydeps"]
     runs-on: "ubuntu-latest"
     steps:
       - uses: "blakeNaccarato/copier-python-workflow-setup@v0.2.3"

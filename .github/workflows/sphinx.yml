@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: ["main"]
-    paths: ["docs/**", "README.md", "CHANGELOG.md"]
+    paths: ["docs/**", "README.md", "CHANGELOG.md", "requirements.txt"]
 
 permissions:
   contents: "read"
@@ -22,8 +22,8 @@ jobs:
       - uses: "blakeNaccarato/copier-python-workflow-setup@v0.2.3"
         with:
           python-version: "3.11"
-      - run: "python -m sphinx -T -E docs _site"
-      - uses: "actions/upload-pages-artifact@v2.0.0"
+      - run: "sphinx-build -EaT docs _site"
+      - uses: "actions/upload-pages-artifact@v3.0.0"
   deploy:
     if: "${{ !(github.event_name == 'pull_request') }}"
     environment:
@@ -33,4 +33,4 @@ jobs:
     needs: "build"
     steps:
       - id: "deployment"
-        uses: "actions/deploy-pages@v2.0.5"
+        uses: "actions/deploy-pages@v4.0.2"
