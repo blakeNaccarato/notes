@@ -43,7 +43,7 @@ def get_settings(dot_obsidian: Path) -> list[Path]:
                 for extension in ["json", "css", "js"]
             ),
         ]
-        if path not in [dot_obsidian / "plugins" / TEXT_EXPAND_SOURCE]
+        if path != dot_obsidian / "plugins" / TEXT_EXPAND_SOURCE
     ]
 
 

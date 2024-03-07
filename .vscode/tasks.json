@@ -18,6 +18,7 @@
       "type": "pickString",
       "options": ["", "boilercore", "lookback"]
     },
+    // * -------------------------------------------------------------------------- * //
     {
       "id": "templateOptions",
       "description": "Template options.",
@@ -35,11 +36,11 @@
   ],
   "tasks": [
     {
-      "label": "proj: update boilercore",
+      "label": "proj: remove empty data folders",
       "type": "shell",
-      "options": { "shell": { "executable": "pwsh" } },
-      "command": ".tools/scripts/Update-Boilercore.ps1",
-      "icon": { "id": "graph" },
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "Get-ChildItem -Path ./data -Recurse -Directory | Where-Object { (Get-ChildItem -Path $_ -Recurse -File | Measure-Object).Count -eq 0 } | Remove-Item -Recurse -Force",
+      "icon": { "id": "terminal-powershell" },
       "problemMatcher": []
     },
     {
@@ -51,20 +52,10 @@
       "problemMatcher": []
     },
     {
-      "label": "proj: local pyrightconfig",
+      "label": "proj: local dev configs (Pyrightconfig, pytest.ini)",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
-      "command": "python .tools/scripts/local_pyrightconfig.py",
-      "icon": { "id": "graph" },
-      "problemMatcher": []
-    },
-    {
-      "label": "dvc: repro force downstream",
-      "dependsOrder": "sequence",
-      "dependsOn": ["dvc: synchronize params"],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro --force --downstream ${input:stage}"],
+      "command": "python .tools/scripts/local_dev_configs.py",
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
@@ -72,9 +63,29 @@
       "label": "dvc: repro",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize params"],
-      "type": "process",
-      "command": "pwsh",
-      "args": ["-Command", "dvc repro ${input:stage}"],
+      "type": "shell",
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "dvc repro ${input:stage}",
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: repro force",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize params"],
+      "type": "shell",
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "dvc repro --force ${input:stage}",
+      "icon": { "id": "graph" },
+      "problemMatcher": []
+    },
+    {
+      "label": "dvc: dag",
+      "dependsOrder": "sequence",
+      "dependsOn": ["dvc: synchronize params"],
+      "type": "shell",
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "(dvc dag --md) -Replace 'mermaid', '{mermaid}' > docs/dag.md && . '~/.local/nodeenvs/markdownlint/Scripts/Activate.ps1' && markdownlint --fix docs/dag.md",
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
@@ -111,9 +122,6 @@
       "options": { "shell": { "executable": "pwsh" } },
       "command": "update.ps1",
       "icon": { "id": "file-symlink-directory" },
-      // "runOptions": {
-      //   "runOn": "folderOpen"
-      // },
       "problemMatcher": []
     },
     {
@@ -169,19 +177,11 @@
     // * OTHER TASKS * //
 
     {
-      "label": "task: format notebook",
-      "type": "shell",
-      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
-      "command": "nb-clean clean --remove-empty-cells --preserve-cell-outputs --preserve-cell-metadata special tags -- ${file}; ruff --fix-only ${file}; ruff format ${file}",
-      "icon": { "id": "notebook" },
-      "problemMatcher": []
-    },
-    {
       "label": "task: Run pytest with coverage",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
       "command": "pytest --cov --cov-report xml",
-      "icon": { "id": "type-hierarchy-sub" },
+      "icon": { "id": "check" },
       "problemMatcher": []
     },
     {
@@ -189,22 +189,30 @@
       "type": "shell",
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
       "command": "python .tools/scripts/core_update.py",
-      "icon": { "id": "graph" },
+      "icon": { "id": "check" },
       "problemMatcher": []
     },
     {
-      "label": "task: Invoke pyright",
+      "label": "task: Run pyright",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh" } },
       "command": ".tools/scripts/Invoke-Pyright.ps1",
-      "icon": { "id": "type-hierarchy-sub" },
+      "icon": { "id": "check" },
+      "problemMatcher": []
+    },
+    {
+      "label": "task: Run ruff",
+      "type": "shell",
+      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
+      "command": "ruff .; ruff format .",
+      "icon": { "id": "check" },
       "problemMatcher": []
     },
     {
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "shell",
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
-      "command": "sphinx-build -Ean docs _site; sphinx-autobuild -n docs _site --watch **/*.md",
+      "command": "sphinx-build -EaT docs _site; sphinx-autobuild -T docs _site --ignore *params.yaml --ignore *params_schema.json --ignore apidocs --ignore data",
       "icon": { "id": "book" },
       "problemMatcher": []
     },
@@ -222,14 +230,6 @@
       "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
       "command": "snakeviz .prof",
       "icon": { "id": "graph-line" },
-      "problemMatcher": []
-    },
-    {
-      "label": "task: autoflake current file",
-      "type": "shell",
-      "options": { "shell": { "executable": "pwsh", "args": ["-Command"] } },
-      "command": "autoflake -i --remove-all-unused-imports --ignore-init-module-imports ${file}",
-      "icon": { "id": "code" },
       "problemMatcher": []
     }
   ]

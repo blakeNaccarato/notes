@@ -34,10 +34,7 @@ def get_stages() -> Stages:
                 id=get_module_rel(module, "stages"),
                 marks=(
                     [pytest.mark.xfail]
-                    if module
-                    in {
-                        "notes.stages.sync_settings"  # Repo state not mocked yet
-                    }
+                    if module == "notes.stages.sync_settings"
                     else []
                 ),
             )
