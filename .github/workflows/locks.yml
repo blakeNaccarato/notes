@@ -1,5 +1,5 @@
 name: "locks"
-on: ["push"]
+on: ["push", "workflow_dispatch"]
 jobs:
   lock:
     runs-on: "${{ matrix.os }}"
