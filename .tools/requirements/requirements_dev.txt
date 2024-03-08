@@ -2,7 +2,7 @@
 # * ---------------------------------------------------------------------------------- *
 # ? For using the latest version of this core package during development
 -e ../boilercore
--e ../lookback
+# -e ../lookback
 # * ---------------------------------------------------------------------------------- *
 # Install tests package so modules can be run in debugging
 -e tests/.

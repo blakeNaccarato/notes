@@ -1,7 +1,7 @@
 # Requirements for dev environments
 # * ---------------------------------------------------------------------------------- *
 boilercore @ git+https://github.com/blakeNaccarato/boilercore@6253cdac7207e469fdafb2fd5fe8b43a0d543d11
-lookback @ git+https://github.com/blakeNaccarato/lookback@f5356e80af1926bb405325aaee6cc18cd90b55b4
+# lookback @ git+https://github.com/blakeNaccarato/lookback@f5356e80af1926bb405325aaee6cc18cd90b55b4
 
 # * ---------------------------------------------------------------------------------- *
 # Publishing

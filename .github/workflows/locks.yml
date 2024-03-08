@@ -1,0 +1,13 @@
+name: "locks"
+on: ["push"]
+jobs:
+  lock:
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        os: ["ubuntu-latest", "windows-latest", "macos-13", "macos-14"]
+    steps:
+      - run: "Invoke-RestMethod https://astral.sh/uv/install.ps1 | Invoke-Expression"
+        shell: "pwsh"
+      - run: "uv pip compile --python-version ${{ matrix.python-version }} pyproject.toml"
