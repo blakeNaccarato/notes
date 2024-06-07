@@ -606,7 +606,7 @@ tinycss2==1.2.1
     # via nbconvert
 tomlkit==0.12.4
     # via dvc
-tornado==6.4
+tornado==6.4.1
     # via
     #   ipykernel
     #   jupyter-client
