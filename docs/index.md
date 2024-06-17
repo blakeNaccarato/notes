@@ -1,17 +1,13 @@
-```{include} ../README.md
-:relative-docs: docs/
-:relative-images:
-```
+# `notes`
 
-```{toctree}
+Centralized repository of my Obsidian vaults and shared tooling.
+
+:::{toctree}
 :hidden:
 concurrency-in-python/index
 pork-beans-and-greens
+contributing
 changelog
-```
-
-[link](#23-09-05t15-00-00-poll-at-a-specific-interval)
-
-## 23-09-05T15-00-00 Poll at a specific interval
-
-Test.
+apidocs/index
+references
+:::

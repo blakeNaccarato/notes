@@ -1,4 +1,4 @@
-# notes
+# `notes`
 
 Centralized repository of my Obsidian vaults and shared tooling.
 
@@ -9,3 +9,9 @@ Update files common to all vaults. Includes environment variables files, automat
 ```JavaScript
 return results.vChildren.children.map(matchedFile => {
 ```
+
+## Project information
+
+- [Changes](<https://blakeNaccarato.github.io/notes/changelog.html>)
+- [Docs](<https://blakeNaccarato.github.io/notes>)
+- [Contributing](<https://blakeNaccarato.github.io/notes/contributing.html>)

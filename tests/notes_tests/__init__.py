@@ -1,4 +1,4 @@
-"""Helper functions for tests."""
+"""Tests."""
 
 from dataclasses import dataclass
 from pathlib import Path
