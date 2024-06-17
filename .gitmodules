@@ -10,9 +10,9 @@
 [submodule "typings"]
 	path = submodules/typings
 	url = https://github.com/blakeNaccarato/pylance-stubs-unofficial.git
-[submodule "boilercore"]
-	path = submodules/boilercore
-	url = https://github.com/blakeNaccarato/boilercore.git
 [submodule "lookback"]
 	path = submodules/lookback
 	url = https://github.com/blakeNaccarato/lookback.git
+[submodule "boilercore"]
+	path = submodules/boilercore
+	url = https://github.com/softboiler/boilercore.git
