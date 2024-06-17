@@ -60,7 +60,8 @@ def add_pyright_includes(
         config: Pyright configuration.
         others: Local paths to add to includes.
 
-    Returns:
+    Returns
+    -------
         Modified pyright configuration.
     """
     includes = config.pop("include", [])
@@ -80,7 +81,8 @@ def disable_concurrent_tests(addopts: str) -> str:
     Args:
         addopts: Pytest `addopts` value.
 
-    Returns:
+    Returns
+    -------
         Modified `addopts` value.
     """
     return sub(pattern=r"-n\s*[^\s]+", repl="-n 0", string=join(split(addopts)))

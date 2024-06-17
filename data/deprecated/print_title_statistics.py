@@ -1,5 +1,6 @@
 """Given a directory of PDFs with the filename format 'YYYY, Author, Title', get the
-Title part and count the words in it. Print statistics on the population of titles."""
+Title part and count the words in it. Print statistics on the population of titles.
+"""
 
 from pathlib import Path
 from statistics import mean, median, stdev

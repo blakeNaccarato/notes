@@ -22,7 +22,6 @@ FILENAME_PATTERN = re.compile(
 
 def main():
     """Map titles to citekeys and rename matching PDFs to their respective citekeys."""
-
     # Map titles to citekeys for each reference.
     references = json.loads(Path("_zotero/libraries.json").read_text(encoding="utf-8"))
     library = [ModelItem(**reference) for reference in references]
