@@ -9,6 +9,7 @@ dvc[gdrive]==3.48.2
 fawltydeps==0.15.0
 flit==3.9.0
 keyring==25.2.1
+pipdeptree==2.23.0
 pre-commit==3.7.1
 pyright==1.1.367
 ruff==0.4.8
