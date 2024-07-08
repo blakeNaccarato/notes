@@ -14,3 +14,5 @@ ruff==0.4.10
 snakeviz==2.2.0
 sourcery==1.19.0
 towncrier==23.11.0
+# ? Issues finding wheels for Numpy 1.24.4 in CI for Ubuntu
+numpy>1.24.4
