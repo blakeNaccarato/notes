@@ -1,5 +1,7 @@
 """Intersphinx URL handlers."""
 
+from __future__ import annotations
+
 from notes_docs.types import IspxMappingValue
 
 
