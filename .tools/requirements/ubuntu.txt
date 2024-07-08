@@ -67,7 +67,7 @@ bottleneck==1.3.8
     # via pandas
 celery==5.3.6
     # via dvc-task
-certifi==2024.2.2
+certifi==2024.7.4
     # via
     #   httpcore
     #   httpx
