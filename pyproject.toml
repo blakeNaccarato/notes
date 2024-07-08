@@ -11,17 +11,14 @@ license = { file = "LICENSE" }
 requires-python = ">=3.11"
 classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = [
-    "boilercore>=0.0.4",
+    "boilercore>=2024.1.3",
     "dulwich>=0.21.7",
-    "dvc>=3.2.3",
-    "loguru>=0.7.2",
     "markdown-it-py>=3.0.0",
     "mdit-py-plugins>=0.4.0",
     "obsidiantools>=0.10.0",
     "pydantic>=2.6.3",
     "ruamel.yaml>=0.18.6",
     "typer>=0.9.0",
-    "watchdog>=4.0.0",
 ]
 [project.urls]
 Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
@@ -40,6 +37,8 @@ ignore_errors = true
 [tool.fawltydeps]
 deps = ["pyproject.toml"]
 code = ["src"]
+[tool.fawltydeps.custom_mapping]
+boilercore = ["boilercore"]
 
 [tool.pytest.ini_options]
 addopts = '''
@@ -264,6 +263,12 @@ skip-magic-trailing-comma = true
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
 [tool.ruff.lint.extend-per-file-ignores]
+"docs/concurrency-in-python/example-notebook.ipynb" = [
+    "D10", # Don't require docstrings for frozen notebooks run elsewhere
+]
+"data/deprecated/csl_models.py" = [
+    "D10", # Don't require docstrings for generated modules
+]
 "**/*.ipynb" = [
     "B018", # Allow "useless" expressions, which do suppress outputs in notebooks
     "E703", # Allow semicolons to suppress outputs in notebooks
@@ -276,6 +281,7 @@ convention = "numpy"
 ]
 "tests/**" = [
     "ARG001", # Allow unused arguments
+    "D401",   # Allow declarative mood for test and fixture docstrings
     "S101",   # Allow assert
     "SIM300", # Allow constants (expectations) on the RHS
     "SLF001", # Allow private member access in tests

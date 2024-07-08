@@ -5,7 +5,7 @@
 --editable submodules/boilercore
 --editable submodules/lookback
 debugpy==1.8.1
-dvc[gdrive]==3.48.2
+dvc[gdrive]==3.51.2
 fawltydeps==0.15.0
 flit==3.9.0
 keyring==25.2.1

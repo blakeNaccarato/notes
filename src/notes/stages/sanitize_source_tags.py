@@ -9,7 +9,7 @@ AUTHORS = ["Embedded.fm"]
 """Authors whose tags should be sanitized."""
 
 
-def main():
+def main():  # noqa: D103
     for path in PARAMS.paths.personal_links.iterdir():
         string = path.read_text(encoding="utf-8")
         if yaml.load(get_frontmatter(MD.parse(string))).get("author") not in AUTHORS:

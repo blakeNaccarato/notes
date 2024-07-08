@@ -10,7 +10,6 @@ ci:
     - "fawltydeps-scripts"
     - "fawltydeps-tests"
     - "pytest-fast-only"
-    - "synchronize-params"
   autoupdate_schedule: "quarterly"
 default_install_hook_types:
   - pre-commit
@@ -82,15 +81,6 @@ repos:
             |scripts/.*
             |src/.*
             |tests/.*
-          )$
-      - id: "synchronize-params"
-        name: "synchronize-params"
-        language: "system"
-        entry: "pwsh -Command python -m boilerdata.models.params"
-        files: |
-          (?x)^(
-            src/boilerdata/models/.*
-            |params.yaml
           )$
   - repo: "https://github.com/pre-commit/pre-commit-hooks"
     rev: "v4.6.0"

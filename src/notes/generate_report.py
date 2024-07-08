@@ -8,7 +8,7 @@ from shlex import join, quote, split
 from subprocess import run
 
 
-def main():
+def main():  # noqa: D103
     vault_root = Path("C:/Users/Blake/Code/mine/notes/data/local/vaults/personal")
     report_as_docx(
         text=report(root=vault_root / "projects"),

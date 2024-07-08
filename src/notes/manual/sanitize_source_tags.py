@@ -7,7 +7,7 @@ from typer import run
 from notes.sanitize_source_tags import quote_tags, remove_common_tags
 
 
-def main(path: Path):
+def main(path: Path):  # noqa: D103
     string = path.read_text(encoding="utf-8")
     for step in [quote_tags, remove_common_tags]:
         string = step(string)

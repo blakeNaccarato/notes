@@ -16,7 +16,7 @@ from typer import Typer
 from notes.models.params import PATHS
 
 
-class Source(StrEnum):
+class Source(StrEnum):  # noqa: D101
     grad = auto()
     personal = auto()
 
@@ -25,7 +25,7 @@ app = Typer()
 
 
 @app.command()
-def main(source: Source = Source.personal):
+def main(source: Source = Source.personal):  # noqa: D103
     changes = get_changes()
     if changes and any(
         change.name not in {"dvc.lock", "params.yaml"} for change in changes
@@ -36,25 +36,25 @@ def main(source: Source = Source.personal):
         copy_settings()
 
 
-class ChangesPendingError(Exception): ...
+class ChangesPendingError(Exception): ...  # noqa: D101
 
 
-def copy_grad_settings():
+def copy_grad_settings():  # noqa: D103
     copy_settings(
-        settings=PATHS.grad_settings,
-        source_dir=PATHS.grad_obsidian,
+        settings=PATHS.deprecated_grad_settings,
+        source_dir=PATHS.deprecated_grad_obsidian,
         dest_dir=PATHS.personal_obsidian,
-        dest_shell_settings_to_postprocess=PATHS.personal_shell_settings,
+        dest_shell_settings_to_postprocess=PATHS.deprecated_personal_shell_settings,
         dest_repl="personal",
     )
 
 
-def copy_personal_settings():
+def copy_personal_settings():  # noqa: D103
     copy_settings(
         settings=PATHS.personal_settings,
         source_dir=PATHS.personal_obsidian,
-        dest_dir=PATHS.grad_obsidian,
-        dest_shell_settings_to_postprocess=PATHS.grad_shell_settings,
+        dest_dir=PATHS.deprecated_grad_obsidian,
+        dest_shell_settings_to_postprocess=PATHS.deprecated_grad_shell_settings,
         dest_repl="grad",
     )
 

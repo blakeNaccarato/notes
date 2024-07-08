@@ -8,8 +8,10 @@ from notes.models.params import PATHS
 EXCLUDE = "grad"
 
 
-def main():
-    for source in (p for p in PATHS.grad_timestamped.iterdir() if p.is_file()):
+def main():  # noqa: D103
+    for source in (
+        p for p in PATHS.deprecated_grad_timestamped.iterdir() if p.is_file()
+    ):
         target = PATHS.personal_timestamped / source.name
         if target.exists():
             continue

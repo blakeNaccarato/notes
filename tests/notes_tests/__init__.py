@@ -10,13 +10,13 @@ from boilercore.paths import get_module_rel, walk_modules
 
 
 @dataclass
-class Args:
+class Args:  # noqa: D101
     args: list[Any]
     kwargs: dict[str, Any]
 
 
 @dataclass
-class Expectation:
+class Expectation:  # noqa: D101
     result: Path
     expected: Path
 
@@ -26,7 +26,7 @@ AllArgs: TypeAlias = dict[str, Args]
 Expected: TypeAlias = dict[str, Expectation]
 
 
-def get_stages() -> Stages:
+def get_stages() -> Stages:  # noqa: D103
     return [
         (
             pytest.param(
@@ -46,14 +46,14 @@ def get_stages() -> Stages:
     ]
 
 
-def get_args() -> AllArgs:
+def get_args() -> AllArgs:  # noqa: D103
     return {
         module: Args(*args)
         for module, args in {"notes.stages.sync_settings": (["grad"], {})}.items()
     }
 
 
-def get_expected() -> Expected:
+def get_expected() -> Expected:  # noqa: D103
     vaults = Path("data") / "local" / "vaults"
     expected_root = Path("tests") / "expected"
     return {

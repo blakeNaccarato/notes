@@ -60,8 +60,6 @@ class Paths(CreatePathsModel):
     stages: dict[str, FilePath] = map_stages(package / "stages")
 
     # * Git-tracked
-    common: DirectoryPath = data / "common"
-    common_dirs: list[DirectoryPath] = list(common.iterdir())  # noqa: RUF012
     obsidian_common: DirectoryPath = data / "obsidian_common"
     # * Local
     local: DirectoryPath = data / "local"
@@ -76,19 +74,21 @@ class Paths(CreatePathsModel):
     # ! Results
     personal_timestamped: Path = personal / "_timestamped"
     personal_text_expand_source: Path = personal_plugins / TEXT_EXPAND_SOURCE
-    # ? DVC-tracked results
-    personal_common: list[DirectoryPath] = get_common(personal, common_dirs)
     # ! Settings
     personal_settings: list[Path] = get_settings(personal_obsidian)
+
     # * Deprecated
     # ? These paths aren't used since the "Grad" vault is now only used for
     # ? sharing/dissemination among lab members
-    personal_shell_settings: Path = personal_plugins / DEPRECATED_SHELL_SETTINGS
-    grad: DirectoryPath = vaults / "grad"
-    grad_obsidian: DirectoryPath = grad / ".obsidian"
-    grad_plugins: DirectoryPath = grad_obsidian / "plugins"
-    grad_timestamped: DirectoryPath = grad / "_timestamped"
-    grad_text_expand_source: Path = grad_plugins / TEXT_EXPAND_SOURCE
-    grad_common: list[DirectoryPath] = get_common(grad, common_dirs)
-    grad_shell_settings: Path = grad_plugins / DEPRECATED_SHELL_SETTINGS
-    grad_settings: list[Path] = get_settings(grad_obsidian)
+    deprecated_common: Path = data / "common"
+    deprecated_personal_shell_settings: Path = (
+        personal_plugins / DEPRECATED_SHELL_SETTINGS
+    )
+    deprecated_grad: Path = vaults / "grad"
+    deprecated_grad_obsidian: Path = deprecated_grad / ".obsidian"
+    deprecated_grad_plugins: Path = deprecated_grad_obsidian / "plugins"
+    deprecated_grad_timestamped: Path = deprecated_grad / "_timestamped"
+    deprecated_grad_shell_settings: Path = (
+        deprecated_grad_plugins / DEPRECATED_SHELL_SETTINGS
+    )
+    deprecated_grad_settings: list[Path] = get_settings(deprecated_grad_obsidian)

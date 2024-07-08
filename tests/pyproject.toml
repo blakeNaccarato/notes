@@ -12,17 +12,14 @@ dependencies = [
     "pytest-custom-exit-code==0.3.0",
     "pytest-github-actions-annotate-failures==0.2.0",
     "pytest==8.0.0",
+    # ? Other testing
+    "boilercore>=2024.1.3",
 ]
 
 [tool.fawltydeps]
 deps = ["tests/pyproject.toml"]
 code = ["tests/notes_tests"]
-ignore_undeclared = [
-    "notes_docs",
-    "notes_tests",
-    "notes_tools",
-    "notes",
-]
+ignore_undeclared = ["notes_docs", "notes_tests", "notes_tools", "notes"]
 ignore_unused = [
     # ? Core testing tools or plugins
     "pytest-cov",
@@ -30,3 +27,5 @@ ignore_unused = [
     "pytest-github-actions-annotate-failures",
     "pytest",
 ]
+[tool.fawltydeps.custom_mapping]
+boilercore = ["boilercore"]
