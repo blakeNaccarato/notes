@@ -165,6 +165,7 @@ bibtex_default_style = "unsrt"
 # ! NB
 nb_execution_mode = "cache"
 nb_execution_raise_on_error = True
+nb_execution_excludepatterns = ["concurrency-in-python/**"]
 # ! Other
 numfig = True
 math_eqref_format = "Eq. {number}"
