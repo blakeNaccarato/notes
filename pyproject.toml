@@ -156,6 +156,7 @@ exclude = [
   "typings",
   "packages/boilercore",
   "packages/cachier",
+  "packages/lookback",
 ]
 ignore = ["**/node_modules", "**/__pycache__", "**/.*", ".cache", "typings"]
 typeCheckingMode = "strict"
@@ -256,7 +257,12 @@ reportUnusedCallResult = "none"
 
 [tool.ruff]
 cache-dir = ".cache/.ruff_cache"
-extend-exclude = ["typings", "packages/boilercore", "packages/cachier"]
+extend-exclude = [
+  "typings",
+  "packages/boilercore",
+  "packages/cachier",
+  "packages/lookback",
+]
 extend-include = ["*.ipynb", "packages/_dev"]
 src = ["src", "docs", "scripts", "tests"]
 output-format = "grouped"
