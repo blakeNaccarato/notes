@@ -8,9 +8,9 @@ from typing import Any
 import pytest
 from boilercore import filter_certain_warnings
 from boilercore.testing import get_session_path
+from dev.tests import ARGS, EXPECTED, STAGES
 
 import notes
-from notes_tests import ARGS, EXPECTED, STAGES
 
 
 # Can't be session scope
@@ -32,35 +32,35 @@ def stage_module_name(request, project_session_path) -> str:
     return request.param
 
 
-@pytest.fixture()
+@pytest.fixture
 def stage(stage_module_name) -> Callable[..., None]:
     """Stage."""
     return import_module(stage_module_name).main
 
 
-@pytest.fixture()
+@pytest.fixture
 def args(stage_module_name) -> Any:
     """Positional arguments."""
     arguments = ARGS.get(stage_module_name)
     return arguments.args if arguments else ()
 
 
-@pytest.fixture()
+@pytest.fixture
 def kwargs(stage_module_name) -> dict[str, Any]:
     """Keyword arguments."""
     arguments = ARGS.get(stage_module_name)
     return arguments.kwargs if arguments else {}
 
 
-@pytest.fixture()
+@pytest.fixture
 def result(stage_module_name, project_session_path) -> Path | None:
     """Resulting data directory."""
     expectation = EXPECTED.get(stage_module_name)
     return project_session_path / expectation.result if expectation else None
 
 
-@pytest.fixture()
+@pytest.fixture
 def expected(stage_module_name) -> Path | None:
-    """Expected data directory."""
+    """Expected data directory."""  # noqa: D401
     expectation = EXPECTED.get(stage_module_name)
     return expectation.expected if expectation else None

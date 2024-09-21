@@ -1,8 +1,7 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 2024.1.1-60-gedf2667
+_commit: 2024.1.1-248-g23e0f58
 _src_path: gh:blakeNaccarato/copier-python
 actions_runner: ubuntu-22.04
-active: false
 github_repo_name: notes
 project_description: Centralized repository of my Obsidian vaults and shared tooling.
 project_email: blake.naccarato@gmail.com

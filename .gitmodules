@@ -1,6 +1,9 @@
 [submodule "lookback"]
-	path = submodules/lookback
+	path = packages/lookback
 	url = https://github.com/blakeNaccarato/lookback.git
 [submodule "boilercore"]
-	path = submodules/boilercore
+	path = packages/boilercore
 	url = https://github.com/softboiler/boilercore.git
+[submodule "cachier"]
+	path = packages/cachier
+	url = https://github.com/blakeNaccarato/cachier.git
