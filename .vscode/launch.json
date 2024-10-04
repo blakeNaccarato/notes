@@ -85,11 +85,17 @@
       "console": "internalConsole"
     },
     {
+      "name": "PowerShell: Launch File in Personal Vault",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${file}",
+      "cwd": "${workspaceFolder}/data/local/vaults/personal"
+    },
+    {
       "name": "PowerShell: Launch Current File",
       "type": "PowerShell",
       "request": "launch",
       "script": "${file}",
-      "cwd": "${cwd}"
     },
     {
       //? https://github.com/microsoft/vscode-python-debugger/issues/335
