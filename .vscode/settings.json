@@ -43,6 +43,11 @@
     "pyrightconfig.json": "jsonc",
     "uv.lock": "toml",
   },
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook",
+    "git-rebase-todo": "gitlens.rebase",
+    "file:/**/*.csv": "jupyter-data-wrangler"
+  },
   //! Git
   "git.allowNoVerifyCommit": true,
   "git.confirmNoVerifyCommit": false,
@@ -252,5 +257,5 @@
   "evenBetterToml.taplo.configFile.path": ".taplo.toml",
   //! Other
   //? Other automatically added settings below
-  "": ""
+  "": "",
 }

@@ -32,6 +32,7 @@ bleach==6.1.0
 blosc2==2.7.1
 bottleneck==1.4.0
 cachetools==5.5.0
+cappa==0.23.0
 celery==5.4.0
 certifi==2024.8.30
 cffi==1.17.1
@@ -158,6 +159,7 @@ omegaconf==2.3.0
 orjson==3.10.7 ; implementation_name == 'cpython'
 packaging==24.1
 pandas==2.2.3
+pandas-stubs==2.2.2.240909
 pandocfilters==1.5.1
 parso==0.8.4
 pathspec==0.12.1
@@ -181,6 +183,7 @@ psutil==6.0.0
 ptyprocess==0.7.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
 pure-eval==0.2.3
 py-cpuinfo==9.0.0
+pyarrow==17.0.0
 pyasn1==0.6.1
 pyasn1-modules==0.4.1
 pybtex==0.24.0
@@ -266,7 +269,9 @@ tornado==6.4.1
 towncrier==23.11.0
 tqdm==4.66.5
 traitlets==5.14.3
+type-lens==0.2.3
 typer==0.12.5
+types-pytz==2024.2.0.20241003
 typing-extensions==4.12.2
 tzdata==2024.1
 uc-micro-py==1.0.3

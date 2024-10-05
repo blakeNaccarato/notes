@@ -18,11 +18,13 @@ classifiers = [
   # "Programming Language :: Python :: 3.14",  # ? Not yet beta (https://peps.python.org/pep-0745)
 ]
 dependencies = [
+  "cappa>=0.22.4",
   "dulwich>=0.21.7",
   "markdown-it-py>=3.0.0",
   "mdit-py-plugins>=0.4.0",
   "obsidiantools>=0.10.0",
-  "pydantic>=2.6.3",
+  "pandas>=2.2.3",
+  "pydantic>=2.9.2",
   "ruamel.yaml>=0.18.6",
   "typer>=0.9.0",
 ]
@@ -34,6 +36,8 @@ Tracker = "https://github.com/blakeNaccarato/notes/issues"
 [[project.authors]]
 name = "Blake Naccarato"
 email = "blake.naccarato@gmail.com"
+[project.scripts]
+"notes" = "notes.__main__:main"
 
 [tool.uv]
 constraint-dependencies = [
@@ -49,9 +53,12 @@ dev-dependencies = [
   "lookback",
   # ? Path-sourced deps
   "cachier",
+  # ? Data exploration with Data Wrangler
+  "pyarrow>=17.0.0",
   # ? Dev
   "debugpy==1.8.2",
   "fawltydeps==0.16.0",
+  "pandas-stubs>=2.2.2",
   "pipdeptree==2.23.0",
   "pre-commit==3.7.1",
   "pyright==1.1.371",
