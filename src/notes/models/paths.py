@@ -10,11 +10,6 @@ from pydantic.v1 import DirectoryPath, FilePath
 import notes
 from notes import PROJECT_PATH
 
-TEXT_EXPAND_SOURCE = Path("mrj-text-expand/main.js")
-"""This is patched externally whenever the plugin is updated."""
-DEPRECATED_SHELL_SETTINGS = Path("obsidian-shellcommands/data.json")
-"""(DEPRECATED) Shell settings are slightly modified after sync."""
-
 
 def get_common(root: Path, dirs: list[Path]) -> list[Path]:
     """Get directories common to both vaults."""
@@ -30,20 +25,16 @@ def get_settings(dot_obsidian: Path) -> list[Path]:
     vault-specific items.
     """
     return [
-        path
-        for path in [
-            *[
-                path
-                for path in dot_obsidian.glob("*.json")
-                if path.name not in ["workspace.json", "workspaces.json"]
-            ],
-            *(dot_obsidian / "snippets").glob("*.css"),
-            *chain.from_iterable(
-                (dot_obsidian / "plugins").glob(f"*/*.{extension}")
-                for extension in ["json", "css", "js"]
-            ),
-        ]
-        if path != dot_obsidian / "plugins" / TEXT_EXPAND_SOURCE
+        *[
+            path
+            for path in dot_obsidian.glob("*.json")
+            if path.name not in ["workspace.json", "workspaces.json"]
+        ],
+        *(dot_obsidian / "snippets").glob("*.css"),
+        *chain.from_iterable(
+            (dot_obsidian / "plugins").glob(f"*/*.{extension}")
+            for extension in ["json", "css", "js"]
+        ),
     ]
 
 
@@ -73,22 +64,11 @@ class Paths(CreatePathsModel):
     personal_links: DirectoryPath = personal / "_sources/links"
     # ! Results
     personal_timestamped: Path = personal / "_timestamped"
-    personal_text_expand_source: Path = personal_plugins / TEXT_EXPAND_SOURCE
     # ! Settings
     personal_settings: list[Path] = get_settings(personal_obsidian)
 
-    # * Deprecated
-    # ? These paths aren't used since the "Grad" vault is now only used for
-    # ? sharing/dissemination among lab members
-    deprecated_common: Path = data / "common"
-    deprecated_personal_shell_settings: Path = (
-        personal_plugins / DEPRECATED_SHELL_SETTINGS
-    )
-    deprecated_grad: Path = vaults / "grad"
-    deprecated_grad_obsidian: Path = deprecated_grad / ".obsidian"
-    deprecated_grad_plugins: Path = deprecated_grad_obsidian / "plugins"
-    deprecated_grad_timestamped: Path = deprecated_grad / "_timestamped"
-    deprecated_grad_shell_settings: Path = (
-        deprecated_grad_plugins / DEPRECATED_SHELL_SETTINGS
-    )
-    deprecated_grad_settings: list[Path] = get_settings(deprecated_grad_obsidian)
+    # * AMSL
+    amsl: Path = vaults / "amsl"
+    amsl_obsidian: Path = amsl / ".obsidian"
+    amsl_plugins: Path = amsl_obsidian / "plugins"
+    amsl_settings: list[Path] = get_settings(amsl_obsidian)

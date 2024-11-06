@@ -4,6 +4,7 @@ paths:
   data: data
   stages:
     sanitize_source_tags: src/notes/stages/sanitize_source_tags.py
+    sync_settings: src/notes/stages/sync_settings.py
     update_common: src/notes/stages/update_common.py
   obsidian_common: data/obsidian_common
   local: data/local
@@ -13,7 +14,6 @@ paths:
   personal_plugins: data/local/vaults/personal/.obsidian/plugins
   personal_links: data/local/vaults/personal/_sources/links
   personal_timestamped: data/local/vaults/personal/_timestamped
-  personal_text_expand_source: data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/main.js
   personal_settings:
     - data/local/vaults/personal/.obsidian/app.json
     - data/local/vaults/personal/.obsidian/appearance.json
@@ -28,6 +28,7 @@ paths:
     - data/local/vaults/personal/.obsidian/graph.json
     - data/local/vaults/personal/.obsidian/hotkeys.json
     - data/local/vaults/personal/.obsidian/note-composer.json
+    - data/local/vaults/personal/.obsidian/page-preview.json
     - data/local/vaults/personal/.obsidian/starred.json
     - data/local/vaults/personal/.obsidian/switcher.json
     - data/local/vaults/personal/.obsidian/templates.json
@@ -35,6 +36,7 @@ paths:
     - data/local/vaults/personal/.obsidian/zk-prefixer.json
     - data/local/vaults/personal/.obsidian/snippets/callouts.css
     - data/local/vaults/personal/.obsidian/snippets/canvas.css
+    - data/local/vaults/personal/.obsidian/snippets/max-image-width.css
     - data/local/vaults/personal/.obsidian/snippets/obsidian-tasks-plugin-tweaks.css
     - data/local/vaults/personal/.obsidian/snippets/override-task-strikethroughs.css
     - data/local/vaults/personal/.obsidian/snippets/SIRVb-alternate-checkboxes.css
@@ -47,8 +49,6 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/manifest.json
-    - data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/data.json
-    - data/local/vaults/personal/.obsidian/plugins/mrj-text-expand/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
     - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/obsidian-advanced-uri/manifest.json
@@ -87,6 +87,8 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/pdf-plus/data.json
+    - data/local/vaults/personal/.obsidian/plugins/pdf-plus/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/reference-map/data.json
     - data/local/vaults/personal/.obsidian/plugins/reference-map/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/manifest.json
@@ -110,6 +112,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/styles.css
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/styles.css
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/styles.css
+    - data/local/vaults/personal/.obsidian/plugins/pdf-plus/styles.css
     - data/local/vaults/personal/.obsidian/plugins/reference-map/styles.css
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/styles.css
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/styles.css
@@ -137,15 +140,12 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
+    - data/local/vaults/personal/.obsidian/plugins/pdf-plus/main.js
     - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js
     - data/local/vaults/personal/.obsidian/plugins/tag-wrangler/main.js
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
-  deprecated_common: data/common
-  deprecated_personal_shell_settings: data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/data.json
-  deprecated_grad: data/local/vaults/grad
-  deprecated_grad_obsidian: data/local/vaults/grad/.obsidian
-  deprecated_grad_plugins: data/local/vaults/grad/.obsidian/plugins
-  deprecated_grad_timestamped: data/local/vaults/grad/_timestamped
-  deprecated_grad_shell_settings: data/local/vaults/grad/.obsidian/plugins/obsidian-shellcommands/data.json
-  deprecated_grad_settings: []
+  amsl: data/local/vaults/amsl
+  amsl_obsidian: data/local/vaults/amsl/.obsidian
+  amsl_plugins: data/local/vaults/amsl/.obsidian/plugins
+  amsl_settings: []

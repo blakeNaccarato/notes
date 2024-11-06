@@ -353,9 +353,6 @@ convention = "numpy"
   "S101", # Allow assert
   "T201", # Allow print in notebooks
 ]
-"data/deprecated/**" = [
-  "D1", # Allow missing docstrings in deprecated code
-]
 "packages/_dev/dev/tools/add_changes.py" = [
   "S603", # Allow shell expressions here
   "S607", # Allow shell expressions here

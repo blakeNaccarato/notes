@@ -49,7 +49,7 @@ def get_stages() -> Stages:  # noqa: D103
 def get_args() -> AllArgs:  # noqa: D103
     return {
         module: Args(*args)
-        for module, args in {"notes.stages.sync_settings": (["grad"], {})}.items()
+        for module, args in {"notes.stages.sync_settings": (["amsl"], {})}.items()
     }
 
 
