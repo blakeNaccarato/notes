@@ -11,11 +11,6 @@ import notes
 from notes import PROJECT_PATH
 
 
-def get_common(root: Path, dirs: list[Path]) -> list[Path]:
-    """Get directories common to both vaults."""
-    return [root / dir_.name for dir_ in dirs]
-
-
 def get_settings(dot_obsidian: Path) -> list[Path]:
     """Get files in `.obsidian` to be synchronized.
 
@@ -51,7 +46,6 @@ class Paths(CreatePathsModel):
     stages: dict[str, FilePath] = map_stages(package / "stages")
 
     # * Git-tracked
-    obsidian_common: DirectoryPath = data / "obsidian_common"
     # * Local
     local: DirectoryPath = data / "local"
     # ! Vaults

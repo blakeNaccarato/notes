@@ -5,8 +5,6 @@ paths:
   stages:
     sanitize_source_tags: src/notes/stages/sanitize_source_tags.py
     sync_settings: src/notes/stages/sync_settings.py
-    update_common: src/notes/stages/update_common.py
-  obsidian_common: data/obsidian_common
   local: data/local
   vaults: data/local/vaults
   personal: data/local/vaults/personal
