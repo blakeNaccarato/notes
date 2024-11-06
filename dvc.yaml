@@ -61,8 +61,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/data.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/manifest.json
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/data.json
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/data.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/data.json
@@ -96,7 +94,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/styles.css
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/styles.css
@@ -123,8 +120,6 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/main.js
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-omnivore/main.js
-      - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
