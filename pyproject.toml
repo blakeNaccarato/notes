@@ -20,13 +20,15 @@ classifiers = [
 dependencies = [
   "cappa>=0.22.4",
   "dulwich>=0.21.7",
+  "loguru>=0.7.2",
   "markdown-it-py>=3.0.0",
+  "marko>=2.1.2",
   "mdit-py-plugins>=0.4.0",
   "obsidiantools>=0.10.0",
-  "pandas>=2.2.3",
   "pydantic>=2.9.2",
   "ruamel.yaml>=0.18.6",
   "typer>=0.9.0",
+  "watchdog>=4.0.1",
 ]
 [project.urls]
 Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
@@ -49,7 +51,7 @@ constraint-dependencies = [
 dev-dependencies = [
   # ? Workspaces
   "boilercore",
-  "dev",
+  "notes_dev",
   "lookback",
   # ? Path-sourced deps
   "cachier",
@@ -63,6 +65,7 @@ dev-dependencies = [
   "pre-commit==3.7.1",
   "pyright==1.1.371",
   "ruff==0.5.1",
+  "rust-just>=1.36.0",
   "snakeviz==2.2.0",
   "sourcery==1.21.0",
   "towncrier==23.11.0",
@@ -95,12 +98,12 @@ exclude = ["packages/cachier"]
 [tool.uv.sources]
 cachier = { path = "packages/cachier", editable = true }
 boilercore = { workspace = true }
-dev = { workspace = true }
+notes_dev = { workspace = true }
 lookback = { workspace = true }
 
 [tool.coverage.run]
 branch = true
-source = ["notes", "dev", "tests"]
+source = ["notes", "notes_dev", "tests"]
 
 [tool.fawltydeps]
 deps = ["pyproject.toml"]

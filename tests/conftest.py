@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 from boilercore import filter_certain_warnings
 from boilercore.testing import get_session_path
-from dev.tests import ARGS, EXPECTED, STAGES
+from notes_dev.tests import ARGS, EXPECTED, STAGES
 
 import notes
 

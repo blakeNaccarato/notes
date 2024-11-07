@@ -126,7 +126,7 @@ function Invoke-Uv {
                 $Env:ENV_SYNCED = $True
 
                 # ? Sync `.env` and set environment variables from `pyproject.toml`
-                if (!(Test-Path $EnvFile)) {New-Item $EnvFile}
+                if (!(Test-Path $EnvFile)) { New-Item $EnvFile }
                 $EnvVars = uv run --env-file $EnvFile --no-sync --python $PythonVersion $Dev 'sync-environment-variables' --pylance-version $PylanceVersion
                 $EnvVars | Set-Content ($Env:GITHUB_ENV ? $Env:GITHUB_ENV : "$PWD/.env")
                 $EnvVars | Select-String -Pattern '^(.+?)=(.+)$' | ForEach-Object {
@@ -135,9 +135,7 @@ function Invoke-Uv {
                 }
 
                 # ? Environment-specific setup
-                if ($CI) {
-                    uv run --env-file $EnvFile --no-sync --python $PythonVersion $Dev elevate-pyright-warnings
-                }
+                if ($CI) { uv run --env-file $EnvFile --no-sync --python $PythonVersion $Dev 'elevate-pyright-warnings' }
                 elseif ($Devcontainer) {
                     $Repo = Get-ChildItem '/workspaces'
                     $Packages = Get-ChildItem "$Repo/packages"
@@ -186,8 +184,9 @@ function Invoke-Uv {
     }
     Process { if ($Run) { uv run --env-file $EnvFile --no-sync --python $PythonVersion $Run } }
 }
-echo hello
 Set-Alias -Name 'iuv' -Value 'Invoke-Uv'
+
+iuv -Sync -Update
 
 function Invoke-Just {
     <#.SYNOPSIS
@@ -280,95 +279,97 @@ function Initialize-Repo {
     # ? Modify GitHub repo if there were not already commits in this repo
     if ($Fresh) {
         if (!(git remote)) {
-        git remote add origin 'https://github.com/blakeNaccarato/notes.git'
-            git branch --move --force main
+            git remote add origin 'https://github.com/blakeNaccarato/notes.git'
+            if (!(git remote)) {
+                git remote add origin 'https://github.com/blakeNaccarato/notes.git'
+                git branch --move --force main
+            }
+            gh repo edit --description (
+                Get-Content '.copier-answers.yml' |
+                    Find-Pattern '^project_description:\s(.+)$'
+            )
+            gh repo edit --homepage 'https://blakeNaccarato.github.io/notes/'
         }
-        gh repo edit --description (
-            Get-Content '.copier-answers.yml' |
-                Find-Pattern '^project_description:\s(.+)$'
-        )
-        gh repo edit --homepage 'https://blakeNaccarato.github.io/notes/'
+
+        git push --set-upstream origin main
     }
 
-    git push --set-upstream origin main
-}
 
-
-function Initialize-Machine {
-    <#.SYNOPSIS
+    function Initialize-Machine {
+        <#.SYNOPSIS
     Finish machine initialization (cross-platform).#>
 
-    Param([switch]$Force)
+        Param([switch]$Force)
 
-    # ? Hook into user profile if it doesn't exist already
-    if ($Force -or !(Test-Path $PROFILE)) {
-        if (!(Test-Path $PROFILE)) { New-Item $PROFILE }
-        'if (Test-Path ''dev.ps1'') { . ./dev.ps1 && Initialize-Shell }' |
-            Add-Content $PROFILE
-    }
-
-    # ? Set Git username if missing
-    try { $Name = git config 'user.name' }
-    catch [System.Management.Automation.NativeCommandExitException] { $Name = '' }
-    if ($Force -or !$Name) {
-        Write-Output 'Username missing from `.gitconfig`. Prompting for GitHub username/email ...'
-        $Ans = Read-Host -Prompt 'Enter your GitHub username'
-        if ($Ans) { git config --global 'user.name' $Ans }
-        git config --global fetch.prune true
-        git config --global pull.rebase true
-        git config --global push.autoSetupRemote true
-        git config --global push.followTags true
-
-        # ? Set Git email if missing
-        try { $Email = git config 'user.email' }
-        catch [System.Management.Automation.NativeCommandExitException] { $Email = '' }
-        if ($Force -or !$Email) {
-            $Ans = Read-Host -Prompt 'Enter the email address associated with your GitHub account'
-            if ($Ans) { git config --global 'user.email' $Ans }
+        # ? Hook into user profile if it doesn't exist already
+        if ($Force -or !(Test-Path $PROFILE)) {
+            if (!(Test-Path $PROFILE)) { New-Item $PROFILE }
+            'if (Test-Path ''dev.ps1'') { . ./dev.ps1 && Initialize-Shell }' |
+                Add-Content $PROFILE
         }
-    }
-    # ? Log in to GitHub API
-    if ($Force -or !(gh auth status)) { gh auth login -Done }
-}
 
-function Initialize-Windows {
-    <#.SYNOPSIS
+        # ? Set Git username if missing
+        try { $Name = git config 'user.name' }
+        catch [System.Management.Automation.NativeCommandExitException] { $Name = '' }
+        if ($Force -or !$Name) {
+            Write-Output 'Username missing from `.gitconfig`. Prompting for GitHub username/email ...'
+            $Ans = Read-Host -Prompt 'Enter your GitHub username'
+            if ($Ans) { git config --global 'user.name' $Ans }
+            git config --global fetch.prune true
+            git config --global pull.rebase true
+            git config --global push.autoSetupRemote true
+            git config --global push.followTags true
+
+            # ? Set Git email if missing
+            try { $Email = git config 'user.email' }
+            catch [System.Management.Automation.NativeCommandExitException] { $Email = '' }
+            if ($Force -or !$Email) {
+                $Ans = Read-Host -Prompt 'Enter the email address associated with your GitHub account'
+                if ($Ans) { git config --global 'user.email' $Ans }
+            }
+        }
+        # ? Log in to GitHub API
+        if ($Force -or !(gh auth status)) { gh auth login -Done }
+    }
+
+    function Initialize-Windows {
+        <#.SYNOPSIS
     Initialize Windows machine.#>
 
-    $origPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'SilentlyContinue'
+        $origPreference = $ErrorActionPreference
+        $ErrorActionPreference = 'SilentlyContinue'
 
-    # ? Install and update `uv`
-    Install-Uv -Update
+        # ? Install and update `uv`
+        Install-Uv -Update
 
-    # ? Common winget options
-    $Install = @(
-        'install',
-        '--accept-package-agreements',
-        '--accept-source-agreements',
-        '--disable-interactivity'
-        '--exact',
-        '--no-upgrade',
-        '--silent',
-        '--source=winget'
-    )
+        # ? Common winget options
+        $Install = @(
+            'install',
+            '--accept-package-agreements',
+            '--accept-source-agreements',
+            '--disable-interactivity'
+            '--exact',
+            '--no-upgrade',
+            '--silent',
+            '--source=winget'
+        )
 
-    # ? Install PowerShell Core
-    winget @Install --id='Microsoft.PowerShell' --override='/quiet ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ADD_FILE_CONTEXT_MENU_RUNPOWERSHELL=1 ADD_PATH=1 ENABLE_MU=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1'
-    # ? Set Windows PowerShell execution policy
-    powershell -Command 'Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
-    # ? Set PowerShell Core execution policy
-    pwsh -Command 'Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
+        # ? Install PowerShell Core
+        winget @Install --id='Microsoft.PowerShell' --override='/quiet ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ADD_FILE_CONTEXT_MENU_RUNPOWERSHELL=1 ADD_PATH=1 ENABLE_MU=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1'
+        # ? Set Windows PowerShell execution policy
+        powershell -Command 'Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
+        # ? Set PowerShell Core execution policy
+        pwsh -Command 'Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
 
-    # ? Install VSCode
-    winget @Install --id='Microsoft.VisualStudioCode'
-    # ? Install Windows Terminal
-    winget @Install --id='Microsoft.WindowsTerminal'
-    # ? Install GitHub CLI
-    winget @Install --id='GitHub.cli'
+        # ? Install VSCode
+        winget @Install --id='Microsoft.VisualStudioCode'
+        # ? Install Windows Terminal
+        winget @Install --id='Microsoft.WindowsTerminal'
+        # ? Install GitHub CLI
+        winget @Install --id='GitHub.cli'
 
-    # ? Install git
-    @'
+        # ? Install git
+        @'
 [Setup]
 Lang=default
 Dir=C:/Program Files/Git
@@ -393,9 +394,11 @@ EnableSymlinks=Disabled
 EnablePseudoConsoleSupport=Disabled
 EnableFSMonitor=Enabled
 '@ | Out-File ($inf = New-TemporaryFile)
-    winget @Install --id='Git.Git' --override="/SILENT /LOADINF=$inf"
-    $ErrorActionPreference = $origPreference
+        winget @Install --id='Git.Git' --override="/SILENT /LOADINF=$inf"
+        $ErrorActionPreference = $origPreference
 
-    # ? Finish machine setup
+        # ? Finish machine setup
+        Initialize-Machine
+    }
     Initialize-Machine
 }

@@ -10,7 +10,7 @@ from rich.markdown import Markdown
 traceback.install()
 
 
-def main():
+def main():  # noqa: D103
     console = Console()
 
     # Get contents of the clipboard, check if it looks like it came from a Zotero
