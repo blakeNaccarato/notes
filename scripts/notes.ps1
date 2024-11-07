@@ -72,7 +72,7 @@ function ConvertFrom-Obsidian {
             # NB: Keep the wrapping style of the input document
             '--wrap', 'preserve'
             # NB: The template to export literature reviews to
-            '--reference-doc', "$((Get-Item "$PSScriptRoot/report.dotx") -Replace '\\', '/')"
+            '--reference-doc', "$((Get-Item $Template) -Replace '\\', '/')"
             '--filter', 'pandoc-crossref'
             # NB: Update periodically to https://retorque.re/zotero-better-bibtex/exporting/zotero.lua
             '--lua-filter', "$((Get-Item "$PSScriptRoot/zotero.lua") -Replace '\\', '/')"
