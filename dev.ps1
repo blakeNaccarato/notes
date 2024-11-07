@@ -76,6 +76,7 @@ function Invoke-Uv {
     Begin {
         # ? Environment file
         $EnvFile = '.env'
+        if (!(Test-Path $EnvFile)) { New-Item $EnvFile }
         # ? Dev tooling Python package name
         $Dev = 'notes_dev'
         if (!$CI) {
@@ -126,7 +127,6 @@ function Invoke-Uv {
                 $Env:ENV_SYNCED = $True
 
                 # ? Sync `.env` and set environment variables from `pyproject.toml`
-                if (!(Test-Path $EnvFile)) { New-Item $EnvFile }
                 $EnvVars = uv run --env-file $EnvFile --no-sync --python $PythonVersion $Dev 'sync-environment-variables' --pylance-version $PylanceVersion
                 $EnvVars | Set-Content ($Env:GITHUB_ENV ? $Env:GITHUB_ENV : "$PSScriptRoot/.env")
                 $EnvVars | Select-String -Pattern '^(.+?)=(.+)$' | ForEach-Object {
