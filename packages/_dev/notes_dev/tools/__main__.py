@@ -14,11 +14,17 @@ from notes_dev.tools import add_changes, environment
 from notes_dev.tools.environment import escape, run
 from notes_dev.tools.types import ChangeType
 
+PYLANCE_VERSION_FILE = Path(".pylance-version")
+
 
 class Constants(BaseModel):
     """Constants for {mod}`~dev.tools.environment`."""
 
-    pylance_version: str = Path(".pylance-version").read_text(encoding="utf-8").strip()
+    pylance_version: str = (
+        PYLANCE_VERSION_FILE.read_text(encoding="utf-8").strip()
+        if PYLANCE_VERSION_FILE.exists()
+        else "2024.6.1"
+    )
     """Pylance version."""
 
 
