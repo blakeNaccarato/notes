@@ -1,17 +1,39 @@
 set shell := ['pwsh', '-Command']
 set dotenv-load
 
-devpy := 'notes_dev'
+proj :=  '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1;'
+dev := '{{proj}} notes-dev'
 
-dev:
-  . ./dev.ps1
+default:
+  {{proj}}
 
-dvc-dag: dev
-  (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
+dvc-dag:
+  {{proj}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
   markdownlint-cli2 'docs/_static/dag.md'
+sync-contrib:
+  {{proj}} iuv -Sync -Update
+sync-local-dev-configs:
+  {{dev}} sync-local-dev-configs
 
-sync-contrib: dev
-  iuv -Sync -Update
+vault :=  '$Env:PATH = "$(Get-Item ../../../..);$(Get-Item ../../../..)/scripts; $Env:PATH"; . dev.ps1;'
+notes := vault + ' iuv -m notes'
+scripts := vault + ' notes.ps1;'
 
-sync-local-dev-configs: dev
-  {{devpy}} sync-local-dev-configs
+[no-cd]
+copy-uri vault_path note_path selection:
+  {{scripts}} Get-ObsidianUri {{vault_path}} {{note_path}} {{selection}}
+[no-cd]
+generate-report path:
+  {{scripts}} ConvertTo-ReportObsidian {{path}}
+[no-cd]
+generate-review path:
+  {{scripts}} ConvertTo-ReviewObsidian {{path}}
+[no-cd]
+open-source title:
+  {{scripts}} Get-SourceFromObsidian {{title}}
+[no-cd]
+preview path:
+  {{notes}}.preview {{path}}
+[no-cd]
+watch:
+  {{notes}}.watch
