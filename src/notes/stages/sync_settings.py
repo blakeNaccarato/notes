@@ -13,14 +13,17 @@ from notes.models.params import PATHS
 
 app = Typer()
 
-ALLOWED_CHANGES = {"dvc.lock", "params.yaml", "requirements/requirements_dev.txt"}
+ALLOWED_CHANGES = [
+    Path(path)
+    for path in ["dvc.lock", "params.yaml", "requirements/requirements_dev.txt"]
+]
 """These files have CRLF line endings or some other issue that we can't control."""
 
 
 @app.command()
 def main():  # noqa: D103
     changes = get_changes()
-    if changes and any(change.name not in ALLOWED_CHANGES for change in changes):
+    if changes and any(change not in ALLOWED_CHANGES for change in changes):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")
     copy_settings(
         settings=PATHS.personal_settings,
