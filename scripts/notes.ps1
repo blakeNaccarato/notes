@@ -93,9 +93,14 @@ function ConvertFrom-Obsidian {
         $FrontMatter, $Content = ((Get-Content $File -Raw) -Split '---\n\n')
         $FrontMatter = "$FrontMatter---`n"
         # NB: Library 3 associated with nucleate pool boiling
-        $Library = (
-            $FrontMatter -Split '\n' -Match '^.*library:.+$'
-        ) ? $null : '--metadata', 'zotero_library:3'
+
+        # ? Modify GitHub repo later on only if there were not already commits in this repo
+        try { $Library = '--metadata', "zotero_library:$(uv run dotenv get 'LIBRARY')" }
+        catch [System.Management.Automation.NativeCommandExitException] {}
+        if (!$Library) {
+            if ($FrontMatter -Split '\n' -Match '^.*library:.+$') { $Library = $null }
+            else { $Library = '--metadata', 'zotero_library:5' }
+        }
         # NB: Keep only the `## Review` section
         $ReviewHeading = '## Review\n'
         $NextHeading = '##\n'
