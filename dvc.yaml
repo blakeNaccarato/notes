@@ -5,7 +5,7 @@ stages:
       - "${paths.stages.sanitize_source_tags}"
       - "${paths.personal_links}"
   sync_personal_settings:
-    cmd: "python ${paths.stages.sync_settings} personal"
+    cmd: "python ${paths.stages.sync_settings}"
     deps:
       - "${paths.stages.sync_settings}"
       - data/local/vaults/personal/.obsidian/app.json
