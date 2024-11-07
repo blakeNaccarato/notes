@@ -97,13 +97,13 @@ function Invoke-Uv {
             if ($Low) {
                 uv sync $LockedArg --resolution lowest-direct --python $PythonVersion
                 uv export $LockedArg $FrozenArg --resolution lowest-direct --no-hashes --python $PythonVersion |
-                    Set-Content "$PWD/requirements/requirements_dev_low.txt"
+                    Set-Content "$PSScriptRoot/requirements/requirements_dev_low.txt"
                 $Env:ENV_SYNCED = $null
             }
             elseif ($High) {
                 uv sync $LockedArg --upgrade --python $PythonVersion
                 uv export $LockedArg $FrozenArg --no-hashes --python $PythonVersion |
-                    Set-Content "$PWD/requirements/requirements_dev_high.txt"
+                    Set-Content "$PSScriptRoot/requirements/requirements_dev_high.txt"
                 $Env:ENV_SYNCED = $null
             }
             elseif ($Build) {
@@ -111,7 +111,7 @@ function Invoke-Uv {
                 $FrozenArg = '--frozen'
                 uv sync $LockedArg --no-sources --no-dev --python $PythonVersion
                 uv export $LockedArg $FrozenArg --no-dev --no-hashes --python $PythonVersion |
-                    Set-Content "$PWD/requirements/requirements_prod.txt"
+                    Set-Content "$PSScriptRoot/requirements/requirements_prod.txt"
                 uv build --python $PythonVersion
                 $Env:ENV_SYNCED = $null
             }
@@ -119,16 +119,16 @@ function Invoke-Uv {
                 # ? Sync the environment
                 uv sync $LockedArg --python $PythonVersion
                 uv export $LockedArg $FrozenArg --no-hashes --python $PythonVersion |
-                    Set-Content "$PWD/requirements/requirements_dev.txt"
+                    Set-Content "$PSScriptRoot/requirements/requirements_dev.txt"
                 if ($CI) {
-                    Add-Content $Env:GITHUB_PATH ("$PWD/.venv/bin", "$PWD/.venv/scripts")
+                    Add-Content $Env:GITHUB_PATH ("$PSScriptRoot/.venv/bin", "$PSScriptRoot/.venv/scripts")
                 }
                 $Env:ENV_SYNCED = $True
 
                 # ? Sync `.env` and set environment variables from `pyproject.toml`
                 if (!(Test-Path $EnvFile)) { New-Item $EnvFile }
                 $EnvVars = uv run --env-file $EnvFile --no-sync --python $PythonVersion $Dev 'sync-environment-variables' --pylance-version $PylanceVersion
-                $EnvVars | Set-Content ($Env:GITHUB_ENV ? $Env:GITHUB_ENV : "$PWD/.env")
+                $EnvVars | Set-Content ($Env:GITHUB_ENV ? $Env:GITHUB_ENV : "$PSScriptRoot/.env")
                 $EnvVars | Select-String -Pattern '^(.+?)=(.+)$' | ForEach-Object {
                     $Key, $Value = $_.Matches.Groups[1].Value, $_.Matches.Groups[2].Value
                     Set-Item "Env:$Key" $Value
