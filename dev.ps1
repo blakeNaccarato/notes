@@ -186,8 +186,6 @@ function Invoke-Uv {
 }
 Set-Alias -Name 'iuv' -Value 'Invoke-Uv'
 
-iuv -Sync -Update
-
 function Invoke-Just {
     <#.SYNOPSIS
     Invoke `just`.#>
