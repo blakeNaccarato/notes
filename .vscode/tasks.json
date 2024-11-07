@@ -9,7 +9,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": [""]
+      "options": ["sync_personal_settings", "sanitize_source_tags"]
     },
     {
       "id": "templateOptions",

@@ -142,4 +142,8 @@ paths:
   amsl: data/local/vaults/amsl
   amsl_obsidian: data/local/vaults/amsl/.obsidian
   amsl_plugins: data/local/vaults/amsl/.obsidian/plugins
-  amsl_settings: []
+  amsl_settings:
+    - data/local/vaults/amsl/.obsidian/app.json
+    - data/local/vaults/amsl/.obsidian/appearance.json
+    - data/local/vaults/amsl/.obsidian/core-plugins.json
+    - data/local/vaults/amsl/.obsidian/graph.json
