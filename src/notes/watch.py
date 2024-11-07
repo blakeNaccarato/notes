@@ -11,7 +11,7 @@ from notes.literature_common import DirWatcher, concat_json, logger
 WATCH_DIR = Path("_zotero")
 INTERVAL = 5
 IDLE_TIME = 5
-INPUT_FILES = list(WATCH_DIR.glob("library*.json"))
+INPUT_FILES = [path for path in WATCH_DIR.glob("*.json") if path.stem != "libraries"]
 OUTPUT_FILE = WATCH_DIR / "libraries.json"
 
 
