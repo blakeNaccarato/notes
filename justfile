@@ -17,7 +17,7 @@ sync-local-dev-configs:
 
 vault :=  '$Env:PATH = "$(Get-Item ../../../..);$(Get-Item ../../../..)/scripts; $Env:PATH"; . dev.ps1;'
 notes := vault + ' iuv -m notes'
-scripts := vault + ' notes.ps1;'
+scripts := vault + '. notes.ps1;'
 
 [no-cd]
 copy-uri vault_path note_path selection:
