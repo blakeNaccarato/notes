@@ -1,5 +1,7 @@
 # notes
 
+Hello once more
+
 [![All Contributors](https://img.shields.io/github/all-contributors/blakeNaccarato/notes?color=ee8449&style=flat-square)](#contributors)
 
 Centralized repository of my Obsidian vaults and shared tooling.
