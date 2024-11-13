@@ -3,7 +3,6 @@
 -e .
 -e ./packages/_dev
 -e ./packages/boilercore
--e ./packages/cachier
 -e ./packages/lookback
 accessible-pygments==0.0.5
 aiohappyeyeballs==2.4.0
@@ -174,7 +173,6 @@ ploomber-core==0.2.25
 ploomber-engine==0.0.33
 ploomber-extension==0.1.1
 pluggy==1.5.0
-portalocker==2.10.1
 posthog==3.6.6
 pre-commit==3.7.1
 prompt-toolkit==3.0.47
@@ -212,7 +210,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-frontmatter==1.1.0
 pytz==2024.2
-pywin32==306 ; sys_platform == 'win32' or platform_system == 'Windows'
+pywin32==306 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzmq==26.2.0
 referencing==0.35.1

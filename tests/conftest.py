@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from boilercore import filter_certain_warnings
 from boilercore.testing import get_session_path
 from notes_dev.tests import ARGS, EXPECTED, STAGES
+from notes_dev.tools.warnings import filter_boilercv_warnings
 
 import notes
 
@@ -17,7 +17,7 @@ import notes
 @pytest.fixture(autouse=True)
 def _filter_certain_warnings():
     """Filter certain warnings."""
-    filter_certain_warnings(notes)
+    filter_boilercv_warnings()
 
 
 @pytest.fixture(scope="session")

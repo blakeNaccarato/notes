@@ -54,7 +54,7 @@ dev-dependencies = [
   "notes_dev",
   "lookback",
   # ? Path-sourced deps
-  "cachier",
+  # "cachier",
   # ? Data exploration with Data Wrangler
   "pyarrow>=17.0.0",
   # ? Dev
@@ -91,12 +91,13 @@ dev-dependencies = [
   "pytest==8.2.2",
 ]
 [tool.uv.pip]
+python-version = "3.11"
 all-extras = true
 [tool.uv.workspace]
 members = ["packages/*"]
 exclude = ["packages/cachier"]
 [tool.uv.sources]
-cachier = { path = "packages/cachier", editable = true }
+# cachier = { path = "packages/cachier", editable = true }
 boilercore = { workspace = true }
 notes_dev = { workspace = true }
 lookback = { workspace = true }
@@ -355,6 +356,9 @@ convention = "numpy"
   "F821", # Allow undefined names, such as `display`
   "S101", # Allow assert
   "T201", # Allow print in notebooks
+]
+"data/deprecated/csl_models.py" = [
+  "D1", # Allow missing docstrings in generated models
 ]
 "packages/_dev/dev/tools/add_changes.py" = [
   "S603", # Allow shell expressions here
