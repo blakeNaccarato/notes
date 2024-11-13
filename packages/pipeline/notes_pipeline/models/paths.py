@@ -8,6 +8,8 @@ from pydantic import BaseModel, FilePath
 import notes_pipeline
 from notes_pipeline import PROJECT_PATH
 
+SET_UP_AMSL_OBSIDIAN = "2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md"
+
 
 def get_settings(dot_obsidian: Path) -> list[Path]:
     """Get files in `.obsidian` to be synchronized.
@@ -44,7 +46,7 @@ class Paths(BaseModel):
     stages: dict[str, FilePath] = (  # noqa: PLC3002
         lambda package: {
             stage: package / "stages" / f"{stage}.py"
-            for stage in ["sanitize_source_tags", "sync_settings"]
+            for stage in ["sanitize_source_tags", "sync_docs", "sync_settings"]
         }
     )(package)
 
@@ -63,6 +65,11 @@ class Paths(BaseModel):
     personal_timestamped: Path = personal / "_timestamped"
     # ! Settings
     personal_settings: list[Path] = get_settings(personal_obsidian)
+    # ! Documentation notes
+    set_up_amsl_obsidian_note: Path = (
+        personal / f"grad/_timestamped/{SET_UP_AMSL_OBSIDIAN}"
+    )
+    set_up_amsl_obsidian_docs: Path = Path(f"docs/{SET_UP_AMSL_OBSIDIAN}")
 
     # * AMSL
     amsl: Path = vaults / "amsl"

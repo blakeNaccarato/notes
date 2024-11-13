@@ -4,6 +4,12 @@ stages:
     deps:
       - "${paths.stages.sanitize_source_tags}"
       - "${paths.personal_links}"
+  sync_docs:
+    cmd: "python ${paths.stages.sync_docs}"
+    deps: ["${paths.set_up_amsl_obsidian_note}"]
+    outs:
+      - docs/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md: # ${paths.set_up_amsl_obsidian_docs}"
+          cache: false
   sync_personal_settings:
     cmd: "python ${paths.stages.sync_settings}"
     deps:

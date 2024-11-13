@@ -173,9 +173,8 @@ mermaid_d3_zoom = False
 nitpicky = True
 autodoc2_packages = [
     f"../src/{PACKAGE}",
-    f"{PACKAGE}_docs",
-    f"../tests/{PACKAGE}_tests",
-    f"../scripts/{PACKAGE}_tools",
+    f"../packages/_dev/{PACKAGE}_dev",
+    f"../packages/pipeline/{PACKAGE}_pipeline",
 ]
 autodoc2_render_plugin = "myst"
 # ? Autodoc2 does not currently obey `python_display_short_literal_types` or
@@ -184,7 +183,7 @@ autodoc2_render_plugin = "myst"
 # ? https://github.com/sphinx-extensions2/sphinx-autodoc2/issues/58
 maximum_signature_line_length = 1
 # ? Parse Numpy docstrings
-autodoc2_docstring_parser_regexes = [(".*", f"{PACKAGE}_docs.docstrings")]
+autodoc2_docstring_parser_regexes = [(".*", f"{PACKAGE}_dev.docs.docstrings")]
 # ! Intersphinx
 intersphinx_mapping = ISPX_MAPPING
 nitpick_ignore = []

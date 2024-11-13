@@ -556,3 +556,16 @@ stages:
       hash: md5
       md5: cda3d66e94a50d568a3d87567f05a1d4
       size: 2823
+  sync_docs:
+    cmd: python packages/pipeline/notes_pipeline/stages/sync_docs.py
+    deps:
+    - path:
+        data/local/vaults/personal/grad/_timestamped/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md
+      hash: md5
+      md5: 60dcafda393d3b0633f02436b58753b5
+      size: 144
+    outs:
+    - path: docs/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md
+      hash: md5
+      md5: 60dcafda393d3b0633f02436b58753b5
+      size: 144

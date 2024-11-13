@@ -273,7 +273,10 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
   personal_timestamped: data/local/vaults/personal/_timestamped
   project: .
+  set_up_amsl_obsidian_docs: docs/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md
+  set_up_amsl_obsidian_note: data/local/vaults/personal/grad/_timestamped/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md
   stages:
     sanitize_source_tags: packages/pipeline/notes_pipeline/stages/sanitize_source_tags.py
+    sync_docs: packages/pipeline/notes_pipeline/stages/sync_docs.py
     sync_settings: packages/pipeline/notes_pipeline/stages/sync_settings.py
   vaults: data/local/vaults

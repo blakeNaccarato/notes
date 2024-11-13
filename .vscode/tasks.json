@@ -9,7 +9,7 @@
       "type": "pickString",
       "description": "stage",
       "default": "",
-      "options": ["sync_personal_settings", "sanitize_source_tags"]
+      "options": ["sanitize_source_tags", "sync_personal_settings", "sync_docs"]
     },
     {
       "id": "templateOptions",
@@ -90,7 +90,7 @@
       "label": "dvc: synchronize params",
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "python -m notes-pipeline.models.params"],
+      "args": ["-Command", "python -m notes_pipeline.models.params"],
       "icon": { "id": "graph" },
       "problemMatcher": []
     },
