@@ -6,20 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "notes_pipeline"
 version = "0.0.0"
 description = "Data pipeline"
-dependencies = [
-  "cappa>=0.22.4",
-  "dulwich>=0.21.7",
-  "loguru>=0.7.2",
-  "markdown-it-py>=3.0.0",
-  "marko>=2.1.2",
-  "mdit-py-plugins>=0.4.0",
-  "obsidiantools>=0.10.0",
-  "pydantic>=2.9.2",
-  "pyyaml>=6.0.2",
-  "ruamel.yaml>=0.18.6",
-  "typer>=0.9.0",
-  "watchdog>=4.0.1",
-]
+dependencies = ["dulwich>=0.21.7", "pydantic>=2.9.2", "pyyaml>=6.0.2", "typer>=0.9.0"]
 [project.scripts]
 "notes-pipeline" = "notes_pipeline.__main__:main"
 "notes_pipeline" = "notes_pipeline.__main__:main"

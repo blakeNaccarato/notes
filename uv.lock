@@ -2068,34 +2068,18 @@ name = "notes-pipeline"
 version = "0.0.0"
 source = { editable = "packages/pipeline" }
 dependencies = [
-    { name = "cappa" },
     { name = "dulwich" },
-    { name = "loguru" },
-    { name = "markdown-it-py" },
-    { name = "marko" },
-    { name = "mdit-py-plugins" },
-    { name = "obsidiantools" },
     { name = "pydantic" },
     { name = "pyyaml" },
-    { name = "ruamel-yaml" },
     { name = "typer" },
-    { name = "watchdog" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "cappa", specifier = ">=0.22.4" },
     { name = "dulwich", specifier = ">=0.21.7" },
-    { name = "loguru", specifier = ">=0.7.2" },
-    { name = "markdown-it-py", specifier = ">=3.0.0" },
-    { name = "marko", specifier = ">=2.1.2" },
-    { name = "mdit-py-plugins", specifier = ">=0.4.0" },
-    { name = "obsidiantools", specifier = ">=0.10.0" },
     { name = "pydantic", specifier = ">=2.9.2" },
     { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "ruamel-yaml", specifier = ">=0.18.6" },
     { name = "typer", specifier = ">=0.9.0" },
-    { name = "watchdog", specifier = ">=4.0.1" },
 ]
 
 [[package]]
