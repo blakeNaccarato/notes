@@ -135,7 +135,7 @@ paths:
     - data/local/vaults/amsl/.obsidian/plugins/text-extractor/main.js
   data: data
   local: data/local
-  package: src/notes
+  package: packages/pipeline/notes_pipeline
   personal: data/local/vaults/personal
   personal_links: data/local/vaults/personal/_sources/links
   personal_obsidian: data/local/vaults/personal/.obsidian
@@ -274,6 +274,6 @@ paths:
   personal_timestamped: data/local/vaults/personal/_timestamped
   project: .
   stages:
-    sanitize_source_tags: src/notes/stages/sanitize_source_tags.py
-    sync_settings: src/notes/stages/sync_settings.py
+    sanitize_source_tags: packages/pipeline/notes_pipeline/stages/sanitize_source_tags.py
+    sync_settings: packages/pipeline/notes_pipeline/stages/sync_settings.py
   vaults: data/local/vaults

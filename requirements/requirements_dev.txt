@@ -3,6 +3,7 @@
 -e .
 -e ./packages/_dev
 -e ./packages/lookback
+-e ./packages/pipeline
 accessible-pygments==0.0.5
 aiohappyeyeballs==2.4.0
 aiohttp==3.10.5

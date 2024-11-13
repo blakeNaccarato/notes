@@ -9,7 +9,7 @@ from dulwich.porcelain import status, submodule_list
 from dulwich.repo import Repo
 from typer import Typer
 
-from notes.models.params import PATHS
+from notes_pipeline.models.params import PATHS
 
 app = Typer()
 

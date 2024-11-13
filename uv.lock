@@ -12,6 +12,7 @@ members = [
     "lookback",
     "notes",
     "notes-dev",
+    "notes-pipeline",
 ]
 constraints = [{ name = "urllib3", specifier = ">=2.2.2" }]
 
@@ -1930,7 +1931,6 @@ version = "0.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "cappa" },
-    { name = "dulwich" },
     { name = "loguru" },
     { name = "markdown-it-py" },
     { name = "marko" },
@@ -1938,7 +1938,6 @@ dependencies = [
     { name = "obsidiantools" },
     { name = "pydantic" },
     { name = "pyyaml" },
-    { name = "ruamel-yaml" },
     { name = "typer" },
     { name = "watchdog" },
 ]
@@ -1952,6 +1951,7 @@ dev = [
     { name = "lookback" },
     { name = "myst-nb" },
     { name = "notes-dev" },
+    { name = "notes-pipeline" },
     { name = "pandas-stubs" },
     { name = "pipdeptree" },
     { name = "pre-commit" },
@@ -1961,6 +1961,7 @@ dev = [
     { name = "pytest-cov" },
     { name = "pytest-custom-exit-code" },
     { name = "pytest-github-actions-annotate-failures" },
+    { name = "ruamel-yaml" },
     { name = "ruff" },
     { name = "rust-just" },
     { name = "snakeviz" },
@@ -1981,7 +1982,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "cappa", specifier = ">=0.22.4" },
-    { name = "dulwich", specifier = ">=0.21.7" },
     { name = "loguru", specifier = ">=0.7.2" },
     { name = "markdown-it-py", specifier = ">=3.0.0" },
     { name = "marko", specifier = ">=2.1.2" },
@@ -1989,7 +1989,6 @@ requires-dist = [
     { name = "obsidiantools", specifier = ">=0.10.0" },
     { name = "pydantic", specifier = ">=2.9.2" },
     { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "ruamel-yaml", specifier = ">=0.18.6" },
     { name = "typer", specifier = ">=0.9.0" },
     { name = "watchdog", specifier = ">=4.0.1" },
 ]
@@ -2003,6 +2002,7 @@ dev = [
     { name = "lookback", editable = "packages/lookback" },
     { name = "myst-nb", specifier = "==1.1.1" },
     { name = "notes-dev", editable = "packages/_dev" },
+    { name = "notes-pipeline", editable = "packages/pipeline" },
     { name = "pandas-stubs", specifier = ">=2.2.2" },
     { name = "pipdeptree", specifier = "==2.23.0" },
     { name = "pre-commit", specifier = "==3.7.1" },
@@ -2012,6 +2012,7 @@ dev = [
     { name = "pytest-cov", specifier = "==5.0.0" },
     { name = "pytest-custom-exit-code", specifier = "==0.3.0" },
     { name = "pytest-github-actions-annotate-failures", specifier = "==0.2.0" },
+    { name = "ruamel-yaml", specifier = "==0.18.6" },
     { name = "ruff", specifier = "==0.5.1" },
     { name = "rust-just", specifier = ">=1.36.0" },
     { name = "snakeviz", specifier = "==2.2.0" },
@@ -2060,6 +2061,41 @@ requires-dist = [
     { name = "python-dotenv", specifier = "==1.0.1" },
     { name = "ruamel-yaml", specifier = "==0.18.6" },
     { name = "sphinx", specifier = "==7.3.7" },
+]
+
+[[package]]
+name = "notes-pipeline"
+version = "0.0.0"
+source = { editable = "packages/pipeline" }
+dependencies = [
+    { name = "cappa" },
+    { name = "dulwich" },
+    { name = "loguru" },
+    { name = "markdown-it-py" },
+    { name = "marko" },
+    { name = "mdit-py-plugins" },
+    { name = "obsidiantools" },
+    { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "ruamel-yaml" },
+    { name = "typer" },
+    { name = "watchdog" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cappa", specifier = ">=0.22.4" },
+    { name = "dulwich", specifier = ">=0.21.7" },
+    { name = "loguru", specifier = ">=0.7.2" },
+    { name = "markdown-it-py", specifier = ">=3.0.0" },
+    { name = "marko", specifier = ">=2.1.2" },
+    { name = "mdit-py-plugins", specifier = ">=0.4.0" },
+    { name = "obsidiantools", specifier = ">=0.10.0" },
+    { name = "pydantic", specifier = ">=2.9.2" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "ruamel-yaml", specifier = ">=0.18.6" },
+    { name = "typer", specifier = ">=0.9.0" },
+    { name = "watchdog", specifier = ">=4.0.1" },
 ]
 
 [[package]]

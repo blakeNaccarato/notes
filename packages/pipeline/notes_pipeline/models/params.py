@@ -6,7 +6,7 @@ from subprocess import run
 from pydantic import BaseModel, Field
 from yaml import safe_dump
 
-from notes.models.paths import Paths
+from notes_pipeline.models.paths import Paths
 
 
 class Params(BaseModel):

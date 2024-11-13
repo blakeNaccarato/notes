@@ -6,8 +6,7 @@ from string import whitespace
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 from mdit_py_plugins.front_matter.index import front_matter_plugin
-
-from notes import yaml
+from yaml import safe_load
 
 MD = MarkdownIt().use(front_matter_plugin)
 """Markdown parser."""
@@ -15,7 +14,7 @@ MD = MarkdownIt().use(front_matter_plugin)
 
 def get_frontmatter_tags(parsed: list[Token]) -> set[str]:
     """Get tags from frontmatter."""
-    return set(yaml.load(get_frontmatter(parsed)).get("tags")) or set()
+    return set(safe_load(get_frontmatter(parsed)).get("tags")) or set()
 
 
 def get_frontmatter(parsed: list[Token]) -> str:
