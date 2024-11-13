@@ -37,6 +37,8 @@ paths:
     - data/local/vaults/amsl/.obsidian/plugins/find-unlinked-files/manifest.json
     - data/local/vaults/amsl/.obsidian/plugins/folder-notes/data.json
     - data/local/vaults/amsl/.obsidian/plugins/folder-notes/manifest.json
+    - data/local/vaults/amsl/.obsidian/plugins/lazy-plugins/data.json
+    - data/local/vaults/amsl/.obsidian/plugins/lazy-plugins/manifest.json
     - data/local/vaults/amsl/.obsidian/plugins/OA-file-hider/data.json
     - data/local/vaults/amsl/.obsidian/plugins/OA-file-hider/manifest.json
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-advanced-uri/manifest.json
@@ -85,6 +87,7 @@ paths:
     - data/local/vaults/amsl/.obsidian/plugins/cmdr/styles.css
     - data/local/vaults/amsl/.obsidian/plugins/dataview/styles.css
     - data/local/vaults/amsl/.obsidian/plugins/folder-notes/styles.css
+    - data/local/vaults/amsl/.obsidian/plugins/lazy-plugins/styles.css
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-citation-plugin/styles.css
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-link-converter/styles.css
@@ -105,6 +108,7 @@ paths:
     - data/local/vaults/amsl/.obsidian/plugins/dataview/main.js
     - data/local/vaults/amsl/.obsidian/plugins/find-unlinked-files/main.js
     - data/local/vaults/amsl/.obsidian/plugins/folder-notes/main.js
+    - data/local/vaults/amsl/.obsidian/plugins/lazy-plugins/main.js
     - data/local/vaults/amsl/.obsidian/plugins/OA-file-hider/main.js
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-advanced-uri/main.js
     - data/local/vaults/amsl/.obsidian/plugins/obsidian-citation-plugin/main.js
