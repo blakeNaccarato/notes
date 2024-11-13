@@ -42,6 +42,8 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
       - data/local/vaults/personal/.obsidian/plugins/folder-notes/manifest.json
+      - data/local/vaults/personal/.obsidian/plugins/lazy-plugins/data.json
+      - data/local/vaults/personal/.obsidian/plugins/lazy-plugins/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/data.json
       - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/manifest.json
       - data/local/vaults/personal/.obsidian/plugins/obsidian-advanced-uri/manifest.json
@@ -90,6 +92,7 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/cmdr/styles.css
       - data/local/vaults/personal/.obsidian/plugins/dataview/styles.css
       - data/local/vaults/personal/.obsidian/plugins/folder-notes/styles.css
+      - data/local/vaults/personal/.obsidian/plugins/lazy-plugins/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-excalidraw-plugin/styles.css
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/styles.css
@@ -110,6 +113,7 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
       - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/main.js
       - data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
+      - data/local/vaults/personal/.obsidian/plugins/lazy-plugins/main.js
       - data/local/vaults/personal/.obsidian/plugins/OA-file-hider/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-advanced-uri/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-citation-plugin/main.js
@@ -120,6 +124,7 @@ stages:
       - data/local/vaults/personal/.obsidian/plugins/obsidian-html-plugin/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-link-converter/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-linter/main.js
+      - data/local/vaults/personal/.obsidian/plugins/obsidian-outliner/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-pandoc/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-plugin-toc/main.js
       - data/local/vaults/personal/.obsidian/plugins/obsidian-shellcommands/main.js
