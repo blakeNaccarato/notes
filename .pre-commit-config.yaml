@@ -9,6 +9,7 @@ ci:
     - "sync"
     - "fawltydeps-src"
     - "fawltydeps-dev"
+    - "fawltydeps-pipeline"
     - "pytest-fast-only"
   autoupdate_schedule: "quarterly"
 default_install_hook_types:
