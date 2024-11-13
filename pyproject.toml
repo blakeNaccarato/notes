@@ -50,7 +50,6 @@ constraint-dependencies = [
 ]
 dev-dependencies = [
   # ? Workspaces
-  "boilercore",
   "notes_dev",
   "lookback",
   # ? Path-sourced deps
@@ -97,8 +96,6 @@ all-extras = true
 members = ["packages/*"]
 exclude = ["packages/cachier"]
 [tool.uv.sources]
-# cachier = { path = "packages/cachier", editable = true }
-boilercore = { workspace = true }
 notes_dev = { workspace = true }
 lookback = { workspace = true }
 
@@ -109,7 +106,6 @@ source = ["notes", "notes_dev", "tests"]
 [tool.fawltydeps]
 deps = ["pyproject.toml"]
 code = ["src"]
-ignore_undeclared = ["boilercore"]
 
 
 [tool.pytest.ini_options]
@@ -165,8 +161,6 @@ exclude = [
   "**/.*",
   ".cache",
   "typings",
-  "packages/boilercore",
-  "packages/cachier",
   "packages/lookback",
 ]
 ignore = ["**/node_modules", "**/__pycache__", "**/.*", ".cache", "typings"]
@@ -268,12 +262,7 @@ reportUnusedCallResult = "none"
 
 [tool.ruff]
 cache-dir = ".cache/.ruff_cache"
-extend-exclude = [
-  "typings",
-  "packages/boilercore",
-  "packages/cachier",
-  "packages/lookback",
-]
+extend-exclude = ["typings", "packages/lookback"]
 extend-include = ["*.ipynb", "packages/_dev"]
 src = ["src", "docs", "scripts", "tests"]
 output-format = "grouped"

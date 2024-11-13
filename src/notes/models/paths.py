@@ -3,9 +3,7 @@
 from itertools import chain
 from pathlib import Path
 
-from boilercore.models import CreatePathsModel
-from boilercore.paths import get_package_dir, map_stages
-from pydantic.v1 import DirectoryPath, FilePath
+from pydantic import BaseModel, FilePath
 
 import notes
 from notes import PROJECT_PATH
@@ -33,29 +31,34 @@ def get_settings(dot_obsidian: Path) -> list[Path]:
     ]
 
 
-class Paths(CreatePathsModel):
+class Paths(BaseModel):
     """Paths associated with project data."""
 
     # * Roots
     # ! Project
-    project: DirectoryPath = PROJECT_PATH
+    project: Path = PROJECT_PATH
     # ! Package
-    package: DirectoryPath = get_package_dir(notes)
+    package: Path = Path(notes.__spec__.submodule_search_locations[0])
     # ! Data
-    data: DirectoryPath = project / "data"
-    stages: dict[str, FilePath] = map_stages(package / "stages")
+    data: Path = project / "data"
+    stages: dict[str, FilePath] = (  # noqa: PLC3002
+        lambda package: {
+            stage: package / "stages" / f"{stage}.py"
+            for stage in ["sanitize_source_tags", "sync_settings"]
+        }
+    )(package)
 
     # * Git-tracked
     # * Local
-    local: DirectoryPath = data / "local"
+    local: Path = data / "local"
     # ! Vaults
-    vaults: DirectoryPath = local / "vaults"
-    personal: DirectoryPath = vaults / "personal"
+    vaults: Path = local / "vaults"
+    personal: Path = vaults / "personal"
     # ! .obsidian folders
-    personal_obsidian: DirectoryPath = personal / ".obsidian"
-    personal_plugins: DirectoryPath = personal_obsidian / "plugins"
+    personal_obsidian: Path = personal / ".obsidian"
+    personal_plugins: Path = personal_obsidian / "plugins"
     # ! Inputs
-    personal_links: DirectoryPath = personal / "_sources/links"
+    personal_links: Path = personal / "_sources/links"
     # ! Results
     personal_timestamped: Path = personal / "_timestamped"
     # ! Settings

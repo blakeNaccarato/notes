@@ -1,9 +1,6 @@
 [submodule "lookback"]
 	path = packages/lookback
 	url = https://github.com/blakeNaccarato/lookback.git
-[submodule "boilercore"]
-	path = packages/boilercore
-	url = https://github.com/softboiler/boilercore.git
 [submodule "typings"]
 	path = typings
 	url = https://github.com/softboiler/python-type-stubs.git

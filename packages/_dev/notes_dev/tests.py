@@ -4,9 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, TypeAlias
 
-import pytest
 from _pytest.mark.structures import ParameterSet
-from boilercore.paths import get_module_rel, walk_modules
 
 
 @dataclass
@@ -24,26 +22,6 @@ class Expectation:  # noqa: D101
 Stages: TypeAlias = list[ParameterSet]
 AllArgs: TypeAlias = dict[str, Args]
 Expected: TypeAlias = dict[str, Expectation]
-
-
-def get_stages() -> Stages:  # noqa: D103
-    return [
-        (
-            pytest.param(
-                module,
-                id=get_module_rel(module, "stages"),
-                marks=(
-                    [pytest.mark.xfail]
-                    if module == "notes.stages.sync_settings"
-                    else []
-                ),
-            )
-        )
-        for module in (
-            f"notes.{module}"
-            for module in walk_modules(Path("src") / "notes" / "stages")
-        )
-    ]
 
 
 def get_args() -> AllArgs:  # noqa: D103
@@ -64,6 +42,6 @@ def get_expected() -> Expected:  # noqa: D103
     }
 
 
-STAGES = get_stages()
+STAGES = ["sanitize_source_tags", "sync_settings"]
 ARGS = get_args()
 EXPECTED = get_expected()
