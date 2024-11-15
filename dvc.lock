@@ -13,7 +13,7 @@ stages:
       md5: e1f016e7f42caf61f6ac80d5dfa5b088
       size: 734
   sync_personal_settings:
-    cmd: python src/notes/stages/sync_settings.py
+    cmd: python packages/pipeline/notes_pipeline/stages/sync_settings.py
     deps:
     - path: data/local/vaults/personal/.obsidian/app.json
       hash: md5
@@ -418,8 +418,8 @@ stages:
       size: 4172
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
       hash: md5
-      md5: 5c86c320ea2de211ffb9d31f5e8e6686
-      size: 1117
+      md5: df2530d611f6f7a6c09e5e4b8d85ea80
+      size: 1116
     - path: data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
       hash: md5
       md5: aeeef9171d33e4105147300bb9530d08
@@ -552,10 +552,10 @@ stages:
       hash: md5
       md5: 281ec50af278c9f88898183d5f9234b2
       size: 53
-    - path: src/notes/stages/sync_settings.py
+    - path: packages/pipeline/notes_pipeline/stages/sync_settings.py
       hash: md5
-      md5: cda3d66e94a50d568a3d87567f05a1d4
-      size: 2823
+      md5: c54cc889cf203c0b7a213943efa3a1ce
+      size: 2832
   sync_docs:
     cmd: python packages/pipeline/notes_pipeline/stages/sync_docs.py
     deps:
