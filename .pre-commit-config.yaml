@@ -83,9 +83,17 @@ repos:
             |tests/.*
           )$
   - repo: "https://github.com/pre-commit/pre-commit-hooks"
-    rev: "v4.6.0"
+    rev: "v5.0.0"
     hooks:
+      - id: "check-illegal-windows-names"
+      - id: "check-merge-conflict"
+      - id: "destroyed-symlinks"
+      - id: "detect-private-key"
       - id: "end-of-file-fixer"
+      - id: "mixed-line-ending"
+        args: ["--fix=lf"]
+      - id: "trailing-whitespace"
+        args: [--markdown-linebreak-ext=md]
       - id: "trailing-whitespace"
   - repo: "https://github.com/DavidAnson/markdownlint-cli2"
     rev: "v0.13.0"
