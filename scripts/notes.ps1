@@ -192,3 +192,33 @@ function Copy-SourcesFromClipboard {
     Copy files and supplemental directories associated with citekeys to exports.#>
     (Get-Clipboard) -Split ', ' | Copy-SharedItems -Sources '_sources/zotero'
 }
+
+
+function Start-Pipe {
+    <#.SYNOPSIS
+    Start pipe.#>
+    Param (
+        # Name.
+        [Parameter(Mandatory)]$Name,
+        # Script block.
+        [scriptblock]$ScriptBlock
+    )
+    $pipe = New-Object System.IO.Pipes.NamedPipeServerStream($Name, [System.IO.Pipes.PipeDirection]::InOut)
+    $pipe.BeginWaitForConnection(
+        { param($AsyncResult)$pipe.EndWaitForConnection($AsyncResult) }, $null
+    )
+    try { & $ScriptBlock }
+    finally { $pipe.Dispose() }
+}
+
+function Stop-Pipe {
+    <#.SYNOPSIS
+    Stop pipe.#>
+    Param (
+        # Name.
+        [Parameter(Mandatory)]$Name
+    )
+    $pipe = New-Object System.IO.Pipes.NamedPipeClientStream('.', $Name, [System.IO.Pipes.PipeDirection]::InOut)
+    $pipe.Connect()
+    $pipe.Dispose()
+}

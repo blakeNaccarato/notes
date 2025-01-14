@@ -1,8 +1,8 @@
 set shell := ['pwsh', '-Command']
 set dotenv-load
 
-proj :=  '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1;'
-dev := '{{proj}} notes-dev'
+proj :=  '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1; '
+dev := proj + 'notes-dev'
 
 default:
   {{proj}}
@@ -15,8 +15,8 @@ sync-contrib:
 sync-local-dev-configs:
   {{dev}} sync-local-dev-configs
 
-vault :=  '$Env:PATH = "$(Get-Item ../../../..);$(Get-Item ../../../..)/scripts; $Env:PATH"; . dev.ps1;'
-notes := vault + ' iuv -m notes'
+vault :=  '$Env:PATH = "$(Get-Item ../../../..); $(Get-Item ../../../..)/scripts; $Env:PATH"; . dev.ps1; '
+notes := vault + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
 scripts := vault + '. notes.ps1;'
 
 [no-cd]
@@ -34,6 +34,11 @@ open-source title:
 [no-cd]
 preview path:
   {{notes}}.preview {{path}}
+
+watch-pipe := 'watch-5b7151'
 [no-cd]
-watch:
-  {{notes}}.watch
+start-watch:
+  {{scripts}} Start-Pipe {{watch-pipe}} { {{notes}}.watch }; exit 0
+[no-cd]
+stop-watch:
+  {{scripts}} Stop-Pipe {{watch-pipe}}
