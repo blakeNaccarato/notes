@@ -1,6 +1,3 @@
-// Run tasks like `pwsh -Command "./Invoke-Uv.ps1 && {task}` to run profile-like
-// commands without requiring users to modify global profile.
-
 {
   "version": "2.0.0",
   "type": "shell",
@@ -83,12 +80,12 @@
 
     {
       "label": "setup: Sync with template",
-      "command": ". ./notes-dev.ps1 && Sync-Template ${input:templateOptions}",
+      "command": ". ./dev.ps1 && Sync-Template ${input:templateOptions}",
       "icon": { "id": "file-symlink-directory" },
     },
     {
       "label": "setup: Sync with specific template ref",
-      "command": ". ./notes-dev.ps1 && Sync-Template ${input:ref} ${input:templateOptions}",
+      "command": ". ./dev.ps1 && Sync-Template ${input:ref} ${input:templateOptions}",
       "icon": { "id": "file-symlink-directory" },
     },
     {
@@ -101,7 +98,7 @@
     },
     {
       "label": "setup: Initialize repository",
-      "command": ". ./notes-dev.ps1 && Initialize-Repo",
+      "command": ". ./dev.ps1 && Initialize-Repo",
       "icon": { "id": "file-symlink-directory" },
     },
     {
@@ -111,7 +108,7 @@
     },
     {
       "label": "setup: Initialize Windows machine",
-      "command": ". ./notes-dev.ps1 && Initialize-Windows",
+      "command": ". ./dev.ps1 && Initialize-Windows",
       "icon": { "id": "file-symlink-directory" },
     },
     {
@@ -121,7 +118,7 @@
     },
     {
       "label": "setup: Finish initializing machine (cross-platform)",
-      "command": ". ./notes-dev.ps1 && Initialize-Machine",
+      "command": ". ./dev.ps1 && Initialize-Machine",
       "icon": { "id": "file-symlink-directory" },
     },
 
@@ -155,7 +152,7 @@
     },
     {
       "label": "task: Run ruff",
-      "command": ". ./notes-dev.ps1 && iuv ruff check . && iuv ruff format .",
+      "command": ". ./dev.ps1 && iuv ruff check . && iuv ruff format .",
       "icon": { "id": "check" },
     },
     {
@@ -180,7 +177,7 @@
     },
     {
       "label": "task: Bump version",
-      "command": ". ./notes-dev.ps1 && uvx copier@9.2.0 update --vcs-ref=HEAD --defaults --data project_version='${input:version}' && iuv towncrier build --yes --version '${input:version}' && git add . && git commit -m '${input:version}'",
+      "command": ". ./dev.ps1 && uvx copier@9.2.0 update --vcs-ref=HEAD --defaults --data project_version='${input:version}' && iuv towncrier build --yes --version '${input:version}' && git add . && git commit -m '${input:version}'",
       "icon": { "id": "tag" },
     },
     {
