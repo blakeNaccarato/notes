@@ -193,32 +193,26 @@ function Copy-SourcesFromClipboard {
     (Get-Clipboard) -Split ', ' | Copy-SharedItems -Sources '_sources/zotero'
 }
 
-
-function Start-Pipe {
+function Start-PythonProcess {
     <#.SYNOPSIS
-    Start pipe.#>
+    Start Python process, killing prior instances.#>
     Param (
         # Name.
         [Parameter(Mandatory)]$Name,
-        # Script block.
-        [scriptblock]$ScriptBlock
+        # Python dotted module path.
+        [Parameter(Mandatory)]$Module
     )
-    $pipe = New-Object System.IO.Pipes.NamedPipeServerStream($Name, [System.IO.Pipes.PipeDirection]::InOut)
-    $pipe.BeginWaitForConnection(
-        { param($AsyncResult)$pipe.EndWaitForConnection($AsyncResult) }, $null
-    )
-    try { & $ScriptBlock }
-    finally { $pipe.Dispose() }
-}
-
-function Stop-Pipe {
-    <#.SYNOPSIS
-    Stop pipe.#>
-    Param (
-        # Name.
-        [Parameter(Mandatory)]$Name
-    )
-    $pipe = New-Object System.IO.Pipes.NamedPipeClientStream('.', $Name, [System.IO.Pipes.PipeDirection]::InOut)
-    $pipe.Connect()
-    $pipe.Dispose()
+    $Path = "$Env:TEMP/$Name"
+    if (Test-Path $Path) {
+        # ? https://stackoverflow.com/a/78041568
+        # TODO: When switching from watchdog to watchfiles, remove this Windows-only hack
+        try { taskkill.exe /f /t /PID (Get-Item $Path | Get-Content) }
+        catch [System.Management.Automation.NativeCommandExitException] {
+            if ($_.Exception.ExitCode -eq 0x80) { Write-Output "Process ID not found" }
+            else { throw }
+        }
+        Remove-Item $Path
+    }
+    $Process = Start-Process -PassThru -NoNewWindow 'pwsh' -ArgumentList '-Command', ". Invoke-Uv.ps1 -m $Module"
+    $Process.Id | Out-File $Path
 }

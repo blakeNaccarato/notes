@@ -35,10 +35,6 @@ open-source title:
 preview path:
   {{notes}}.preview {{path}}
 
-watch-pipe := 'watch-5b7151'
 [no-cd]
 start-watch:
-  {{scripts}} Start-Pipe {{watch-pipe}} { {{notes}}.watch }; exit 0
-[no-cd]
-stop-watch:
-  {{scripts}} Stop-Pipe {{watch-pipe}}
+  {{scripts}} Start-PythonProcess watch-5b7151 notes.watch
