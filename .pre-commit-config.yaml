@@ -32,6 +32,11 @@ repos:
         language: "system"
         entry: |
           pwsh -Command "./Invoke-Uv.ps1 -Sync -Update"
+      - id: "build"
+        name: "build"
+        pass_filenames: false
+        language: "system"
+        entry: "npm run build"
       - id: "fawltydeps-src"
         name: "fawltydeps-src"
         pass_filenames: false
