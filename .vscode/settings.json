@@ -284,6 +284,7 @@
   "typescript.referencesCodeLens.enabled": true,
   "typescript.referencesCodeLens.showOnAllFunctions": true,
   "typescript.suggest.completeFunctionCalls": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.watchOptions": "vscode",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",

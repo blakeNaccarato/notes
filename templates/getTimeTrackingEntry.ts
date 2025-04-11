@@ -2,7 +2,7 @@
  * Get time tracking entry for the selection or clipboard.
  */
 
-import type TemplaterPlugin from "templater-obsidian/main";
+import type TemplaterPlugin from "templater-obsidian";
 
 export default async (): Promise<void> => {
   const tp = (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
