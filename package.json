@@ -5,7 +5,7 @@
     "eslint": "9.24.0",
     "obsidian-typings": "2.42.0",
     "prettier": "3.5.3",
-    "templater-obsidian": "file:packages/templater-obsidian/src",
+    "templater-obsidian": "file:packages/templater-obsidian",
     "typescript": "5.8.3",
     "typescript-eslint": "8.29.1"
   },
