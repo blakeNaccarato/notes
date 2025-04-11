@@ -238,8 +238,6 @@
   "yaml.format.printWidth": 88,
   //* ruff (PY, IPYNB)
   "ruff.importStrategy": "fromEnvironment",
-  "ruff.lint.args": ["--config", "pyproject.toml"],
-  "ruff.format.args": ["--config", "pyproject.toml"],
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.wordWrap": "off"
@@ -255,6 +253,44 @@
     "editor.wordWrap": "off"
   },
   "evenBetterToml.taplo.configFile.path": ".taplo.toml",
+  //! TypeScript/JavaScript
+  //? `enableProjectDiagnostics` currently kinda buggy
+  //? Need `!node_modules` in Problems filter, but it chugs still
+  //? https://github.com/microsoft/TypeScript/issues/36664
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.preferGoToSourceDefinition": true,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "typescript.experimental.expandableHover": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.implementationsCodeLens.showOnInterfaceMethods": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.tsserver.watchOptions": "vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
   //! Other
   //? Other automatically added settings below
   "": "",

@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "@eslint/js": "9.24.0",
+    "@tsconfig/strictest": "2.0.5",
+    "eslint": "9.24.0",
+    "obsidian-typings": "2.42.0",
+    "prettier": "3.5.3",
+    "templater-obsidian": "file:packages/templater-obsidian/src",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.29.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\"",
+    "postbuild": "npm run format"
+  }
+}

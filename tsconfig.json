@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/strictest/tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2018",
+    "types": ["obsidian-typings"],
+    "outDir": "data/local/vaults/personal/_Ω/scripts"
+  },
+  "include": ["templates/getTimeTrackingEntry.ts"]
+}

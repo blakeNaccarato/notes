@@ -4,3 +4,6 @@
 [submodule "typings"]
 	path = typings
 	url = https://github.com/softboiler/python-type-stubs.git
+[submodule "templater-obsidian"]
+	path = packages/templater-obsidian
+	url = https://github.com/blakeNaccarato/Templater

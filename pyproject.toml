@@ -94,7 +94,7 @@ python-version = "3.11"
 all-extras = true
 [tool.uv.workspace]
 members = ["packages/*"]
-exclude = ["packages/cachier"]
+exclude = ["packages/cachier", "packages/templater-obsidian"]
 [tool.uv.sources]
 notes_dev = { workspace = true }
 notes_pipeline = { workspace = true }

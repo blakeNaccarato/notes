@@ -97,7 +97,7 @@ function Invoke-Uv {
             $FrozenArg = $Locked ? $null : '--frozen'
             if ($Low) {
                 uv sync $LockedArg --resolution lowest-direct --python $PythonVersion
-                uv export $LockedArg $FrozenArg --resolution lowest-direct --no-hashes --python $PythonVersion |
+                uv export $LockedArg $FrozenArg --resolution lowest-direct --no-hashes --no-annotate --python $PythonVersion |
                     Set-Content "$PSScriptRoot/requirements/requirements_dev_low.txt"
                 $Env:ENV_SYNCED = $null
             }
@@ -111,7 +111,7 @@ function Invoke-Uv {
                 $LockedArg = $null
                 $FrozenArg = '--frozen'
                 uv sync $LockedArg --no-sources --no-dev --python $PythonVersion
-                uv export $LockedArg $FrozenArg --no-dev --no-hashes --python $PythonVersion |
+                uv export $LockedArg $FrozenArg --no-dev --no-hashes --no-annotate --python $PythonVersion |
                     Set-Content "$PSScriptRoot/requirements/requirements_prod.txt"
                 uv build --python $PythonVersion
                 $Env:ENV_SYNCED = $null
@@ -119,7 +119,7 @@ function Invoke-Uv {
             elseif ($CI -or $Force -or !$Env:ENV_SYNCED) {
                 # ? Sync the environment
                 uv sync $LockedArg --python $PythonVersion
-                uv export $LockedArg $FrozenArg --no-hashes --python $PythonVersion |
+                uv export $LockedArg $FrozenArg --no-hashes --no-annotate --python $PythonVersion |
                     Set-Content "$PSScriptRoot/requirements/requirements_dev.txt"
                 if ($CI) {
                     Add-Content $Env:GITHUB_PATH ("$PSScriptRoot/.venv/bin", "$PSScriptRoot/.venv/scripts")

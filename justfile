@@ -7,6 +7,9 @@ dev := proj + 'notes-dev'
 default:
   {{proj}}
 
+npm-build:
+  npm run build
+
 dvc-dag:
   {{proj}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
   markdownlint-cli2 'docs/_static/dag.md'
