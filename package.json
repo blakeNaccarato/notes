@@ -11,7 +11,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\"",
-    "postbuild": "npm run format"
+    "postbuild": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\" && powershell \"Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js' | ForEach-Object { $content = Get-Content $_.FullName | Select-Object -Skip 1; $content | Set-Content $_.FullName }\""
   }
 }

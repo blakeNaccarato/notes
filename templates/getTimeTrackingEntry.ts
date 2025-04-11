@@ -3,7 +3,6 @@
  */
 
 import type TemplaterPlugin from "templater-obsidian";
-
 export default async (): Promise<void> => {
   const tp = (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
     .templater.current_functions_object;

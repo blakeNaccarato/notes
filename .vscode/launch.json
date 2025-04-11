@@ -24,6 +24,13 @@
   ],
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${file}",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+    },
+    {
       "name": "Python: Current file",
       "type": "debugpy",
       "request": "launch",

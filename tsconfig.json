@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "target": "ES2018",
+    "inlineSourceMap": true,
+    "target": "ES2020",
     "types": ["obsidian-typings"],
     "outDir": "data/local/vaults/personal/_Ω/scripts"
   },
