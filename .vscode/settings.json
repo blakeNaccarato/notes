@@ -206,6 +206,7 @@
   "rewrap.wholeComment": false,
   //* Sourcery
   "sourcery.codeLens": false,
+  "sourcery.suggestFixes": false,
   //* vscode-icons
   "workbench.iconTheme": "vscode-icons",
   "vsicons.presets.hideExplorerArrows": true,
