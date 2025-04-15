@@ -104,20 +104,5 @@
       "request": "launch",
       "script": "${file}",
     },
-    {
-      //? https://github.com/microsoft/vscode-python-debugger/issues/335
-      "name": "pytest",
-      //! Uncomment below to disable "justMyCode" when debugging. Comment out after.
-      // "purpose": ["debug-test"],
-      //!
-      "presentation": {
-        "hidden": true
-      },
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${file}",
-      "console": "internalConsole",
-      "justMyCode": false
-    }
   ]
 }
