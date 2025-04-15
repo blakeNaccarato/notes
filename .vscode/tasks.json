@@ -40,6 +40,37 @@
   ],
   "tasks": [
     {
+      "label": "test",
+      "icon": { "id": "beaker" },
+      "options": { "cwd": "${workspaceFolder}" },
+      "command": "uv run watchfiles --filter python 'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no -vvv' src tests",
+      "isBackground": true,
+      "group": { "kind": "test", "isDefault": true },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "tests",
+        "revealProblems": "onProblem"
+      },
+      "runOptions": { "runOn": "folderOpen" },
+      "problemMatcher": [
+        {
+          "source": "pytest",
+          "base": "$python",
+          "applyTo": "allDocuments",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^=+ test session starts =+$",
+            "endsPattern": "^=+ (?:\\d+ passed|\\d+ failed|no tests ran).* =+$"
+          }
+        }
+      ]
+    },
+    {
       "label": "proj: remove empty data folders",
       "command": "Get-ChildItem -Path ./data -Recurse -Directory | Where-Object { (Get-ChildItem -Path $_ -Recurse -File | Measure-Object).Count -eq 0 } | Remove-Item -Recurse -Force",
       "icon": { "id": "terminal-powershell" },
