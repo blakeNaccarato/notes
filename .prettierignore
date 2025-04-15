@@ -1,7 +1,7 @@
-# ? Ignore hidden paths
-.*
-# ? Prettier clobbers Myst-specific syntax in notebooks
+#? Ignore hidden paths in data folder
+data/**/.*
+#? Prettier clobbers Myst-specific syntax in notebooks
 *.py
 *.ipynb
-# ? Markdownlint handles this
+#? Markdownlint handles this
 *.md

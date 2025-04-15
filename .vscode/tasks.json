@@ -40,30 +40,18 @@
   ],
   "tasks": [
     {
-      "label": "test",
+      "label": "task: Run pytest",
+      "dependsOn": ["setup: Sync contributor environment"],
       "icon": { "id": "beaker" },
-      "options": { "cwd": "${workspaceFolder}" },
-      "command": "uv run watchfiles --filter python 'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no -vvv' src tests",
-      "isBackground": true,
+      "command": "uv run watchfiles --ignore-permission-denied --filter python 'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no -vvv' src tests",
       "group": { "kind": "test", "isDefault": true },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "tests",
-        "revealProblems": "onProblem"
-      },
+      "isBackground": true,
       "runOptions": { "runOn": "folderOpen" },
       "problemMatcher": [
         {
-          "source": "pytest",
           "base": "$python",
-          "applyTo": "allDocuments",
+          "source": "pytest",
           "background": {
-            "activeOnStart": true,
             "beginsPattern": "^=+ test session starts =+$",
             "endsPattern": "^=+ (?:\\d+ passed|\\d+ failed|no tests ran).* =+$"
           }
@@ -73,38 +61,38 @@
     {
       "label": "proj: remove empty data folders",
       "command": "Get-ChildItem -Path ./data -Recurse -Directory | Where-Object { (Get-ChildItem -Path $_ -Recurse -File | Measure-Object).Count -eq 0 } | Remove-Item -Recurse -Force",
-      "icon": { "id": "terminal-powershell" },
+      "icon": { "id": "terminal-powershell" }
     },
     {
       "label": "proj: local notes-dev configs (Pyrightconfig, pytest.ini)",
       "command": "python .tools/scripts/local_dev_configs.py",
-      "icon": { "id": "graph" },
+      "icon": { "id": "graph" }
     },
     {
       "label": "dvc: repro",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize params"],
       "command": "dvc repro ${input:stage}",
-      "icon": { "id": "graph" },
+      "icon": { "id": "graph" }
     },
     {
       "label": "dvc: repro force",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize params"],
       "command": "dvc repro --force ${input:stage}",
-      "icon": { "id": "graph" },
+      "icon": { "id": "graph" }
     },
     {
       "label": "dvc: dag",
       "dependsOrder": "sequence",
       "dependsOn": ["dvc: synchronize params"],
       "command": "(dvc dag --md) -Replace 'mermaid', '{mermaid}' > docs/dag.md && . '~/.local/nodeenvs/markdownlint/Scripts/Activate.ps1' && markdownlint --fix docs/dag.md",
-      "icon": { "id": "graph" },
+      "icon": { "id": "graph" }
     },
     {
       "label": "dvc: synchronize params",
       "command": "python -m notes_pipeline.models.params",
-      "icon": { "id": "graph" },
+      "icon": { "id": "graph" }
     },
     // * -------------------------------------------------------------------------- * //
     // * PROJECT SETUP * //
@@ -112,45 +100,42 @@
     {
       "label": "setup: Sync with template",
       "command": ". ./dev.ps1 && Sync-Template ${input:templateOptions}",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Sync with specific template ref",
       "command": ". ./dev.ps1 && Sync-Template ${input:ref} ${input:templateOptions}",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Sync contributor environment",
       "command": "if (!$Env:DEVCONTAINER) {./Invoke-Uv.ps1 -Sync -Update}",
-      "icon": { "id": "file-symlink-directory" },
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Initialize repository",
       "command": ". ./dev.ps1 && Initialize-Repo",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Remove *.rej",
       "command": "Get-ChildItem -Recurse -Filter *.rej | Remove-Item",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Initialize Windows machine",
       "command": ". ./dev.ps1 && Initialize-Windows",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Initialize Linux/MacOS machine",
       "command": "scripts/Initialize-LinuxMacOS.sh",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
     {
       "label": "setup: Finish initializing machine (cross-platform)",
       "command": ". ./dev.ps1 && Initialize-Machine",
-      "icon": { "id": "file-symlink-directory" },
+      "icon": { "id": "file-symlink-directory" }
     },
 
     // * -------------------------------------------------------------------------- * //
@@ -159,73 +144,72 @@
     {
       "label": "task: pre-commit",
       "command": "./Invoke-Uv.ps1 pre-commit run --verbose",
-      "icon": { "id": "git-commit" },
+      "icon": { "id": "git-commit" }
     },
     {
       "label": "task: pre-commit (all)",
       "command": "./Invoke-Uv.ps1 pre-commit run --all-files --verbose",
-      "icon": { "id": "git-commit" },
+      "icon": { "id": "git-commit" }
     },
     {
       "label": "task: Rebase back to fork",
       "command": "git rebase -i --fork-point main",
-      "icon": { "id": "git-branch" },
+      "icon": { "id": "git-branch" }
     },
     {
       "label": "task: Show tree of packages requesting a dependency",
       "command": "./Invoke-Uv.ps1 pipdeptree --reverse --packages ${input:dependency}",
-      "icon": { "id": "versions" },
+      "icon": { "id": "versions" }
     },
     {
       "label": "task: Run pytest with coverage",
       "command": "./Invoke-Uv.ps1 pytest --cov  --cov-config pyproject.toml --cov-report xml",
-      "icon": { "id": "check" },
+      "icon": { "id": "check" }
     },
     {
       "label": "task: Run ruff",
       "command": ". ./dev.ps1 && iuv ruff check . && iuv ruff format .",
-      "icon": { "id": "check" },
+      "icon": { "id": "check" }
     },
     {
       "label": "task: Run pyright",
       "command": "./Invoke-Uv.ps1 pyright",
-      "icon": { "id": "check" },
+      "icon": { "id": "check" }
     },
     {
       "label": "task: Build docs",
       "command": "./Invoke-Uv.ps1 notes-dev build-docs",
-      "icon": { "id": "book" },
+      "icon": { "id": "book" }
     },
     {
       "label": "task: Profile this file",
       "command": "./Invoke-Uv.ps1 cProfile -o .prof ${file}",
-      "icon": { "id": "graph-line" },
+      "icon": { "id": "graph-line" }
     },
     {
       "label": "task: View profile results with snakeviz",
       "command": "./Invoke-Uv.ps1 snakeviz .prof",
-      "icon": { "id": "graph-line" },
+      "icon": { "id": "graph-line" }
     },
     {
       "label": "task: Bump version",
       "command": ". ./dev.ps1 && uvx copier@9.2.0 update --vcs-ref=HEAD --defaults --data project_version='${input:version}' && iuv towncrier build --yes --version '${input:version}' && git add . && git commit -m '${input:version}'",
-      "icon": { "id": "tag" },
+      "icon": { "id": "tag" }
     },
     {
       "label": "task: Release version",
       "command": "./Invoke-Uv.ps1 && ($version = (Get-Content '.copier-answers.yml' | Select-String -Pattern '^project_version:\\s(.+)$').Matches.Groups[1].value && git tag --sign -m $version $version && git push && gh release create --discussion-category='announcements' --notes='' --title=$version --verify-tag $version)",
-      "icon": { "id": "tag" },
+      "icon": { "id": "tag" }
     },
     {
       "label": "task: Update changelog",
       "command": "./Invoke-Uv.ps1 python -m notes-dev add-change ${input:changeType}",
-      "icon": { "id": "tag" },
+      "icon": { "id": "tag" }
     },
     {
       "label": "task: Update changelog with the latest commit's message",
       "command": "./Invoke-Uv.ps1 towncrier create +$((Get-Date).ToUniversalTime().ToString('o').Replace(':','-')).change.md --content $($(git log -1 --format='%s') + ' ([' + $(git rev-parse --short HEAD) + '](https://github.com/blakeNaccarato/notes/commit/' + $(git rev-parse HEAD) + '))\n')",
-      "icon": { "id": "tag" },
-
+      "icon": { "id": "tag" }
     }
   ]
 }
