@@ -327,7 +327,7 @@ ignore = [
   "S301",    # Don't warn about pickling.
   "S403",    # Don't warn about pickle-like modules.
   "S404",    # Don't warn about subprocess.
-  "TCH",     # Type checking linter doesn't play nicely with pydantic
+  "TC",      # Type checking linter doesn't play nicely with pydantic
   "TD",      # Disable to-do validation. Too pedantic for now.
   "TRY003",  # Allow long exception messages
   "W2",      # Allow whitespace issues. Fixed automatically by black.
