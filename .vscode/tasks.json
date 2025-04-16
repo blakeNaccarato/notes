@@ -66,9 +66,8 @@
     },
     {
       "label": "Run npm build",
-      "type": "npm",
       "icon": { "id": "package" },
-      "script": "build",
+      "command": "npm run build",
       "group": { "kind": "build", "isDefault": true },
       "problemMatcher": ["$tsc-watch"]
     },
