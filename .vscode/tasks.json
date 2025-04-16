@@ -40,13 +40,18 @@
   ],
   "tasks": [
     {
+      "label": "startup",
+      "runOptions": { "runOn": "folderOpen" },
+      "dependsOn": ["task: Run pytest", "task: Run npm watch"],
+      "icon": { "id": "play" }
+    },
+    {
       "label": "task: Run pytest",
       "dependsOn": ["setup: Sync contributor environment"],
       "icon": { "id": "beaker" },
       "command": "uv run watchfiles --ignore-permission-denied --filter python 'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no -vvv' src tests",
       "group": { "kind": "test", "isDefault": true },
       "isBackground": true,
-      "runOptions": { "runOn": "folderOpen" },
       "problemMatcher": [
         {
           "base": "$python",
@@ -57,6 +62,14 @@
           }
         }
       ]
+    },
+    {
+      "label": "task: Run npm watch",
+      "type": "npm",
+      "icon": { "id": "package" },
+      "script": "watch",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$tsc-watch"]
     },
     {
       "label": "proj: remove empty data folders",

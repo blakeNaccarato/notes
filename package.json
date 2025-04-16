@@ -6,11 +6,13 @@
     "obsidian-typings": "2.42.0",
     "prettier": "3.5.3",
     "templater-obsidian": "file:packages/templater-obsidian",
+    "tsc-watch": "^6.2.1",
     "typescript": "5.8.3",
     "typescript-eslint": "8.29.1"
   },
   "scripts": {
-    "build": "tsc",
-    "postbuild": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\" && powershell \"Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js' | ForEach-Object { $content = Get-Content $_.FullName | Select-Object -Skip 1; $content | Set-Content $_.FullName }\""
+    "build": "tsc && npm run on-success",
+    "watch": "tsc-watch --onSuccess \"npm run on-success\"",
+    "on-success": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\" && powershell \"Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js' | ForEach-Object { $content = Get-Content $_.FullName | Select-Object -Skip 1; $content | Set-Content $_.FullName }\""
   }
 }
