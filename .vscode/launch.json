@@ -24,13 +24,6 @@
   ],
   "configurations": [
     {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${file}",
-      "preLaunchTask": "tsc: build - tsconfig.json",
-    },
-    {
       "name": "Python: Current file",
       "type": "debugpy",
       "request": "launch",
@@ -102,7 +95,7 @@
       "name": "PowerShell: Launch Current File",
       "type": "PowerShell",
       "request": "launch",
-      "script": "${file}",
-    },
+      "script": "${file}"
+    }
   ]
 }

@@ -1,33 +1,11 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
-    "isolatedModules": true,
-
-    "checkJs": true,
-
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "inlineSourceMap": true,
     "target": "ES2020",
     "types": ["obsidian-typings"],
-    "outDir": "data/local/vaults/personal/_Ω/scripts",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "outDir": "data/local/vaults/personal/_Ω/scripts"
   },
-  "include": ["templates/getTimeTrackingEntry.ts"]
+  "include": ["templates/*.ts"]
 }

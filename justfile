@@ -10,6 +10,17 @@ default:
 npm-build:
   npm run build
 
+run-pytest:
+  uv run watchfiles --ignore-permission-denied --filter python \
+    'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no --verbosity 3' \
+    src tests
+watch-templates:
+  {{proj}} uv run watchfiles --ignore-permission-denied --grace-period 5 \
+    'pwsh ./scripts/Format-Changes.ps1 -Verbose' \
+    'data/local/vaults/personal/_Ω/scripts'
+format-templates:
+ {{proj}} scripts/Format-Changes.ps1 (Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js')
+
 dvc-dag:
   {{proj}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
   markdownlint-cli2 'docs/_static/dag.md'

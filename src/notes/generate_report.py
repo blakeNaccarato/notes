@@ -3,7 +3,7 @@
 from contextlib import chdir
 from os import walk
 from pathlib import Path
-from re import MULTILINE, compile
+from re import MULTILINE, compile  # noqa: A004
 from shlex import join, quote, split
 from subprocess import run
 

@@ -11,8 +11,8 @@
     "typescript-eslint": "8.29.1"
   },
   "scripts": {
-    "build": "tsc && npm run on-success",
-    "watch": "tsc-watch --onSuccess \"npm run on-success\"",
-    "on-success": "prettier --write \"data/local/vaults/personal/_Ω/scripts/*.js\" && powershell \"Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js' | ForEach-Object { $content = Get-Content $_.FullName | Select-Object -Skip 1; $content | Set-Content $_.FullName }\""
+    "build": "tsc",
+    "watch": "tsc-watch --pretty",
+    "postbuild": "uvx --from rust-just just format-templates"
   }
 }

@@ -17,14 +17,14 @@
     "**/.jupyter_cache": true,
     "**/.pytest_cache/": true,
     //? Attempt to prevent picking up temporary Pylance files in Problems pane
-    "**/*pylance-notebook-cell*": true,
+    "**/*pylance-notebook-cell*": true
   },
   "search.exclude": {
     //? Don't search in submodules or locks by default
     "typings": true,
     "uv.lock": true,
     //? Obsidian templater
-    "packages/templater-obsidian/**": true,
+    "packages/templater-obsidian/**": true
   },
   //! File nesting
   "explorer.sortOrder": "foldersNestsFiles",
@@ -43,7 +43,7 @@
     "*ipython-input*": "python",
     "*requirements*.in": "pip-requirements",
     "pyrightconfig.json": "jsonc",
-    "uv.lock": "toml",
+    "uv.lock": "toml"
   },
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook",
@@ -297,5 +297,5 @@
   },
   //! Other
   //? Other automatically added settings below
-  "": "",
+  "": ""
 }

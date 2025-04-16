@@ -2,7 +2,6 @@
 #   filename:  <stdin>
 #   timestamp: 2023-02-10T16:53:31+00:00
 
-# flake8: noqa: A003
 
 from __future__ import annotations
 

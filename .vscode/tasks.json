@@ -2,6 +2,12 @@
   "version": "2.0.0",
   "type": "shell",
   "problemMatcher": ["$python"],
+  "presentation": {
+    "clear": true,
+    "group": "tasks",
+    "reveal": "silent",
+    "showReuseMessage": false
+  },
   "inputs": [
     {
       "id": "stage",
@@ -40,16 +46,11 @@
   ],
   "tasks": [
     {
-      "label": "startup",
+      "label": "Run pytest",
       "runOptions": { "runOn": "folderOpen" },
-      "dependsOn": ["task: Run pytest", "task: Run npm watch"],
-      "icon": { "id": "play" }
-    },
-    {
-      "label": "task: Run pytest",
-      "dependsOn": ["setup: Sync contributor environment"],
+      "presentation": { "group": "background" },
       "icon": { "id": "beaker" },
-      "command": "uv run watchfiles --ignore-permission-denied --filter python 'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no -vvv' src tests",
+      "command": "uvx --from rust-just just run-pytest",
       "group": { "kind": "test", "isDefault": true },
       "isBackground": true,
       "problemMatcher": [
@@ -64,12 +65,59 @@
       ]
     },
     {
-      "label": "task: Run npm watch",
+      "label": "Run npm build",
       "type": "npm",
       "icon": { "id": "package" },
-      "script": "watch",
+      "script": "build",
       "group": { "kind": "build", "isDefault": true },
       "problemMatcher": ["$tsc-watch"]
+    },
+    {
+      "label": "Run npm watcher",
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "group": "background" },
+      "icon": { "id": "package" },
+      "command": "npm run watch",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "base": "$tsc-watch",
+          "source": "tsc",
+          "background": {
+            "beginsPattern": "^.*(?:Starting compilation in watch mode\\.\\.\\.|File change detected\\. Starting incremental compilation\\.\\.\\.)$",
+            "endsPattern": "^.*(Compilation complete\\. Watching for file changes\\.|Found \\d+ error[s]?\\. Watching for file changes\\.)$"
+          }
+        }
+      ]
+    },
+    {
+      "label": "Run template watcher",
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "group": "background" },
+      "icon": { "id": "edit" },
+      "command": "uvx --from rust-just just watch-templates",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "base": "$pester",
+          "source": "formatter",
+          "pattern": [
+            {
+              "regexp": "^\\s*[Aa]t\\s+([^,]+,)?(.+?):(\\s+line\\s+)?(\\d+).*$",
+              "file": 2,
+              "line": 4
+            },
+            {
+              "regexp": "^\\+\\s(.+)$",
+              "message": 1
+            }
+          ],
+          "background": {
+            "beginsPattern": "^VERBOSE: START PROBLEM MATCHER$",
+            "endsPattern": "^(?:VERBOSE: END PROBLEM MATCHER|.*FullyQualifiedErrorId.*)$"
+          }
+        }
+      ]
     },
     {
       "label": "proj: remove empty data folders",
@@ -122,6 +170,7 @@
     },
     {
       "label": "setup: Sync contributor environment",
+      "runOptions": { "runOn": "folderOpen" },
       "command": "if (!$Env:DEVCONTAINER) {./Invoke-Uv.ps1 -Sync -Update}",
       "icon": { "id": "file-symlink-directory" }
     },
