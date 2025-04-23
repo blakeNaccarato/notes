@@ -13,4 +13,5 @@ $Paths | ForEach-Object {
     $NewContent = $Content -Replace '(?m)^"use strict";[\r\n]+' -Replace '(?m)^Object\.defineProperty\(exports, "__esModule", \{ value: true \}\);[\r\n]+'
     if ($NewContent -ne $Content) { $NewContent | Out-File $_ -NoNewline }
 }
+Remove-Item 'data/local/vaults/personal/_Ω/scripts/templater.js'
 Write-Verbose 'END PROBLEM MATCHER'

@@ -52,12 +52,15 @@ dev-dependencies = [
   "lookback",
   "notes_dev",
   "notes_pipeline",
-  # ? Data exploration with Data Wrangler
+  # ? For VSCode Jupyter notebooks and Data Wrangler
+  "ipykernel==6.29.5",
+  "pandas-stubs==2.2.3.*",
+  "pandas==2.2.3",
   "pyarrow==17.0.0",
+  "pyspark==3.5.5",
   # ? Dev
   "debugpy==1.8.2",
   "fawltydeps==0.16.0",
-  "pandas-stubs==2.2.2.*",
   "pipdeptree==2.23.0",
   "pre-commit==3.7.1",
   "pyright==1.1.371",
@@ -90,7 +93,7 @@ dev-dependencies = [
   "pytest-instafail==0.5.0",
   "pytest-testmon==2.1.3",
   "pytest==8.2.2",
-  "ruff>=0.11.5",
+  "ruff==0.11.5",
 ]
 [tool.uv.pip]
 python-version = "3.11"

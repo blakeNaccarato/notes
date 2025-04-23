@@ -2000,16 +2000,19 @@ dev = [
     { name = "debugpy" },
     { name = "dvc", extra = ["gdrive"] },
     { name = "fawltydeps" },
+    { name = "ipykernel" },
     { name = "linkify-it-py" },
     { name = "lookback" },
     { name = "myst-nb" },
     { name = "notes-dev" },
     { name = "notes-pipeline" },
+    { name = "pandas" },
     { name = "pandas-stubs" },
     { name = "pipdeptree" },
     { name = "pre-commit" },
     { name = "pyarrow" },
     { name = "pyright" },
+    { name = "pyspark" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-custom-exit-code" },
@@ -2054,16 +2057,19 @@ dev = [
     { name = "debugpy", specifier = "==1.8.2" },
     { name = "dvc", extras = ["gdrive"], specifier = "==3.51.2" },
     { name = "fawltydeps", specifier = "==0.16.0" },
+    { name = "ipykernel", specifier = "==6.29.5" },
     { name = "linkify-it-py", specifier = "==2.0.3" },
     { name = "lookback", editable = "packages/lookback" },
     { name = "myst-nb", specifier = "==1.1.1" },
     { name = "notes-dev", editable = "packages/_dev" },
     { name = "notes-pipeline", editable = "packages/pipeline" },
-    { name = "pandas-stubs", specifier = "==2.2.2.*" },
+    { name = "pandas", specifier = "==2.2.3" },
+    { name = "pandas-stubs", specifier = "==2.2.3.*" },
     { name = "pipdeptree", specifier = "==2.23.0" },
     { name = "pre-commit", specifier = "==3.7.1" },
     { name = "pyarrow", specifier = "==17.0.0" },
     { name = "pyright", specifier = "==1.1.371" },
+    { name = "pyspark", specifier = "==3.5.5" },
     { name = "pytest", specifier = "==8.2.2" },
     { name = "pytest-cov", specifier = "==5.0.0" },
     { name = "pytest-custom-exit-code", specifier = "==0.3.0" },
@@ -2071,7 +2077,7 @@ dev = [
     { name = "pytest-instafail", specifier = "==0.5.0" },
     { name = "pytest-testmon", specifier = "==2.1.3" },
     { name = "ruamel-yaml", specifier = "==0.18.6" },
-    { name = "ruff", specifier = ">=0.11.5" },
+    { name = "ruff", specifier = "==0.11.5" },
     { name = "rust-just", specifier = "==1.36.0" },
     { name = "snakeviz", specifier = "==2.2.0" },
     { name = "sourcery", specifier = "==1.21.0" },
@@ -2333,15 +2339,15 @@ wheels = [
 
 [[package]]
 name = "pandas-stubs"
-version = "2.2.2.240909"
+version = "2.2.3.250308"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "types-pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/39/d9/0682716a9ba539b78748f026c523ae5f280fc478381f7f1c6c037d0f0fc3/pandas_stubs-2.2.2.240909.tar.gz", hash = "sha256:3c0951a2c3e45e3475aed9d80b7147ae82f176b9e42e9fb321cfdebf3d411b3d", size = 103599 }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/5a/261f5c67a73e46df2d5984fe7129d66a3ed4864fd7aa9d8721abb3fc802e/pandas_stubs-2.2.3.250308.tar.gz", hash = "sha256:3a6e9daf161f00b85c83772ed3d5cff9522028f07a94817472c07b91f46710fd", size = 103986 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/06/2d/68d58d819798b466e16c01ca934deada2f9165fb3d062f83abbef2f8067e/pandas_stubs-2.2.2.240909-py3-none-any.whl", hash = "sha256:e230f5fa4065f9417804f4d65cd98f86c002efcc07933e8abcd48c3fad9c30a2", size = 157811 },
+    { url = "https://files.pythonhosted.org/packages/ba/64/ab61d9ca06ff66c07eb804ec27dec1a2be1978b3c3767caaa91e363438cc/pandas_stubs-2.2.3.250308-py3-none-any.whl", hash = "sha256:a377edff3b61f8b268c82499fdbe7c00fdeed13235b8b71d6a1dc347aeddc74d", size = 158053 },
 ]
 
 [[package]]
@@ -2585,6 +2591,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/cd/05/0a34433a064256a578f1783a10da6df098ceaa4a57bbeaa96a6c0352786b/pure_eval-0.2.3.tar.gz", hash = "sha256:5f4e983f40564c576c7c8635ae88db5956bb2229d7e9237d03b3c0b0190eaf42", size = 19752 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8e/37/efad0257dc6e593a18957422533ff0f87ede7c9c6ea010a2177d738fb82f/pure_eval-0.2.3-py3-none-any.whl", hash = "sha256:1db8e35b67b3d218d818ae653e27f06c3aa420901fa7b081ca98cbedc874e0d0", size = 11842 },
+]
+
+[[package]]
+name = "py4j"
+version = "0.10.9.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1e/f2/b34255180c72c36ff7097f7c2cdca02abcbd89f5eebf7c7c41262a9a0637/py4j-0.10.9.7.tar.gz", hash = "sha256:0b6e5315bb3ada5cf62ac651d107bb2ebc02def3dee9d9548e3baac644ea8dbb", size = 1508234 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/10/30/a58b32568f1623aaad7db22aa9eafc4c6c194b429ff35bdc55ca2726da47/py4j-0.10.9.7-py2.py3-none-any.whl", hash = "sha256:85defdfd2b2376eb3abf5ca6474b51ab7e0de341c75a02f46dc9b5976f5a5c1b", size = 200481 },
 ]
 
 [[package]]
@@ -2903,6 +2918,15 @@ sdist = { url = "https://files.pythonhosted.org/packages/d6/34/73e33154842c74268
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/ea/91caa08ed88da60ba2a0331bdf94e3bc62af6c3f3e3c9f48b8bd6f4a4599/pyright-1.1.371-py3-none-any.whl", hash = "sha256:cce52e42ff73943243e7e5e24f2a59dee81b97d99f4e3cf97370b27e8a1858cd", size = 18224 },
 ]
+
+[[package]]
+name = "pyspark"
+version = "3.5.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "py4j" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5f/8f/b616ef710932ccdbabd8511e08890a677482ab2967b7cf276c09a02bc64c/pyspark-3.5.5.tar.gz", hash = "sha256:6effc9ce98edf231f4d683fd14f7270629bf8458c628d6a2620ded4bb34f3cb9", size = 317214975 }
 
 [[package]]
 name = "pytest"
