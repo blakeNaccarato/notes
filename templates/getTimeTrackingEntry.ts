@@ -1,5 +1,5 @@
 import type TemplaterPlugin from "templater-obsidian";
-import type { Templater } from "./templater";
+import type { Templater } from "./types";
 
 /**
  * Get time tracking entry for selection or clipboard.
