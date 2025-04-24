@@ -1,8 +1,20 @@
-set shell := ['pwsh', '-Command']
 set dotenv-load
 
-proj :=  '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1; '
-dev := proj + 'notes-dev'
+set shell :=\
+  ['pwsh', '-NonInteractive', '-NoProfile', '-CommandWithArgs']
+
+sp :=\
+  ' '
+proj :=\
+  '. ./dev.ps1;'
+dev :=\
+  proj + sp + 'notes-dev'
+
+compiled_templates :=\
+  'data/local/vaults/personal/_Ω/scripts'
+format_templates :=\
+  proj + sp + '(' + 'Get-ChildItem' + sp + compiled_templates + sp + '-Filter *.js' + ')' \
+  + sp + '|' + sp + 'Format-TemplateScript.ps1'
 
 default:
   {{proj}}
@@ -14,12 +26,13 @@ run-pytest:
   uv run watchfiles --ignore-permission-denied --filter python \
     'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no --verbosity 3' \
     src tests
-watch-templates:
-  {{proj}} uv run watchfiles --ignore-permission-denied --grace-period 5 \
-    'pwsh ./scripts/Format-Changes.ps1 -Verbose' \
-    'data/local/vaults/personal/_Ω/scripts'
 format-templates:
- {{proj}} scripts/Format-Changes.ps1 (Get-ChildItem 'data/local/vaults/personal/_Ω/scripts/*.js')
+  {{format_templates}}
+watch-templates:
+  Start-Sleep 5
+  {{format_templates}}
+  {{proj}} uv run watchfiles --ignore-permission-denied --target-type 'command' \
+    'pwsh ./scripts/Watch-TemplateScripts.ps1' '{{compiled_templates}}'
 
 dvc-dag:
   {{proj}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
@@ -29,9 +42,12 @@ sync-contrib:
 sync-local-dev-configs:
   {{dev}} sync-local-dev-configs
 
-vault :=  '$Env:PATH = "$(Get-Item ../../../..); $(Get-Item ../../../..)/scripts; $Env:PATH"; . dev.ps1; '
-notes := vault + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
-scripts := vault + '. notes.ps1;'
+vault :=\
+  '. ./dev.ps1 -Vault; '
+notes :=\
+  vault + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
+scripts :=\
+  vault + '. notes.ps1;'
 
 [no-cd]
 copy-uri vault_path note_path selection:

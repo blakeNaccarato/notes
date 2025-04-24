@@ -59,8 +59,8 @@
           "base": "$python",
           "source": "pytest",
           "background": {
-            "beginsPattern": "^=+ test session starts =+$",
-            "endsPattern": "^=+ (?:\\d+ passed|\\d+ failed|no tests ran).* =+$"
+            "beginsPattern": "=+ test session starts =+",
+            "endsPattern": "=+ (?:\\d+ passed|\\d+ failed|no tests ran).* =+"
           }
         }
       ]
@@ -84,8 +84,8 @@
           "base": "$tsc-watch",
           "source": "tsc",
           "background": {
-            "beginsPattern": "^.*(?:Starting compilation in watch mode\\.\\.\\.|File change detected\\. Starting incremental compilation\\.\\.\\.)$",
-            "endsPattern": "^.*(Compilation complete\\. Watching for file changes\\.|Found \\d+ error[s]?\\. Watching for file changes\\.)$"
+            "beginsPattern": "Starting compilation in watch mode\\.\\.\\.|File change detected\\.",
+            "endsPattern": "Compilation complete\\.|Found \\d+ error[s]?\\. Watching"
           }
         }
       ]
@@ -103,18 +103,18 @@
           "source": "formatter",
           "pattern": [
             {
+              "regexp": "^(.+\\s:\\s.+)$",
+              "message": 1
+            },
+            {
               "regexp": "^\\s*[Aa]t\\s+([^,]+,)?(.+?):(\\s+line\\s+)?(\\d+).*$",
               "file": 2,
               "line": 4
-            },
-            {
-              "regexp": "^\\+\\s(.+)$",
-              "message": 1
             }
           ],
           "background": {
-            "beginsPattern": "^VERBOSE: START PROBLEM MATCHER$",
-            "endsPattern": "^(?:VERBOSE: END PROBLEM MATCHER|.*FullyQualifiedErrorId.*)$"
+            "beginsPattern": "^(?:VERBOSE: START PROBLEM MATCHER)",
+            "endsPattern": "^(?:VERBOSE: END PROBLEM MATCHER)"
           }
         }
       ]
