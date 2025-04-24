@@ -30,19 +30,17 @@ repos:
           - "post-checkout"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command "./Invoke-Uv.ps1 -Sync -Update"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Uv.ps1 -Sync -Update'"
       - id: "build"
         name: "build"
         pass_filenames: false
         language: "system"
-        entry: "npm run build"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Just.ps1 npm-build'"
       - id: "fawltydeps-src"
         name: "fawltydeps-src"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command "./Invoke-Uv.ps1 fawltydeps --config-file pyproject.toml"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Uv.ps1 fawltydeps --config-file pyproject.toml'"
         files: |
           (?x)^(
             pyproject\.toml
@@ -52,8 +50,7 @@ repos:
         name: "fawltydeps-dev"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command "./Invoke-Uv.ps1 fawltydeps --config-file packages/_dev/pyproject.toml"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Uv.ps1 fawltydeps --config-file packages/_dev/pyproject.toml'"
         files: |
           (?x)^(
             packages/_dev/.*
@@ -64,8 +61,7 @@ repos:
         name: "fawltydeps-pipeline"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command "./Invoke-Uv.ps1 fawltydeps --config-file packages/pipeline/pyproject.toml"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Uv.ps1 fawltydeps --config-file packages/pipeline/pyproject.toml'"
         files: |
           (?x)^(
             packages/pipeline/pyproject\.toml
@@ -76,8 +72,7 @@ repos:
         name: "pytest-fast-only"
         pass_filenames: false
         language: "system"
-        entry: |
-          pwsh -Command "./Invoke-Uv.ps1 pytest -m 'not slow'"
+        entry: "pwsh -NonInteractive -NoProfile -Command './Invoke-Uv.ps1 pytest -m 'not slow''"
         files: |
           (?x)^(
             .*/pyproject\.toml
