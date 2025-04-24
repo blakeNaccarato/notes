@@ -114,7 +114,7 @@
           ],
           "background": {
             "beginsPattern": "^(?:VERBOSE: START PROBLEM MATCHER)",
-            "endsPattern": "^(?:VERBOSE: END PROBLEM MATCHER)"
+            "endsPattern": "^(?:VERBOSE: STOP PROBLEM MATCHER)"
           }
         }
       ]
