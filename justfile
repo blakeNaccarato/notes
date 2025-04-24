@@ -6,7 +6,7 @@ set shell :=\
 sp :=\
   ' '
 proj :=\
-  '. ./dev.ps1;'
+  '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1;'
 dev :=\
   proj + sp + 'notes-dev'
 
@@ -43,11 +43,11 @@ sync-local-dev-configs:
   {{dev}} sync-local-dev-configs
 
 vault :=\
-  '. ./dev.ps1 -Vault; '
+  '. dev.ps1;'
 notes :=\
-  vault + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
+  vault + sp + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
 scripts :=\
-  vault + '. notes.ps1;'
+  vault + sp + '. notes.ps1;'
 
 [no-cd]
 copy-uri vault_path note_path selection:

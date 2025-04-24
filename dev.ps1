@@ -1,8 +1,6 @@
 <#.SYNOPSIS
 Common utilities.#>
 
-Param([switch]$Vault)
-
 # ? Error-handling
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $True
@@ -15,10 +13,6 @@ if ($IsWindows) {
     # ? See: https://github.com/PowerShell/PowerShell/issues/7233#issuecomment-640243647
     [console]::InputEncoding = [console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 }
-
-# ? Set paths in vault mode or project mode
-if ($Vault) { $Env:PATH = "$(Get-Item ../../../..); $(Get-Item ../../../..)/scripts; $Env:PATH" }
-else { $Env:PATH = "$PWD;$PWD/scripts;$Env:PATH" }
 
 function Initialize-Shell {
     <#.SYNOPSIS
