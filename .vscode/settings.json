@@ -175,7 +175,7 @@
   //* MyST
   "myst.preview.extensions": ["colon_fence", "dollarmath"],
   // * Python
-  "python.terminal.activateEnvInCurrentTerminal": false,
+  "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.activateEnvironment": false,
   //* Pylance
   "python.languageServer": "Pylance",
