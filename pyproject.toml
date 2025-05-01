@@ -18,12 +18,14 @@ classifiers = [
   # "Programming Language :: Python :: 3.14",  # ? Not yet beta (https://peps.python.org/pep-0745)
 ]
 dependencies = [
+  "aiopath>=0.6.11",
   "cappa>=0.22.4",
   "loguru>=0.7.2",
   "markdown-it-py>=3.0.0",
   "marko>=2.1.2",
   "mdit-py-plugins>=0.4.0",
   "obsidiantools>=0.10.0",
+  "playwright>=1.51.0",
   "pydantic>=2.9.2",
   "pyyaml>=6.0.2",
   "typer>=0.9.0",
