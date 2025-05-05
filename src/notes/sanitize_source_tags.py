@@ -17,7 +17,7 @@ def remove_common_tags(string):
     truncates tags at illegal characters.
     """
     parsed = MD.parse(string)
-    fm = get_frontmatter(parsed)
+    fm = get_frontmatter(parsed).content
     for fm_tag, inl_tag in sorted({
         (fm_tag, inl_tag)
         for fm_tag in get_frontmatter_tags(parsed)
@@ -26,7 +26,7 @@ def remove_common_tags(string):
     }):
         fm = fm.replace(f'  - "{fm_tag}"\n', "")
         string = re.sub(rf"#({re.escape(inl_tag)})", r"\\#\1", string)
-    string = string.replace(get_frontmatter(MD.parse(string)), fm)
+    string = string.replace(get_frontmatter(MD.parse(string)).content, fm)
     return string
 
 
@@ -40,7 +40,7 @@ def quote_tags(string: str) -> str:
     """Quote tags in frontmatter."""
     parsed = MD.parse(string)
     fm_span = (
-        fm_begin := string.find(fm := get_frontmatter(parsed)),
+        fm_begin := string.find(fm := get_frontmatter(parsed).content),
         fm_begin + len(fm),
     )
     if match := re.compile(TAGS).search(string, *fm_span):

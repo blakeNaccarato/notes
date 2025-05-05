@@ -122,8 +122,11 @@ markdown-it-py==3.0.0
 marko==2.1.2
 markupsafe==2.1.5
 matplotlib-inline==0.1.7
+mdformat==0.7.22
+mdformat-frontmatter==2.0.8
 mdit-py-plugins==0.4.2
 mdurl==0.1.2
+more-itertools==10.7.0
 multidict==6.4.3
 mypy-extensions==1.0.0
 myst-nb==1.1.1

@@ -6,6 +6,7 @@ from string import whitespace
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 from mdit_py_plugins.front_matter.index import front_matter_plugin
+from more_itertools import one
 from yaml import safe_load
 
 MD = MarkdownIt().use(front_matter_plugin)
@@ -14,10 +15,10 @@ MD = MarkdownIt().use(front_matter_plugin)
 
 def get_frontmatter_tags(parsed: list[Token]) -> set[str]:
     """Get tags from frontmatter."""
-    return set(safe_load(get_frontmatter(parsed)).get("tags")) or set()
+    return set(safe_load(get_frontmatter(parsed).content).get("tags")) or set()
 
 
-def get_frontmatter(parsed: list[Token]) -> str:
+def get_frontmatter(parsed: list[Token]) -> Token:
     """Get frontmatter."""
     yaml_markup = "---"
     if frontmatter_tokens := [
@@ -25,8 +26,7 @@ def get_frontmatter(parsed: list[Token]) -> str:
         for token in parsed
         if token.type == "front_matter" and token.markup == yaml_markup
     ]:
-        return frontmatter_tokens[0].content
-    return ""
+        return one(frontmatter_tokens)
 
 
 def get_inline_tags(parsed: list[Token]) -> set[str]:

@@ -19,6 +19,8 @@ from typing import Any
 from aiopath import AsyncPath
 from playwright.async_api import Locator, PlaywrightContextManager, ViewportSize
 
+from notes.datetime import current_tz
+
 # sourcery skip: remove-redundant-condition
 DEBUG = False  # noqa: RUF034, RUF100
 DATA = (
@@ -101,10 +103,7 @@ def get_now() -> datetime:
 
 def ser_datetime(start: datetime) -> str:
     """Serialize `datetime`."""
-    return start.astimezone(TZ).isoformat(timespec="seconds")
-
-
-TZ = datetime.now().astimezone().tzinfo
+    return start.astimezone(current_tz).isoformat(timespec="seconds")
 
 
 def prompt_break(start: datetime):

@@ -13,7 +13,10 @@ AUTHORS = ["Embedded.fm"]
 def main():  # noqa: D103
     for path in PARAMS.paths.personal_links.iterdir():
         string = path.read_text(encoding="utf-8")
-        if safe_load(get_frontmatter(MD.parse(string))).get("author") not in AUTHORS:
+        if (
+            safe_load(get_frontmatter(MD.parse(string)).content).get("author")
+            not in AUTHORS
+        ):
             continue
         for step in [quote_tags, remove_common_tags]:
             string = step(string)
