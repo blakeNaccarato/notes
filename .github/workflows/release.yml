@@ -23,7 +23,7 @@ jobs:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock

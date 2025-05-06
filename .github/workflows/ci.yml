@@ -20,7 +20,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
@@ -40,7 +40,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
@@ -68,7 +68,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
@@ -82,7 +82,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
@@ -96,7 +96,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
@@ -122,7 +122,7 @@ jobs:
           submodules: True
       - uses: "astral-sh/setup-uv@2e657c127d5b1635d5a8e3fa40e0ac50a5bf6992" # v3.2.2
         with:
-          version: "0.5.1"
+          version: "0.6.17"
           enable-cache: true
           cache-dependency-glob: |
             **/uv.lock
