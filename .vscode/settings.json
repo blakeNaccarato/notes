@@ -167,6 +167,28 @@
       "italic": false
     }
   ],
+  //* DataWrangler
+  "dataWrangler.defaultViewingFilterOptions": "advanced",
+  "dataWrangler.enabledFileTypes": {
+    "csv": true,
+    "jsonl": true,
+    "parquet": true,
+    "tsv": true,
+    "xls": true,
+    "xlsx": true
+  },
+  "dataWrangler.experiments.autoDetectCsvDelimiter": true,
+  "dataWrangler.experiments.copilot.enabled": true,
+  "dataWrangler.experiments.datatypes.pyspark": true,
+  "dataWrangler.experiments.fastCsvParsing": true,
+  "dataWrangler.outputRenderer.columnInsights.displayByDefault": true,
+  "dataWrangler.outputRenderer.enabled": true,
+  "dataWrangler.outputRenderer.enabledTypes": {
+    "pandas.core.frame.DataFrame": true
+  },
+  "dataWrangler.outputRenderer.pagination.defaultSize": 10,
+  "dataWrangler.panels.displayOnTabFocus": false,
+  "dataWrangler.useRelativePath": true,
   //* GitHub Actions
   "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
   //* Jupyter Notebooks
