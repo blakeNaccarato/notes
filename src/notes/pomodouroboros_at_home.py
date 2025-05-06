@@ -52,7 +52,7 @@ async def main():  # noqa: D103
         async with TaskGroup() as tg:
             now = get_now()
             for start in [now + i * PERIOD for i in range(PERIODS)]:
-                tg.create_task(run_pomodoro(loc, lock, start))
+                tg.create_task(run_pomodoro(loc, lock, start.astimezone(current_tz)))
         await loc.page.close()
         await ctx.close()
         await browser.close()
@@ -79,7 +79,7 @@ async def run_pomodoro(loc: Locator, lock: Lock, start: datetime):
         encoding="utf-8",
         data=dumps({
             **loads(await DATA.read_text(encoding="utf-8")),
-            ser_datetime(start): pom,
+            start.isoformat(timespec="seconds"): pom,
         })
         + "\n",
     )
@@ -101,17 +101,12 @@ def get_now() -> datetime:
     return datetime.now(UTC)
 
 
-def ser_datetime(start: datetime) -> str:
-    """Serialize `datetime`."""
-    return start.astimezone(current_tz).isoformat(timespec="seconds")
-
-
-def prompt_break(start: datetime):
-    """Prompt user to take a break."""
+def prompt_pom_begin(start: datetime):
+    """Prompt that a Pomodoro has begun."""
     SHOW_MSG_BOX(
         WINDOW_HANDLE,
-        BREAK_MSG,
-        f"{NAME}: {start.strftime('%H:%M:%S')}",
+        BEGIN_MSG,
+        f"{NAME}: {start.isoformat(timespec='seconds')}",
         OK_CANCEL_ABOVE_ALL,
     )
 
@@ -122,7 +117,7 @@ def prompt_pom_success(start: datetime) -> str:
         SHOW_MSG_BOX(
             WINDOW_HANDLE,
             POM_END_MSG,
-            f"{NAME}: {start.strftime('%H:%M:%S')}",
+            f"{NAME}: {start.isoformat(timespec='seconds')}",
             YES_NO_CANCEL_ABOVE_ALL,
         )
     ]
@@ -131,8 +126,8 @@ def prompt_pom_success(start: datetime) -> str:
 NAME = "Pomodouroboros at Home"
 SHOW_MSG_BOX: Callable[[int, str, str, int], int] = windll.user32.MessageBoxW
 WINDOW_HANDLE = 0
-BREAK_MSG = "Take a break!"
-POM_END_MSG = f"{BREAK_MSG} Did you accomplish your intention?"
+BEGIN_MSG = "Take a break!"
+POM_END_MSG = f"{BEGIN_MSG} Did you accomplish your intention?"
 MB_OK = 0x1
 MB_YESNOCANCEL = 0x3
 MB_SYSTEMMODAL = 0x1000
@@ -142,7 +137,6 @@ ID_YES = 6
 ID_NO = 7
 ID_CANCEL = 2
 POM_END_BUTTONS = {ID_YES: "🍅", ID_NO: "🥫", ID_CANCEL: "❌"}
-
 
 if __name__ == "__main__":
     run(main())
