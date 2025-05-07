@@ -68,7 +68,7 @@ async def run_pomodoro(loc: Locator, lock: Lock, start: datetime):
     async with lock:
         await asyncio.sleep((start - get_now()).total_seconds())
         await loc.page.goto(TIMER)
-        await loc.get_by_placeholder(":00:00").type(
+        await loc.get_by_role("textbox", name=":00:00").type(
             f"{HOURS:02}:{MINUTES:02}:{SECONDS:02}"
         )
         await loc.get_by_role("button", name="Start").click()

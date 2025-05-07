@@ -168,15 +168,16 @@ showcontent = true
 
 [tool.pyright]
 stubPath = "typings/stubs"
-exclude = [
-  "**/node_modules",
-  "**/__pycache__",
-  "**/.*",
-  ".cache",
-  "typings",
-  "packages/lookback",
+include = [
+  "src",
+  "docs",
+  "notebooks",
+  "packages/_dev",
+  "packages/_pipeline",
+  "scripts",
+  "tests",
 ]
-ignore = ["**/node_modules", "**/__pycache__", "**/.*", ".cache", "typings"]
+ignore = ["**/.*", "*:/**/.*", "*:/**/appdata", "typings"]
 typeCheckingMode = "strict"
 # Default "true" in strict
 analyzeUnannotatedFunctions = true
@@ -275,13 +276,19 @@ reportUnusedCallResult = "none"
 
 [tool.ruff]
 cache-dir = ".cache/.ruff_cache"
-extend-exclude = ["typings", "packages/lookback"]
-extend-include = ["*.ipynb", "packages/_dev"]
-src = ["src", "docs", "scripts", "tests"]
 output-format = "grouped"
 fix = true
 preview = true
 show-fixes = true
+src = [
+  "src",
+  "docs",
+  "notebooks",
+  "packages/_dev",
+  "packages/_pipeline",
+  "scripts",
+  "tests",
+]
 [tool.ruff.lint]
 fixable = ["ALL"]
 select = [
