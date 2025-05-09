@@ -21,7 +21,8 @@ from notes.times import current_tz
 
 DATA = AsyncPath("data/local/vaults/personal/_data/pomodouroboros.json")
 PERIODS = 6
-PERIOD = timedelta(hours=1, minutes=30, seconds=0)
+PERIOD = timedelta(hours=1, minutes=30)
+BREAK = timedelta(minutes=20)
 
 
 async def main():  # noqa: D103
@@ -37,7 +38,7 @@ async def main():  # noqa: D103
 async def run_pomodoro(start: datetime, first: bool = False):
     """Run Pomodoro."""
     await asyncio.sleep((start - get_now()).total_seconds())
-    await record_period(start, PERIOD)
+    await record_period(start, PERIOD - BREAK)
     if first:
         await asyncio.to_thread(set_toggl_pomodoro, start=True)
     try:
