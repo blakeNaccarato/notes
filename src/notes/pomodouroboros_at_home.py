@@ -19,16 +19,9 @@ from aiopath import AsyncPath
 
 from notes.times import current_tz
 
-# sourcery skip: remove-redundant-condition
-DEBUG = False  # noqa: RUF034, RUF100
-DATA = (
-    AsyncPath("data/local" if DEBUG else "data/local/vaults/personal/_data")
-    / "pomodouroboros.json"
-)
-PERIODS = 2 if DEBUG else 6  # noqa: RUF034, RUF100
-HOURS = 0 if DEBUG else 1  # noqa: RUF034, RUF100
-MINUTES = 0 if DEBUG else 30  # noqa: RUF034, RUF100
-SECONDS = 5 if DEBUG else 0  # noqa: RUF034, RUF100
+DATA = AsyncPath("data/local/vaults/personal/_data/pomodouroboros.json")
+PERIODS = 6
+PERIOD = timedelta(hours=1, minutes=30, seconds=0)
 
 
 async def main():  # noqa: D103
@@ -46,17 +39,14 @@ async def run_pomodoro(start: datetime, first: bool = False):
     await asyncio.sleep((start - get_now()).total_seconds())
     await record_period(start, PERIOD)
     if first:
-        await asyncio.to_thread(toggle_toggl_pomodoro)
+        await asyncio.to_thread(set_toggl_pomodoro, start=True)
     try:
         await asyncio.sleep(PERIOD.total_seconds())
     except CancelledError as exc:
         exc.add_note("Pomodoro cancelled.")
         await record_period(start, get_now() - start)
-        await asyncio.to_thread(toggle_toggl_pomodoro)
+        await asyncio.to_thread(set_toggl_pomodoro, start=False)
         raise
-
-
-PERIOD = timedelta(hours=HOURS, minutes=MINUTES, seconds=SECONDS)
 
 
 async def record_period(start: datetime, period: timedelta):
@@ -76,8 +66,8 @@ def ser_datetime(start):
     return start.isoformat(timespec="seconds")
 
 
-def toggle_toggl_pomodoro():
-    """Toggle Toggl Pomodoro."""
+def set_toggl_pomodoro(start: bool):
+    """Set the Toggl Pomodoro."""
     subprocess.run(
         capture_output=True,
         check=True,
@@ -86,17 +76,19 @@ def toggle_toggl_pomodoro():
             "-NonInteractive",
             "-NoProfile",
             "-Command",
-            TOGGLE_TOGGL_POMODORO,
+            "; ".join([
+                "Import-Module 'AutoItX'",
+                *[f"{CLICK} {START if start else STOP};"] * 2,
+                f"{CLICK} {CONFIRM};",
+            ]),
         ],
     )
 
 
-TOGGLE_TOGGL_POMODORO = """\
-Import-Module 'AutoItX';
-Invoke-AU3MouseClick -X -1240 -Y 350;
-Invoke-AU3MouseClick -X -1240 -Y 350;
-Invoke-AU3MouseClick -X -1320 -Y 270;
-"""
+CLICK = "Invoke-AU3MouseClick"
+START = "-X -1240 -Y 350"
+STOP = "-X -1240 -Y 380"
+CONFIRM = "-X -1320 -Y 270"
 
 
 def dumps(obj: dict[str, Any] | None = None) -> str:
