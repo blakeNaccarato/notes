@@ -38,7 +38,7 @@ dvc-dag:
   {{proj}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
   markdownlint-cli2 'docs/_static/dag.md'
 sync-contrib:
-  {{proj}} iuv -Sync -Update
+  {{proj}} iuv -Sync
 sync-local-dev-configs:
   {{dev}} sync-local-dev-configs
 

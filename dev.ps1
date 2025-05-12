@@ -294,7 +294,7 @@ function Initialize-Repo {
 
 
     function Initialize-Machine {
-        <#.SYNOPSIS
+    <#.SYNOPSIS
     Finish machine initialization (cross-platform).#>
 
         Param([switch]$Force)
@@ -331,7 +331,7 @@ function Initialize-Repo {
     }
 
     function Initialize-Windows {
-        <#.SYNOPSIS
+    <#.SYNOPSIS
     Initialize Windows machine.#>
 
         $origPreference = $ErrorActionPreference
