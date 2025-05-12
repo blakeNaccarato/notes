@@ -18,7 +18,7 @@ from typing import Any, Literal, TypeAlias
 from notes.times import current_tz
 
 DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
-END_OF_DAY = datetime.combine(date.today(), time(hour=15, tzinfo=current_tz))
+END_OF_DAY = datetime.combine(date.today(), time(hour=16, minute=0, tzinfo=current_tz))
 # ? Should match Toggl's Pomodoro settings
 WORK_PERIOD = timedelta(hours=1, minutes=10)
 BREAK_PERIOD = timedelta(minutes=20)
@@ -38,9 +38,9 @@ def main():  # noqa: D103
         except KeyboardInterrupt:
             print(EARLY_BREAK_MSG)  # noqa: T201
             break_period = BREAK_PERIOD + WORK_PERIOD - (get_now() - begin)
+            set_toggl_pomodoro("break")
         print(get_break_msg(break_period))  # noqa: T201
         record_period(begin, get_now())
-        set_toggl_pomodoro("break")
         try:
             sleep(break_period.total_seconds())
         except KeyboardInterrupt:
