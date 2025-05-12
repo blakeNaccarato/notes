@@ -38,7 +38,7 @@ def main():  # noqa: D103
         except KeyboardInterrupt:
             print(EARLY_BREAK_MSG)  # noqa: T201
             break_period = BREAK_PERIOD + WORK_PERIOD - (get_now() - begin)
-            set_toggl_pomodoro("break")
+            stop_tracking()
         print(get_break_msg(break_period))  # noqa: T201
         record_period(begin, get_now())
         try:
@@ -46,7 +46,8 @@ def main():  # noqa: D103
         except KeyboardInterrupt:
             break
     print("Done for the day!")  # noqa: T201
-    set_toggl_pomodoro("end")
+    if mode != "start":
+        set_toggl_pomodoro("end")
 
 
 POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
@@ -88,17 +89,7 @@ def set_toggl_pomodoro(mode: Mode):
     subprocess.run(
         capture_output=True,
         check=True,
-        args=[
-            "pwsh",
-            "-NonInteractive",
-            "-NoProfile",
-            "-Command",
-            "; ".join([
-                "Import-Module 'AutoItX'",
-                *[f"{CLICK} {MODES[mode]};"] * 2,
-                f"{CLICK} {CONFIRM};",
-            ]),
-        ],
+        args=get_autoitx_cmd(*[f"{CLICK} {MODES[mode]}"] * 2, f"{CLICK} {CONFIRM}"),
     )
 
 
@@ -110,6 +101,29 @@ MODES: dict[Mode, str] = {
     "break": "-X -1240 -Y 350",
     "end": "-X -1240 -Y 380",
 }
+
+
+def stop_tracking():
+    """Stop tracking."""
+    subprocess.run(
+        capture_output=True,
+        check=True,
+        args=get_autoitx_cmd(f"{CLICK} {STOP_TRACKING}"),
+    )
+
+
+STOP_TRACKING = "-X -1028 -Y 598"
+
+
+def get_autoitx_cmd(*args: str) -> list[str]:
+    """Get PowerShell AutoItX command."""
+    return [
+        "pwsh",
+        "-NonInteractive",
+        "-NoProfile",
+        "-Command",
+        "; ".join(["Import-Module 'AutoItX'", *args]),
+    ]
 
 
 def dumps(obj: dict[str, Any] | None = None) -> str:
