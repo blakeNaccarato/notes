@@ -19,6 +19,7 @@ from notes.times import current_tz
 
 DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
 END_OF_DAY = datetime.combine(date.today(), time(hour=15, tzinfo=current_tz))
+# ? Should match Toggl's Pomodoro settings
 WORK_PERIOD = timedelta(hours=1, minutes=10)
 BREAK_PERIOD = timedelta(minutes=20)
 
