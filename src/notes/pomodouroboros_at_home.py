@@ -7,68 +7,83 @@ Parent: We have Pomodouroboros at home!
 Pomodouroboros at home...
 """
 
-import asyncio
 import json
 import subprocess
-from asyncio import CancelledError, TaskGroup
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, time, timedelta
 from json import loads
-from typing import Any
-
-from aiopath import AsyncPath
+from pathlib import Path
+from time import sleep
+from typing import Any, Literal, TypeAlias
 
 from notes.times import current_tz
 
-DATA = AsyncPath("data/local/vaults/personal/_data/pomodouroboros.json")
-PERIODS = 6
-PERIOD = timedelta(hours=1, minutes=30)
-BREAK = timedelta(minutes=20)
+DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
+END_OF_DAY = datetime.combine(date.today(), time(hour=15, tzinfo=current_tz))
+WORK_PERIOD = timedelta(hours=1, minutes=10)
+BREAK_PERIOD = timedelta(minutes=20)
 
 
-async def main():  # noqa: D103
-    if not await DATA.exists():
-        await DATA.write_text(encoding="utf-8", data=dumps())
-    async with TaskGroup() as tg:
-        now = get_now()
-        tg.create_task(run_pomodoro(now.astimezone(current_tz), first=True))
-        for start in [now + i * PERIOD for i in range(1, PERIODS)]:
-            tg.create_task(run_pomodoro(start.astimezone(current_tz)))
+def main():  # noqa: D103
+    mode = "start"
+    begin = get_now() - POM_PERIOD
+    while (begin := begin + POM_PERIOD) + POM_PERIOD < END_OF_DAY:
+        print(BEGIN_MSG)  # noqa: T201
+        record_period(begin, begin)
+        set_toggl_pomodoro(mode)
+        mode = "continue"
+        break_period = BREAK_PERIOD
+        try:
+            sleep(WORK_PERIOD.total_seconds())
+        except KeyboardInterrupt:
+            print(EARLY_BREAK_MSG)  # noqa: T201
+            break_period = BREAK_PERIOD + WORK_PERIOD - (get_now() - begin)
+        print(get_break_msg(break_period))  # noqa: T201
+        record_period(begin, get_now())
+        set_toggl_pomodoro("break")
+        try:
+            sleep(break_period.total_seconds())
+        except KeyboardInterrupt:
+            break
+    print("Done for the day!")  # noqa: T201
+    set_toggl_pomodoro("end")
 
 
-async def run_pomodoro(start: datetime, first: bool = False):
-    """Run Pomodoro."""
-    await asyncio.sleep((start - get_now()).total_seconds())
-    await record_period(start, PERIOD - BREAK)
-    if first:
-        await asyncio.to_thread(set_toggl_pomodoro, start=True)
-    try:
-        await asyncio.sleep(PERIOD.total_seconds())
-    except CancelledError as exc:
-        exc.add_note("Pomodoro cancelled.")
-        await record_period(start, get_now() - start)
-        await asyncio.to_thread(set_toggl_pomodoro, start=False)
-        raise
+POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
+BEGIN_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
+EARLY_BREAK_MSG = "Taking early break..."
 
 
-async def record_period(start: datetime, period: timedelta):
-    """Record start time."""
-    await DATA.write_text(
+def get_break_msg(period: timedelta) -> str:
+    """Get break message."""
+    return f"Please take a break for {period.total_seconds() // 60:.0f} minutes!"
+
+
+def record_period(start: datetime, end: datetime | None = None):
+    """Record period."""
+    if not DATA.exists():
+        DATA.write_text(encoding="utf-8", data=dumps())
+    DATA.write_text(
         encoding="utf-8",
         data=dumps({
-            **loads(await DATA.read_text(encoding="utf-8")),
-            ser_datetime(start): ser_datetime(start + period),
+            **loads(DATA.read_text(encoding="utf-8")),
+            ser_datetime(start): ser_datetime(end or start),
         })
         + "\n",
     )
 
 
-def ser_datetime(start):
+def ser_datetime(value: datetime):
     """Serialize datetime."""
-    return start.isoformat(timespec="seconds")
+    return value.astimezone(current_tz).isoformat(timespec="seconds")
 
 
-def set_toggl_pomodoro(start: bool):
+Mode: TypeAlias = Literal["start", "break", "end", "continue"]
+
+
+def set_toggl_pomodoro(mode: Mode):
     """Set the Toggl Pomodoro."""
+    if mode == "continue":
+        return
     subprocess.run(
         capture_output=True,
         check=True,
@@ -79,7 +94,7 @@ def set_toggl_pomodoro(start: bool):
             "-Command",
             "; ".join([
                 "Import-Module 'AutoItX'",
-                *[f"{CLICK} {START if start else STOP};"] * 2,
+                *[f"{CLICK} {MODES[mode]};"] * 2,
                 f"{CLICK} {CONFIRM};",
             ]),
         ],
@@ -87,9 +102,13 @@ def set_toggl_pomodoro(start: bool):
 
 
 CLICK = "Invoke-AU3MouseClick"
-START = "-X -1240 -Y 350"
-STOP = "-X -1240 -Y 380"
 CONFIRM = "-X -1320 -Y 270"
+MODES: dict[Mode, str] = {
+    "continue": "",
+    "start": "-X -1240 -Y 350",
+    "break": "-X -1240 -Y 350",
+    "end": "-X -1240 -Y 380",
+}
 
 
 def dumps(obj: dict[str, Any] | None = None) -> str:
@@ -103,4 +122,4 @@ def get_now() -> datetime:
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

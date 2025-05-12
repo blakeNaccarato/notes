@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from aiopath import AsyncPath
 from mdformat.renderer import MDRenderer
 from mdformat_frontmatter import plugin
 from obsidiantools.api import Vault
@@ -10,5 +11,6 @@ from obsidiantools.api import Vault
 MDRenderer().render(
     tokens=[], options={"parser_extension": [plugin]}, env={}, finalize=False
 )
-# ? To-do
+# ? Other
 vault = Vault(Path("data/local/vaults/personal"))
+foo = AsyncPath("")
