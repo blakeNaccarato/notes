@@ -22,38 +22,41 @@ from win32con import MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
 from notes.times import current_tz
 
 DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
-DAY_BEGIN = datetime.combine(date.today(), time(hour=9, minute=0, tzinfo=current_tz))
-DAY_END = datetime.combine(date.today(), time(hour=17, minute=0, tzinfo=current_tz))
+DAY_BEGIN = datetime.combine(date.today(), time(hour=9, tzinfo=current_tz))
+DAY_END = datetime.combine(date.today(), time(hour=17, tzinfo=current_tz))
 # ? Should match Toggl's Pomodoro settings
 WORK_PERIOD = timedelta(hours=1, minutes=10)
 BREAK_PERIOD = timedelta(minutes=20)
 
 
 def main():  # noqa: D103
+    if get_now() + WORK_PERIOD > DAY_END:
+        print(DONE_MSG)  # noqa: T201
+        return
     if (time_until_day_begin := DAY_BEGIN - get_now()) > timedelta(0):
         print(STARTUP_MSG)  # noqa: T201
         try:
             sleep(time_until_day_begin.total_seconds())
         except KeyboardInterrupt:
-            print(STARTUP_MSG)  # noqa: T201
+            print(DONE_MSG)  # noqa: T201
             return
     mode = "start"
     begin = get_now() - POM_PERIOD
-    while (begin := begin + POM_PERIOD) + POM_PERIOD < DAY_END:
+    while (begin := begin + POM_PERIOD) + WORK_PERIOD < DAY_END:
         print(BEGIN_MSG)  # noqa: T201
         record_period(begin, begin)
         set_toggl_pomodoro(mode)
         mode = "continue"
-        break_period = BREAK_PERIOD
+        break_period = BREAK_PERIOD + BREAK_OFFSET
         try:
             sleep(WORK_PERIOD.total_seconds())
         except KeyboardInterrupt:
             print(EARLY_BREAK_MSG)  # noqa: T201
-            if (get_now() - begin) < (grace_period := timedelta(seconds=5)):
+            if get_pom_time_elapsed(begin) < (grace_period := timedelta(seconds=5)):
                 print(SYNC_MSG)  # noqa: T201
                 sleep(grace_period.total_seconds())
-            break_period = BREAK_PERIOD + WORK_PERIOD - (get_now() - begin)
-            click_mouse(*STOP_TRACKING)
+            break_period += WORK_PERIOD - get_pom_time_elapsed(begin)
+            stop_tracking()
         print(get_break_msg(break_period))  # noqa: T201
         record_period(begin, get_now())
         try:
@@ -65,13 +68,19 @@ def main():  # noqa: D103
         set_toggl_pomodoro("end")
 
 
+def get_pom_time_elapsed(begin: datetime) -> timedelta:
+    """Get time elapsed since Pomodoro began."""
+    return get_now() - begin
+
+
 POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
+BREAK_OFFSET = timedelta(seconds=5)
+"""Wait a little after break ends to ensure auto-Pomodoro is in focus mode."""
 STARTUP_MSG = f"The first Pomodoro begins at {DAY_BEGIN.strftime('%H:%M')}."
 BEGIN_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
 EARLY_BREAK_MSG = "Taking early break..."
 SYNC_MSG = "Waiting for Toggl web app activity to sync with desktop app..."
 DONE_MSG = "Done for the day!"
-STOP_TRACKING = (-1285, 745)
 
 
 def get_break_msg(period: timedelta) -> str:
@@ -105,23 +114,42 @@ def set_toggl_pomodoro(mode: Mode):
     """Set Toggl Pomodoro."""
     if mode == "continue":
         return
-    click_mouse(*MODES[mode], count=2)
+    click_mouse(*TOGGL_DESKTOP_STATE_TRANSITIONS[mode], count=2)
     if mode == "start":
         return
-    sleep(0.5)
-    click_mouse(*CONFIRM)
+    sleep(SLEEP)
+    click_mouse(*TOGGL_DESKTOP_CONFIRM)
 
 
-CENTERED_BUTTON_X = -1560
-UPPER_BUTTON_Y = 445
-LOWER_BUTTON_Y = 480
-MODES = {
+TOGGL_DESKTOP_CENTERED_BUTTON_X = -1560
+TOGGL_DESKTOP_UPPER_BUTTON_Y = 445
+TOGGL_DESKTOP_STATE_TRANSITIONS = {
     "continue": None,
-    "start": (CENTERED_BUTTON_X, UPPER_BUTTON_Y),
-    "break": (CENTERED_BUTTON_X, UPPER_BUTTON_Y),
-    "end": (CENTERED_BUTTON_X, LOWER_BUTTON_Y),
+    "start": (TOGGL_DESKTOP_CENTERED_BUTTON_X, TOGGL_DESKTOP_UPPER_BUTTON_Y),
+    "break": (TOGGL_DESKTOP_CENTERED_BUTTON_X, TOGGL_DESKTOP_UPPER_BUTTON_Y),
+    "end": (TOGGL_DESKTOP_CENTERED_BUTTON_X, 480),
 }
-CONFIRM = (-1640, 335)
+TOGGL_DESKTOP_CONFIRM = (-1640, 335)
+
+
+def stop_tracking():
+    """Stop tracking in Toggl web app."""
+    click_mouse(*TOGGL_WEB_STOP_TRACKING)
+
+
+def delete_tracking():
+    """Delete the currently tracking activity in Toggl web app."""
+    click_mouse(*TOGGL_WEB_MORE_OPTIONS)
+    sleep(SLEEP)
+    click_mouse(*TOGGL_WEB_DELETE_CURRENT)
+
+
+TOGGL_WEB_BUTTON_Y = 745
+TOGGL_WEB_STOP_TRACKING = (-1285, TOGGL_WEB_BUTTON_Y)
+TOGGL_WEB_MORE_OPTIONS = (-1230, TOGGL_WEB_BUTTON_Y)
+TOGGL_WEB_DELETE_CURRENT = (-1308, 844)
+
+SLEEP = 0.5
 
 
 def click_mouse(x: int, y: int, count: int = 1):
@@ -139,6 +167,16 @@ def set_mouse(x: int, y: int, down: bool = True):
             dw_flags=MOUSEEVENTF_LEFTDOWN if down else MOUSEEVENTF_LEFTUP
         ).args()
     )
+
+
+def dumps(obj: dict[str, Any] | None = None) -> str:
+    """Dump JSON data."""
+    return json.dumps(ensure_ascii=False, sort_keys=True, indent=2, obj=obj or {})
+
+
+def get_now() -> datetime:
+    """Get current `datetime` in UTC."""
+    return datetime.now(UTC)
 
 
 @dataclass
@@ -205,16 +243,6 @@ class MouseEvent(Args):
 
     [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dwExtraInfo
     """
-
-
-def dumps(obj: dict[str, Any] | None = None) -> str:
-    """Dump JSON data."""
-    return json.dumps(ensure_ascii=False, sort_keys=True, indent=2, obj=obj or {})
-
-
-def get_now() -> datetime:
-    """Get current `datetime` in UTC."""
-    return datetime.now(UTC)
 
 
 if __name__ == "__main__":
