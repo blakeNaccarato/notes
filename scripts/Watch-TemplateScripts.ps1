@@ -3,7 +3,7 @@ Watch changed files.#>
 . dev.ps1
 $VerbosePreference = 'Continue'
 Write-Verbose 'START PROBLEM MATCHER'
-$TemplateDir = 'data/local/vaults/personal/__Ω'
+$TemplateDir = 'data/local/vaults/personal/_templater-scripts'
 $TemplateTypes = 'types.js'
 if (Test-Path ($Types = "$TemplateDir/$TemplateTypes")) {
     Remove-Item $Types

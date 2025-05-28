@@ -5,7 +5,6 @@ import type { Templater } from "./types";
  * Get time tracking entry for selection or clipboard.
  */
 export default async (): Promise<void> => {
-  const r = String.raw;
   const tp = (
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
@@ -17,15 +16,15 @@ export default async (): Promise<void> => {
         .replace(/\[(?<linkText>[^\]]*)\]\([^)]*\)/g, "$<linkText>")
         // Get the desired time tracking entry substring
         .match(
-          r`^` +
-            r`(?:\s*-)?` + // Markdown-style bullet
-            r`(?:\s*\[[^\]]?\])?` + // Markdown-style checkbox
-            r`(?:.*#)?` + // Leading tags or header hashes, including the last `#`
-            r`\s*` + // Leading whitespace
+          String.raw`^` +
+            String.raw`(?:\s*-)?` + // Markdown-style bullet
+            String.raw`(?:\s*\[[^\]]?\])?` + // Markdown-style checkbox
+            String.raw`(?:.*#)?` + // Leading tags or header hashes, including the last `#`
+            String.raw`\s*` + // Leading whitespace
             // Consume characters up to emoji, newline, or end of string
-            r`(?<timeTrackingEntry>(?:` +
-            r`(?!⏫|⏬|⏳|⛔|✅|❌|➕|🏁|📅|🔁|🔺|🔼|🔽|🛫)` +
-            r`.)*)`,
+            String.raw`(?<timeTrackingEntry>(?:` +
+            String.raw`(?!⏫|⏬|⏳|⛔|✅|❌|➕|🏁|📅|🔁|🔺|🔼|🔽|🛫)` +
+            String.raw`.)*)`,
         ) as RegExpMatchArray
     ).groups as { timeTrackingEntry: string }
   )["timeTrackingEntry"]

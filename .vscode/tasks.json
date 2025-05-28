@@ -6,8 +6,7 @@
     "clear": true,
     "close": true,
     "group": "tasks",
-    "reveal": "silent",
-    "showReuseMessage": false
+    "reveal": "silent"
   },
   "inputs": [
     {
@@ -171,7 +170,7 @@
     {
       "label": "setup: Sync contributor environment",
       "runOptions": { "runOn": "folderOpen" },
-      "command": "if (!$Env:DEVCONTAINER) {./Invoke-Uv.ps1 -Sync -Update}",
+      "command": "if (!$Env:DEVCONTAINER) {./Invoke-Uv.ps1 -Sync}",
       "icon": { "id": "file-symlink-directory" }
     },
     {

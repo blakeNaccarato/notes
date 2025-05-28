@@ -17,7 +17,7 @@ if ($IsWindows) {
 function Initialize-Shell {
     <#.SYNOPSIS
     Initialize shell.#>
-    if (!(Test-Path '.venv')) { Invoke-Uv -Sync -Update -Force }
+    if (!(Test-Path '.venv')) { Invoke-Uv -Sync }
     if ($IsWindows) { .venv/scripts/activate.ps1 } else { .venv/bin/activate.ps1 }
 }
 
@@ -38,16 +38,10 @@ function Find-Pattern {
 function Install-Uv {
     <#.SYNOPSIS
     Install `uv`.#>
-    Param([switch]$Update)
     $Env:PATH = "$HOME/.cargo/bin$([System.IO.Path]::PathSeparator)$Env:PATH"
-    if ($Update) {
-        if (Get-Command 'uv' -ErrorAction 'Ignore') {
-            try { return uv self update }
-            catch [System.Management.Automation.NativeCommandExitException] {}
-        }
-        if ($IsWindows) { Invoke-RestMethod 'https://astral.sh/uv/install.ps1' | Invoke-Expression }
-        else { curl --proto '=https' --tlsv1.2 -LsSf 'https://astral.sh/uv/install.sh' | sh }
-    }
+    if (Get-Command 'uv' -ErrorAction 'Ignore') { return}
+    if ($IsWindows) { Invoke-RestMethod 'https://astral.sh/uv/install.ps1' | Invoke-Expression }
+    else { curl --proto '=https' --tlsv1.2 -LsSf 'https://astral.sh/uv/install.sh' | sh }
 }
 
 function New-Switch {
@@ -81,8 +75,7 @@ function Invoke-Uv {
         $Dev = 'notes_dev'
         if (!$CI) {
             # ? Install or update `uv`
-            if ($Update -or !(Get-Command 'uv' -ErrorAction 'Ignore')) { Install-Uv -Update }
-            else { Install-Uv }
+            Install-Uv
             # ? Sync submodules
             Get-ChildItem "$PSScriptRoot/.git/modules" -Filter 'config.lock' -Recurse -Depth 1 |
                 Remove-Item
@@ -238,7 +231,7 @@ function Sync-Template {
         # Stay on the current template version when updating.
         [switch]$Stay
     )
-    if (!(Get-Command 'uv' -ErrorAction 'Ignore')) { Install-Uv -Update }
+    Install-Uv
     $Copier = "copier@$(Get-Content '.copier-version')"
     $Ref = $Stay ? (Get-Content '.copier-answers.yml' | Find-Pattern '^_commit:\s.+-(.+)$') : $Ref
     if ($Recopy) {
@@ -268,7 +261,7 @@ function Initialize-Repo {
     try { git commit --no-verify -m 'Add template and type stub submodules' }
     catch [System.Management.Automation.NativeCommandExitException] {}
 
-    Invoke-Uv -Sync -Update
+    Invoke-Uv -Sync
 
     git add .
     try { git commit --no-verify -m 'Lock' }
@@ -337,8 +330,8 @@ function Initialize-Repo {
         $origPreference = $ErrorActionPreference
         $ErrorActionPreference = 'SilentlyContinue'
 
-        # ? Install and update `uv`
-        Install-Uv -Update
+        # ? Install `uv`
+        Install-Uv
 
         # ? Common winget options
         $Install = @(

@@ -54,6 +54,8 @@
   "git.allowNoVerifyCommit": true,
   "git.confirmNoVerifyCommit": false,
   "git.commandsToLog": ["commit", "push"],
+  "git.diagnosticsCommitHook.enabled": true,
+  "git.diagnosticsCommitHook.sources": { "*": "error" },
   //! Line-width
   "git.inputValidation": true,
   "git.inputValidationSubjectLength": 88,
@@ -89,10 +91,168 @@
     "notebook.source.fixAll": "explicit",
     "source.organizeImports": "explicit"
   },
+  "python.analysis.fixAll": ["source.convertImportFormat", "source.unusedImports"],
+  //! TypeScript/JavaScript
+  //? `enableProjectDiagnostics` currently kinda buggy
+  //? Need `!node_modules` in Problems filter, but it chugs still
+  //? https://github.com/microsoft/TypeScript/issues/36664
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.preferGoToSourceDefinition": true,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "typescript.experimental.expandableHover": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.implementationsCodeLens.showOnInterfaceMethods": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsserver.watchOptions": "vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
   //! Extensions
   //* autoDocstring
   "autoDocstring.docstringFormat": "numpy-notypes",
-  //* Better Comments
+  //* DataWrangler
+  "dataWrangler.defaultViewingFilterOptions": "advanced",
+  "dataWrangler.enabledFileTypes": {
+    "csv": true,
+    "jsonl": true,
+    "parquet": true,
+    "tsv": true,
+    "xls": true,
+    "xlsx": true
+  },
+  "dataWrangler.experiments.autoDetectCsvDelimiter": true,
+  "dataWrangler.experiments.copilot.enabled": true,
+  "dataWrangler.experiments.datatypes.pyspark": true,
+  "dataWrangler.experiments.fastCsvParsing": true,
+  "dataWrangler.outputRenderer.columnInsights.displayByDefault": true,
+  "dataWrangler.outputRenderer.enabled": true,
+  "dataWrangler.outputRenderer.enabledTypes": {
+    "pandas.core.frame.DataFrame": true
+  },
+  "dataWrangler.outputRenderer.pagination.defaultSize": 10,
+  "dataWrangler.panels.displayOnTabFocus": false,
+  "dataWrangler.useRelativePath": true,
+  //* GitHub Actions
+  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
+  //* Jupyter Notebooks
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "jupyter.showVariableViewWhenDebugging": true,
+  //* MyST
+  "myst.preview.extensions": ["colon_fence", "dollarmath"],
+  // * Python
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.activateEnvironment": false,
+  //* Pylance
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.diagnosticsSource": "Pylance",
+  "python.analysis.enableColorPicker": true,
+  "python.analysis.extraCommitChars": true,
+  "python.analysis.gotoDefinitionInStringLiteral": true,
+  "python.analysis.importFormat": "absolute",
+  "python.analysis.includeAliasesFromUserFiles": true,
+  "python.analysis.inlayHints.callArgumentNames": "all",
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.pytestParameters": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.pyrightVersion": "",
+  "python.analysis.regenerateStdLibIndices": true,
+  "python.analysis.showOnlyDirectDependenciesInAutoImport": true,
+  "python.analysis.supportDocstringTemplate": true,
+  "python.languageServer": "Pylance",
+  //* PowerShell
+  "powershell.codeFormatting.autoCorrectAliases": true,
+  "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
+  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+  "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+  "powershell.codeFormatting.useConstantStrings": true,
+  "powershell.codeFormatting.useCorrectCasing": true,
+  "powershell.codeFormatting.whitespaceBetweenParameters": true,
+  "powershell.debugging.createTemporaryIntegratedConsole": true,
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.promptToUpdatePowerShell": false,
+  "powershell.startAutomatically": false,
+  //* Rewrap
+  "rewrap.wrappingColumn": 88,
+  "rewrap.wholeComment": false,
+  //* Sourcery
+  "sourcery.codeLens": false,
+  "sourcery.suggestFixes": false,
+  //* vscode-icons
+  "workbench.iconTheme": "vscode-icons",
+  "vsicons.presets.hideExplorerArrows": true,
+  "vsicons.dontShowNewVersionMessage": false,
+  //! Filetype extensions
+  //* Built-in Markdown support
+  //? Doesn't play nicely with All Contributors HTML
+  "markdown.validate.referenceLinks.enabled": "ignore",
+  //* Markdownlint (MD)
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  //* Prettier (JSON, JSONC, YAML)
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[powershell]": {
+    "editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.wordWrap": "off"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "off"
+  },
+  "yaml.format.printWidth": 88,
+  //* ruff (PY, IPYNB)
+  "ruff.importStrategy": "fromEnvironment",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.wordWrap": "off"
+  },
+  "[ipynb]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.wordWrap": "off"
+  },
+  //* Even Better TOML (TOML)
+  "[toml]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "tamasfe.even-better-toml",
+    "editor.wordWrap": "off"
+  },
+  "evenBetterToml.taplo.configFile.path": ".taplo.toml",
+  //! Extension: Better Comments
   "better-comments.tags": [
     {
       "tag": "!",
@@ -167,156 +327,6 @@
       "italic": false
     }
   ],
-  //* DataWrangler
-  "dataWrangler.defaultViewingFilterOptions": "advanced",
-  "dataWrangler.enabledFileTypes": {
-    "csv": true,
-    "jsonl": true,
-    "parquet": true,
-    "tsv": true,
-    "xls": true,
-    "xlsx": true
-  },
-  "dataWrangler.experiments.autoDetectCsvDelimiter": true,
-  "dataWrangler.experiments.copilot.enabled": true,
-  "dataWrangler.experiments.datatypes.pyspark": true,
-  "dataWrangler.experiments.fastCsvParsing": true,
-  "dataWrangler.outputRenderer.columnInsights.displayByDefault": true,
-  "dataWrangler.outputRenderer.enabled": true,
-  "dataWrangler.outputRenderer.enabledTypes": {
-    "pandas.core.frame.DataFrame": true
-  },
-  "dataWrangler.outputRenderer.pagination.defaultSize": 10,
-  "dataWrangler.panels.displayOnTabFocus": false,
-  "dataWrangler.useRelativePath": true,
-  //* GitHub Actions
-  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
-  //* Jupyter Notebooks
-  "jupyter.notebookFileRoot": "${workspaceFolder}",
-  "jupyter.showVariableViewWhenDebugging": true,
-  //* MyST
-  "myst.preview.extensions": ["colon_fence", "dollarmath"],
-  // * Python
-  "python.terminal.activateEnvInCurrentTerminal": true,
-  "python.terminal.activateEnvironment": false,
-  //* Pylance
-  "python.languageServer": "Pylance",
-  "python.analysis.diagnosticMode": "openFilesOnly",
-  "editor.inlayHints.enabled": "offUnlessPressed",
-  "python.analysis.autoFormatStrings": true,
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.extraCommitChars": true,
-  "python.analysis.gotoDefinitionInStringLiteral": true,
-  "python.analysis.importFormat": "absolute",
-  "python.analysis.inlayHints.callArgumentNames": "all",
-  "python.analysis.inlayHints.functionReturnTypes": true,
-  "python.analysis.inlayHints.pytestParameters": true,
-  "python.analysis.inlayHints.variableTypes": true,
-  //* PowerShell
-  "powershell.startAutomatically": false,
-  "powershell.promptToUpdatePowerShell": false,
-  "powershell.integratedConsole.showOnStartup": false,
-  "powershell.codeFormatting.autoCorrectAliases": true,
-  "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
-  "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
-  "powershell.codeFormatting.useConstantStrings": true,
-  "powershell.codeFormatting.useCorrectCasing": true,
-  "powershell.codeFormatting.whitespaceBetweenParameters": true,
-  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
-  //* Rewrap
-  "rewrap.wrappingColumn": 88,
-  "rewrap.wholeComment": false,
-  //* Sourcery
-  "sourcery.codeLens": false,
-  "sourcery.suggestFixes": false,
-  //* vscode-icons
-  "workbench.iconTheme": "vscode-icons",
-  "vsicons.presets.hideExplorerArrows": true,
-  "vsicons.dontShowNewVersionMessage": false,
-  //! Filetype extensions
-  //* Built-in Markdown support
-  //? Doesn't play nicely with All Contributors HTML
-  "markdown.validate.referenceLinks.enabled": "ignore",
-  //* Markdownlint (MD)
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-  },
-  //* Prettier (JSON, JSONC, YAML)
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[powershell]": {
-    "editor.defaultFormatter": "ms-vscode.powershell",
-    "editor.wordWrap": "off"
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "off"
-  },
-  "[github-actions-workflow]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "off"
-  },
-  "yaml.format.printWidth": 88,
-  //* ruff (PY, IPYNB)
-  "ruff.importStrategy": "fromEnvironment",
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.wordWrap": "off"
-  },
-  "[ipynb]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.wordWrap": "off"
-  },
-  //* Even Better TOML (TOML)
-  "[toml]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "tamasfe.even-better-toml",
-    "editor.wordWrap": "off"
-  },
-  "evenBetterToml.taplo.configFile.path": ".taplo.toml",
-  //! TypeScript/JavaScript
-  //? `enableProjectDiagnostics` currently kinda buggy
-  //? Need `!node_modules` in Problems filter, but it chugs still
-  //? https://github.com/microsoft/TypeScript/issues/36664
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
-  "javascript.inlayHints.enumMemberValues.enabled": true,
-  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "javascript.inlayHints.parameterNames.enabled": "all",
-  "javascript.inlayHints.parameterTypes.enabled": true,
-  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "javascript.inlayHints.variableTypes.enabled": true,
-  "javascript.preferGoToSourceDefinition": true,
-  "javascript.referencesCodeLens.enabled": true,
-  "javascript.referencesCodeLens.showOnAllFunctions": true,
-  "javascript.suggest.completeFunctionCalls": true,
-  "typescript.experimental.expandableHover": true,
-  "typescript.implementationsCodeLens.enabled": true,
-  "typescript.implementationsCodeLens.showOnInterfaceMethods": true,
-  "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "typescript.inlayHints.parameterNames.enabled": "all",
-  "typescript.inlayHints.parameterTypes.enabled": true,
-  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "typescript.inlayHints.variableTypes.enabled": true,
-  "typescript.preferences.preferTypeOnlyAutoImports": true,
-  "typescript.preferGoToSourceDefinition": true,
-  "typescript.referencesCodeLens.enabled": true,
-  "typescript.referencesCodeLens.showOnAllFunctions": true,
-  "typescript.suggest.completeFunctionCalls": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.tsserver.watchOptions": "vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "off"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "off"
-  },
   //! Other
   //? Other automatically added settings below
   "": ""

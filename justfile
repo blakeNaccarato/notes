@@ -11,7 +11,7 @@ dev :=\
   proj + sp + 'notes-dev'
 
 compiled_templates :=\
-  'data/local/vaults/personal/__Ω'
+  'data/local/vaults/personal/_templater-scripts'
 format_templates :=\
   proj + sp + '(' + 'Get-ChildItem' + sp + compiled_templates + sp + '-Filter *.js' + ')' \
   + sp + '|' + sp + 'Format-TemplateScript.ps1'

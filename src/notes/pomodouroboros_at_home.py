@@ -12,6 +12,7 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime, time, timedelta
 from json import loads
 from pathlib import Path
+from re import MULTILINE, finditer
 from time import sleep
 from typing import Any, Literal, TypeAlias
 
@@ -22,11 +23,11 @@ from win32con import MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
 from notes.times import current_tz
 
 DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
-DAY_BEGIN = datetime.combine(date.today(), time(hour=9, tzinfo=current_tz))
+DAY_BEGIN = datetime.combine(date.today(), time(hour=10, minute=45, tzinfo=current_tz))
 DAY_END = datetime.combine(date.today(), time(hour=17, tzinfo=current_tz))
 # ? Should match Toggl's Pomodoro settings
-WORK_PERIOD = timedelta(hours=1, minutes=10)
-BREAK_PERIOD = timedelta(minutes=20)
+WORK_PERIOD = timedelta(hours=1)
+BREAK_PERIOD = timedelta(minutes=30)
 
 
 def main():  # noqa: D103
@@ -112,61 +113,73 @@ Mode: TypeAlias = Literal["start", "break", "end", "continue"]
 
 def set_toggl_pomodoro(mode: Mode):
     """Set Toggl Pomodoro."""
+    desktop_centered_button_x = 316 if streaming() else -1560
+    desktop_upper_button_y = 545 if streaming() else 445
     if mode == "continue":
         return
-    click_mouse(*TOGGL_DESKTOP_STATE_TRANSITIONS[mode], count=2)
+    click_mouse(
+        *{
+            "continue": None,
+            "start": (desktop_centered_button_x, desktop_upper_button_y),
+            "break": (desktop_centered_button_x, desktop_upper_button_y),
+            "end": (desktop_centered_button_x, 598 if streaming() else 480),
+        }[mode],
+        count=2,
+    )
     if mode == "start":
         return
     sleep(SLEEP)
-    click_mouse(*TOGGL_DESKTOP_CONFIRM)
-
-
-TOGGL_DESKTOP_CENTERED_BUTTON_X = -1560
-TOGGL_DESKTOP_UPPER_BUTTON_Y = 445
-TOGGL_DESKTOP_STATE_TRANSITIONS = {
-    "continue": None,
-    "start": (TOGGL_DESKTOP_CENTERED_BUTTON_X, TOGGL_DESKTOP_UPPER_BUTTON_Y),
-    "break": (TOGGL_DESKTOP_CENTERED_BUTTON_X, TOGGL_DESKTOP_UPPER_BUTTON_Y),
-    "end": (TOGGL_DESKTOP_CENTERED_BUTTON_X, 480),
-}
-TOGGL_DESKTOP_CONFIRM = (-1640, 335)
+    desktop_confirm = (204, 402) if streaming() else (-1640, 335)
+    click_mouse(*desktop_confirm)
 
 
 def stop_tracking():
     """Stop tracking in Toggl web app."""
-    click_mouse(*TOGGL_WEB_STOP_TRACKING)
+    web_button_y = 185 if streaming() else 720
+    web_stop_tracking = (1205, web_button_y) if streaming() else (-1265, web_button_y)
+    click_mouse(*web_stop_tracking)
 
 
 def delete_tracking():
     """Delete the currently tracking activity in Toggl web app."""
-    click_mouse(*TOGGL_WEB_MORE_OPTIONS)
+    web_button_y = 185 if streaming() else 720
+    web_more_options = (1250, web_button_y) if streaming() else (-1225, web_button_y)
+    click_mouse(*web_more_options)
     sleep(SLEEP)
-    click_mouse(*TOGGL_WEB_DELETE_CURRENT)
+    web_delete_current = (1183, 291) if streaming() else (-1287, 799)
+    click_mouse(*web_delete_current)
 
-
-TOGGL_WEB_BUTTON_Y = 745
-TOGGL_WEB_STOP_TRACKING = (-1285, TOGGL_WEB_BUTTON_Y)
-TOGGL_WEB_MORE_OPTIONS = (-1230, TOGGL_WEB_BUTTON_Y)
-TOGGL_WEB_DELETE_CURRENT = (-1308, 844)
 
 SLEEP = 0.5
 
 
+def streaming() -> bool:
+    """Check whether Sunshine streaming is active."""
+    connetions = {
+        datetime.strptime(m["at"], "%Y-%m-%d %H:%M:%S.%f"): (
+            m["event"].casefold() == "connected"
+        )
+        for m in finditer(
+            pattern=r"^\[(?P<at>[^\]]+)\]: Info: CLIENT (?P<event>(?:DIS)?CONNECTED)$",
+            string=Path("C:/Program Files/Sunshine/config/sunshine.log").read_text(
+                encoding="utf-8"
+            ),
+            flags=MULTILINE,
+        )
+    }
+    connect_count = sum(connetions.values())
+    disconnect_count = len(connetions) - connect_count
+    return disconnect_count != connect_count
+
+
 def click_mouse(x: int, y: int, count: int = 1):
     """Click mouse."""
-    for _ in range(count):
-        set_mouse(x, y, down=True)
-        set_mouse(x, y, down=False)
-
-
-def set_mouse(x: int, y: int, down: bool = True):
-    """Set mouse position and left click state."""
+    original_cursor_pos = win32api.GetCursorPos()
     win32api.SetCursorPos(*SetCursorPos(x, y).args())
-    mouse_event(
-        *MouseEvent(
-            dw_flags=MOUSEEVENTF_LEFTDOWN if down else MOUSEEVENTF_LEFTUP
-        ).args()
-    )
+    for _ in range(count):
+        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTDOWN).args())
+        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTUP).args())
+    win32api.SetCursorPos(*SetCursorPos(*original_cursor_pos).args())
 
 
 def dumps(obj: dict[str, Any] | None = None) -> str:
@@ -183,9 +196,9 @@ def get_now() -> datetime:
 class Args:
     """Supplies `args` method to unpack values as args to functions with positional-only parameters."""
 
-    def args(self):
+    def args(self) -> tuple[Any, ...]:
         """Get args."""
-        return asdict(self).values()
+        return tuple(asdict(self).values())
 
 
 @dataclass
@@ -208,7 +221,7 @@ class SetCursorPos(Args):
 
     def args(self):
         """Get args. `pywin32` API expects `SetCursorPos` args as (`x`, `y`) tuple."""
-        return (tuple(super().args()),)
+        return (super().args(),)
 
 
 @dataclass
