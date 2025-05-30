@@ -30,6 +30,7 @@ AND ( ( path REGEX MATCHES /^{{ query.file.folder }}.+\.md$/ )${
 
   const priority = String.raw`(\
   ( status.type IS IN_PROGRESS )\
+  OR NOT (priority IS none)\
   OR ( ( starts BEFORE tomorrow ) AND ( ( HAS due date ) OR ( HAS scheduled date ) ) )\
 )`;
 

@@ -23,7 +23,7 @@ from win32con import MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
 from notes.times import current_tz
 
 DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
-DAY_BEGIN = datetime.combine(date.today(), time(hour=10, minute=45, tzinfo=current_tz))
+DAY_BEGIN = datetime.combine(date.today(), time(hour=9, tzinfo=current_tz))
 DAY_END = datetime.combine(date.today(), time(hour=17, tzinfo=current_tz))
 # ? Should match Toggl's Pomodoro settings
 WORK_PERIOD = timedelta(hours=1)
