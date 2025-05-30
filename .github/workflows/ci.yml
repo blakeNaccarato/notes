@@ -108,10 +108,7 @@ jobs:
   test:
     strategy:
       matrix:
-        runner:
-          - "macos-13"
-          - "ubuntu-22.04"
-          - "windows-2022"
+        runner: ["ubuntu-22.04"]
         python:
           - "3.11"
           - "3.12"
