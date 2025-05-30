@@ -13,7 +13,7 @@ defaults:
     shell: "pwsh"
 jobs:
   sync:
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
         with:
@@ -33,7 +33,7 @@ jobs:
             uv.lock
             requirements
   build-docs:
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
         with:
@@ -56,12 +56,12 @@ jobs:
     environment:
       name: "github-pages"
       url: "${{ steps.deployment.outputs.page_url }}"
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - id: "deployment"
         uses: "actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e" # v4.0.5
   ruff:
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
         with:
@@ -75,7 +75,7 @@ jobs:
             .github/workflows/**
       - run: "./Invoke-Uv.ps1 ruff check --no-fix --output-format github ."
   fawltydeps:
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
         with:
@@ -89,7 +89,7 @@ jobs:
             .github/workflows/**
       - run: ". ./dev.ps1 && iuv pre-commit run fawltydeps-src && iuv pre-commit run fawltydeps-dev"
   pyright:
-    runs-on: "ubuntu-22.04"
+    runs-on: "windows-2022"
     steps:
       - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
         with:
@@ -108,7 +108,7 @@ jobs:
   test:
     strategy:
       matrix:
-        runner: ["ubuntu-22.04"]
+        runner: ["windows-2022"]
         python:
           - "3.11"
           - "3.12"
