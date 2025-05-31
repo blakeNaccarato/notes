@@ -18,7 +18,7 @@ export default (): string => {
 - [ ] [Enter ${monthYear} expenses](#Enter%20${encodeURIComponent(monthYear)}%20expenses%20🆔%20${now.format(fmt)}) 🆔 ${nextId()}
     - [ ] Download transactions to [\`2025-04-01T15-54-31-transactions\`](file:///G:/My%20Drive/Blake/Other/Finance/Budget/2025-04-01T15-54-31-transactions) 🆔 ${nextId()}
         - [ ] Download [Ally transactions](https://secure.ally.com/dashboard) 🆔 ${nextId()}
-        - [ ] Download [Bank of America transactions](https://secure.bankofamerica.com/myaccounts/details/card) 🆔 ${nextId()}
+        - [ ] Download [Bank of America transactions](https://secure.bankofamerica.com/myaccounts/details/card) and manually enter pending transactions 🆔 ${nextId()}
         - [ ] Download [Capital One transactions](https://myaccounts.capitalone.com/accountSummary) 🆔 ${nextId()}
         - [ ] Download [Chase transactions](https://secure.chase.com/web/auth/dashboard#/dashboard/accountDetails/downloadAccountTransactions/index) 🆔 ${nextId()}
         - [ ] Download [Discover transactions](https://card.discover.com/cardmembersvcs/statements/app/activity#/recent) 🆔 ${nextId()}
