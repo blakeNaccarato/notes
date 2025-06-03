@@ -119,7 +119,6 @@ def set_toggl_pomodoro(mode: Mode):
         return
     click_mouse(
         *{  # pyright: ignore[reportArgumentType]
-            "continue": None,
             "start": (desktop_centered_button_x, desktop_upper_button_y),
             "break": (desktop_centered_button_x, desktop_upper_button_y),
             "end": (desktop_centered_button_x, 598 if streaming() else 480),
