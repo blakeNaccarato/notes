@@ -118,7 +118,7 @@ def set_toggl_pomodoro(mode: Mode):
     if mode == "continue":
         return
     click_mouse(
-        *{
+        *{  # pyright: ignore[reportArgumentType]
             "continue": None,
             "start": (desktop_centered_button_x, desktop_upper_button_y),
             "break": (desktop_centered_button_x, desktop_upper_button_y),

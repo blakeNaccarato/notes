@@ -124,7 +124,7 @@
       "icon": { "id": "terminal-powershell" }
     },
     {
-      "label": "proj: local notes-dev configs (Pyrightconfig, pytest.ini)",
+      "label": "proj: local notes-dev configs",
       "command": "python .tools/scripts/local_dev_configs.py",
       "icon": { "id": "graph" }
     },
@@ -234,7 +234,7 @@
     },
     {
       "label": "task: Run pyright",
-      "command": "./Invoke-Uv.ps1 pyright",
+      "command": "./Invoke-Uv.ps1 notes-dev elevate-pyright-warnings; try { ./Invoke-Uv.ps1 pyright } finally { Remove-Item pyrightconfig.json }",
       "icon": { "id": "check" }
     },
     {

@@ -282,8 +282,9 @@ reportUnusedCallResult = "none"
 
 [tool.ruff]
 cache-dir = ".cache/.ruff_cache"
-output-format = "grouped"
+extend-exclude = ["typings", "packages/lookback"]
 fix = true
+output-format = "grouped"
 preview = true
 show-fixes = true
 src = [

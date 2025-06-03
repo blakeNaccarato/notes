@@ -27,6 +27,7 @@ def get_frontmatter(parsed: list[Token]) -> Token:
         if token.type == "front_matter" and token.markup == yaml_markup
     ]:
         return one(frontmatter_tokens)
+    return Token(type="front_matter", tag="", nesting=0)
 
 
 def get_inline_tags(parsed: list[Token]) -> set[str]:
