@@ -94,6 +94,23 @@ repos:
       - id: "trailing-whitespace"
         args: [--markdown-linebreak-ext=md]
       - id: "trailing-whitespace"
+  - repo: "https://github.com/srstevenson/nb-clean"
+    rev: "3.3.0"
+    hooks:
+      - id: "nb-clean"
+        args:
+          - "--remove-empty-cells"
+          - "--preserve-notebook-metadata"
+          - "--preserve-cell-metadata"
+          - "tags"
+          - "--"
+        files: |
+          (?x)^(
+            docs/.*
+            |notebooks/.*
+            |src/.*
+            |tests/.*
+          )$
   - repo: "https://github.com/DavidAnson/markdownlint-cli2"
     rev: "v0.13.0"
     hooks:
