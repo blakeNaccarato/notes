@@ -58,9 +58,11 @@ def main():  # noqa: D103
                 sleep(grace_period.total_seconds())
             break_period += WORK_PERIOD - get_pom_time_elapsed(begin)
             stop_tracking()
-        print(get_break_msg(break_period))  # noqa: T201
         record_period(begin, get_now())
+        if begin + POM_PERIOD >= DAY_END:
+            break
         try:
+            print(get_break_msg(break_period))  # noqa: T201
             sleep(break_period.total_seconds())
         except KeyboardInterrupt:
             break

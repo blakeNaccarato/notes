@@ -13,7 +13,11 @@ dev :=\
 compiled_templates :=\
   'data/local/vaults/personal/_templater-scripts'
 format_templates :=\
-  proj + sp + '(' + 'Get-ChildItem' + sp + compiled_templates + sp + '-Filter *.js' + ')' \
+  proj + sp + '(' \
+    + 'Get-ChildItem' \
+    + sp + compiled_templates \
+    + sp + '-Filter *.js | Where-Object { $_.Name -ne "types.js" }' \
+  + ')' \
   + sp + '|' + sp + 'Format-TemplateScript.ps1'
 
 default:
