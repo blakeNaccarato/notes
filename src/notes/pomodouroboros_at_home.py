@@ -92,6 +92,8 @@ def get_startup_message() -> str:
     begin = None
     while (begin := get_beginning(begin)) + WORK_PERIOD < DAY_END:
         beginnings.append(begin.astimezone(current_tz).strftime("%H:%M"))
+    if len(beginnings) == 1:
+        return f"Today's only Pomodoro will begin at {beginnings[0]}."
     return f"Today's Pomodoros will begin at {', '.join(beginnings[:-1])}, and {beginnings[-1]}."
 
 
