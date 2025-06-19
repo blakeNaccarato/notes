@@ -35,15 +35,16 @@ def main():  # noqa: D103
         print(DONE_MSG)  # noqa: T201
         return
     if (time_until_day_begin := DAY_BEGIN - get_now()) > timedelta(0):
-        print(STARTUP_MSG)  # noqa: T201
+        print(EARLY_MSG)  # noqa: T201
         try:
             sleep(time_until_day_begin.total_seconds())
         except KeyboardInterrupt:
             print(DONE_MSG)  # noqa: T201
             return
     mode = "start"
-    begin = get_now() - POM_PERIOD
-    while (begin := begin + POM_PERIOD) + WORK_PERIOD < DAY_END:
+    print(get_startup_message())  # noqa: T201
+    begin = None
+    while (begin := get_beginning(begin)) + WORK_PERIOD < DAY_END:
         print(BEGIN_MSG)  # noqa: T201
         record_period(begin, begin)
         set_toggl_pomodoro(mode)
@@ -76,14 +77,30 @@ def get_pom_time_elapsed(begin: datetime) -> timedelta:
     return get_now() - begin
 
 
-POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
 BREAK_OFFSET = timedelta(seconds=5)
 """Wait a little after break ends to ensure auto-Pomodoro is in focus mode."""
-STARTUP_MSG = f"The first Pomodoro begins at {DAY_BEGIN.strftime('%H:%M')}."
+EARLY_MSG = f"The first Pomodoro begins at {DAY_BEGIN.strftime('%H:%M')}."
 BEGIN_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
 EARLY_BREAK_MSG = "Taking early break..."
 SYNC_MSG = "Waiting for Toggl web app activity to sync with desktop app..."
 DONE_MSG = "Done for the day!"
+
+
+def get_startup_message() -> str:
+    """Get startup message."""
+    beginnings: list[str] = []
+    begin = None
+    while (begin := get_beginning(begin)) + WORK_PERIOD < DAY_END:
+        beginnings.append(begin.astimezone(current_tz).strftime("%H:%M"))
+    return f"Today's Pomodoros will begin at {', '.join(beginnings[:-1])}, and {beginnings[-1]}."
+
+
+def get_beginning(begin: datetime | None = None) -> datetime:
+    """Get the beginning of the next Pomodoro."""
+    return begin + POM_PERIOD if begin else get_now()
+
+
+POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
 
 
 def get_break_msg(period: timedelta) -> str:
