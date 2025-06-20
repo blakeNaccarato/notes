@@ -20,21 +20,23 @@ import win32api
 from win32api import mouse_event
 from win32con import MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
 
+from notes.cli import Pom
 from notes.times import current_tz
 
-DATA = Path("data/local/vaults/personal/_data/pomodouroboros.json")
-DAY_BEGIN = datetime.combine(date.today(), time(hour=9, tzinfo=current_tz))
-DAY_END = datetime.combine(date.today(), time(hour=17, tzinfo=current_tz))
 # ? Should match Toggl's Pomodoro settings
 WORK_PERIOD = timedelta(hours=1)
 BREAK_PERIOD = timedelta(minutes=30)
 
 
-def main():  # noqa: D103
-    beginnings = get_pomodoro_periods()
+def main(pom: Pom) -> None:
+    """Start Pomodoros."""
+    day_begin = datetime.combine(date.today(), pom.begin, tzinfo=current_tz)
+    day_end = datetime.combine(date.today(), pom.end, tzinfo=current_tz)
+    beginnings = get_pomodoro_periods(day_begin, day_end)
     if not beginnings:
         print(DONE_MSG)  # noqa: T201
         return
+    print(get_startup_message(beginnings))  # noqa: T201
     if (time_until_day_begin := beginnings[0] - get_now()) > timedelta(0):
         print(EARLY_MSG)  # noqa: T201
         try:
@@ -43,10 +45,9 @@ def main():  # noqa: D103
             print(DONE_MSG)  # noqa: T201
             return
     mode = "start"
-    print(get_startup_message(beginnings))  # noqa: T201
     for pom_idx, begin in enumerate(beginnings):
         print(BEGIN_MSG)  # noqa: T201
-        record_period(begin, begin)
+        record_period(begin, begin, pom.data)
         set_toggl_pomodoro(mode)
         mode = "continue"
         break_period = BREAK_PERIOD + GRACE_PERIOD
@@ -59,7 +60,7 @@ def main():  # noqa: D103
                 sleep(GRACE_PERIOD.total_seconds())
             break_period += WORK_PERIOD - get_pom_time_elapsed(begin)
             stop_tracking()
-        record_period(begin, get_now())
+        record_period(begin, get_now(), pom.data)
         if _last_pom := (pom_idx + 1 >= (_pom_count := len(beginnings))):
             break
         try:
@@ -72,24 +73,28 @@ def main():  # noqa: D103
         set_toggl_pomodoro("end")
 
 
+EARLY_MSG = "Waiting for the first Pomodoro to begin..."
+BEGIN_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
 GRACE_PERIOD = timedelta(seconds=5)
 """Wait a little after break ends to ensure auto-Pomodoro is in focus mode."""
-EARLY_MSG = f"The first Pomodoro begins at {DAY_BEGIN.strftime('%H:%M')}."
-BEGIN_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
 EARLY_BREAK_MSG = "Taking early break..."
 SYNC_MSG = "Waiting for Toggl web app activity to sync with desktop app..."
 DONE_MSG = "Done for the day!"
 
 
-def get_pomodoro_periods() -> list[datetime]:
+def get_pomodoro_periods(
+    begin: datetime | None = None, end: datetime | None = None
+) -> list[datetime]:
     """Get Pomodoro periods for today."""
-    begin = None
+    begin = (begin or get_now()) - POM_PERIOD
+    end = end or DAY_END
     beginnings: list[datetime] = []
-    while (begin := begin + POM_PERIOD if begin else get_now()) + WORK_PERIOD < DAY_END:
+    while (begin := begin + POM_PERIOD) + WORK_PERIOD < end:
         beginnings.append(begin)
     return beginnings
 
 
+DAY_END = datetime.combine(date.today(), time(hour=23, minute=59, tzinfo=current_tz))
 POM_PERIOD = WORK_PERIOD + BREAK_PERIOD
 
 
@@ -98,17 +103,23 @@ def get_startup_message(beginnings: list[datetime]) -> str:
     readable = [begin.astimezone(current_tz).strftime("%H:%M") for begin in beginnings]
     if len(readable) == 1:
         return f"Today's only Pomodoro will begin at {readable[0]}."
+    if len(readable) == 2:
+        return f"Today's Pomodoros will begin at {readable[0]} and {readable[1]}."
     return f"Today's Pomodoros will begin at {', '.join(readable[:-1])}, and {readable[-1]}."
 
 
-def record_period(start: datetime, end: datetime | None = None):
+def record_period(
+    start: datetime, end: datetime | None = None, data: Path | None = None
+) -> None:
     """Record period."""
-    if not DATA.exists():
-        DATA.write_text(encoding="utf-8", data=dumps())
-    DATA.write_text(
+    if not data:
+        return
+    if not data.exists():
+        data.write_text(encoding="utf-8", data=dumps())
+    data.write_text(
         encoding="utf-8",
         data=dumps({
-            **loads(DATA.read_text(encoding="utf-8")),
+            **loads(data.read_text(encoding="utf-8")),
             ser_datetime(start): ser_datetime(end or start),
         })
         + "\n",
@@ -123,7 +134,7 @@ def dumps(obj: dict[str, Any] | None = None) -> str:
 Mode: TypeAlias = Literal["start", "break", "end", "continue"]
 
 
-def set_toggl_pomodoro(mode: Mode):
+def set_toggl_pomodoro(mode: Mode) -> None:
     """Set Toggl Pomodoro."""
     desktop_centered_button_x = 316 if streaming() else -1560
     desktop_upper_button_y = 545 if streaming() else 445
@@ -154,7 +165,7 @@ def get_now() -> datetime:
     return datetime.now(UTC)
 
 
-def stop_tracking():
+def stop_tracking() -> None:
     """Stop tracking in Toggl web app."""
     web_button_y = 185 if streaming() else 720
     web_stop_tracking = (1205, web_button_y) if streaming() else (-1265, web_button_y)
@@ -166,12 +177,12 @@ def get_break_msg(period: timedelta) -> str:
     return f"Please take a break for {period.total_seconds() // 60:.0f} minutes!"
 
 
-def ser_datetime(value: datetime):
+def ser_datetime(value: datetime) -> str:
     """Serialize datetime."""
     return value.astimezone(current_tz).isoformat(timespec="seconds")
 
 
-def delete_tracking():
+def delete_tracking() -> None:
     """Delete the currently tracking activity in Toggl web app."""
     web_button_y = 185 if streaming() else 720
     web_more_options = (1250, web_button_y) if streaming() else (-1225, web_button_y)
@@ -203,7 +214,7 @@ def streaming() -> bool:
     return disconnect_count != connect_count
 
 
-def click_mouse(x: int, y: int, count: int = 1):
+def click_mouse(x: int, y: int, count: int = 1) -> None:
     """Click mouse."""
     original_cursor_pos = win32api.GetCursorPos()
     win32api.SetCursorPos(*SetCursorPos(x, y).args())
@@ -240,7 +251,7 @@ class SetCursorPos(Args):
     [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos#:~:text=%5Bin%5D%20y
     """
 
-    def args(self):
+    def args(self) -> None:
         """Get args. `pywin32` API expects `SetCursorPos` args as (`x`, `y`) tuple."""
         return (super().args(),)
 
