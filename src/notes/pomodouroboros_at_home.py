@@ -17,6 +17,7 @@ from time import sleep
 from typing import Any, Literal, TypeAlias
 
 import win32api
+from cappa.base import invoke
 from win32api import mouse_event
 from win32con import MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
 
@@ -292,4 +293,4 @@ class MouseEvent(Args):
 
 
 if __name__ == "__main__":
-    main()
+    invoke(Pom)
