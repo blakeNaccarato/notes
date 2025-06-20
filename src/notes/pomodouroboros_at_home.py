@@ -86,7 +86,8 @@ def get_pomodoro_periods(
     begin: datetime | None = None, end: datetime | None = None
 ) -> list[datetime]:
     """Get Pomodoro periods for today."""
-    begin = (begin or get_now()) - POM_PERIOD
+    now = get_now()
+    begin = (begin if begin is not None and begin > now else now) - POM_PERIOD
     end = end or DAY_END
     beginnings: list[datetime] = []
     while (begin := begin + POM_PERIOD) + WORK_PERIOD < end:
