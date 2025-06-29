@@ -27,9 +27,11 @@ npm-build:
   npm run build
 
 run-pytest:
+  uv run pytest -m 'not slow' --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no --verbosity 3
+watch-src-and-tests:
   uv run watchfiles --ignore-permission-denied --filter python \
-    'uv run pytest --instafail --testmon-forceselect --cov-append --cov-config pyproject.toml --cov-report xml --no-header --no-summary --disable-warnings --tb native --capture no --verbosity 3' \
-    src tests
+    'uvx --from rust-just just run-pytest' \
+    'src' 'tests'
 format-templates:
   {{format_templates}}
 watch-templates:

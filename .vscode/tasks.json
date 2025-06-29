@@ -50,7 +50,7 @@
       "runOptions": { "runOn": "folderOpen" },
       "presentation": { "group": "background" },
       "icon": { "id": "beaker" },
-      "command": "uvx --from rust-just just run-pytest",
+      "command": "uvx --from rust-just just watch-src-and-tests",
       "group": { "kind": "test", "isDefault": true },
       "isBackground": true,
       "problemMatcher": [

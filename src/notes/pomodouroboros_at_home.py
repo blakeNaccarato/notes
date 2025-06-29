@@ -138,10 +138,10 @@ Mode: TypeAlias = Literal["start", "break", "end", "continue"]
 
 def set_toggl_pomodoro(mode: Mode) -> None:
     """Set Toggl Pomodoro."""
-    desktop_centered_button_x = 316 if streaming() else -1560
-    desktop_upper_button_y = 545 if streaming() else 445
     if mode == "continue":
         return
+    desktop_centered_button_x = 316 if streaming() else -1560
+    desktop_upper_button_y = 545 if streaming() else 445
     click_mouse(
         *{  # pyright: ignore[reportArgumentType]
             "start": (desktop_centered_button_x, desktop_upper_button_y),
