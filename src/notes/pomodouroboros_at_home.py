@@ -199,7 +199,7 @@ SLEEP = 0.5
 
 def streaming() -> bool:
     """Check whether Sunshine streaming is active."""
-    connetions = {
+    connections = {
         datetime.strptime(m["at"], "%Y-%m-%d %H:%M:%S.%f"): (
             m["event"].casefold() == "connected"
         )
@@ -211,8 +211,8 @@ def streaming() -> bool:
             flags=MULTILINE,
         )
     }
-    connect_count = sum(connetions.values())
-    disconnect_count = len(connetions) - connect_count
+    connect_count = sum(connections.values())
+    disconnect_count = len(connections) - connect_count
     return disconnect_count != connect_count
 
 
