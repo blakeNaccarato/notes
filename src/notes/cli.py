@@ -6,7 +6,7 @@ from re import sub
 from textwrap import dedent
 
 from cappa.base import command
-from pydantic import BaseModel, DirectoryPath
+from pydantic import BaseModel, DirectoryPath, Field
 
 from notes.times import current_tz
 
@@ -52,4 +52,6 @@ class Pom(BaseModel):
 
     begin: time = time(hour=9, tzinfo=current_tz)
     end: time = time(hour=17, tzinfo=current_tz)
+    allow: list[str] = Field(default_factory=list)
     data: Path | None = None
+    event_data: Path | None = None
