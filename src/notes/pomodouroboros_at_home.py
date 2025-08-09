@@ -41,7 +41,9 @@ WORK_PERIOD = timedelta(hours=1)
 BREAK_PERIOD = timedelta(minutes=30)
 
 
-def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PLR0912
+def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
+    pom: Pom,
+) -> None:
     """Start Pomodoros."""
     day_start = max(get_time_today(pom.begin), get_now())
     day_end = get_time_today(pom.end)
@@ -107,6 +109,8 @@ def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PL
             if (time_until_end := end - get_now()) > timedelta(0):
                 sleep(time_until_end.total_seconds())
             record_period(pom.poms, intent, start, end, distractions=distractions)
+            if end + BREAK_PERIOD > day_end:
+                break
             print(get_break_msg(BREAK_PERIOD))  # noqa: T201
             sleep(BREAK_PERIOD.total_seconds())
         except KeyboardInterrupt:
