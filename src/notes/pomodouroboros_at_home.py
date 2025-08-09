@@ -53,6 +53,7 @@ def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PL
         return
     print(get_startup_message(poms))  # noqa: T201
     for start in poms:
+        end = start + WORK_PERIOD
         if (time_until_start := start - get_now()) > timedelta(0):
             print(EARLY_MSG)  # noqa: T201
             try:
@@ -63,7 +64,7 @@ def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PL
         intent = get_intent(pom.intents)
         interrupted = False
         distractions = 0
-        checks = time_range(start, start + WORK_PERIOD, CHECK_PERIOD)
+        checks = time_range(start, end, CHECK_PERIOD)
         last_check = start
         record_period(pom.poms, intent, start, end=start, distractions=distractions)
         print(START_MSG)  # noqa: T201
@@ -103,11 +104,9 @@ def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PL
         if interrupted:
             break
         try:
-            if (time_until_end := (start + WORK_PERIOD) - get_now()) > timedelta(0):
+            if (time_until_end := end - get_now()) > timedelta(0):
                 sleep(time_until_end.total_seconds())
-            record_period(
-                pom.poms, intent, start, end=get_now(), distractions=distractions
-            )
+            record_period(pom.poms, intent, start, end, distractions=distractions)
             print(get_break_msg(BREAK_PERIOD))  # noqa: T201
             sleep(BREAK_PERIOD.total_seconds())
         except KeyboardInterrupt:
