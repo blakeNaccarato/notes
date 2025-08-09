@@ -91,7 +91,6 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     for event in events
                 )
             ):
-                distractions += 1
                 if done := (
                     win32api.MessageBox(
                         *MessageBox(
@@ -101,6 +100,8 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     == IDYES
                 ):
                     print(COMPLETED_INTENT_MSG)  # noqa: T201
+                else:
+                    distractions += 1
             last_check = check
         record_period(pom.poms, intent, start, end=get_now(), distractions=distractions)
         if interrupted:
