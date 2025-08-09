@@ -8,22 +8,29 @@ Pomodouroboros at home...
 """
 
 import json
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime, time, timedelta
+from itertools import accumulate
 from json import loads
 from pathlib import Path
 from re import MULTILINE, finditer
 from time import sleep
 from typing import Any, Literal, TypeAlias
-from winsound import MB_ICONEXCLAMATION, MB_OK
 
 import win32api
 from cappa.base import invoke
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import create_engine
 from sqlmodel import Session, select
 from win32api import mouse_event
-from win32con import MB_SYSTEMMODAL, MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP
+from win32con import (
+    IDYES,
+    MB_OK,
+    MB_SYSTEMMODAL,
+    MB_YESNO,
+    MOUSEEVENTF_LEFTDOWN,
+    MOUSEEVENTF_LEFTUP,
+)
 
 from notes import toggl
 from notes.cli import Pom
@@ -34,99 +41,133 @@ WORK_PERIOD = timedelta(hours=1)
 BREAK_PERIOD = timedelta(minutes=30)
 
 
-def main(pom: Pom) -> None:  # noqa: C901, PLR0912
+def main(pom: Pom) -> None:  # sourcery skip: low-code-quality  # noqa: C901, PLR0912
     """Start Pomodoros."""
-    day_start = get_time_today(pom.begin)
+    day_start = max(get_time_today(pom.begin), get_now())
     day_end = get_time_today(pom.end)
-    starts = [
-        day_start + period
-        for period in split_period(day_end - day_start, WORK_PERIOD)
-        if day_start + period < day_end
-    ]
-    if not starts:
+    poms = list(time_range(day_start, day_end, WORK_PERIOD + BREAK_PERIOD))
+    if poms and poms[-1] + WORK_PERIOD > day_end:
+        poms = poms[:-1]
+    if not poms:
         print(DONE_MSG)  # noqa: T201
         return
-    print(get_startup_message(starts))  # noqa: T201
-    if (time_until_start := starts[0] - get_now()) > timedelta(0):
-        print(EARLY_MSG)  # noqa: T201
-        try:
-            sleep(time_until_start.total_seconds())
-        except KeyboardInterrupt:
-            print(DONE_MSG)  # noqa: T201
-            return
-    mode = "start"
-    for pom_idx, start in enumerate(starts):
-        print(START_MSG)  # noqa: T201
-        if pom.data:
-            record_period(pom.data, start, end=start, distractions=0)
-        set_toggl_pomodoro(mode)
-        mode = "continue"
-        break_period = BREAK_PERIOD + GRACE_PERIOD
+    print(get_startup_message(poms))  # noqa: T201
+    for start in poms:
+        if (time_until_start := start - get_now()) > timedelta(0):
+            print(EARLY_MSG)  # noqa: T201
+            try:
+                sleep(time_until_start.total_seconds())
+            except KeyboardInterrupt:
+                print(DONE_MSG)  # noqa: T201
+                return
+        intent = get_intent(pom.intents)
+        interrupted = False
         distractions = 0
-        try:
-            if pom.event_data:
-                distractions = sleep_check_distractions(
-                    pom.event_data,
-                    allowed=pom.allow,
-                    period=WORK_PERIOD,
-                    interval=CHECK_INTERVAL,
+        checks = time_range(start, start + WORK_PERIOD, CHECK_PERIOD)
+        last_check = start
+        record_period(pom.poms, intent, start, end=start, distractions=distractions)
+        print(START_MSG)  # noqa: T201
+        set_toggl_pomodoro("start")
+        for check in checks:
+            done = False
+            if (check_period := check - get_now()) < timedelta(0):
+                continue
+            try:
+                sleep(check_period.total_seconds())
+            except KeyboardInterrupt:
+                interrupted = True
+                break
+            if (
+                not done
+                and pom.events
+                and (events := get_events(pom.events, start=last_check, end=check))
+                and any(
+                    allowed.casefold()
+                    not in f"{event.path.stem.casefold()} - {event.title.casefold()}"
+                    for allowed in get_allowed(pom.intents, intent)
+                    for event in events
                 )
-            else:
-                sleep(WORK_PERIOD.total_seconds())
-        except KeyboardInterrupt:
-            print(EARLY_BREAK_MSG)  # noqa: T201
-            if get_pom_time_elapsed(start) < GRACE_PERIOD:
-                print(SYNC_MSG)  # noqa: T201
-                sleep(GRACE_PERIOD.total_seconds())
-            break_period += WORK_PERIOD - get_pom_time_elapsed(start)
-            stop_tracking()
-        if pom.data:
-            record_period(pom.data, start, end=get_now(), distractions=distractions)
-        if _last_pom := (pom_idx + 1 >= (_pom_count := len(starts))):
+            ):
+                distractions += 1
+                if done := (
+                    win32api.MessageBox(
+                        *MessageBox(
+                            0, INTENT_MSG, APP_NAME, MB_SYSTEMMODAL | MB_YESNO
+                        ).args()
+                    )
+                    == IDYES
+                ):
+                    print(COMPLETED_INTENT_MSG)  # noqa: T201
+            last_check = check
+        record_period(pom.poms, intent, start, end=get_now(), distractions=distractions)
+        if interrupted:
             break
         try:
-            print(get_break_msg(break_period))  # noqa: T201
-            sleep(break_period.total_seconds())
+            if (time_until_end := (start + WORK_PERIOD) - get_now()) > timedelta(0):
+                sleep(time_until_end.total_seconds())
+            record_period(
+                pom.poms, intent, start, end=get_now(), distractions=distractions
+            )
+            print(get_break_msg(BREAK_PERIOD))  # noqa: T201
+            sleep(BREAK_PERIOD.total_seconds())
         except KeyboardInterrupt:
             break
     print(DONE_MSG)  # noqa: T201
-    if mode != "start":
-        set_toggl_pomodoro("end")
+    set_toggl_pomodoro("end")
 
 
-EARLY_MSG = "Waiting for the first Pomodoro to begin..."
-START_MSG = f"Please set an intent and focus for {WORK_PERIOD.total_seconds() // 60:.0f} minutes."
-GRACE_PERIOD = timedelta(seconds=5)
-"""Wait a little after break ends to ensure auto-Pomodoro is in focus mode."""
-CHECK_INTERVAL = timedelta(minutes=1)
-EARLY_BREAK_MSG = "Taking early break..."
-SYNC_MSG = "Waiting for Toggl web app activity to sync with desktop app..."
+EARLY_MSG = "Waiting for Pomodoro to begin..."
+START_MSG = "Pomodoro has begun."
 DONE_MSG = "Done for the day!"
-
-
-def sleep_check_distractions(
-    path: Path, allowed: Sequence[str], period: timedelta, interval: timedelta
-) -> int:
-    """Sleep for a duration, checking periodically for distractions."""
-    engine = create_engine(f"sqlite:///{path.as_posix()}")
-    distractions = 0
-    allowed = [a.casefold() for a in allowed]
-    for p in split_period(period, interval):
-        now = get_now()
-        sleep(p.total_seconds())
-        events = get_events(engine, start=now, end=(now := get_now()))
-        if any(event.path.stem.casefold() not in allowed for event in events):
-            distractions += 1
-            win32api.MessageBox(
-                *MessageBox(
-                    0, INTENT_MSG, APP_NAME, MB_SYSTEMMODAL | MB_ICONEXCLAMATION
-                ).args()
-            )
-    return distractions
-
-
 APP_NAME = "Pomodouroboros at Home"
-INTENT_MSG = "Please focus on your intent."
+INTENT_MSG = "Have you completed your intent?"
+COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
+CHECK_PERIOD = timedelta(minutes=1)
+
+
+def get_intent(intents: Path) -> str:
+    """Get intent."""
+    while not (
+        intent := get_intents(intents)[
+            int(
+                input(
+                    "\n".join([
+                        INTENT_PROMPT,
+                        *[f"  {i}. {v}" for i, v in enumerate(get_intents(intents))],
+                    ])
+                    + "\nEnter a number: "
+                )
+            )
+        ]
+    ) and not get_allowed(intents, intent):
+        pass
+    return intent
+
+
+INTENT_PROMPT = "Please select your intent for this Pomodoro."
+
+
+def get_allowed(path: Path, intent: str) -> list[str]:
+    """Get intent."""
+    return (loads(path.read_text(encoding="utf-8")).get(intent) or {}).get(
+        "allowed"
+    ) or []
+
+
+def get_intents(path: Path) -> list[str]:
+    """Get intents."""
+    return list(loads(path.read_text(encoding="utf-8")))
+
+
+def merge_allowed(
+    intents: dict[str, dict[str, Sequence[str]]], name: str, allowed: Sequence[str]
+) -> list[str]:
+    """Get allowed activities."""
+    return list(
+        dict.fromkeys([*intent["allowed"], *allowed])
+        if (intent := intents.get(name))
+        else allowed
+    )
 
 
 @dataclass
@@ -140,16 +181,9 @@ class Event:
     end: datetime
 
 
-def get_events(engine: Engine, start: datetime, end: datetime) -> Sequence[Event]:
+def get_events(path: Path, start: datetime, end: datetime) -> Sequence[Event]:
     """Get events."""
-    with Session(engine) as session:
-        start_ms_timestamp = 1000 * start.timestamp()
-        end_ms_timestamp = 1000 * end.timestamp()
-        events = session.exec(
-            select(toggl.Event)
-            .where(start_ms_timestamp < toggl.Event.end)
-            .where(toggl.Event.end < end_ms_timestamp)
-        ).all()
+    with Session(create_engine(f"sqlite:///{path.as_posix()}")) as session:
         return [
             Event(
                 id=event.id,
@@ -158,19 +192,29 @@ def get_events(engine: Engine, start: datetime, end: datetime) -> Sequence[Event
                 start=get_ms_timestamp(event.start),
                 end=get_ms_timestamp(event.end),
             )
-            for event in events
+            for event in session.exec(
+                select(toggl.Event)
+                .where(toggl.Event.end > SECONDS_TO_MILLISECONDS * start.timestamp())
+                .where(toggl.Event.end < SECONDS_TO_MILLISECONDS * end.timestamp())
+            ).all()
             if event.id
         ]
 
 
-def split_period(period: timedelta, interval: timedelta) -> list[timedelta]:
-    """Fit as many intervals into period as possible, with the final interval as the remainder."""
-    total_duration = period.total_seconds()
-    (sleep_count, remainder) = divmod(total_duration, interval.total_seconds())
-    return [
-        *([interval] * int(sleep_count)),
-        *([timedelta(seconds=remainder)] if remainder else []),
-    ]
+SECONDS_TO_MILLISECONDS = 1000
+
+
+def time_range(start: datetime, stop: datetime, step: timedelta) -> Iterable[datetime]:
+    """Get a range of times."""
+    yield from (
+        start,
+        *[
+            start + period
+            for period in accumulate(
+                [step] * int((stop - start).total_seconds() / step.total_seconds())
+            )
+        ],
+    )
 
 
 def get_startup_message(starts: list[datetime]) -> str:
@@ -184,17 +228,20 @@ def get_startup_message(starts: list[datetime]) -> str:
 
 
 def record_period(
-    data: Path, start: datetime, end: datetime | None = None, distractions: int = 0
+    data: Path,
+    intent: str,
+    start: datetime,
+    end: datetime | None = None,
+    distractions: int = 0,
 ) -> None:
     """Record period."""
-    if not data.exists():
-        data.write_text(encoding="utf-8", data=dumps())
     data.write_text(
         encoding="utf-8",
         data=dumps({
             **loads(data.read_text(encoding="utf-8")),
             ser_datetime(start): {
                 "end": ser_datetime(end or start),
+                "intent": intent,
                 "distractions": distractions,
             },
         })
@@ -207,41 +254,38 @@ def dumps(obj: dict[str, Any] | None = None) -> str:
     return json.dumps(ensure_ascii=False, sort_keys=True, indent=2, obj=obj or {})
 
 
-Mode: TypeAlias = Literal["start", "break", "end", "continue"]
+Mode: TypeAlias = Literal["start", "end"]
 
 
 def set_toggl_pomodoro(mode: Mode) -> None:
     """Set Toggl Pomodoro."""
-    if mode == "continue":
-        return
     desktop_centered_button_x = 316 if streaming() else -1560
     desktop_upper_button_y = 545 if streaming() else 445
     click_mouse(
         *{  # pyright: ignore[reportArgumentType]
             "start": (desktop_centered_button_x, desktop_upper_button_y),
-            "break": (desktop_centered_button_x, desktop_upper_button_y),
             "end": (desktop_centered_button_x, 598 if streaming() else 480),
         }[mode],
         count=2,
     )
     if mode == "start":
         return
-    sleep(SLEEP)
+    sleep(SHORT_SLEEP)
     desktop_confirm = (204, 402) if streaming() else (-1640, 335)
     click_mouse(*desktop_confirm)
+    # ? Stop tracking in Toggl web app. Toggl Track app at 80% zoom
+    sleep(SHORT_SLEEP)
+    web_button_x = 1205 if streaming() else -1265
+    web_button_y = 185 if streaming() else 720
+    click_mouse(web_button_x, web_button_y)
+
+
+SHORT_SLEEP = 0.5
 
 
 def get_pom_time_elapsed(begin: datetime) -> timedelta:
     """Get time elapsed since Pomodoro began."""
     return get_now() - begin
-
-
-def stop_tracking() -> None:
-    """Stop tracking in Toggl web app."""
-    # ? Toggl Track app at 80% zoom
-    web_button_x = 1205 if streaming() else -1265
-    web_button_y = 185 if streaming() else 720
-    click_mouse(web_button_x, web_button_y)
 
 
 def get_break_msg(period: timedelta) -> str:
@@ -267,19 +311,6 @@ def get_ms_timestamp(value: float) -> datetime:
 def ser_datetime(value: datetime) -> str:
     """Serialize datetime."""
     return value.astimezone(current_tz).isoformat(timespec="seconds")
-
-
-def delete_tracking() -> None:
-    """Delete the currently tracking activity in Toggl web app."""
-    web_button_y = 185 if streaming() else 720
-    web_more_options = (1250, web_button_y) if streaming() else (-1225, web_button_y)
-    click_mouse(*web_more_options)
-    sleep(SLEEP)
-    web_delete_current = (1183, 291) if streaming() else (-1287, 799)
-    click_mouse(*web_delete_current)
-
-
-SLEEP = 0.5
 
 
 def streaming() -> bool:

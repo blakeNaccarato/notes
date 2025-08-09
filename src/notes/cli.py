@@ -6,7 +6,7 @@ from re import sub
 from textwrap import dedent
 
 from cappa.base import command
-from pydantic import BaseModel, DirectoryPath, Field
+from pydantic import BaseModel, DirectoryPath
 
 from notes.times import current_tz
 
@@ -46,12 +46,15 @@ class AssociatePdfs(BaseModel):
             )
 
 
+home = Path("~/.local/pomodouroboros-at-home").expanduser()
+
+
 @command(default_long=True, invoke="notes.pomodouroboros_at_home.main")
 class Pom(BaseModel):
     """Start Pomodoros."""
 
     begin: time = time(hour=9, tzinfo=current_tz)
-    end: time = time(hour=17, tzinfo=current_tz)
-    allow: list[str] = Field(default_factory=list)
-    data: Path | None = None
-    event_data: Path | None = None
+    end: time = time(hour=16, minute=30, tzinfo=current_tz)
+    poms: Path = home / "pomodouroboros.json"
+    intents: Path = home / "intents.json"
+    events: Path | None = None
