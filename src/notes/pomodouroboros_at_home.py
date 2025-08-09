@@ -86,7 +86,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 and (events := get_events(pom.events, start=last_check, end=check))
                 and any(
                     allowed.casefold()
-                    not in f"{event.path.stem.casefold()} - {event.title.casefold()}"
+                    not in f"{event.path.stem} - {event.title}.casefold()"
                     for allowed in get_allowed(pom.intents, intent)
                     for event in events
                 )
