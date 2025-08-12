@@ -20,11 +20,12 @@ from typing import Any, Literal, TypeAlias
 
 import win32api
 from cappa.base import invoke
-from sqlalchemy import create_engine
-from sqlmodel import Session, select
+from more_itertools import first, one
+from sqlmodel import Session, col, create_engine, select
 from win32api import mouse_event
 from win32con import (
     IDYES,
+    MB_DEFBUTTON2,
     MB_OK,
     MB_SYSTEMMODAL,
     MB_YESNO,
@@ -36,26 +37,24 @@ from notes import toggl
 from notes.cli import Pom
 from notes.times import current_tz
 
-# ? Should match Toggl's Pomodoro settings
-WORK_PERIOD = timedelta(hours=1)
-BREAK_PERIOD = timedelta(minutes=30)
-
 
 def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     pom: Pom,
 ) -> None:
     """Start Pomodoros."""
+    sync_intents(pom.intents, pom.toggl)
     day_start = max(get_time_today(pom.begin), get_now())
     day_end = get_time_today(pom.end)
-    poms = list(time_range(day_start, day_end, WORK_PERIOD + BREAK_PERIOD))
-    if poms and poms[-1] + WORK_PERIOD > day_end:
+    periods = get_periods(pom.toggl)
+    poms = list(time_range(day_start, day_end, periods.work + periods.brk))
+    if poms and poms[-1] + periods.work > day_end:
         poms = poms[:-1]
     if not poms:
         print(DONE_MSG)  # noqa: T201
         return
     print(get_startup_message(poms))  # noqa: T201
     for start in poms:
-        end = start + WORK_PERIOD
+        end = start + periods.work
         if (time_until_start := start - get_now()) > timedelta(0):
             print(EARLY_MSG)  # noqa: T201
             try:
@@ -63,16 +62,16 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             except KeyboardInterrupt:
                 print(DONE_MSG)  # noqa: T201
                 return
-        intent = get_intent(pom.intents)
         interrupted = False
         distractions = 0
+        intent = ""
+        completed = None
         checks = time_range(start, end, CHECK_PERIOD)
         last_check = start
-        record_period(pom.poms, intent, start, end=start, distractions=distractions)
         print(START_MSG)  # noqa: T201
         set_toggl_pomodoro("start")
+        set_intent = done = False
         for check in checks:
-            done = False
             if (check_period := check - get_now()) < timedelta(0):
                 continue
             try:
@@ -80,40 +79,91 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             except KeyboardInterrupt:
                 interrupted = True
                 break
+            if not set_intent and check < start + SETTABLE_INTENT_PERIOD:
+                intent = get_intent(pom.toggl)
             if (
                 not done
-                and pom.events
-                and (events := get_events(pom.events, start=last_check, end=check))
+                and (events := get_events(pom.toggl, start=last_check, end=check))
+                and (
+                    all_allowed := get_intents(pom.intents)
+                    .get(intent, {})
+                    .get("allowed")
+                )
                 and any(
                     allowed.casefold()
                     not in f"{event.path.stem} - {event.title}".casefold()
-                    for allowed in get_allowed(pom.intents, intent)
+                    for allowed in all_allowed
                     for event in events
                 )
             ):
+                if not set_intent:
+                    set_intent = (
+                        win32api.MessageBox(
+                            *MessageBox(
+                                0,
+                                SET_INTENT_MSG,
+                                APP_NAME,
+                                MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
+                            ).args()
+                        )
+                        == IDYES
+                    )
+                    print(COMPLETED_SET_INTENT_MSG)  # noqa: T201
+                    record_period(
+                        pom.poms,
+                        intent,
+                        start,
+                        end=get_now(),
+                        distractions=distractions,
+                    )
                 if done := (
                     win32api.MessageBox(
                         *MessageBox(
-                            0, INTENT_MSG, APP_NAME, MB_SYSTEMMODAL | MB_YESNO
+                            0,
+                            INTENT_MSG,
+                            APP_NAME,
+                            MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
                         ).args()
                     )
                     == IDYES
                 ):
                     print(COMPLETED_INTENT_MSG)  # noqa: T201
+                    record_period(
+                        pom.poms,
+                        intent,
+                        start,
+                        end=(completed := get_now()),
+                        completed=completed,
+                        distractions=distractions,
+                    )
                 else:
                     distractions += 1
             last_check = check
-        record_period(pom.poms, intent, start, end=get_now(), distractions=distractions)
+        record_period(
+            pom.poms,
+            intent,
+            start,
+            end=get_now(),
+            completed=completed,
+            distractions=distractions,
+        )
         if interrupted:
             break
         try:
             if (time_until_end := end - get_now()) > timedelta(0):
                 sleep(time_until_end.total_seconds())
-            record_period(pom.poms, intent, start, end, distractions=distractions)
-            if end + BREAK_PERIOD > day_end:
+            record_period(
+                pom.poms,
+                intent,
+                start,
+                end,
+                completed=completed,
+                distractions=distractions,
+            )
+            if end + periods.brk > day_end:
                 break
-            print(get_break_msg(BREAK_PERIOD))  # noqa: T201
-            sleep(BREAK_PERIOD.total_seconds())
+            print(get_break_msg(periods.brk))  # noqa: T201
+            sleep(periods.brk.total_seconds())
         except KeyboardInterrupt:
             break
     print(DONE_MSG)  # noqa: T201
@@ -125,53 +175,74 @@ START_MSG = "Pomodoro has begun."
 DONE_MSG = "Done for the day!"
 APP_NAME = "Pomodouroboros at Home"
 INTENT_MSG = "Have you completed your intent?"
+SET_INTENT_MSG = "Have you set your intent?"
+COMPLETED_SET_INTENT_MSG = "Congratulations on setting your intent!"
 COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
 CHECK_PERIOD = timedelta(minutes=1)
+SETTABLE_INTENT_PERIOD = timedelta(minutes=10)
 
 
-def get_intent(intents: Path) -> str:
-    """Get intent."""
-    while not (
-        intent := get_intents(intents)[
-            int(
-                input(
-                    "\n".join([
-                        INTENT_PROMPT,
-                        *[f"  {i}. {v}" for i, v in enumerate(get_intents(intents))],
-                    ])
-                    + "\nEnter a number: "
+def get_intents(path: Path) -> dict[str, dict[str, list[str]]]:
+    """Get intents."""
+    return loads(path.read_text(encoding="utf-8"))
+
+
+def sync_intents(path: Path, db: Path):
+    """Sync intents."""
+    intent_id = "🆔 "
+    with Session(create_engine(f"sqlite:///{db.as_posix()}")) as session:
+        intents = session.exec(
+            select(toggl.Entry).filter(
+                col(toggl.Entry.description).like(f"%{intent_id}%")
+            )
+        ).all()
+    path.write_text(
+        encoding="utf-8",
+        data=dumps(
+            dict(
+                sorted(
+                    {
+                        **{intent.description: {"allowed": []} for intent in intents},
+                        **loads(path.read_text(encoding="utf-8")),
+                    }.items(),
+                    key=lambda i: i[0].casefold().split(intent_id)[-1],
+                    reverse=True,
                 )
             )
-        ]
-    ) and not get_allowed(intents, intent):
-        pass
-    return intent
-
-
-INTENT_PROMPT = "Please select your intent for this Pomodoro."
-
-
-def get_allowed(path: Path, intent: str) -> list[str]:
-    """Get intent."""
-    return (loads(path.read_text(encoding="utf-8")).get(intent) or {}).get(
-        "allowed"
-    ) or []
-
-
-def get_intents(path: Path) -> list[str]:
-    """Get intents."""
-    return list(loads(path.read_text(encoding="utf-8")))
-
-
-def merge_allowed(
-    intents: dict[str, dict[str, Sequence[str]]], name: str, allowed: Sequence[str]
-) -> list[str]:
-    """Get allowed activities."""
-    return list(
-        dict.fromkeys([*intent["allowed"], *allowed])
-        if (intent := intents.get(name))
-        else allowed
+        ),
     )
+
+
+@dataclass
+class Periods:
+    """Periods."""
+
+    work: timedelta
+    brk: timedelta
+
+
+def get_periods(path: Path) -> Periods:
+    """Get periods."""
+    with Session(create_engine(f"sqlite:///{path.as_posix()}")) as session:
+        prefs = one(session.exec(select(toggl.Preferences)))
+        return Periods(
+            work=timedelta(minutes=prefs.pomodoro_focus_interval_in_minutes),
+            brk=timedelta(minutes=prefs.pomodoro_break_interval_in_minutes),
+        )
+
+
+def get_intent(path: Path) -> str:
+    """Get active intent."""
+    with Session(create_engine(f"sqlite:///{path.as_posix()}")) as session:
+        intent = first(
+            session.exec(
+                select(toggl.Entry)
+                .where(col(toggl.Entry.duration).is_(None))
+                .order_by(col(toggl.Entry.id).desc())
+            ),
+            None,
+        )
+    return intent.description if intent else ""
 
 
 @dataclass
@@ -191,15 +262,17 @@ def get_events(path: Path, start: datetime, end: datetime) -> Sequence[Event]:
         return [
             Event(
                 id=event.id,
-                path=Path(event.path),
+                path=Path(event.filename),
                 title=event.title,
-                start=get_ms_timestamp(event.start),
-                end=get_ms_timestamp(event.end),
+                start=get_ms_timestamp(event.start_time),
+                end=get_ms_timestamp(event.end_time),
             )
             for event in session.exec(
                 select(toggl.Event)
-                .where(toggl.Event.end > SECONDS_TO_MILLISECONDS * start.timestamp())
-                .where(toggl.Event.end < SECONDS_TO_MILLISECONDS * end.timestamp())
+                .where(
+                    toggl.Event.end_time > SECONDS_TO_MILLISECONDS * start.timestamp()
+                )
+                .where(toggl.Event.end_time < SECONDS_TO_MILLISECONDS * end.timestamp())
             ).all()
             if event.id
         ]
@@ -235,7 +308,8 @@ def record_period(
     data: Path,
     intent: str,
     start: datetime,
-    end: datetime | None = None,
+    end: datetime,
+    completed: datetime | None = None,
     distractions: int = 0,
 ) -> None:
     """Record period."""
@@ -244,8 +318,9 @@ def record_period(
         data=dumps({
             **loads(data.read_text(encoding="utf-8")),
             ser_datetime(start): {
-                "end": ser_datetime(end or start),
                 "intent": intent,
+                "completed": ser_datetime(completed) if completed else None,
+                "end": ser_datetime(end or start),
                 "distractions": distractions,
             },
         })

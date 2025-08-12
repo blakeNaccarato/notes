@@ -57,4 +57,4 @@ class Pom(BaseModel):
     end: time = time(hour=16, minute=30, tzinfo=current_tz)
     poms: Path = home / "pomodouroboros.json"
     intents: Path = home / "intents.json"
-    events: Path | None = None
+    toggl: Path = home / "database.sqlite"
