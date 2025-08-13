@@ -20,7 +20,7 @@ from typing import Any, Literal, TypeAlias, TypeVar
 
 import win32api
 from cappa.base import invoke
-from more_itertools import first, one
+from more_itertools import first, last, one
 from sqlmodel import Session, col, create_engine, select
 from win32api import mouse_event
 from win32con import (
@@ -42,201 +42,183 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     pom: Pom,
 ) -> None:
     """Start Pomodoros."""
+    periods = get_periods(pom.toggl)
+    work_period = periods.work
+    pom_period = work_period + periods.brk
     day_start = max(get_time_today(pom.start), get_now())
     day_end = get_time_today(pom.end)
-    periods = get_periods(pom.toggl)
-    poms = list(
-        time_range(day_start, day_end - periods.brk, periods.work + periods.brk)
-    )
-    if not poms:
+    if not (poms := list(time_range(day_start, day_end, pom_period))):
         print(DONE_MSG)  # noqa: T201
         return
     print(get_startup_message(poms))  # noqa: T201
-    for start in poms:
-        if get_now() + periods.work > day_end:
-            break
-        if (time_until_start := start - get_now()) > timedelta(0):
-            print(EARLY_MSG)  # noqa: T201
-            try:
-                sleep(time_until_start.total_seconds())
-            except KeyboardInterrupt:
-                print(DONE_MSG)  # noqa: T201
-                return
-        end = start + periods.work
-        checks = time_range(start + CHECK_PERIOD, end, CHECK_PERIOD)
-        distracted = False
+    if day_start > get_now():
+        print(EARLY_MSG)  # noqa: T201
+        try:
+            sleep((day_start - get_now()).total_seconds())
+        except KeyboardInterrupt:
+            print(DONE_MSG)  # noqa: T201
+            return
+    set_toggl_pomodoro("start")
+    for start in poms:  # noqa: PLR1702
+        distracted = interrupt = False
         focused = timedelta(0)
         intent = ""
-        intents = sync_intents(pom.intents, pom.toggl)
+        intents = get_intents(pom.intents)
         intent_set = done = None
-        interrupted = False
         last_check = get_now()
         print(START_MSG)  # noqa: T201
-        set_toggl_pomodoro("start")
-        for check in checks:
-            if get_now() > end:
-                break
-            if not distracted:
+        while start + work_period > get_now():
+            if not distracted and intent != NO_INTENT:
                 focused += get_now() - last_check
-            distracted = False
+            distracted = interrupt = False
             last_check = get_now()
-            if (check_period := check - last_check) < timedelta(0):
-                continue
+            intents = get_intents(pom.intents)
             record_period(
                 data=pom.poms,
                 done=done,
-                end=last_check,
+                end=get_now(),
                 focused=focused,
                 intent_set=intent_set,
                 intent=intent,
                 start=start,
             )
             try:
-                sleep(check_period.total_seconds())
+                sleep(CHECK_PERIOD.total_seconds())
             except KeyboardInterrupt:
-                interrupted = True
-                break
-            if done:
+                interrupt = True
+                if prompt(ASK_CANCEL):
+                    break
+            if done or intent == NO_INTENT:
                 continue
-            if not intent_set and check > start + SETTABLE_INTENT_PERIOD:
-                while not (intent := get_intent(pom.toggl)) or (
-                    win32api.MessageBox(
-                        *MessageBox(
-                            0,
-                            get_intent_msg(intent),
-                            APP_NAME,
-                            MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
-                        ).args()
-                    )
-                    != IDYES
+            if not intent_set and start + SETTABLE_INTENT_PERIOD < get_now():
+                while not (intent := get_intent(pom.toggl)) or not prompt(
+                    ask_intent(intent)
                 ):
-                    win32api.MessageBox(
-                        *MessageBox(
-                            0, SET_INTENT_MSG, APP_NAME, MB_SYSTEMMODAL | MB_OK
-                        ).args()
-                    )
-                print(DID_SET_INTENT_MSG)  # noqa: T201
+                    notify(SET_INTENT_MSG)
+                    try:
+                        sleep(SET_INTENT_SLEEP)
+                    except KeyboardInterrupt:
+                        if prompt(ASK_CANCEL):
+                            break
+                        intent = NO_INTENT
+                intents = sync_intents(
+                    pom.intents, pom.toggl, {intent: {"related": [], "unrelated": []}}
+                )
+                if intent == NO_INTENT:
+                    print(DID_NOT_SET_INTENT_MSG)  # noqa: T201
+                else:
+                    print(DID_SET_INTENT_MSG)  # noqa: T201
                 intent_set = get_now()
+                continue
+            if not intent_set:
+                if (intent := get_intent(pom.toggl)) and prompt(ask_intent(intent)):
+                    intents = sync_intents(
+                        pom.intents,
+                        pom.toggl,
+                        {intent: {"related": [], "unrelated": []}},
+                    )
+                    print(DID_SET_INTENT_MSG)  # noqa: T201
+                    intent_set = get_now()
                 continue
             if (
-                not intent_set
-                and (intent := get_intent(pom.toggl))
-                and (
-                    win32api.MessageBox(
-                        *MessageBox(
-                            0,
-                            get_intent_msg(intent),
-                            APP_NAME,
-                            MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
-                        ).args()
-                    )
-                    == IDYES
+                not intent
+                or not intent_set
+                or not (
+                    events := get_events(pom.toggl, start=last_check, end=get_now())
                 )
             ):
-                print(DID_SET_INTENT_MSG)  # noqa: T201
-                intent_set = get_now()
                 continue
-            if not intent_set or not (
-                events := get_events(pom.toggl, start=last_check, end=check)
-            ):
-                continue
-            new_unrelated = False
             for event in events:
-                if distracted or new_unrelated:
-                    break
-                event_bin_only = f"{event.path.stem} -"
-                window = f"{event_bin_only} {event.title}"
+                window = f"{event.path.stem} - {event.title}"
                 if any(
                     related.casefold() in window.casefold()
-                    for related in intents.get(intent, {}).get("related", {})
+                    for related in intents.get(
+                        intent, {"related": [], "unrelated": []}
+                    ).get("related", {})
                 ):
                     continue
                 if any(
                     unrelated.casefold() in window.casefold()
-                    for unrelated in intents.get(intent, {}).get("unrelated", {})
+                    for unrelated in intents.get(
+                        intent, {"related": [], "unrelated": []}
+                    ).get("unrelated", {})
                 ):
                     distracted = True
                     continue
-                if (
-                    win32api.MessageBox(
-                        *MessageBox(
-                            0,
-                            get_related_msg(window),
-                            APP_NAME,
-                            MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
-                        ).args()
-                    )
-                    == IDYES
-                ):
-                    intents[intent]["related"].append(event_bin_only)
-                    continue
-                intents[intent]["unrelated"].append(event_bin_only)
-                distracted = new_unrelated = True
-            sync_intents(pom.intents, pom.toggl, intents)
-            if (
-                distracted
-                and not new_unrelated
-                and (
-                    win32api.MessageBox(
-                        *MessageBox(
-                            0,
-                            get_complete_intent_msg(intent),
-                            APP_NAME,
-                            MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
-                        ).args()
-                    )
-                    == IDYES
-                )
-            ):
+                if prompt(ask_related(window, intent)):
+                    intents[intent]["related"].append(window)
+                else:
+                    intents[intent]["unrelated"].append(window)
+                    distracted = True
+                intents = sync_intents(pom.intents, pom.toggl, intents)
+            if (interrupt or distracted) and prompt(ask_done(intent)):
                 print(COMPLETED_INTENT_MSG)  # noqa: T201
                 done = get_now()
-        if not done and (
-            win32api.MessageBox(
-                *MessageBox(
-                    0,
-                    get_complete_intent_msg(intent),
-                    APP_NAME,
-                    MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2,
-                ).args()
-            )
-            == IDYES
-        ):
+        if not done and intent != NO_INTENT and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # noqa: T201
             done = get_now()
-        focused += get_now() - last_check
+        if not distracted and intent != NO_INTENT:
+            focused += get_now() - last_check
+        intents = get_intents(pom.intents)
         record_period(
             data=pom.poms,
             done=done,
-            end=done or get_now(),
+            end=get_now(),
             focused=focused,
             intent_set=intent_set,
             intent=intent,
             start=start,
         )
-        if interrupted or get_now() + periods.brk > day_end:
+        if interrupt:
             break
-        if (time_until_end := end - get_now()) < timedelta(0):
+        if start + pom_period < get_now():
             continue
-        print(get_break_msg(time_until_end))  # noqa: T201
+        print(get_break_msg((start + pom_period) - get_now()))  # noqa: T201
         try:
-            sleep(time_until_end.total_seconds())
+            sleep(((start + pom_period) - get_now()).total_seconds())
         except KeyboardInterrupt:
             break
     print(DONE_MSG)  # noqa: T201
-    set_toggl_pomodoro("end")
+    set_toggl_pomodoro("stop")
+
+
+CHECK_PERIOD = timedelta(seconds=60)
+SETTABLE_INTENT_PERIOD = timedelta(minutes=10)
+SET_INTENT_SLEEP = 5
+
+NO_INTENT = "No intent 🆔 2025-08-13T115432-0700"
+
+DONE_MSG = "Done for the day!"
+EARLY_MSG = "Waiting for first Pomodoro to begin..."
+START_MSG = "Pomodoro has begun."
+SET_INTENT_MSG = "Please set an intent."
+DID_SET_INTENT_MSG = "Congratulations on setting your intent!"
+DID_NOT_SET_INTENT_MSG = "No intent for this Pomodoro."
+ASK_CANCEL = "A Pomodoro is in progress. Do you want to cancel it?"
+UNRELATED_MSG = "Please focus on your intent."
+COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
+
+
+def notify(message: str):
+    """Notify user."""
+    win32api.MessageBox(
+        *MessageBox(0, message, APP_NAME, MB_SYSTEMMODAL | MB_OK).args()
+    )
+
+
+def prompt(message: str) -> bool:
+    """Prompt user."""
+    return (
+        win32api.MessageBox(
+            *MessageBox(
+                0, message, APP_NAME, MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2
+            ).args()
+        )
+        == IDYES
+    )
 
 
 APP_NAME = "Pomodouroboros at Home"
-DONE_MSG = "Done for the day!"
-EARLY_MSG = "Waiting for Pomodoro to begin..."
-START_MSG = "Pomodoro has begun."
-CHECK_PERIOD = timedelta(minutes=1)
-SETTABLE_INTENT_PERIOD = timedelta(minutes=10)
-SET_INTENT_MSG = "Please set an intent."
-DID_SET_INTENT_MSG = "Congratulations on setting your intent!"
-UNRELATED_MSG = "Please focus on your intent."
-COMPLETE_INTENT_MSG = "Did you complete your intent?"
-COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
 
 
 def sync_intents(
@@ -252,7 +234,7 @@ def sync_intents(
         ).all()
     all_intents = get_intents(path)
     for name, other in (intents or {}).items():
-        if not (intent := all_intents.get(name, {})):
+        if not (intent := all_intents.get(name, {"related": [], "unrelated": []})):
             continue
         for key in ["related", "unrelated"]:
             intent[key] = ordered_union(intent[key], other[key])
@@ -357,18 +339,17 @@ SECONDS_TO_MILLISECONDS = 1000
 def time_range(start: datetime, stop: datetime, step: timedelta) -> Iterable[datetime]:
     """Get a range of times."""
     yield from (
-        start,
-        *[
-            start + period
-            for period in accumulate(
-                [step] * int((stop - start).total_seconds() / step.total_seconds())
-            )
-        ],
+        start + (period - step)
+        for period in accumulate(
+            [step] * int((stop - start).total_seconds() / step.total_seconds())
+        )
     )
 
 
 def get_startup_message(starts: list[datetime]) -> str:
     """Get startup message."""
+    if not starts:
+        return "No Pomodoros today."
     readable = [start.astimezone(current_tz).strftime("%H:%M") for start in starts]
     if len(readable) == 1:
         return f"Today's only Pomodoro will begin at {readable[0]}."
@@ -409,49 +390,119 @@ def dumps(obj: dict[str, Any] | None = None, sort: bool = True) -> str:
     return json.dumps(ensure_ascii=False, sort_keys=sort, indent=2, obj=obj or {})
 
 
-Mode: TypeAlias = Literal["start", "end"]
+Mode: TypeAlias = Literal["start", "stop"]
 
 
 def set_toggl_pomodoro(mode: Mode) -> None:
     """Set Toggl Pomodoro."""
-    desktop_centered_button_x = 316 if streaming() else -1560
-    desktop_upper_button_y = 545 if streaming() else 445
+    c = DISPLAYS[get_displays()]
     click_mouse(
-        *{  # pyright: ignore[reportArgumentType]
-            "start": (desktop_centered_button_x, desktop_upper_button_y),
-            "end": (desktop_centered_button_x, 598 if streaming() else 480),
+        *{
+            "start": (c["desktop_centered_button_x"], c["desktop_upper_button_y"]),
+            "stop": (c["desktop_centered_button_x"], c["desktop_lower_button_y"]),
         }[mode],
         count=2,
     )
     if mode == "start":
         return
-    sleep(SHORT_SLEEP)
-    desktop_confirm = (204, 402) if streaming() else (-1640, 335)
+    desktop_confirm = (c["desktop_confirm_x"], c["desktop_confirm_y"])
     click_mouse(*desktop_confirm)
     # ? Stop tracking in Toggl web app. Toggl Track app at 80% zoom
-    sleep(SHORT_SLEEP)
-    web_button_x = 1205 if streaming() else -1265
-    web_button_y = 185 if streaming() else 720
+    web_button_x = c["web_button_x"]
+    web_button_y = c["web_button_y"]
     click_mouse(web_button_x, web_button_y)
 
 
-def get_pom_time_elapsed(begin: datetime) -> timedelta:
-    """Get time elapsed since Pomodoro began."""
-    return get_now() - begin
+DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
+    ((1920, 1334),): {
+        "desktop_centered_button_x": 316,
+        "desktop_upper_button_y": 545,
+        "desktop_lower_button_y": 598,
+        "desktop_confirm_x": 241,
+        "desktop_confirm_y": 484,
+        "web_button_x": 1205,
+        "web_button_y": 185,
+    },
+    ((1920, 1080),): {
+        "desktop_centered_button_x": 316,
+        "desktop_upper_button_y": 545,
+        "desktop_lower_button_y": 598,
+        "desktop_confirm_x": 204,
+        "desktop_confirm_y": 402,
+        "web_button_x": 1205,
+        "web_button_y": 185,
+    },
+    ((0, 0),): {
+        "desktop_centered_button_x": -1560,
+        "desktop_upper_button_y": 445,
+        "desktop_lower_button_y": 480,
+        "desktop_confirm_x": -1640,
+        "desktop_confirm_y": 335,
+        "web_button_x": -1265,
+        "web_button_y": 720,
+    },
+}
 
 
-def get_intent_msg(intent: str) -> str:
-    """Get intent message."""
+def click_mouse(x: int, y: int, count: int = 1) -> None:
+    """Click mouse."""
+    original_cursor_pos = win32api.GetCursorPos()
+    win32api.SetCursorPos(*SetCursorPos(x, y).args())
+    sleep(SHORT_SLEEP)
+    for _ in range(count):
+        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTDOWN).args())
+        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTUP).args())
+        sleep(SHORT_SLEEP)
+    win32api.SetCursorPos(*SetCursorPos(*original_cursor_pos).args())
+
+
+SHORT_SLEEP = 0.5
+
+
+def get_displays() -> tuple[tuple[int, int], ...]:
+    """Get display resolution signature using Sunshine logs."""
+    string = Path("C:/Program Files/Sunshine/config/sunshine.log").read_text(
+        encoding="utf-8"
+    )
+    info_pat = r"\[(?P<at>[^\]]+)\]: Info:"
+    connections = {
+        datetime.strptime(m["at"], "%Y-%m-%d %H:%M:%S.%f"): (
+            m["event"].casefold() == "connected"
+        )
+        for m in finditer(
+            pattern=rf"^{info_pat} CLIENT (?P<event>(?:DIS)?CONNECTED)$",
+            string=string,
+            flags=MULTILINE,
+        )
+    }
+    connect_count = sum(connections.values())
+    disconnect_count = len(connections) - connect_count
+    if disconnect_count == connect_count:
+        return ((0, 0),)
+    width, height = last(
+        (m["width"], m["height"])
+        for m in finditer(
+            pattern=rf"^{info_pat} Desktop resolution \[(?P<width>\d+)x(?P<height>\d+)\]$",
+            string=string,
+            flags=MULTILINE,
+        )
+    )
+    # TODO: Return resolutions from "currently available display devices" when not streaming.
+    return ((int(width), int(height)),)
+
+
+def ask_intent(intent: str) -> str:
+    """Ask whether set intent is correct."""
     return f'Is "{intent}" your intent?'
 
 
-def get_related_msg(window: str) -> str:
-    """Get related message."""
-    return f'Is "{window}" related to your intent?'
+def ask_related(window: str, intent: str) -> str:
+    """Ask whether window is related to intent."""
+    return f'Is "{window}" related to your intent to "{intent}"?'
 
 
-def get_complete_intent_msg(intent: str) -> str:
-    """Get complete intent message."""
+def ask_done(intent: str) -> str:
+    """Ask whether user completed their intent."""
     return f'Did you complete "{intent}"?'
 
 
@@ -478,39 +529,6 @@ def get_ms_timestamp(value: float) -> datetime:
 def ser_datetime(value: datetime) -> str:
     """Serialize datetime."""
     return value.astimezone(current_tz).isoformat(timespec="seconds")
-
-
-def streaming() -> bool:
-    """Check whether Sunshine streaming is active."""
-    connections = {
-        datetime.strptime(m["at"], "%Y-%m-%d %H:%M:%S.%f"): (
-            m["event"].casefold() == "connected"
-        )
-        for m in finditer(
-            pattern=r"^\[(?P<at>[^\]]+)\]: Info: CLIENT (?P<event>(?:DIS)?CONNECTED)$",
-            string=Path("C:/Program Files/Sunshine/config/sunshine.log").read_text(
-                encoding="utf-8"
-            ),
-            flags=MULTILINE,
-        )
-    }
-    connect_count = sum(connections.values())
-    disconnect_count = len(connections) - connect_count
-    return disconnect_count != connect_count
-
-
-def click_mouse(x: int, y: int, count: int = 1) -> None:
-    """Click mouse."""
-    original_cursor_pos = win32api.GetCursorPos()
-    win32api.SetCursorPos(*SetCursorPos(x, y).args())
-    for _ in range(count):
-        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTDOWN).args())
-        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTUP).args())
-    win32api.SetCursorPos(*SetCursorPos(*original_cursor_pos).args())
-    sleep(SHORT_SLEEP)
-
-
-SHORT_SLEEP = 0.5
 
 
 @dataclass
