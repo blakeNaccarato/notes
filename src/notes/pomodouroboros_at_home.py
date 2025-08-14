@@ -48,6 +48,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     day_start = max(get_time_today(pom.start), get_now())
     day_end = get_time_today(pom.end)
     if not (poms := list(time_range(day_start, day_end, pom_period))):
+        split_intents(pom.intents)
         print(DONE_MSG)  # noqa: T201
         return
     print(get_startup_message(poms))  # noqa: T201
@@ -56,32 +57,28 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         try:
             sleep((day_start - get_now()).total_seconds())
         except KeyboardInterrupt:
+            split_intents(pom.intents)
             print(DONE_MSG)  # noqa: T201
             return
     set_toggl_pomodoro("start")
     for start in poms:  # noqa: PLR1702
         distracted = interrupt = False
-        focused = timedelta(0)
         intent = ""
         intents = get_intents(pom.intents)
         intent_set = done = None
-        last_check = get_now()
+        focused = (now := get_now()) - start
+        last_check = now
+        record_period(
+            data=pom.poms,
+            done=done,
+            end=now,
+            focused=focused,
+            intent_set=intent_set,
+            intent=intent,
+            start=start,
+        )
         print(START_MSG)  # noqa: T201
         while start + work_period > get_now():
-            if not distracted and intent != NO_INTENT:
-                focused += get_now() - last_check
-            distracted = interrupt = False
-            last_check = get_now()
-            intents = get_intents(pom.intents)
-            record_period(
-                data=pom.poms,
-                done=done,
-                end=get_now(),
-                focused=focused,
-                intent_set=intent_set,
-                intent=intent,
-                start=start,
-            )
             try:
                 sleep(CHECK_PERIOD.total_seconds())
             except KeyboardInterrupt:
@@ -151,15 +148,33 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     intents[intent]["unrelated"].append(window)
                     distracted = True
                 intents = sync_intents(pom.intents, pom.toggl, intents)
+            now = get_now()
+            if not distracted and intent != NO_INTENT:
+                focused += now - last_check
+            last_check = now
             if (interrupt or distracted) and prompt(ask_done(intent)):
                 print(COMPLETED_INTENT_MSG)  # noqa: T201
-                done = get_now()
+                done = now
+            distracted = interrupt = False
+            intents = get_intents(pom.intents)
+            record_period(
+                data=pom.poms,
+                done=done,
+                end=now,
+                focused=focused,
+                intent_set=intent_set,
+                intent=intent,
+                start=start,
+            )
+        now = get_now()
+        if not intent:
+            intent = NO_INTENT
+            intent_set = now
         if not done and intent != NO_INTENT and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # noqa: T201
-            done = get_now()
+            done = now
         if not distracted and intent != NO_INTENT:
-            focused += get_now() - last_check
-        intents = get_intents(pom.intents)
+            focused += now - last_check
         record_period(
             data=pom.poms,
             done=done,
@@ -173,13 +188,14 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             break
         if start + pom_period < get_now():
             continue
-        print(get_break_msg((start + pom_period) - get_now()))  # noqa: T201
+        print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
         try:
-            sleep(((start + pom_period) - get_now()).total_seconds())
+            sleep(break_period.total_seconds())
         except KeyboardInterrupt:
             break
-    print(DONE_MSG)  # noqa: T201
     set_toggl_pomodoro("stop")
+    split_intents(pom.intents)
+    print(DONE_MSG)  # noqa: T201
 
 
 CHECK_PERIOD = timedelta(seconds=60)
@@ -219,6 +235,21 @@ def prompt(message: str) -> bool:
 
 
 APP_NAME = "Pomodouroboros at Home"
+
+
+def split_intents(path: Path) -> Mapping[str, dict[str, list[str]]]:
+    """Split compound intents."""
+    intents: Mapping[str, dict[str, list[str]]] = {}
+    for name, intent in get_intents(path).items():
+        if name.count("🆔") < 2:
+            intents[name] = intent
+            continue
+        sep = ";" if ";" in name else ","
+        pat = rf"[^{sep}]+🆔[^{sep}]+"
+        for match in finditer(pattern=pat, string=name, flags=MULTILINE):
+            intents[match.group(0).strip()] = intent
+    path.write_text(encoding="utf-8", data=dumps(intents))
+    return intents
 
 
 def sync_intents(
