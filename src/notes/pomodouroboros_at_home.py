@@ -7,6 +7,8 @@ Parent: We have Pomodouroboros at home!
 Pomodouroboros at home...
 """
 
+from __future__ import annotations
+
 import json
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass
@@ -44,10 +46,11 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     """Start Pomodoros."""
     periods = get_periods(pom.toggl)
     work_period = periods.work
+    break_period = periods.brk
     pom_period = work_period + periods.brk
     day_start = max(get_time_today(pom.start), get_now())
     day_end = get_time_today(pom.end)
-    if not (poms := list(time_range(day_start, day_end, pom_period))):
+    if not (poms := list(time_range(day_start, day_end + break_period, pom_period))):
         split_intents(pom.intents)
         print(DONE_MSG)  # noqa: T201
         return
@@ -62,12 +65,12 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             return
     set_toggl_pomodoro("start")
     for start in poms:  # noqa: PLR1702
-        distracted = interrupt = False
+        cancel = interrupted = False
+        distracted = True
         intent = ""
-        intents = get_intents(pom.intents)
         intent_set = done = None
         focused = (now := get_now()) - start
-        last_check = now
+        checked_focus = checked_events = now
         record_period(
             data=pom.poms,
             done=done,
@@ -82,81 +85,86 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             try:
                 sleep(CHECK_PERIOD.total_seconds())
             except KeyboardInterrupt:
-                interrupt = True
+                interrupted = True
                 if prompt(ASK_CANCEL):
+                    cancel = True
                     break
-            if done or intent == NO_INTENT:
+            if done:
                 continue
             if not intent_set and start + SETTABLE_INTENT_PERIOD < get_now():
-                while not (intent := get_intent(pom.toggl)) or not prompt(
-                    ask_intent(intent)
+                while (
+                    not (intent := get_intent(pom.toggl))
+                    or intent == NO_INTENT
+                    or not prompt(ask_intent(intent))
                 ):
                     notify(SET_INTENT_MSG)
                     try:
                         sleep(SET_INTENT_SLEEP)
                     except KeyboardInterrupt:
                         if prompt(ASK_CANCEL):
-                            break
+                            cancel = True
                         intent = NO_INTENT
-                intents = sync_intents(
-                    pom.intents, pom.toggl, {intent: {"related": [], "unrelated": []}}
-                )
-                if intent == NO_INTENT:
-                    print(DID_NOT_SET_INTENT_MSG)  # noqa: T201
-                else:
+                        print(DID_NOT_SET_INTENT_MSG)  # noqa: T201
+                        break
+                if cancel:
+                    break
+                if intent and intent != NO_INTENT:
+                    intents = set_intent(pom.intents, intent)
                     print(DID_SET_INTENT_MSG)  # noqa: T201
                 intent_set = get_now()
                 continue
-            if not intent_set:
-                if (intent := get_intent(pom.toggl)) and prompt(ask_intent(intent)):
-                    intents = sync_intents(
-                        pom.intents,
-                        pom.toggl,
-                        {intent: {"related": [], "unrelated": []}},
-                    )
-                    print(DID_SET_INTENT_MSG)  # noqa: T201
-                    intent_set = get_now()
-                continue
             if (
-                not intent
-                or not intent_set
-                or not (
-                    events := get_events(pom.toggl, start=last_check, end=get_now())
-                )
+                not intent_set
+                and (intent := get_intent(pom.toggl))
+                and intent != NO_INTENT
+                and prompt(ask_intent(intent))
             ):
+                intents = set_intent(pom.intents, intent)
+                intent_set = get_now()
+                print(DID_SET_INTENT_MSG)  # noqa: T201
                 continue
+            if not intent_set or not intent or intent == NO_INTENT:
+                checked_focus = now
+                continue
+            now = get_now()
+            events = get_events(pom.toggl, start=checked_events, end=now)
+            checked_events = now
+            if not events:
+                continue
+            intents = get_intents(pom.intents)
+            new_related: list[str] = []
+            new_unrelated: list[str] = []
+            distracted = False
             for event in events:
                 window = f"{event.path.stem} - {event.title}"
-                if any(
-                    related.casefold() in window.casefold()
-                    for related in intents.get(
-                        intent, {"related": [], "unrelated": []}
-                    ).get("related", {})
-                ):
+                if check_window(window, intents[intent]["related"]):
                     continue
-                if any(
-                    unrelated.casefold() in window.casefold()
-                    for unrelated in intents.get(
-                        intent, {"related": [], "unrelated": []}
-                    ).get("unrelated", {})
-                ):
+                if check_window(window, intents[intent]["unrelated"]):
                     distracted = True
                     continue
                 if prompt(ask_related(window, intent)):
-                    intents[intent]["related"].append(window)
+                    new_related.append(window)
                 else:
-                    intents[intent]["unrelated"].append(window)
+                    new_unrelated.append(window)
                     distracted = True
-                intents = sync_intents(pom.intents, pom.toggl, intents)
+            if new_related or new_unrelated:
+                set_intents(
+                    pom.intents,
+                    merge_intents(
+                        intents,
+                        {intent: {"related": new_related, "unrelated": new_unrelated}},
+                    ),
+                )
             now = get_now()
-            if not distracted and intent != NO_INTENT:
-                focused += now - last_check
-            last_check = now
-            if (interrupt or distracted) and prompt(ask_done(intent)):
+            if (distracted or interrupted) and prompt(ask_done(intent)):
                 print(COMPLETED_INTENT_MSG)  # noqa: T201
                 done = now
-            distracted = interrupt = False
-            intents = get_intents(pom.intents)
+            interrupted = False
+            if distracted:
+                print(FOCUS_MSG)  # noqa: T201
+            else:
+                focused += now - checked_focus
+            checked_focus = now
             record_period(
                 data=pom.poms,
                 done=done,
@@ -167,39 +175,39 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 start=start,
             )
         now = get_now()
-        if not intent:
-            intent = NO_INTENT
-            intent_set = now
-        if not done and intent != NO_INTENT and prompt(ask_done(intent)):
+        if intent != NO_INTENT and not done and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # noqa: T201
             done = now
-        if not distracted and intent != NO_INTENT:
-            focused += now - last_check
+        if intent != NO_INTENT:
+            focused += now - checked_focus
         record_period(
             data=pom.poms,
             done=done,
-            end=get_now(),
+            end=now,
             focused=focused,
             intent_set=intent_set,
             intent=intent,
             start=start,
         )
-        if interrupt:
+        if cancel:
             break
-        if start + pom_period < get_now():
-            continue
-        print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
-        try:
-            sleep(break_period.total_seconds())
-        except KeyboardInterrupt:
+        while start + pom_period > get_now():
+            print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
+            try:
+                sleep(break_period.total_seconds())
+            except KeyboardInterrupt:
+                if prompt(ASK_CANCEL):
+                    cancel = True
+                    break
+        if cancel:
             break
     set_toggl_pomodoro("stop")
     split_intents(pom.intents)
     print(DONE_MSG)  # noqa: T201
 
 
-CHECK_PERIOD = timedelta(seconds=60)
-SETTABLE_INTENT_PERIOD = timedelta(minutes=10)
+CHECK_PERIOD = timedelta(seconds=30)
+SETTABLE_INTENT_PERIOD = timedelta(minutes=5)
 SET_INTENT_SLEEP = 5
 
 NO_INTENT = "No intent 🆔 2025-08-13T115432-0700"
@@ -213,6 +221,7 @@ DID_NOT_SET_INTENT_MSG = "No intent for this Pomodoro."
 ASK_CANCEL = "A Pomodoro is in progress. Do you want to cancel it?"
 UNRELATED_MSG = "Please focus on your intent."
 COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
+FOCUS_MSG = "Oops, I got distracted!"
 
 
 def notify(message: str):
@@ -237,56 +246,94 @@ def prompt(message: str) -> bool:
 APP_NAME = "Pomodouroboros at Home"
 
 
-def split_intents(path: Path) -> Mapping[str, dict[str, list[str]]]:
-    """Split compound intents."""
-    intents: Mapping[str, dict[str, list[str]]] = {}
-    for name, intent in get_intents(path).items():
-        if name.count("🆔") < 2:
-            intents[name] = intent
-            continue
-        sep = ";" if ";" in name else ","
-        pat = rf"[^{sep}]+🆔[^{sep}]+"
-        for match in finditer(pattern=pat, string=name, flags=MULTILINE):
-            intents[match.group(0).strip()] = intent
+def check_window(window: str, checks: list[str]) -> bool:
+    """Check if window is related to intent."""
+    return any(check.casefold() in window.casefold() for check in checks or {})
+
+
+def split_intents(path: Path) -> dict[str, dict[Kind, list[str]]]:
+    """Split compound intents, clearing related/unrelated events on split intents."""
+    # TODO: Ask user which entries to split among intents
+    set_intents(
+        path,
+        intents := merge_intents(
+            (intents := get_intents(path)),
+            {
+                match.group(0).strip(): get_default_intent(match.group(0).strip())
+                for name in intents
+                for match in finditer(
+                    pattern=rf"[^{get_sep(name)}]+🆔[^{get_sep(name)}]+",
+                    string=name,
+                    flags=MULTILINE,
+                )
+                if name.count("🆔") > 1
+            },
+        ),
+    )
+    return intents
+
+
+def get_sep(name: str) -> str:
+    """Get separator."""
+    return ";" if ";" in name else ","
+
+
+Kind: TypeAlias = Literal["related", "unrelated"]
+KINDS: tuple[Kind, ...] = ("related", "unrelated")
+
+
+def get_default_intent(intent: str) -> dict[Kind, list[str]]:
+    """Get default intent."""
+    return {
+        "related": [
+            intent,
+            "database.sqlite",
+            "intents.json",
+            "Obsidian - Today",
+            "pomodouroboros.json",
+            "ShellExperienceHost",
+            "TogglTrack",
+            "WindowsTerminal - 🍅",
+        ],
+        "unrelated": [],
+    }
+
+
+def set_intent(path: Path, intent: str) -> dict[str, dict[Kind, list[str]]]:
+    """Add intent to intents file."""
+    return set_intents(
+        path, merge_intents(get_intents(path), {intent: get_default_intent(intent)})
+    )
+
+
+def set_intents(
+    path: Path, intents: dict[str, dict[Kind, list[str]]]
+) -> dict[str, dict[Kind, list[str]]]:
+    """Get intents."""
     path.write_text(encoding="utf-8", data=dumps(intents))
     return intents
 
 
-def sync_intents(
-    path: Path, db: Path, intents: Mapping[str, dict[str, list[str]]] | None = None
-) -> Mapping[str, dict[str, list[str]]]:
-    """Sync intents."""
-    intent_id = "🆔 "
-    with Session(create_engine(f"sqlite:///{db.as_posix()}")) as session:
-        toggl_intents = session.exec(
-            select(toggl.Entry).filter(
-                col(toggl.Entry.description).like(f"%{intent_id}%")
+def merge_intents(
+    intents: Mapping[str, dict[Kind, list[str]]],
+    other: Mapping[str, dict[Kind, list[str]]],
+) -> dict[str, dict[Kind, list[str]]]:
+    """Merge intents."""
+    return {
+        name: {
+            key: list(
+                ordered_union(
+                    (intents.get(name) or get_default_intent(name))[key],
+                    (other.get(name) or get_default_intent(name))[key],
+                )
             )
-        ).all()
-    all_intents = get_intents(path)
-    for name, other in (intents or {}).items():
-        if not (intent := all_intents.get(name, {"related": [], "unrelated": []})):
-            continue
-        for key in ["related", "unrelated"]:
-            intent[key] = ordered_union(intent[key], other[key])
-    all_intents = dict(
-        sorted(
-            {
-                **{
-                    intent.description: {"related": [], "unrelated": []}
-                    for intent in toggl_intents
-                },
-                **all_intents,
-            }.items(),
-            key=lambda i: i[0].casefold().split(intent_id)[-1],
-            reverse=True,
-        )
-    )
-    path.write_text(encoding="utf-8", data=dumps(all_intents))
-    return all_intents
+            for key in KINDS
+        }
+        for name in ordered_union(intents, other)
+    }
 
 
-def get_intents(path: Path) -> dict[str, dict[str, list[str]]]:
+def get_intents(path: Path) -> dict[str, dict[Kind, list[str]]]:
     """Get intents."""
     return loads(path.read_text(encoding="utf-8"))
 
@@ -294,9 +341,9 @@ def get_intents(path: Path) -> dict[str, dict[str, list[str]]]:
 T = TypeVar("T")
 
 
-def ordered_union(iterable: Iterable[T], other: Iterable[T]) -> list[T]:
+def ordered_union(iterable: Iterable[T], other: Iterable[T]) -> Iterable[T]:
     """Get the ordered union of unique elements over two iterables."""
-    return list(dict.fromkeys([*iterable, *other]))
+    yield from dict.fromkeys((*iterable, *other))
 
 
 @dataclass
@@ -438,10 +485,6 @@ def set_toggl_pomodoro(mode: Mode) -> None:
         return
     desktop_confirm = (c["desktop_confirm_x"], c["desktop_confirm_y"])
     click_mouse(*desktop_confirm)
-    # ? Stop tracking in Toggl web app. Toggl Track app at 80% zoom
-    web_button_x = c["web_button_x"]
-    web_button_y = c["web_button_y"]
-    click_mouse(web_button_x, web_button_y)
 
 
 DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
@@ -451,8 +494,6 @@ DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
         "desktop_lower_button_y": 598,
         "desktop_confirm_x": 241,
         "desktop_confirm_y": 484,
-        "web_button_x": 1205,
-        "web_button_y": 185,
     },
     ((1920, 1080),): {
         "desktop_centered_button_x": 316,
@@ -460,8 +501,6 @@ DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
         "desktop_lower_button_y": 598,
         "desktop_confirm_x": 204,
         "desktop_confirm_y": 402,
-        "web_button_x": 1205,
-        "web_button_y": 185,
     },
     ((0, 0),): {
         "desktop_centered_button_x": -1560,
@@ -469,8 +508,6 @@ DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
         "desktop_lower_button_y": 480,
         "desktop_confirm_x": -1640,
         "desktop_confirm_y": 335,
-        "web_button_x": -1265,
-        "web_button_y": 720,
     },
 }
 
