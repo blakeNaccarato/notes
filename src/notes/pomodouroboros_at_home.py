@@ -39,11 +39,14 @@ from notes import toggl
 from notes.cli import Pom
 from notes.times import current_tz
 
+# ! TODO: Implement as a state machine.
+
 
 def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     pom: Pom,
 ) -> None:
     """Start Pomodoros."""
+    # ! SETUP
     periods = get_periods(pom.toggl)
     work_period = periods.work
     break_period = periods.brk
@@ -55,6 +58,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         print(DONE_MSG)  # noqa: T201
         return
     print(get_startup_message(poms))  # noqa: T201
+    # ! EARLY
     if day_start > get_now():
         print(EARLY_MSG)  # noqa: T201
         try:
@@ -63,6 +67,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             split_intents(pom.intents)
             print(DONE_MSG)  # noqa: T201
             return
+    # ! IN POMODORO
     set_toggl_pomodoro("start")
     for start in poms:  # noqa: PLR1702
         cancel = interrupted = False
@@ -80,8 +85,10 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             intent=intent,
             start=start,
         )
+        # ! IN CHECKS
         print(START_MSG)  # noqa: T201
         while start + work_period > get_now():
+            # ! WAITING FOR CHECK
             try:
                 sleep(CHECK_PERIOD.total_seconds())
             except KeyboardInterrupt:
@@ -89,8 +96,10 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 if prompt(ASK_CANCEL):
                     cancel = True
                     break
+            # ! CHECKING COMPLETION
             if done:
                 continue
+            # ! CHECKING INTENT
             if not intent_set and start + SETTABLE_INTENT_PERIOD < get_now():
                 while (
                     not (intent := get_intent(pom.toggl))
@@ -126,11 +135,13 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             if not intent_set or not intent or intent == NO_INTENT:
                 checked_focus = now
                 continue
+            # ! CHECKING EVENTS
             now = get_now()
             events = get_events(pom.toggl, start=checked_events, end=now)
             checked_events = now
             if not events:
                 continue
+            # ! CHECKING INTENT
             intents = get_intents(pom.intents)
             new_related: list[str] = []
             new_unrelated: list[str] = []
@@ -147,6 +158,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 else:
                     new_unrelated.append(window)
                     distracted = True
+            # ! UPDATING ALLOWED EVENTS
             if new_related or new_unrelated:
                 set_intents(
                     pom.intents,
@@ -155,6 +167,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                         {intent: {"related": new_related, "unrelated": new_unrelated}},
                     ),
                 )
+            # ! CHECKING FOCUS AND COMPLETION
             now = get_now()
             if (distracted or interrupted) and prompt(ask_done(intent)):
                 print(COMPLETED_INTENT_MSG)  # noqa: T201
@@ -174,11 +187,12 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 intent=intent,
                 start=start,
             )
+        # ! FINAL CHECKING OF FOCUS AND COMPLETION
         now = get_now()
         if intent != NO_INTENT and not done and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # noqa: T201
             done = now
-        if intent != NO_INTENT:
+        if intent != NO_INTENT and not distracted:
             focused += now - checked_focus
         record_period(
             data=pom.poms,
@@ -191,6 +205,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         )
         if cancel:
             break
+        # ! TAKING A BREAK
         while start + pom_period > get_now():
             print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
             try:
@@ -201,6 +216,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     break
         if cancel:
             break
+    # ! STOPPING POMODOROS AND CLEANING UP
     set_toggl_pomodoro("stop")
     split_intents(pom.intents)
     print(DONE_MSG)  # noqa: T201
