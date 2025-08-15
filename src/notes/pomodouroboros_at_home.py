@@ -55,13 +55,14 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     pom_period = work_period + periods.brk
     day_start = max(get_time_today(pom.start), get_now())
     day_end = get_time_today(pom.end)
-    if not (poms := list(time_range(day_start, day_end + break_period, pom_period))):
-        split_intents(pom.intents)
-        print(DONE_MSG)  # noqa: T201
-        return
-    print(get_startup_message(poms))  # noqa: T201
+    print(  # noqa: T201
+        get_startup_message(
+            poms := list(time_range(day_start, day_end + break_period, pom_period))
+            or [day_start]
+        )
+    )
     # ! EARLY
-    if day_start > get_now():
+    if get_now() < day_start:
         print(EARLY_MSG)  # noqa: T201
         try:
             sleep((day_start - get_now()).total_seconds())
@@ -89,7 +90,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         )
         # ! IN CHECKS
         print(START_MSG)  # noqa: T201
-        while start + work_period > get_now():
+        while get_now() < start + work_period:
             # ! WAITING FOR CHECK
             try:
                 sleep(CHECK_PERIOD.total_seconds())
@@ -102,7 +103,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             if done:
                 continue
             # ! CHECKING INTENT
-            if not intent_set and start + SETTABLE_INTENT_PERIOD < get_now():
+            if not intent_set and get_now() > start + SETTABLE_INTENT_PERIOD:
                 while (
                     not (intent := get_intent(pom.toggl))
                     or intent == NO_INTENT
@@ -208,7 +209,9 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         if cancel:
             break
         # ! TAKING A BREAK
-        while start + pom_period > get_now():
+        if get_now() + pom_period > day_end:
+            break
+        while get_now() < start + pom_period:
             print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
             try:
                 sleep(break_period.total_seconds())
