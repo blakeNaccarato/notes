@@ -10,8 +10,8 @@ Pomodouroboros at home...
 from __future__ import annotations
 
 import json
-from collections.abc import Iterable, Mapping, Sequence
-from dataclasses import asdict, dataclass
+from collections.abc import Iterable, Mapping
+from dataclasses import dataclass
 from datetime import UTC, date, datetime, time, timedelta
 from itertools import accumulate
 from json import loads
@@ -21,6 +21,7 @@ from time import sleep
 from typing import Any, Literal, TypeAlias, TypeVar
 
 import win32api
+import win32gui
 from cappa.base import invoke
 from more_itertools import first, last, one
 from sqlmodel import Session, col, create_engine, select
@@ -38,6 +39,7 @@ from win32con import (
 from notes import toggl
 from notes.cli import Pom
 from notes.times import current_tz
+from notes.win import MessageBox, MouseEvent, SetCursorPos, WindowInfo
 
 # ! TODO: Implement as a state machine.
 
@@ -70,12 +72,12 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     # ! IN POMODORO
     set_toggl_pomodoro("start")
     for start in poms:  # noqa: PLR1702
-        cancel = interrupted = False
-        distracted = True
+        cancel = force_ask_done = False
+        distracted = False
         intent = ""
         intent_set = done = None
         focused = (now := get_now()) - start
-        checked_focus = checked_events = now
+        checked = now
         record_period(
             data=pom.poms,
             done=done,
@@ -92,11 +94,11 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             try:
                 sleep(CHECK_PERIOD.total_seconds())
             except KeyboardInterrupt:
-                interrupted = True
                 if prompt(ASK_CANCEL):
                     cancel = True
                     break
-            # ! CHECKING COMPLETION
+                if intent_set and intent and intent != NO_INTENT and not done:
+                    force_ask_done = True
             if done:
                 continue
             # ! CHECKING INTENT
@@ -108,7 +110,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 ):
                     notify(SET_INTENT_MSG)
                     try:
-                        sleep(SET_INTENT_SLEEP)
+                        sleep(FORCE_SET_INTENT_PERIOD.total_seconds())
                     except KeyboardInterrupt:
                         if prompt(ASK_CANCEL):
                             cancel = True
@@ -133,51 +135,51 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 print(DID_SET_INTENT_MSG)  # noqa: T201
                 continue
             if not intent_set or not intent or intent == NO_INTENT:
-                checked_focus = now
+                checked = get_now()
                 continue
-            # ! CHECKING EVENTS
-            now = get_now()
-            events = get_events(pom.toggl, start=checked_events, end=now)
-            checked_events = now
-            if not events:
+            # ! CHECKING FOCUS
+            if not (foreground := win32gui.GetForegroundWindow()):
+                focused += (now := get_now()) - checked
+                checked = now
                 continue
-            # ! CHECKING INTENT
             intents = get_intents(pom.intents)
-            new_related: list[str] = []
-            new_unrelated: list[str] = []
-            distracted = False
-            for event in events:
-                window = f"{event.path.stem} - {event.title}"
-                if check_window(window, intents[intent]["related"]):
-                    continue
-                if check_window(window, intents[intent]["unrelated"]):
-                    distracted = True
-                    continue
+            window_info = WindowInfo.from_handle(foreground)
+            window = f"{Path(window_info.process.name()).stem} - {window_info.text}"
+            related = check_window(window, intents[intent]["related"])
+            unrelated = check_window(window, intents[intent]["unrelated"])
+            if not related and unrelated:
+                distracted = True
+            if not related and not unrelated:
+                new_related = new_unrelated = ""
                 if prompt(ask_related(window, intent)):
-                    new_related.append(window)
+                    new_related = window
                 else:
-                    new_unrelated.append(window)
+                    new_unrelated = window
                     distracted = True
-            # ! UPDATING ALLOWED EVENTS
-            if new_related or new_unrelated:
                 set_intents(
                     pom.intents,
                     merge_intents(
                         intents,
-                        {intent: {"related": new_related, "unrelated": new_unrelated}},
+                        {
+                            intent: {
+                                "related": [new_related] if new_related else [],
+                                "unrelated": [new_unrelated] if new_unrelated else [],
+                            }
+                        },
                     ),
                 )
-            # ! CHECKING FOCUS AND COMPLETION
+            # ! CHECKING COMPLETION
             now = get_now()
-            if (distracted or interrupted) and prompt(ask_done(intent)):
+            if (distracted or force_ask_done) and prompt(ask_done(intent)):
                 print(COMPLETED_INTENT_MSG)  # noqa: T201
                 done = now
-            interrupted = False
+            force_ask_done = False
             if distracted:
+                distracted = False
                 print(FOCUS_MSG)  # noqa: T201
             else:
-                focused += now - checked_focus
-            checked_focus = now
+                focused += now - checked
+            checked = now
             record_period(
                 data=pom.poms,
                 done=done,
@@ -189,11 +191,11 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             )
         # ! FINAL CHECKING OF FOCUS AND COMPLETION
         now = get_now()
-        if intent != NO_INTENT and not done and prompt(ask_done(intent)):
+        if intent and intent != NO_INTENT and not done and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # noqa: T201
             done = now
-        if intent != NO_INTENT and not distracted:
-            focused += now - checked_focus
+        if intent and intent != NO_INTENT and not distracted:
+            focused += now - checked
         record_period(
             data=pom.poms,
             done=done,
@@ -222,9 +224,9 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     print(DONE_MSG)  # noqa: T201
 
 
-CHECK_PERIOD = timedelta(seconds=30)
+CHECK_PERIOD = timedelta(minutes=1)
 SETTABLE_INTENT_PERIOD = timedelta(minutes=5)
-SET_INTENT_SLEEP = 5
+FORCE_SET_INTENT_PERIOD = timedelta(seconds=5)
 
 NO_INTENT = "No intent 🆔 2025-08-13T115432-0700"
 
@@ -302,8 +304,7 @@ def get_default_intent(intent: str) -> dict[Kind, list[str]]:
     """Get default intent."""
     return {
         "related": [
-            intent,
-            "database.sqlite",
+            *([] if intent.count("🆔") > 1 else [intent]),
             "intents.json",
             "Obsidian - Today",
             "pomodouroboros.json",
@@ -326,7 +327,7 @@ def set_intents(
     path: Path, intents: dict[str, dict[Kind, list[str]]]
 ) -> dict[str, dict[Kind, list[str]]]:
     """Get intents."""
-    path.write_text(encoding="utf-8", data=dumps(intents))
+    path.write_text(encoding="utf-8", data=dumps(intents) + "\n")
     return intents
 
 
@@ -339,13 +340,13 @@ def merge_intents(
         name: {
             key: list(
                 ordered_union(
-                    (intents.get(name) or get_default_intent(name))[key],
-                    (other.get(name) or get_default_intent(name))[key],
+                    *(intents.get(name) or get_default_intent(name))[key],
+                    *(other.get(name) or get_default_intent(name))[key],
                 )
             )
             for key in KINDS
         }
-        for name in ordered_union(intents, other)
+        for name in ordered_union(*intents, *other)
     }
 
 
@@ -357,9 +358,9 @@ def get_intents(path: Path) -> dict[str, dict[Kind, list[str]]]:
 T = TypeVar("T")
 
 
-def ordered_union(iterable: Iterable[T], other: Iterable[T]) -> Iterable[T]:
+def ordered_union(*args: T) -> Iterable[T]:
     """Get the ordered union of unique elements over two iterables."""
-    yield from dict.fromkeys((*iterable, *other))
+    yield from dict.fromkeys(args)
 
 
 @dataclass
@@ -403,31 +404,6 @@ class Event:
     title: str
     start: datetime
     end: datetime
-
-
-def get_events(path: Path, start: datetime, end: datetime) -> Sequence[Event]:
-    """Get events."""
-    with Session(create_engine(f"sqlite:///{path.as_posix()}")) as session:
-        return [
-            Event(
-                id=event.id,
-                path=Path(event.filename),
-                title=event.title,
-                start=get_ms_timestamp(event.start_time),
-                end=get_ms_timestamp(event.end_time),
-            )
-            for event in session.exec(
-                select(toggl.Event)
-                .where(
-                    toggl.Event.end_time > SECONDS_TO_MILLISECONDS * start.timestamp()
-                )
-                .where(toggl.Event.end_time < SECONDS_TO_MILLISECONDS * end.timestamp())
-            ).all()
-            if event.id
-        ]
-
-
-SECONDS_TO_MILLISECONDS = 1000
 
 
 def time_range(start: datetime, stop: datetime, step: timedelta) -> Iterable[datetime]:
@@ -490,13 +466,13 @@ Mode: TypeAlias = Literal["start", "stop"]
 def set_toggl_pomodoro(mode: Mode) -> None:
     """Set Toggl Pomodoro."""
     c = DISPLAYS[get_displays()]
-    click_mouse(
-        *{
-            "start": (c["desktop_centered_button_x"], c["desktop_upper_button_y"]),
-            "stop": (c["desktop_centered_button_x"], c["desktop_lower_button_y"]),
-        }[mode],
-        count=2,
-    )
+    for _ in range(2):
+        click_mouse(
+            *{
+                "start": (c["desktop_centered_button_x"], c["desktop_upper_button_y"]),
+                "stop": (c["desktop_centered_button_x"], c["desktop_lower_button_y"]),
+            }[mode]
+        )
     if mode == "start":
         return
     desktop_confirm = (c["desktop_confirm_x"], c["desktop_confirm_y"])
@@ -528,15 +504,13 @@ DISPLAYS: dict[tuple[tuple[int, int], ...], dict[str, int]] = {
 }
 
 
-def click_mouse(x: int, y: int, count: int = 1) -> None:
+def click_mouse(x: int, y: int) -> None:
     """Click mouse."""
     original_cursor_pos = win32api.GetCursorPos()
     win32api.SetCursorPos(*SetCursorPos(x, y).args())
     sleep(SHORT_SLEEP)
-    for _ in range(count):
-        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTDOWN).args())
-        mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTUP).args())
-        sleep(SHORT_SLEEP)
+    mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTDOWN).args())
+    mouse_event(*MouseEvent(dw_flags=MOUSEEVENTF_LEFTUP).args())
     win32api.SetCursorPos(*SetCursorPos(*original_cursor_pos).args())
 
 
@@ -605,109 +579,9 @@ def get_time_today(value: time) -> datetime:
     return datetime.combine(date.today(), value, tzinfo=current_tz).astimezone(UTC)
 
 
-def get_ms_timestamp(value: float) -> datetime:
-    """Get time for milliseconds timestamp."""
-    return datetime.fromtimestamp(value / 1000, tz=current_tz)
-
-
 def ser_datetime(value: datetime) -> str:
     """Serialize datetime."""
     return value.astimezone(current_tz).isoformat(timespec="seconds")
-
-
-@dataclass
-class Args:
-    """Supplies `args` method to unpack values as args to functions with positional-only parameters."""
-
-    def args(self) -> tuple[Any, ...]:
-        """Get args."""
-        return tuple(asdict(self).values())
-
-
-@dataclass
-class MessageBox(Args):
-    """`MessageBox` parameters to display modal dialogs ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
-    """
-
-    hwnd: int | None = None
-    """Window handle ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox#:~:text=%5Bin%2C%20optional%5D%20hWnd
-    """
-    message: str = ""
-    """Message to be displayed ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox#:~:text=%5Bin%2C%20optional%5D%20lpText
-    """
-    title: str | None = None
-    """Dialog box title ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox#:~:text=%5Bin%2C%20optional%5D%20lpCaption
-    """
-    style: int = MB_OK
-    """Dialog box style ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox#:~:text=is%20Error.-,%5Bin%5D%20uType,-Type%3A%20UINT
-    """
-
-
-@dataclass
-class SetCursorPos(Args):
-    """`SetCursorPosition` parameters to move the cursor ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos
-    """
-
-    x: int = 0
-    """Cursor x-position ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos#:~:text=%5Bin%5D%20x
-    """
-    y: int = 0
-    """Cursor y-position ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos#:~:text=%5Bin%5D%20y
-    """
-
-    def args(self) -> tuple[Any, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
-        """Get args. `pywin32` API expects `SetCursorPos` args as (`x`, `y`) tuple."""
-        return (super().args(),)
-
-
-@dataclass
-class MouseEvent(Args):
-    """`mouse_event` parameters to move and click the mouse ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event
-    """
-
-    dw_flags: int = 0
-    """Controls mouse motion and clicking ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dwFlags
-    """
-    dx: int = 0
-    """Cursor x-position, relative or absolute depending on `dw_flags` ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dx
-    """
-    dy: int = 0
-    """Cursor y-position, relative or absolute depending on `dw_flags` ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dy
-    """
-    dw_data: int = 0
-    """Wheel and X button actions ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dwData
-    """
-    dw_extra_info: int = 0
-    """Additional info associated with the event ([docs]).
-
-    [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-mouse_event#:~:text=%5Bin%5D%20dwExtraInfo
-    """
 
 
 if __name__ == "__main__":

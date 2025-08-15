@@ -1,11 +1,11 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version < '3.12'",
     "python_full_version == '3.12.*'",
-    "python_full_version >= '4.0.0'",
-    "python_full_version >= '3.13' and python_full_version < '4.0.0'",
+    "python_full_version >= '4'",
+    "python_full_version >= '3.13' and python_full_version < '4'",
 ]
 
 [manifest]
@@ -677,7 +677,7 @@ dependencies = [
     { name = "docstring-parser" },
     { name = "rich" },
     { name = "rich-rst" },
-    { name = "typing-extensions", marker = "python_full_version < '4.0.0'" },
+    { name = "typing-extensions", marker = "python_full_version < '4'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/fd/93/b66fca2197efae19f4b5a41f477c2b6c54731065d0d9eafd0f6dbdc00a3e/cyclopts-2.9.3.tar.gz", hash = "sha256:a626e6af650e2b6ad6a5954c5ca64aff0e10fe930a2b6ff1ba2b2d1686cc74f1", size = 44963, upload-time = "2024-07-04T15:58:04.879Z" }
 wheels = [
@@ -696,7 +696,7 @@ dependencies = [
     { name = "isort" },
     { name = "jinja2" },
     { name = "packaging" },
-    { name = "pydantic", extra = ["email"], marker = "python_full_version < '4.0.0'" },
+    { name = "pydantic", extra = ["email"], marker = "python_full_version < '4'" },
     { name = "pyyaml" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/e6/df/6394e0b2ab186c41772b76835d9baa4777f1e5deb7d2ef9d57401072be2c/datamodel_code_generator-0.26.0.tar.gz", hash = "sha256:5d1db3dd4d31ee8bb70426d8705f5b059bea15e0dd79e015a28373b5da98ff00", size = 89050, upload-time = "2024-09-02T16:44:11.726Z" }
@@ -985,8 +985,8 @@ name = "email-validator"
 version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "dnspython", marker = "python_full_version < '4.0.0'" },
-    { name = "idna", marker = "python_full_version < '4.0.0'" },
+    { name = "dnspython", marker = "python_full_version < '4'" },
+    { name = "idna", marker = "python_full_version < '4'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/48/ce/13508a1ec3f8bb981ae4ca79ea40384becc868bfae97fd1c942bb3a001b1/email_validator-2.2.0.tar.gz", hash = "sha256:cb690f344c617a714f22e66ae771445a1ceb46821152df8e165c5f9a364582b7", size = 48967, upload-time = "2024-06-20T11:30:30.034Z" }
 wheels = [
@@ -2070,6 +2070,7 @@ dependencies = [
     { name = "more-itertools" },
     { name = "obsidiantools" },
     { name = "playwright" },
+    { name = "psutil" },
     { name = "pydantic" },
     { name = "pywin32" },
     { name = "pyyaml" },
@@ -2136,6 +2137,7 @@ requires-dist = [
     { name = "more-itertools", specifier = ">=10.7.0" },
     { name = "obsidiantools", specifier = ">=0.10.0" },
     { name = "playwright", specifier = ">=1.51.0" },
+    { name = "psutil", specifier = ">=7.0.0" },
     { name = "pydantic", specifier = ">=2.9.2" },
     { name = "pywin32", specifier = ">=310" },
     { name = "pyyaml", specifier = ">=6.0.2" },
@@ -2812,7 +2814,7 @@ wheels = [
 
 [package.optional-dependencies]
 email = [
-    { name = "email-validator", marker = "python_full_version < '4.0.0'" },
+    { name = "email-validator", marker = "python_full_version < '4'" },
 ]
 
 [[package]]

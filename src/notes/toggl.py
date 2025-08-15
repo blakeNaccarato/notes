@@ -3,6 +3,8 @@
 Derived from https://gist.github.com/blakeNaccarato/8e114a7216da6ce7f7882fd77ab8c5cd
 """
 
+from __future__ import annotations
+
 from typing import Any
 
 import sqlalchemy as sa
@@ -17,19 +19,6 @@ def IdField():  # noqa: N802  # Derived from `Field()`, also a class-like functi
 def DbField(name: str, sa_type, **kwds: Any):  # noqa: N802  # Derived from `Field()`, also a class-like function
     """Field as it is named in the database. Allows the SQLModel field name to vary."""
     return Field(sa_column=sa.Column(name, sa_type, **kwds))
-
-
-class Event(SQLModel, table=True):
-    """Event."""
-
-    __tablename__ = "TimelineEvents"  # pyright: ignore[reportAssignmentType]
-
-    id: int = IdField()  # pyright: ignore[reportRedeclaration]
-    filename: str = DbField(name="Filename", sa_type=sa.Text)
-    title: str = DbField(name="Title", sa_type=sa.Text)
-    start_time: int = DbField(name="StartTime", sa_type=sa.Integer)
-    end_time: int = DbField(name="EndTime", sa_type=sa.Integer)
-    idle: int = DbField(name="Idle", sa_type=sa.Integer)
 
 
 class Entry(SQLModel, table=True):
