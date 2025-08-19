@@ -18,7 +18,7 @@ from json import loads
 from pathlib import Path
 from re import MULTILINE, finditer
 from time import sleep
-from typing import Any, Literal, TypeAlias, TypeVar
+from typing import Any, Literal, TypeAlias, TypedDict, TypeVar
 
 import win32api
 import win32gui
@@ -75,8 +75,8 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     for start in poms:  # noqa: PLR1702
         cancel = force_ask_done = False
         distracted = False
-        intent = ""
-        intent_set = done = None
+        after = reward = intent = ""
+        intent_set = done = after_done = None
         focused = (now := get_now()) - start
         checked = now
         record_period(
@@ -87,6 +87,9 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             intent_set=intent_set,
             intent=intent,
             start=start,
+            after=after,
+            after_done=after_done,
+            reward=reward,
         )
         # ! IN CHECKS
         print(START_MSG)  # noqa: T201
@@ -121,7 +124,9 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 if cancel:
                     break
                 if intent and intent != NO_INTENT:
-                    intents = set_intent(pom.intents, intent)
+                    intents = set_intent(path=pom.intents, intent=intent)
+                    after = input(f"{ASK_AFTER}\n")
+                    reward = input(f"{ASK_REWARD}\n")
                     print(DID_SET_INTENT_MSG)  # noqa: T201
                 intent_set = get_now()
                 continue
@@ -131,9 +136,11 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 and intent != NO_INTENT
                 and prompt(ask_intent(intent))
             ):
-                intents = set_intent(pom.intents, intent)
-                intent_set = get_now()
+                intents = set_intent(path=pom.intents, intent=intent)
+                after = input(f"{ASK_AFTER}\n")
+                reward = input(f"{ASK_REWARD}\n")
                 print(DID_SET_INTENT_MSG)  # noqa: T201
+                intent_set = get_now()
                 continue
             if not intent_set or not intent or intent == NO_INTENT:
                 checked = get_now()
@@ -151,24 +158,15 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             if not related and unrelated:
                 distracted = True
             if not related and not unrelated:
-                new_related = new_unrelated = ""
                 if prompt(ask_related(window, intent)):
-                    new_related = window
+                    intents[intent]["related"] = list(
+                        ordered_union(*intents[intent]["related"], *[window])
+                    )
                 else:
-                    new_unrelated = window
-                    distracted = True
-                set_intents(
-                    pom.intents,
-                    merge_intents(
-                        intents,
-                        {
-                            intent: {
-                                "related": [new_related] if new_related else [],
-                                "unrelated": [new_unrelated] if new_unrelated else [],
-                            }
-                        },
-                    ),
-                )
+                    intents[intent]["unrelated"] = list(
+                        ordered_union(*intents[intent]["unrelated"], *[window])
+                    )
+                set_intents(pom.intents, intents)
             # ! CHECKING COMPLETION
             now = get_now()
             if (distracted or force_ask_done) and prompt(ask_done(intent)):
@@ -189,6 +187,9 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 intent_set=intent_set,
                 intent=intent,
                 start=start,
+                after=after,
+                after_done=after_done,
+                reward=reward,
             )
         # ! FINAL CHECKING OF FOCUS AND COMPLETION
         now = get_now()
@@ -205,12 +206,13 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             intent_set=intent_set,
             intent=intent,
             start=start,
+            after=after,
+            after_done=after_done,
+            reward=reward,
         )
         if cancel:
             break
         # ! TAKING A BREAK
-        if get_now() + pom_period > day_end:
-            break
         while get_now() < start + pom_period:
             print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
             try:
@@ -219,6 +221,36 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 if prompt(ASK_CANCEL):
                     cancel = True
                     break
+                if (
+                    intent_set
+                    and intent
+                    and intent != NO_INTENT
+                    and not after_done
+                    and prompt(ask_done(after))
+                ):
+                    print(COMPLETED_AFTER_MSG)  # noqa: T201
+                    after_done = now
+        if (
+            intent_set
+            and intent
+            and intent != NO_INTENT
+            and not after_done
+            and prompt(ask_done(after))
+        ):
+            print(COMPLETED_AFTER_MSG)  # noqa: T201
+            after_done = now
+        record_period(
+            data=pom.poms,
+            done=done,
+            end=now,
+            focused=focused,
+            intent_set=intent_set,
+            intent=intent,
+            start=start,
+            after=after,
+            after_done=after_done,
+            reward=reward,
+        )
         if cancel:
             break
     # ! STOPPING POMODOROS AND CLEANING UP
@@ -238,10 +270,13 @@ EARLY_MSG = "Waiting for first Pomodoro to begin..."
 START_MSG = "Pomodoro has begun."
 SET_INTENT_MSG = "Please set an intent."
 DID_SET_INTENT_MSG = "Congratulations on setting your intent!"
+ASK_AFTER = "What do you intend to do during your break?"
+ASK_REWARD = "What small reward will you get if you complete your intent?"
 DID_NOT_SET_INTENT_MSG = "No intent for this Pomodoro."
 ASK_CANCEL = "A Pomodoro is in progress. Do you want to cancel it?"
 UNRELATED_MSG = "Please focus on your intent."
 COMPLETED_INTENT_MSG = "Congratulations on completing your intent!"
+COMPLETED_AFTER_MSG = "Congratulations on taking an intentional break!"
 FOCUS_MSG = "Oops, I got distracted!"
 
 
@@ -272,7 +307,7 @@ def check_window(window: str, checks: list[str]) -> bool:
     return any(check.casefold() in window.casefold() for check in checks or {})
 
 
-def split_intents(path: Path) -> dict[str, dict[Kind, list[str]]]:
+def split_intents(path: Path) -> dict[str, Intent]:
     """Split compound intents, clearing related/unrelated events on split intents."""
     # TODO: Ask user which entries to split among intents
     set_intents(
@@ -303,7 +338,14 @@ Kind: TypeAlias = Literal["related", "unrelated"]
 KINDS: tuple[Kind, ...] = ("related", "unrelated")
 
 
-def get_default_intent(intent: str) -> dict[Kind, list[str]]:
+def set_intent(path: Path, intent: str) -> dict[str, Intent]:
+    """Add intent to intents file."""
+    return set_intents(
+        path, merge_intents(get_intents(path), {intent: {**get_default_intent(intent)}})
+    )
+
+
+def get_default_intent(intent: str) -> Intent:
     """Get default intent."""
     return {
         "related": [
@@ -319,27 +361,17 @@ def get_default_intent(intent: str) -> dict[Kind, list[str]]:
     }
 
 
-def set_intent(path: Path, intent: str) -> dict[str, dict[Kind, list[str]]]:
-    """Add intent to intents file."""
-    return set_intents(
-        path, merge_intents(get_intents(path), {intent: get_default_intent(intent)})
-    )
-
-
-def set_intents(
-    path: Path, intents: dict[str, dict[Kind, list[str]]]
-) -> dict[str, dict[Kind, list[str]]]:
-    """Get intents."""
+def set_intents(path: Path, intents: dict[str, Intent]) -> dict[str, Intent]:
+    """Set intents."""
     path.write_text(encoding="utf-8", data=dumps(intents) + "\n")
     return intents
 
 
 def merge_intents(
-    intents: Mapping[str, dict[Kind, list[str]]],
-    other: Mapping[str, dict[Kind, list[str]]],
-) -> dict[str, dict[Kind, list[str]]]:
+    intents: Mapping[str, Intent], other: Mapping[str, Intent]
+) -> dict[str, Intent]:
     """Merge intents."""
-    return {
+    return {  # pyright: ignore[reportReturnType]  # TODO: Stop using TypedDict
         name: {
             key: list(
                 ordered_union(
@@ -353,7 +385,7 @@ def merge_intents(
     }
 
 
-def get_intents(path: Path) -> dict[str, dict[Kind, list[str]]]:
+def get_intents(path: Path) -> dict[str, Intent]:
     """Get intents."""
     return loads(path.read_text(encoding="utf-8"))
 
@@ -364,6 +396,13 @@ T = TypeVar("T")
 def ordered_union(*args: T) -> Iterable[T]:
     """Get the ordered union of unique elements over two iterables."""
     yield from dict.fromkeys(args)
+
+
+class Intent(TypedDict):
+    """Intent model."""
+
+    related: list[str]
+    unrelated: list[str]
 
 
 @dataclass
@@ -439,19 +478,28 @@ def record_period(
     end: datetime,
     intent: str,
     intent_set: datetime | None,
+    after: str,
+    after_done: datetime | None = None,
+    reward: str | None = None,
     start: datetime,
 ) -> None:
     """Record period."""
+    # TODO: Handle `<this> or <that>` better. Currently doing it to allow manual overwrite
+    poms = loads(data.read_text(encoding="utf-8"))
+    pom = poms.get(intent) or {"intent": "", "after": "", "reward": ""}
     data.write_text(
         encoding="utf-8",
         data=dumps({
-            **loads(data.read_text(encoding="utf-8")),
+            **poms,
             ser_datetime(start): {
                 "done": ser_datetime(done) if done else None,
                 "focused": focused / (end - start),
                 "end": ser_datetime(end),
-                "intent": intent,
+                "intent": pom["intent"] or intent,
                 "intent_set": ser_datetime(intent_set) if intent_set else None,
+                "after": pom["after"] or after,
+                "after_done": ser_datetime(after_done) if after_done else None,
+                "reward": pom["reward"] or reward,
             },
         })
         + "\n",
