@@ -16,7 +16,7 @@ from datetime import UTC, date, datetime, time, timedelta
 from itertools import accumulate
 from json import loads
 from pathlib import Path
-from re import MULTILINE, finditer
+from re import MULTILINE, Match, finditer
 from time import sleep
 from typing import Any, Literal, TypeAlias, TypedDict, TypeVar
 
@@ -67,7 +67,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         try:
             sleep((day_start - get_now()).total_seconds())
         except KeyboardInterrupt:
-            split_intents(pom.intents)
+            set_split_intents(pom.intents)
             print(DONE_MSG)  # noqa: T201
             return
     # ! IN POMODORO
@@ -255,7 +255,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             break
     # ! STOPPING POMODOROS AND CLEANING UP
     set_toggl_pomodoro("stop")
-    split_intents(pom.intents)
+    set_split_intents(pom.intents)
     print(DONE_MSG)  # noqa: T201
 
 
@@ -307,8 +307,8 @@ def check_window(window: str, checks: list[str]) -> bool:
     return any(check.casefold() in window.casefold() for check in checks or {})
 
 
-def split_intents(path: Path) -> dict[str, Intent]:
-    """Split compound intents, clearing related/unrelated events on split intents."""
+def set_split_intents(path: Path) -> dict[str, Intent]:
+    """Add individual intents from compound intents to intents."""
     # TODO: Ask user which entries to split among intents
     set_intents(
         path,
@@ -317,11 +317,7 @@ def split_intents(path: Path) -> dict[str, Intent]:
             {
                 match.group(0).strip(): get_default_intent(match.group(0).strip())
                 for name in intents
-                for match in finditer(
-                    pattern=rf"[^{get_sep(name)}]+🆔[^{get_sep(name)}]+",
-                    string=name,
-                    flags=MULTILINE,
-                )
+                for match in split_intents(name)
                 if name.count("🆔") > 1
             },
         ),
@@ -349,16 +345,30 @@ def get_default_intent(intent: str) -> Intent:
     """Get default intent."""
     return {
         "related": [
-            *([] if intent.count("🆔") > 1 else [intent]),
+            *(
+                [match.group(0).strip() for match in split_intents(intent)]
+                if intent.count("🆔") > 1
+                else [intent]
+            ),
             "intents.json",
             "Obsidian - Today",
             "pomodouroboros.json",
             "ShellExperienceHost",
+            "Toggl Track",
             "TogglTrack",
             "WindowsTerminal - 🍅",
         ],
         "unrelated": [],
     }
+
+
+def split_intents(intent: str) -> Iterable[Match[str]]:
+    """Split intents."""
+    yield from finditer(
+        pattern=rf"[^{get_sep(intent)}]+🆔[^{get_sep(intent)}]+",
+        string=intent,
+        flags=MULTILINE,
+    )
 
 
 def set_intents(path: Path, intents: dict[str, Intent]) -> dict[str, Intent]:
