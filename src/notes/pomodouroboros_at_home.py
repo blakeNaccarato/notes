@@ -9,16 +9,15 @@ Pomodouroboros at home...
 
 from __future__ import annotations
 
-import json
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
-from datetime import UTC, date, datetime, time, timedelta
+from datetime import datetime, timedelta
 from itertools import accumulate
 from json import loads
 from pathlib import Path
 from re import MULTILINE, Match, finditer
 from time import sleep
-from typing import Any, Literal, TypeAlias, TypedDict, TypeVar
+from typing import Literal, TypeAlias, TypedDict, TypeVar
 
 import win32api
 import win32gui
@@ -38,7 +37,8 @@ from win32con import (
 
 from notes import toggl
 from notes.cli import Pom
-from notes.times import current_tz
+from notes.serialization import ser_datetime, ser_json
+from notes.times import current_tz, get_now, get_time_today
 from notes.win import MessageBox, MouseEvent, SetCursorPos, WindowInfo
 
 # ! TODO: Implement as a state machine.
@@ -373,7 +373,7 @@ def split_intents(intent: str) -> Iterable[Match[str]]:
 
 def set_intents(path: Path, intents: dict[str, Intent]) -> dict[str, Intent]:
     """Set intents."""
-    path.write_text(encoding="utf-8", data=dumps(intents) + "\n")
+    path.write_text(encoding="utf-8", data=ser_json(intents) + "\n")
     return intents
 
 
@@ -499,7 +499,7 @@ def record_period(
     pom = poms.get(intent) or {"intent": "", "after": "", "reward": ""}
     data.write_text(
         encoding="utf-8",
-        data=dumps({
+        data=ser_json({
             **poms,
             ser_datetime(start): {
                 "done": ser_datetime(done) if done else None,
@@ -514,11 +514,6 @@ def record_period(
         })
         + "\n",
     )
-
-
-def dumps(obj: dict[str, Any] | None = None, sort: bool = True) -> str:
-    """Dump JSON data."""
-    return json.dumps(ensure_ascii=False, sort_keys=sort, indent=2, obj=obj or {})
 
 
 Mode: TypeAlias = Literal["start", "stop"]
@@ -628,21 +623,6 @@ def ask_done(intent: str) -> str:
 def get_break_msg(period: timedelta) -> str:
     """Get break message."""
     return f"Please take a break for {period.total_seconds() // 60:.0f} minutes!"
-
-
-def get_now() -> datetime:
-    """Get current `datetime` in UTC."""
-    return datetime.now(UTC)
-
-
-def get_time_today(value: time) -> datetime:
-    """Get `datetime` for today in UTC."""
-    return datetime.combine(date.today(), value, tzinfo=current_tz).astimezone(UTC)
-
-
-def ser_datetime(value: datetime) -> str:
-    """Serialize datetime."""
-    return value.astimezone(current_tz).isoformat(timespec="seconds")
 
 
 if __name__ == "__main__":

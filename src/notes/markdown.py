@@ -1,5 +1,6 @@
 """Markdown parsing utilities."""
 
+from collections.abc import Callable
 from re import findall
 from string import whitespace
 
@@ -9,7 +10,16 @@ from mdit_py_plugins.front_matter.index import front_matter_plugin
 from more_itertools import one
 from yaml import safe_load
 
-MD = MarkdownIt().use(front_matter_plugin)
+
+def get_md(*plugins: Callable[[MarkdownIt], None]):
+    """Get Markdown parser."""
+    md = MarkdownIt()
+    for plugin in plugins:
+        md = md.use(plugin)
+    return md
+
+
+MD = get_md(front_matter_plugin)
 """Markdown parser."""
 
 
