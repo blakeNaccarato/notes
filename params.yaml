@@ -177,6 +177,8 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/darlal-switcher-plus/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/data.json
     - data/local/vaults/personal/.obsidian/plugins/dataview/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/dataview-publisher/data.json
+    - data/local/vaults/personal/.obsidian/plugins/dataview-publisher/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/data.json
     - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/data.json
@@ -216,6 +218,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/data.json
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/manifest.json
+    - data/local/vaults/personal/.obsidian/plugins/patch-fuzzy-search/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/pdf-plus/data.json
     - data/local/vaults/personal/.obsidian/plugins/pdf-plus/manifest.json
     - data/local/vaults/personal/.obsidian/plugins/plugin-manager/data.json
@@ -251,6 +254,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/cursor-position-history/main.js
     - data/local/vaults/personal/.obsidian/plugins/darlal-switcher-plus/main.js
     - data/local/vaults/personal/.obsidian/plugins/dataview/main.js
+    - data/local/vaults/personal/.obsidian/plugins/dataview-publisher/main.js
     - data/local/vaults/personal/.obsidian/plugins/find-unlinked-files/main.js
     - data/local/vaults/personal/.obsidian/plugins/folder-notes/main.js
     - data/local/vaults/personal/.obsidian/plugins/lazy-plugins/main.js
@@ -272,6 +276,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/obsidian-trash-explorer/main.js
     - data/local/vaults/personal/.obsidian/plugins/obsidian-zotero-desktop-connector/main.js
     - data/local/vaults/personal/.obsidian/plugins/omnisearch/main.js
+    - data/local/vaults/personal/.obsidian/plugins/patch-fuzzy-search/main.js
     - data/local/vaults/personal/.obsidian/plugins/pdf-plus/main.js
     - data/local/vaults/personal/.obsidian/plugins/plugin-manager/main.js
     - data/local/vaults/personal/.obsidian/plugins/reference-map/main.js

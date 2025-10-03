@@ -58,6 +58,8 @@ constraint-dependencies = [
   "urllib3>=2.2.2",
 ]
 dev-dependencies = [
+  # ? Notebooks
+  "markdown-it-pyrs>=0.4.0",
   # ? Workspaces
   "lookback",
   "notes_dev",
@@ -103,7 +105,7 @@ dev-dependencies = [
   "pytest-instafail==0.5.0",
   "pytest-testmon==2.1.3",
   "pytest==8.2.2",
-  "ruff==0.11.5",
+  "ruff==0.13.3",
 ]
 [tool.uv.pip]
 python-version = "3.11"
@@ -125,7 +127,6 @@ deps = ["pyproject.toml"]
 code = ["src"]
 [tool.fawltydeps.custom_mapping]
 pywin32 = ["win32api", "win32con", "win32gui", "win32process"]
-
 
 [tool.pytest.ini_options]
 addopts = """
@@ -336,7 +337,6 @@ ignore = [
   "PD011",   # Allow use of `.values`. False positives.
   "PD013",   # Allow `stack` instead of `melt`. They're not a direct swap.
   "PD101",   # Allow use of nunique(). False positives
-  "PD901",   # Allow `df` variable name. We are all consenting adults here.
   "PD011",   # Allow use of `.values`. False positives.
   "PLR6201", # Don't require set literal for membership checks
   "PGH003",  # Until black stops wrapping special ignores, let's allow bare

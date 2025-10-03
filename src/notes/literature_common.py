@@ -3,7 +3,7 @@
 import json
 import sys
 from collections.abc import Callable
-from datetime import datetime, timedelta
+from datetime import timedelta
 from itertools import chain
 from pathlib import Path
 from time import sleep
@@ -12,6 +12,8 @@ from typing import Any, Self
 from loguru import logger
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
+
+from notes.times import get_now, min_datetime
 
 logger.configure(handlers=[{"sink": sys.stderr, "format": "<level>{message}</level>"}])
 
@@ -84,9 +86,9 @@ class ModifiedFileHandler(FileSystemEventHandler):
     def __init__(self, func: Callable[[FileSystemEvent], None], cooldown: int):
         self.func = func
         self.cooldown = timedelta(seconds=cooldown)
-        self.triggered_time = datetime.min
+        self.triggered_time = min_datetime
 
     def on_modified(self, event: FileSystemEvent):  # noqa: D102
-        if (datetime.now() - self.triggered_time) > self.cooldown:
+        if (get_now() - self.triggered_time) > self.cooldown:
             self.func(event)
-            self.triggered_time = datetime.now()
+            self.triggered_time = get_now()

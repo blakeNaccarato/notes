@@ -9,30 +9,41 @@ export default async (): Promise<void> => {
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
   ).current_functions_object;
-  const id = String.raw`🆔 \d{4}-\d{2}-\d{2}T\d{6}-\d{4}`;
   // Replace Markdown-style links with link text
   let text: string = (await tp.user.getSelOrClip()).replace(
     /\[(?<linkText>[^\]]*)\]\([^)]*\)/g,
     "$<linkText>",
   );
   // Match the time tracking entry
+  const idToken = "🆔";
+  const id = String.raw`${idToken}\s*\d{4}-\d{2}-\d{2}T\d{6}[\+-]\d{4}`;
+  const emptyParens = String.raw`\(\)`; // Possible in Obsidian Tasks output
   const groups = text.match(
-    String.raw`^` +
+    "^" + // Beginning of string
       String.raw`(?:\s*-)?` + // Markdown-style bullet
       String.raw`(?:\s*\[[^\]]?\])?` + // Markdown-style checkbox
-      String.raw`(?:\s*(?<logId>${id}):)?` + // Log timestamp
-      String.raw`(?:.*#)?\s*` + // Leading tags or header hashes, including the last `#`
-      String.raw`(?<timeTrackingEntry>(?:` + // Get time tracking entry
-      (String.raw`(?:(?<taskId>${id})\s*)?` + // Task timestamp
-        // Consume characters up to emoji, newline, or end of string
-        String.raw`(?!⏫|⏬|⏳|⛔|✅|❌|➕|🏁|📅|🔁|🔺|🔼|🔽|🛫)`) +
-      String.raw`.)*)`,
-  )?.groups as { timeTrackingEntry?: string; logId?: string; taskId?: string };
+      String.raw`(?:\s*(?<logId>${id}):)?` + // Log ID
+      "(?:s*.*#)?" + // Leading tags or header hashes, including the last `#`
+      // Compose entry from consumed characters and optional task ID
+      (String.raw`\s*(?<timeTrackingEntry>` +
+        // Recursively consume characters without capturing
+        (String.raw`\s*(?:` +
+          String.raw`(?!${idToken}|${emptyParens}|⏫|⏬|⏳|⛔|✅|❌|➕|🏁|📅|🔁|🔺|🔼|🔽|🛫)` +
+          "." + // Consume one character
+          ")*") + // Repeat consumption until negative lookahead fails
+        String.raw`\s*(?<taskId>${id})?` + // Task ID
+        ")"),
+  )?.groups as {
+    timeTrackingEntry?: string;
+    logId?: string;
+    taskId?: string;
+  };
   // Clean up the matched time tracking entry
-  text = (groups?.timeTrackingEntry ? groups.timeTrackingEntry : text)
+  const sp = " ";
+  text = (groups.timeTrackingEntry || text)
     .trim()
     .replace(/^\w/, (c: string) => c.toUpperCase())
-    .concat(!groups?.taskId && groups?.logId ? ` ${groups.logId}` : "");
+    .concat(!groups.taskId && groups.logId ? `${sp}${groups.logId}` : "");
   // Write the result to the clipboard
   if (text) {
     await navigator.clipboard.writeText(text);

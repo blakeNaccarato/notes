@@ -18,8 +18,10 @@ if (!$Env:WATCHFILES_CHANGES -or ($Env:WATCHFILES_CHANGES -eq '[]')) {
     Write-Verbose 'STOP PROBLEM MATCHER'
     return
 }
-$Paths = $Env:WATCHFILES_CHANGES | ConvertFrom-Json | ForEach-Object { $_[1] } |
-    Where-Object { (Split-Path -Leaf $_) -ne $TemplateTypes }
+$Paths = @(
+    $Env:WATCHFILES_CHANGES | ConvertFrom-Json | ForEach-Object { $_[1] } |
+        Where-Object { (Split-Path -Leaf $_) -ne $TemplateTypes }
+)
 if (!$Paths.Count) {
     Write-Debug 'No changes other than types'
     Write-Verbose 'STOP PROBLEM MATCHER'

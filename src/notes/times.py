@@ -2,9 +2,8 @@
 
 from datetime import UTC, date, datetime, time
 
-__all__ = ["current_tz"]
-
 current_tz = datetime.now().astimezone().tzinfo
+min_datetime = datetime.min.replace(tzinfo=UTC)
 
 
 def get_now() -> datetime:
