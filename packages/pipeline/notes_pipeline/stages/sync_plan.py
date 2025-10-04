@@ -21,14 +21,31 @@ from notes.markdown import MD
 from notes.serialization import ser_datetime, ser_json
 from notes.times import get_now, get_time_today, min_datetime
 from notes_pipeline.models.params import PARAMS
-
-# TODO: Finished tasks should be removed from plan
+from notes_pipeline.sync_lists import sync_lists
 
 
 def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
     tokens = MD.parse(PARAMS.paths.plan.read_text(encoding="utf-8"))
-    idx = -1
+    lists = sync_lists(
+        PARAMS.paths.data / "lists.md",
+        PARAMS.paths.personal / "_data" / "unsynced" / "lists.md",
+    )
+    (PARAMS.paths.data / "lists.csv").unlink(missing_ok=True)
+    lists.to_csv(PARAMS.paths.data / "lists.csv", index=False)
+    tasks = lists[lists.task & lists.text.str.contains(r"\s🆔\s", na=False)].assign(
+        link_text=lambda df: df.outlinks.str.extract(
+            r"^.+\|(?P<link_text>.+)\]\]</li></ul>$"
+        )["link_text"].astype(str),
+        text=lambda df: df.apply(
+            lambda row: row["text"].replace(
+                row["link_text"], rf"{row['link_text'].split(' 🆔')[0]}"
+            ),
+            axis="columns",
+        ),
+        done=lambda df: df.status == "x",
+    )
     # Advance to first "Plans" second-level heading
+    idx = -1
     while (
         len(t := tokens[(idx := idx + 1) : idx + HEADING_COUNT]) == HEADING_COUNT
     ) and (t[0].type != "heading_open" or t[0].tag != "h2" or t[1].content != "Plans"):
@@ -60,6 +77,12 @@ def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
             continue
         # Check for old items in the plan
         for item in match["items"].split(","):
+            if not (
+                matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
+                    ["text", "done"]
+                ]
+            ).empty and all(matches.done):
+                continue
             seen_time = last_seen.get(item) or get_now()
             if seen_time < plan.cutoff:
                 # An item seen before the cutoff will be moved, forget that it was seen
@@ -77,44 +100,6 @@ def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
             if match["items"] and match["kind"] == "Now":
                 ", ".join([f"🆔 {i}" for i in match["items"].split(",")])
             kind.match = match
-            # path = PARAMS.paths.personal / f"_data/plan-{to_kebab(name)}.md"
-            # path.write_text(
-            #     encoding="utf-8",
-            #     data=render(
-            #         sync_dataview_plan(
-            #             MD.parse(path.read_text(encoding="utf-8")),
-            #             match["items"].split(",") if match["items"] else [],
-            #         )
-            #     ),
-            # )
-    # run(
-    #     args=[
-    #         "powershell",
-    #         "-NonInteractive",
-    #         "-NoProfile",
-    #         "-Command",
-    #         "Start-Process",
-    #         "obsidian://adv-uri?commandid=dataview-publisher:update-blocks",
-    #     ],
-    #     check=True,
-    # )
-    # for name, kind in kinds.items():
-    #     if not (match := kind.match) or not kind.child:
-    #         continue
-    #     path = PARAMS.paths.personal / f"_data/plan-{to_kebab(name)}.md"
-    #     # TODO: Record intents
-    #     plan = sub(
-    #         pattern=r"\[(?P<linkText>[^\]]*)\]\([^)]*\)",
-    #         repl=r"\g<linkText>",
-    #         string="\n".join(
-    #             render(
-    #                 finalize=False,
-    #                 tokens=read_dataview_plan(
-    #                     MD.parse(path.read_text(encoding="utf-8"))
-    #                 ),
-    #             ).split("\n")[2:-2]
-    #         ),
-    #     )
     # Render to Markdown and save the times that items were first seen
     PARAMS.paths.plan.write_text(encoding="utf-8", data=render(tokens))
     PARAMS.paths.seen_plans.write_text(
@@ -148,24 +133,6 @@ def sync_dataview_plan(tokens: Iterable[Token], items: Sequence[str]) -> list[To
         else ""
     )
     return list(tokens.seq)
-
-
-def read_dataview_plan(tokens: Iterable[Token]) -> list[Token]:
-    """Sync DataView query."""
-    tokens = Sublist(tokens)
-    while (tokens := tokens.walk()) and (
-        (token := one(tokens)).type != "inline" or token.content != "%%"
-    ):
-        pass
-    if tokens.idx >= len(list(tokens.seq)):
-        return []
-    start = tokens.idx - 1
-    while (tokens := tokens.walk()) and (
-        (token := one(tokens)).type != "inline"
-        or token.content != "%% DATAVIEW_PUBLISHER: end %%"
-    ):
-        pass
-    return list(tokens.seq)[start : tokens.idx + 2]
 
 
 T = TypeVar("T")
