@@ -30,6 +30,7 @@ dependencies = [
   "obsidiantools>=0.10.0",
   "playwright>=1.51.0",
   "psutil>=7.0.0",
+  "pyarrow>=17.0.0",
   "pydantic>=2.9.2",
   "pywin32>=310",
   "pyyaml>=6.0.2",
@@ -125,6 +126,9 @@ source = ["notes", "notes_dev", "tests"]
 [tool.fawltydeps]
 deps = ["pyproject.toml"]
 code = ["src"]
+ignore_unused = [
+  "pyarrow", # ? Used for pandas types
+]
 [tool.fawltydeps.custom_mapping]
 pywin32 = ["win32api", "win32con", "win32gui", "win32process"]
 

@@ -6,6 +6,8 @@
   "terminal.integrated.defaultProfile.osx": "pwsh",
   //! File excludes
   "files.exclude": {
+    //? Ignore this large file
+    "data/lists.md": true,
     //? Cache directory set in `pyproject.toml`
     "**/.cache": true,
     //? Python

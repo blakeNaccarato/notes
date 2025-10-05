@@ -27,8 +27,8 @@ from notes_pipeline.sync_lists import sync_lists
 def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
     tokens = MD.parse(PARAMS.paths.plan.read_text(encoding="utf-8"))
     lists = sync_lists(
-        PARAMS.paths.data / "lists.md",
-        PARAMS.paths.personal / "_data" / "unsynced" / "lists.md",
+        path=PARAMS.paths.personal / "_data" / "unsynced" / "lists.md",
+        backup=PARAMS.paths.data / "lists.md",
     )
     (PARAMS.paths.data / "lists.csv").unlink(missing_ok=True)
     lists.to_csv(PARAMS.paths.data / "lists.csv", index=False)
