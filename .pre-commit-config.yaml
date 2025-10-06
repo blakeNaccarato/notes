@@ -83,7 +83,7 @@ repos:
             |tests/.*
           )$
   - repo: "https://github.com/pre-commit/pre-commit-hooks"
-    rev: "v5.0.0"
+    rev: "v6.0.0"
     hooks:
       - id: "check-illegal-windows-names"
       - id: "check-merge-conflict"
@@ -95,7 +95,7 @@ repos:
         args: [--markdown-linebreak-ext=md]
       - id: "trailing-whitespace"
   - repo: "https://github.com/srstevenson/nb-clean"
-    rev: "3.3.0"
+    rev: "4.0.1"
     hooks:
       - id: "nb-clean"
         args:
@@ -112,11 +112,11 @@ repos:
             |tests/.*
           )$
   - repo: "https://github.com/DavidAnson/markdownlint-cli2"
-    rev: "v0.13.0"
+    rev: "v0.18.1"
     hooks:
       - id: "markdownlint-cli2"
   - repo: "https://github.com/srstevenson/nb-clean"
-    rev: "3.3.0"
+    rev: "4.0.1"
     hooks:
       - id: "nb-clean"
         name: "nb-clean (keep docs outputs)"
@@ -133,7 +133,7 @@ repos:
             |tests/.*
           )$
   - repo: "https://github.com/rbubley/mirrors-prettier"
-    rev: "v3.3.3"
+    rev: "v3.6.2"
     hooks:
       - id: prettier
   - repo: https://github.com/ComPWA/taplo-pre-commit
