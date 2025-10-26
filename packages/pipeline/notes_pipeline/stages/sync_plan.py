@@ -21,7 +21,7 @@ from notes.markdown import MD
 from notes.serialization import ser_datetime, ser_json
 from notes.times import get_now, get_time_today, min_datetime
 from notes_pipeline.models.params import PARAMS
-from notes_pipeline.sync_lists import sync_lists
+from notes_pipeline.sync_lists import invoke_obsidian_command, sync_lists
 
 
 def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
@@ -106,6 +106,7 @@ def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
         encoding="utf-8",
         data=f"{ser_json({k: ser_datetime(v) for k, v in seen.items()})}\n",
     )
+    invoke_obsidian_command("app:reload")
 
 
 def sync_dataview_plan(tokens: Iterable[Token], items: Sequence[str]) -> list[Token]:
