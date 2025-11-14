@@ -2,21 +2,21 @@ import type TemplaterPlugin from "templater-obsidian";
 import type { Templater } from "./types";
 
 /**
- * Get time tracking entry for selection or clipboard.
+ * Get entry ID for selection or clipboard.
  */
 export default async (): Promise<void> => {
   const idToken = "🆔";
   const idPart = String.raw`\d{4}-\d{2}-\d{2}T\d{6}[\+-]\d{4}|[\d\w]+`;
   const emptyParens = String.raw`\(\)`; // Possible in Obsidian Tasks output
   const obsidianTasksSymbols = String.raw`⏫|⏬|⏳|⛔|✅|❌|➕|🏁|📅|🔁|🔺|🔼|🔽|🛫`;
-  // Get task ID from time tracking entry
-  const { taskId } = (
+  // Get entry ID
+  const { entryId } = (
     await (
       (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
         .templater as Templater
     ).current_functions_object.user.getSelOrClip()
   )
-    // Match the time tracking entry
+    // Match the entry
     .match(
       "^" + // Beginning of string
         String.raw`(?:\s*-)?` + // Markdown-style bullet
@@ -30,14 +30,14 @@ export default async (): Promise<void> => {
             String.raw`(?!${idToken}|${emptyParens}|${obsidianTasksSymbols})` +
             "." + // Consume one character
             ")*") + // Repeat consumption until negative lookahead fails
-          String.raw`\s*(?:${idToken}\s*(?<taskId>${idPart}))?` + // Task ID
+          String.raw`\s*(?:${idToken}\s*(?<entryId>${idPart}))?` + // Task ID
           ")"),
-    )?.groups as { taskId?: string };
-  if (!taskId) {
-    new Notice("Couldn't form time tracking entry from selection or clipboard");
+    )?.groups as { entryId?: string };
+  if (!entryId) {
+    new Notice("Couldn't form entry ID from selection or clipboard");
     return;
   }
-  await navigator.clipboard.writeText(taskId);
-  new Notice(`Copied "${taskId}"`);
+  await navigator.clipboard.writeText(entryId);
+  new Notice(`Copied "${entryId}"`);
   return;
 };
