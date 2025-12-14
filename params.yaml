@@ -284,7 +284,7 @@ paths:
     - data/local/vaults/personal/.obsidian/plugins/templater-obsidian/main.js
     - data/local/vaults/personal/.obsidian/plugins/text-extractor/main.js
   personal_timestamped: data/local/vaults/personal/_timestamped
-  plan: data/local/vaults/personal/__reps/irregular/2025-01-30T084608-0700-plan.md
+  plan: data/local/vaults/personal/__reps/2025-01-30T084608-0700-plan.md
   project: .
   seen_plans: data/seen_plans.json
   set_up_amsl_obsidian_docs: docs/2024-11-12T14-25-57-set-up-amsl-obsidian-vault.md

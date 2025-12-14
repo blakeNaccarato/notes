@@ -61,7 +61,7 @@ class Paths(BaseModel):
     personal_plugins: Path = personal_obsidian / "plugins"
     # ! Inputs
     personal_links: Path = personal / "_sources/links"
-    plan: Path = personal / "__reps/irregular/2025-01-30T084608-0700-plan.md"
+    plan: Path = personal / "__reps/2025-01-30T084608-0700-plan.md"
     # ! Results
     seen_plans: Path = data / "seen_plans.json"
     personal_timestamped: Path = personal / "_timestamped"

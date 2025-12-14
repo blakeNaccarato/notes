@@ -16,6 +16,8 @@ export default async (): Promise<void> => {
         .templater as Templater
     ).current_functions_object.user.getSelOrClip()
   )
+    // Strip links, helps find ID for older entries that only have ID in link text
+    .replace(/\[(?<linkText>[^\]]*)\]\([^)]*\)/g, "$<linkText>")
     // Match the entry
     .match(
       "^" + // Beginning of string
