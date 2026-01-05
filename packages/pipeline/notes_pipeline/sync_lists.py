@@ -99,34 +99,37 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
                 "links": lambda df: df["text"].apply(
                     lambda ser: [n.meta["url"] for n in ser if n.name == "link"]
                 ),
-                "text": lambda df: df["text"]
-                .apply(
-                    lambda ser: "".join([
-                        n.meta.get("content", "")
-                        if n.name == "text"
-                        else (
-                            n.children[0].meta.get("content", "")
-                            if n.name == "link"
-                            else ""
-                        )
-                        for n in ser
-                    ])
-                )
-                .astype("string[pyarrow]"),
+                "text": lambda df: (
+                    df["text"]
+                    .apply(
+                        lambda ser: "".join([
+                            n.meta.get("content", "")
+                            if n.name == "text"
+                            else (
+                                n.children[0].meta.get("content", "")
+                                if n.name == "link"
+                                else ""
+                            )
+                            for n in ser
+                        ])
+                    )
+                    .astype("string[pyarrow]")
+                ),
             },
             **{
                 col: (
-                    lambda df, col=col: df[col]
-                    .replace("", "0")
-                    .astype(int)
-                    .astype("int64[pyarrow]")
+                    lambda df, col=col: (
+                        df[col].replace("", "0").astype(int).astype("int64[pyarrow]")
+                    )
                 )
                 for col in ["line", "line_count"]
             },
             **{
-                col: lambda df, col=col: df[col]
-                .apply(lambda text: text.casefold() == "true")
-                .astype("bool[pyarrow]")
+                col: lambda df, col=col: (
+                    df[col]
+                    .apply(lambda text: text.casefold() == "true")
+                    .astype("bool[pyarrow]")
+                )
                 for col in ["annotated", "task"]
             },
         )
