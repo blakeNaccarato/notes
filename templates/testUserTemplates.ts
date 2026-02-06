@@ -14,6 +14,7 @@ export default async (): Promise<void> => {
     return;
   }
   user.cite();
+  user.getChoice("", {});
   user.getExpenses();
   user.getDateFmt();
   user.getDatetimeFmt();
