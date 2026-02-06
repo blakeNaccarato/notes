@@ -120,6 +120,7 @@
   "typescript.suggest.completeFunctionCalls": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.watchOptions": "vscode",
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.wordWrap": "off"

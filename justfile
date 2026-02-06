@@ -16,7 +16,7 @@ format_templates :=\
   proj + sp + '(' \
     + 'Get-ChildItem' \
     + sp + compiled_templates \
-    + sp + '-Filter *.js | Where-Object { $_.Name -ne "types.js" }' \
+    + sp + '-Filter *.js' \
   + ')' \
   + sp + '|' + sp + 'Format-TemplateScript.ps1'
 
