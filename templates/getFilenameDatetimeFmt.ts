@@ -8,5 +8,5 @@ export default (): string => {
   return `${(
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
-  ).current_functions_object.user.getDatetimeFmt()}`.replace(":", "");
+  ).current_functions_object.user.getDatetimeFmt()}`.replaceAll(":", "");
 };
