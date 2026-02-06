@@ -8,7 +8,7 @@ export default (): string => {
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
   ).current_functions_object;
-  const fmt = `YYYY-MM-DDTHHmmssZZ`;
+  const fmt = tp.user.getDatetimeFmt();
   const now = tp.obsidian.moment();
   const nextId = () => now.add(1, "seconds").format(fmt);
   const monthYear = now.format("MMMM YYYY");

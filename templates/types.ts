@@ -11,11 +11,24 @@ export interface Templater {
       moment: () => Moment;
     };
     user: {
-      cite: () => Promise<string>;
-      getSelOrClip: () => Promise<string>;
-      getTimeTrackingEntry: () => Promise<void>;
+      cite: (typeof import("./cite"))["default"];
+      getDateFmt: (typeof import("./getDateFmt"))["default"];
+      getChoice: (typeof import("./getChoice"))["default"];
+      getDatetimeFmt: (typeof import("./getDatetimeFmt"))["default"];
+      getEntry: (typeof import("./getEntry"))["default"];
+      getEntryGroups: (typeof import("./getEntryGroups"))["default"];
+      getEntryId: (typeof import("./getEntryId"))["default"];
+      getExpenses: (typeof import("./getExpenses"))["default"];
+      getFilenameDatetimeFmt: (typeof import("./getFilenameDatetimeFmt"))["default"];
+      getSelOrClip: (typeof import("./getSelOrClip"))["default"];
+      getTimeFmt: (typeof import("./getTimeFmt"))["default"];
+      getToDo: (typeof import("./getToDo"))["default"];
+      invokedFromTemplaterCreate: (typeof import("./invokedFromTemplaterCreate"))["default"];
+      testUserTemplates: (typeof import("./testUserTemplates"))["default"];
     };
     file: {
+      content: Content;
+      path: Path;
       selection: Selection;
     };
     system: {
@@ -25,6 +38,18 @@ export interface Templater {
     };
   };
 }
+
+type ContentGenerator = ReturnType<
+  InstanceType<typeof InternalModuleFile>["generate_selection"]
+>;
+type Content = Awaited<
+  (...args: Partial<Parameters<ContentGenerator>>) => ReturnType<ContentGenerator>
+>;
+
+type PathGenerator = ReturnType<
+  InstanceType<typeof InternalModuleFile>["generate_path"]
+>;
+type Path = (...args: Partial<Parameters<PathGenerator>>) => ReturnType<PathGenerator>;
 
 type SelectionGenerator = ReturnType<
   InstanceType<typeof InternalModuleFile>["generate_selection"]
@@ -36,9 +61,6 @@ type Selection = (
 type PromptGenerator = ReturnType<
   InstanceType<typeof InternalModuleSystem>["generate_prompt"]
 >;
-type Prompt = (
-  ...args: Partial<Parameters<PromptGenerator>>
-) => ReturnType<PromptGenerator>;
 
 type ClipboardGenerator = ReturnType<
   InstanceType<typeof InternalModuleSystem>["generate_clipboard"]
@@ -46,6 +68,10 @@ type ClipboardGenerator = ReturnType<
 type Clipboard = (
   ...args: Partial<Parameters<ClipboardGenerator>>
 ) => ReturnType<ClipboardGenerator>;
+
+type Prompt = (
+  ...args: Partial<Parameters<PromptGenerator>>
+) => ReturnType<PromptGenerator>;
 
 type SuggesterGenerator = ReturnType<
   InstanceType<typeof InternalModuleSystem>["generate_suggester"]
