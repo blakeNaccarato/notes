@@ -1,5 +1,4 @@
-import type TemplaterPlugin from "templater-obsidian";
-import type { Templater } from "./types";
+import type { Templater, TemplaterPlugin } from "./types";
 
 /**
  * Whether the current template was invoked from the "Templater: Create New Note From Template" command.

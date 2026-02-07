@@ -1,5 +1,4 @@
-import type TemplaterPlugin from "templater-obsidian";
-import type { Templater } from "./types";
+import type { Templater, TemplaterPlugin } from "./types";
 
 /**
  * Get datetime format.

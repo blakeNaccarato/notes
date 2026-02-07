@@ -1,3 +1,5 @@
+export type { default as TemplaterPlugin } from "templater-obsidian";
+
 import type { Moment } from "moment";
 import type { InternalModuleFile } from "templater-obsidian/dist/core/functions/internal_functions/file/InternalModuleFile";
 import type { InternalModuleSystem } from "templater-obsidian/dist/core/functions/internal_functions/system/InternalModuleSystem";
