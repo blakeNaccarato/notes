@@ -1,5 +1,5 @@
 import type TemplaterPlugin from "templater-obsidian";
-import type { Templater } from ".";
+import type { Templater } from "./types";
 
 /**
  * Cite selection.
