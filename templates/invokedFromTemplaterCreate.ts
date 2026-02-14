@@ -8,5 +8,5 @@ export default (): boolean => {
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
   ).current_functions_object;
-  return !Boolean(tp.file.content || tp.file.path(true) != "Untitled.md");
+  return tp.file.path(true) === "Untitled.md" && !tp.file.content;
 };
