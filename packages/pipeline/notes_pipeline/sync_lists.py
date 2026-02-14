@@ -67,6 +67,8 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
     tokens = Sublist(list(MarkdownIt("commonmark").enable("table").tree(lists).walk()))
     while (tokens := tokens.walk()) and (one(tokens).name != "table"):
         pass
+    if len(tokens.seq[tokens.idx].children) == 1:
+        return DataFrame(columns=["file", "status", "task", "text"], data=[])
     (head, body) = tokens.seq[tokens.idx].children
     return (
         DataFrame(
@@ -79,26 +81,10 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
         )
         .assign(**{
             col: lambda df, col=col: df[col].apply(join_nodes).astype("string[pyarrow]")
-            for col in [
-                "annotated",
-                "block_id",
-                "children",
-                "file",
-                "line_count",
-                "line",
-                "parent",
-                "section",
-                "status",
-                "tags",
-                "task",
-            ]
+            for col in ["file", "status", "task"]
         })
         .assign(
             **{
-                "outlinks": lambda df: df["outlinks"].apply(join_nodes),
-                "links": lambda df: df["text"].apply(
-                    lambda ser: [n.meta["url"] for n in ser if n.name == "link"]
-                ),
                 "text": lambda df: df["text"]
                 .apply(
                     lambda ser: "".join([
@@ -106,28 +92,19 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
                         if n.name == "text"
                         else (
                             n.children[0].meta.get("content", "")
-                            if n.name == "link"
+                            if len(n.children) and n.name == "link"
                             else ""
                         )
                         for n in ser
                     ])
                 )
-                .astype("string[pyarrow]"),
-            },
-            **{
-                col: (
-                    lambda df, col=col: df[col]
-                    .replace("", "0")
-                    .astype(int)
-                    .astype("int64[pyarrow]")
-                )
-                for col in ["line", "line_count"]
+                .astype("string[pyarrow]")
             },
             **{
                 col: lambda df, col=col: df[col]
                 .apply(lambda text: text.casefold() == "true")
                 .astype("bool[pyarrow]")
-                for col in ["annotated", "task"]
+                for col in ["task"]
             },
         )
     )
@@ -154,23 +131,28 @@ def invoke_obsidian_command(command: str):
 
 
 DATAVIEW_TABLE_COLUMNS = ",\n    ".join([
-    f"item.{to_camel(col)} as {col}"
-    for col in [
-        "annotated",
-        "block_id",
-        "children",
-        "line_count",
-        "line",
-        "link",
-        "outlinks",
-        "parent",
-        "section",
-        "status",
-        "tags",
-        "task",
-        "text",
-    ]
+    f"item.{to_camel(col)} as {col}" for col in ["status", "task", "text"]
 ])
+DATAVIEW_FROM_DIRS = " OR ".join(
+    f'"{d}"'
+    for d in [
+        "__plan",
+        "__reps",
+        "__to-do",
+        "_logs",
+        "_notes",
+        "_reviews",
+        "_timestamped",
+        "_logs",
+        "backups",
+        "code",
+        "events",
+        "grad",
+        # "jobs",
+        "people",
+        "personal",
+    ]
+)
 DATAVIEW_PUBLISHER_NOTE_CONTENT = f"""\
 ---
 tags:
@@ -182,7 +164,7 @@ tags:
 ```
 table
     {DATAVIEW_TABLE_COLUMNS}
-from -"_data"
+from {DATAVIEW_FROM_DIRS}
 flatten file.lists as item
 where contains(item.text, "🆔")
 ```

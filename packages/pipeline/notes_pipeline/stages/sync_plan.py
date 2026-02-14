@@ -33,16 +33,7 @@ def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
     (PARAMS.paths.data / "lists.csv").unlink(missing_ok=True)
     lists.to_csv(PARAMS.paths.data / "lists.csv", index=False)
     tasks = lists[lists.task & lists.text.str.contains(r"\s🆔\s", na=False)].assign(
-        link_text=lambda df: df.outlinks.str.extract(
-            r"^.+\|(?P<link_text>.+)\]\]</li></ul>$"
-        )["link_text"].astype(str),
-        text=lambda df: df.apply(
-            lambda row: row["text"].replace(
-                row["link_text"], rf"{row['link_text'].split(' 🆔')[0]}"
-            ),
-            axis="columns",
-        ),
-        done=lambda df: df.status == "x",
+        done=lambda df: df.status == "x"
     )
     # Advance to first "Plans" second-level heading
     idx = -1
