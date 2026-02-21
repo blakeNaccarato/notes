@@ -39,7 +39,7 @@ function Install-Uv {
     <#.SYNOPSIS
     Install `uv`.#>
     $Env:PATH = "$HOME/.cargo/bin$([System.IO.Path]::PathSeparator)$Env:PATH"
-    if (Get-Command 'uv' -ErrorAction 'Ignore') { return}
+    if (Get-Command 'uv' -ErrorAction 'Ignore') { return }
     if ($IsWindows) { Invoke-RestMethod 'https://astral.sh/uv/install.ps1' | Invoke-Expression }
     else { curl --proto '=https' --tlsv1.2 -LsSf 'https://astral.sh/uv/install.sh' | sh }
 }

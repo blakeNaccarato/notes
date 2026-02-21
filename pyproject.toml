@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core==3.9.0"]
-build-backend = "flit_core.buildapi"
+requires = ["uv_build==0.10.4"]
+build-backend = "uv_build"
 
 [project]
 name = "notes"
@@ -19,7 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "aiopath>=0.6.11",
-  "cappa>=0.22.4",
+  "cappa>=0.31.0",
   "loguru>=0.7.2",
   "markdown-it-py>=3.0.0",
   "marko>=2.1.2",
@@ -40,31 +40,15 @@ dependencies = [
   "typer>=0.9.0",
   "watchdog>=4.0.1",
 ]
-[project.urls]
-Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
-Docs = "https://blakeNaccarato.github.io/notes"
-Home = "https://github.com/blakeNaccarato/notes"
-Tracker = "https://github.com/blakeNaccarato/notes/issues"
-[[project.authors]]
-name = "Blake Naccarato"
-email = "blake.naccarato@gmail.com"
-[project.scripts]
-"notes" = "notes.__main__:main"
-
-[tool.uv]
-constraint-dependencies = [
-  # ? Security
-  # ? https://nvd.nist.gov/vuln/detail/CVE-2024-37891
-  # ? via sphinx
-  "urllib3>=2.2.2",
-]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   # ? Notebooks
   "markdown-it-pyrs>=0.4.0",
   # ? Workspaces
   "lookback",
   "notes_dev",
   "notes_pipeline",
+  "my_shortcuts",
   # ? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel==6.29.5",
   "pandas-stubs==2.2.3.*",
@@ -108,6 +92,25 @@ dev-dependencies = [
   "pytest==8.2.2",
   "ruff==0.13.3",
 ]
+
+[project.urls]
+Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
+Docs = "https://blakeNaccarato.github.io/notes"
+Home = "https://github.com/blakeNaccarato/notes"
+Tracker = "https://github.com/blakeNaccarato/notes/issues"
+[[project.authors]]
+name = "Blake Naccarato"
+email = "blake.naccarato@gmail.com"
+[project.scripts]
+"notes" = "notes.__main__:main"
+
+[tool.uv]
+constraint-dependencies = [
+  # ? Security
+  # ? https://nvd.nist.gov/vuln/detail/CVE-2024-37891
+  # ? via sphinx
+  "urllib3>=2.2.2",
+]
 [tool.uv.pip]
 python-version = "3.11"
 all-extras = true
@@ -115,6 +118,7 @@ all-extras = true
 members = ["packages/*"]
 exclude = ["packages/cachier", "packages/templater-obsidian"]
 [tool.uv.sources]
+my_shortcuts = { workspace = true }
 notes_dev = { workspace = true }
 notes_pipeline = { workspace = true }
 lookback = { workspace = true }
@@ -186,6 +190,7 @@ include = [
   "notebooks",
   "packages/_dev",
   "packages/_pipeline",
+  "packages/my_shortcuts",
   "scripts",
   "tests",
 ]
@@ -273,7 +278,7 @@ reportUnusedImport = "none"                    # Handled by Ruff
 reportUnusedFunction = "none"                  # Handled by Ruff
 reportUnusedVariable = "none"                  # Handled by Ruff
 reportUntypedBaseClass = "none"
-reportUntypedClassDecorator = "warning"
+reportUntypedClassDecorator = "none"           # Noisy
 reportUntypedFunctionDecorator = "none"        # Often out of our control
 reportUntypedNamedTuple = "warning"
 # Default "none" in strict
@@ -301,6 +306,7 @@ src = [
   "notebooks",
   "packages/_dev",
   "packages/_pipeline",
+  "packages/my_shortcuts",
   "scripts",
   "tests",
 ]
@@ -322,7 +328,8 @@ ignore = [
   "C408",    # Allow dict calls
   "COM",     # Allow magic commas and magic missing commas
   "CPY001",  # Don't check for copyright
-  "DOC",     # Don't require documented returns, yields, exceptions, etc. # TODO: Remove
+  "D101",    # Allow missing docstring for classes
+  "D103",    # Allow missing docstring for functions
   "D105",    # Allow missing docstring for magic methods
   "DTZ",     # Timezones are important, but only contextually necessary.
   "E501",    # Don't check line length. Black handles this.

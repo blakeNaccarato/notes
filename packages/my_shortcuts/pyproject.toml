@@ -1,0 +1,18 @@
+[build-system]
+requires = ["uv_build==0.10.4"]
+build-backend = "uv_build"
+[tool.uv.build-backend]
+module-root = "."
+
+[project]
+name = "my_shortcuts"
+version = "0.0.0"
+description = "My shortcuts"
+dependencies = ["cappa>=0.31.0", "keyboard>=0.13.5", "mouse>=0.7.1"]
+[project.scripts]
+"my-shortcuts" = "my_shortcuts.__main__:main"
+"my_shortcuts" = "my_shortcuts.__main__:main"
+
+[tool.fawltydeps]
+deps = ["packages/my_shortcuts/pyproject.toml"]
+code = ["packages/my_shortcuts"]

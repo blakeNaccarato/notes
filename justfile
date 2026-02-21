@@ -9,6 +9,8 @@ proj :=\
   '$Env:PATH = "$PWD;$PWD/scripts;$Env:PATH"; . dev.ps1;'
 dev :=\
   proj + sp + 'notes-dev'
+sc :=\
+  proj + sp + 'my-shortcuts'
 
 compiled_templates :=\
   'data/local/vaults/personal/_templater-scripts'
@@ -54,6 +56,9 @@ notes :=\
   vault + sp + 'iuv -m notes' # ? Omit `;` allows `notes` module continuation w/ `.`
 scripts :=\
   vault + sp + '. notes.ps1;'
+
+sc *args:
+  {{sc}} {{args}}
 
 [no-cd]
 copy-uri vault_path note_path selection:
