@@ -2,8 +2,10 @@ import type { Templater, TemplaterPlugin } from "./types";
 
 /**
  * Get to-do list.
+ *
+ * @param folder Get unfinished tasks in folder, or all tasks in file.
  */
-export default async (): Promise<string[]> => {
+export default async (folder = false): Promise<string[]> => {
   const tp = (
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
@@ -18,8 +20,7 @@ export default async (): Promise<string[]> => {
   const common = String.raw`group by function task.tags${
     tags ? String.raw`.filter( (tag) => !${tagsPat}.test(tag) )` : ""
   }.sort().join(" ") || "#Ω-other"
-( NOT done )\
-AND ( ( path REGEX MATCHES /^{{ query.file.folder }}.+\.md$/ )${
+${folder ? "( NOT done ) AND " : ""}( ( path REGEX MATCHES /^{{ query.file.${folder ? "folder }}.+.md" : "path }}"}$/ )${
     tagsPat || excludedTagsPat
       ? ` OR ( ( HAS tags )${tagsPat ? ` AND ( tag REGEX MATCHES ${tagsPat} )` : ""}${
           excludedTagsPat ? ` AND ( tag REGEX DOES NOT MATCH ${excludedTagsPat} )` : ""
