@@ -422,6 +422,7 @@ types-pytz==2025.2.0.20250326
 typing-extensions==4.12.2
 tzdata==2025.2
 uc-micro-py==1.0.3
+unidiff==0.7.5
 uritemplate==4.1.1
 urllib3==2.2.3
 uvicorn==0.34.1
