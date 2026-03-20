@@ -45,20 +45,6 @@
       "console": "internalConsole"
     },
     {
-      "name": "Python: WRITE",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${file}",
-      "console": "internalConsole"
-    },
-    {
-      "name": "Python: PREVIEW",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${file}",
-      "console": "internalConsole"
-    },
-    {
       "name": "Python: Current file with 1 arg",
       "type": "debugpy",
       "request": "launch",

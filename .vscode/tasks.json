@@ -42,6 +42,60 @@
       "type": "pickString",
       "description": "Change type.",
       "options": ["breaking", "deprecation", "change"]
+    },
+    {
+      "id": "args",
+      "description": "Recipe arguments",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "dependency",
+      "description": "Tree of packages requesting this dependency",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "email",
+      "description": "Email address associated with your GitHub account",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "change_type",
+      "type": "pickString",
+      "description": "Change type",
+      "options": ["breaking", "deprecation", "change"]
+    },
+    {
+      "id": "cmd",
+      "description": "",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "module",
+      "description": "",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "script",
+      "description": "",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "username",
+      "description": "GitHub username",
+      "type": "promptString",
+      "default": ""
+    },
+    {
+      "id": "version",
+      "description": "Version number",
+      "type": "promptString",
+      "default": ""
     }
   ],
   "tasks": [
@@ -154,123 +208,296 @@
       "command": "python -m notes_pipeline.models.params",
       "icon": { "id": "graph" }
     },
-    // * -------------------------------------------------------------------------- * //
-    // * PROJECT SETUP * //
+    //! VSCode startup
+    {
+      "label": "con ⚡👥 Contributor environment setup on folder open",
+      "command": "$Env:VSCODE_FOLDER_OPEN_TASK_RUNNING='1'; ./j.ps1 con",
+      "runOptions": { "runOn": "folderOpen" }
+    },
+    //* 🌐 Install
+    {
+      "label": "inst-all 🌐 Install VSCode, GitHub CLI, Git, Windows Terminal, and cross-platform PowerShell",
+      "command": "./j.ps1 inst-all"
+    },
+    {
+      "label": "inst-brew 🌐 Install Homebrew",
+      "command": "./j.ps1 inst-brew"
+    },
+    {
+      "label": "inst-code 🌐 Install VSCode",
+      "command": "./j.ps1 inst-code"
+    },
+    {
+      "label": "inst-gh 🌐 Install GitHub CLI",
+      "command": "./j.ps1 inst-gh"
+    },
+    {
+      "label": "inst-git 🌐 Install Git",
+      "command": "./j.ps1 inst-git"
+    },
+    {
+      "label": "inst-pwsh 🌐 Install cross-platform PowerShell, the shell used for all non-install recipes",
+      "command": "./j.ps1 inst-pwsh"
+    },
+    {
+      "label": "inst-snap 🌐 Install Snap",
+      "command": "./j.ps1 inst-snap"
+    },
+    {
+      "label": "inst-uv 🌐 Install a project version of uv if you've got global uv",
+      "command": "./j.ps1 inst-uv"
+    },
+    {
+      "label": "inst-wt 🌐 Install Windows Terminal",
+      "command": "./j.ps1 inst-wt"
+    },
 
+    //* ♾️  Self
     {
-      "label": "setup: Sync with template",
-      "command": ". ./dev.ps1 && Sync-Template ${input:templateOptions}",
-      "icon": { "id": "file-symlink-directory" }
+      "label": "list 📃 List recipes",
+      "command": "./j.ps1 list"
     },
     {
-      "label": "setup: Sync with specific template ref",
-      "command": ". ./dev.ps1 && Sync-Template ${input:ref} ${input:templateOptions}",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Sync contributor environment",
-      "runOptions": { "runOn": "folderOpen" },
-      "command": "if (!$Env:DEVCONTAINER) {./Invoke-Uv.ps1 -Sync}",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Initialize repository",
-      "command": ". ./dev.ps1 && Initialize-Repo",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Remove *.rej",
-      "command": "Get-ChildItem -Recurse -Filter *.rej | Remove-Item",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Initialize Windows machine",
-      "command": ". ./dev.ps1 && Initialize-Windows",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Initialize Linux/MacOS machine",
-      "command": "scripts/Initialize-LinuxMacOS.sh",
-      "icon": { "id": "file-symlink-directory" }
-    },
-    {
-      "label": "setup: Finish initializing machine (cross-platform)",
-      "command": ". ./dev.ps1 && Initialize-Machine",
-      "icon": { "id": "file-symlink-directory" }
+      "label": "just ♾️ Run Just recipes...",
+      "command": "./j.ps1 just ${input:args}"
     },
 
-    // * -------------------------------------------------------------------------- * //
-    // * OTHER TASKS * //
+    //* ⛰️ Environments
+    {
+      "label": "run 🏃 Run shell commands with uv synced...",
+      "command": "./j.ps1 run ${input:args}"
+    },
+    {
+      "label": "con 👥 Run recipes as a contributor...",
+      "command": "./j.ps1 con ${input:args}"
+    },
+    {
+      "label": "ci 🤖 Run recipes in CI...",
+      "command": "./j.ps1 ci ${input:args}"
+    },
+    {
+      "label": "devcontainer 📦 Run recipes in a devcontainer",
+      "command": "./j.ps1 devcontainer ${input:args}"
+    },
 
+    //* 🟣 uv
     {
-      "label": "task: pre-commit",
-      "command": "./Invoke-Uv.ps1 pre-commit run --verbose",
-      "icon": { "id": "git-commit" }
+      "label": "uv 🟣 uv ...",
+      "command": "./j.ps1 uv ${input:args}"
     },
     {
-      "label": "task: pre-commit (all)",
-      "command": "./Invoke-Uv.ps1 pre-commit run --all-files --verbose",
-      "icon": { "id": "git-commit" }
+      "label": "uv-run 🏃 uv run ...",
+      "command": "./j.ps1 uv-run ${input:args}"
     },
     {
-      "label": "task: Rebase back to fork",
-      "command": "git rebase -i --fork-point main",
-      "icon": { "id": "git-branch" }
+      "label": "uvx 🏃 uvx ...",
+      "command": "./j.ps1 uvx ${input:args}"
     },
     {
-      "label": "task: Show tree of packages requesting a dependency",
-      "command": "./Invoke-Uv.ps1 pipdeptree --reverse --packages ${input:dependency}",
-      "icon": { "id": "versions" }
+      "label": "uv-sync 🔃 uv sync ...",
+      "command": "./j.ps1 uv-sync ${input:args}"
     },
     {
-      "label": "task: Run pytest with coverage",
-      "command": "./Invoke-Uv.ps1 pytest --cov  --cov-config pyproject.toml --cov-report xml",
-      "icon": { "id": "check" }
+      "label": "uv-add ➕ Add Python package to pyproject.toml (uv add ...)",
+      "command": "./j.ps1 uv-add ${input:args}"
     },
     {
-      "label": "task: Run ruff",
-      "command": ". ./dev.ps1 && iuv ruff check . && iuv ruff format .",
-      "icon": { "id": "check" }
+      "label": "uv-remove ➖ Remove Python package from pyproject.toml (uv remove ...)",
+      "command": "./j.ps1 uv-remove ${input:args}"
     },
     {
-      "label": "task: Run pyright",
-      "command": "./Invoke-Uv.ps1 notes-dev elevate-pyright-warnings; try { ./Invoke-Uv.ps1 pyright } finally { Remove-Item pyrightconfig.json }",
-      "icon": { "id": "check" }
+      "label": "uv-re-add ➖➕ Re-add Python package to change version in pyproject.toml",
+      "command": "./j.ps1 uv-re-add ${input:args}"
+    },
+
+    //* 🐍 Python
+    {
+      "label": "py 🐍 uv run python ...",
+      "command": "./j.ps1 py ${input:args}"
     },
     {
-      "label": "task: Build docs",
-      "command": "./Invoke-Uv.ps1 notes-dev build-docs",
-      "icon": { "id": "book" }
+      "label": "py-module 📦 uv run --module ...",
+      "command": "./j.ps1 py-module ${input:module} ${input:args}"
     },
     {
-      "label": "task: Profile this file",
-      "command": "./Invoke-Uv.ps1 cProfile -o .prof ${file}",
-      "icon": { "id": "graph-line" }
+      "label": "py-command 🏃 uv run python -c '...'",
+      "command": "./j.ps1 py-command ${input:cmd}"
     },
     {
-      "label": "task: View profile results with snakeviz",
-      "command": "./Invoke-Uv.ps1 snakeviz .prof",
-      "icon": { "id": "graph-line" }
+      "label": "py-script 📄 uv run --script ...",
+      "command": "./j.ps1 py-script ${input:script} ${input:args}"
     },
     {
-      "label": "task: Bump version",
-      "command": ". ./dev.ps1 && uvx copier@9.2.0 update --vcs-ref=HEAD --defaults --data project_version='${input:version}' && iuv towncrier build --yes --version '${input:version}' && git add . && git commit -m '${input:version}'",
-      "icon": { "id": "tag" }
+      "label": "py-gui 📺 uv run --gui-script ...",
+      "command": "./j.ps1 py-gui ${input:script} ${input:args}"
+    },
+
+    //* ⚙️  Tools
+    {
+      "label": "tool-pytest 🧪 pytest ...",
+      "command": "./j.ps1 tool-pytest ${input:args}"
     },
     {
-      "label": "task: Release version",
-      "command": "./Invoke-Uv.ps1 && ($version = (Get-Content '.copier-answers.yml' | Select-String -Pattern '^project_version:\\s(.+)$').Matches.Groups[1].value && git tag --sign -m $version $version && git push && gh release create --discussion-category='announcements' --notes='' --title=$version --verify-tag $version)",
-      "icon": { "id": "tag" }
+      "label": "tool-pytest-fast 🧪 pytest fast (pytest -m 'not slow' ...)",
+      "command": "./j.ps1 tool-pytest ${input:args}"
     },
     {
-      "label": "task: Update changelog",
-      "command": "./Invoke-Uv.ps1 python -m notes-dev add-change ${input:changeType}",
-      "icon": { "id": "tag" }
+      "label": "tool-docs-preview 📖 preview docs",
+      "command": "./j.ps1 tool-docs-preview"
     },
     {
-      "label": "task: Update changelog with the latest commit's message",
-      "command": "./Invoke-Uv.ps1 towncrier create +$((Get-Date).ToUniversalTime().ToString('o').Replace(':','-')).change.md --content $($(git log -1 --format='%s') + ' ([' + $(git rev-parse --short HEAD) + '](https://github.com/blakeNaccarato/notes/commit/' + $(git rev-parse HEAD) + '))\n')",
-      "icon": { "id": "tag" }
+      "label": "tool-docs-build 📖 build docs",
+      "command": "./j.ps1 tool-docs-build"
+    },
+    {
+      "label": "tool-prek 🔵 prek run ...",
+      "command": "./j.ps1 tool-prek ${input:args}"
+    },
+    {
+      "label": "tool-prek ⚡🔵 prek run",
+      "command": "./j.ps1 tool-prek"
+    },
+    {
+      "label": "tool-prek-all 🔵 prek run --all-files ...",
+      "command": "./j.ps1 tool-prek-all ${input:args}"
+    },
+    {
+      "label": "tool-prek-all ⚡🔵 prek run --all-files",
+      "command": "./j.ps1 tool-prek-all"
+    },
+    {
+      "label": "tool-check-clean ✔️ Check that the working tree is clean",
+      "command": "./j.ps1 tool-check-clean"
+    },
+    {
+      "label": "tool-fawltydeps ✔️ fawltydeps ...",
+      "command": "./j.ps1 tool-fawltydeps ${input:args}"
+    },
+    {
+      "label": "tool-ruff ✔️ ruff check ... '.'",
+      "command": "./j.ps1 tool-ruff ${input:args}"
+    },
+    {
+      "label": "tool-ty ✔️ ty",
+      "command": "./j.ps1 tool-ty"
+    },
+
+    //* 📦 Packaging
+    {
+      "label": "pkg-build 🛞 Build wheel, compile binary, and sign...",
+      "command": "./j.ps1 pkg-build ${input:args}"
+    },
+    {
+      "label": "pkg-build-changelog 📜 Build changelog for new version",
+      "command": "./j.ps1 pkg-build-changelog ${input:version}"
+    },
+    {
+      "label": "pkg-release ✨ Release the current version",
+      "command": "./j.ps1 pkg-release"
+    },
+
+    //* 👥 Contributor environment setup
+    {
+      "label": "con-git-submodules 👥 Update Git submodules",
+      "command": "./j.ps1 con-git-submodules"
+    },
+    {
+      "label": "con-prek-hooks 👥 Install prek hooks",
+      "command": "./j.ps1 con-prek-hooks"
+    },
+    {
+      "label": "con-norm-line-endings 👥 Normalize line endings",
+      "command": "./j.ps1 con-norm-line-endings"
+    },
+    {
+      "label": "con-dev 👥 Run dev task...",
+      "command": "./j.ps1 con-dev ${input:args}"
+    },
+    {
+      "label": "con-update-changelog 👥 Update changelog...",
+      "command": "./j.ps1 con-update-changelog ${input:change_type}"
+    },
+    {
+      "label": "con-update-changelog-latest-commit 👥 Update changelog with the latest commit's message",
+      "command": "./j.ps1 con-update-changelog-latest-commit"
+    },
+
+    //* 📤 CI Output
+    {
+      "label": "ci-out-latest-release 🏷️ Set CI output to latest release",
+      "command": "./j.ps1 ci-out-latest-release"
+    },
+
+    //* 🧩 Templating
+    {
+      "label": "templ-update ⬆️ Update from template",
+      "command": "./j.ps1 templ-update"
+    },
+    {
+      "label": "templ-update-prompt ⬆️ Update from template (prompt)",
+      "command": "./j.ps1 templ-update-prompt"
+    },
+    {
+      "label": "templ-sync 🔃 Sync with current template",
+      "command": "./j.ps1 templ-sync"
+    },
+    {
+      "label": "templ-sync-prompt 🔃 Sync with current template (prompt)",
+      "command": "./j.ps1 templ-sync-prompt"
+    },
+    {
+      "label": "templ-recopy ➡️ Recopy current template",
+      "command": "./j.ps1 templ-recopy"
+    },
+    {
+      "label": "templ-recopy-prompt ➡️ Recopy current template (prompt)",
+      "command": "./j.ps1 templ-recopy-prompt"
+    },
+
+    //* 🛠️ Repository setup
+    {
+      "label": "repo-init 🥾 Initialize repository",
+      "command": "./j.ps1 repo-init"
+    },
+
+    //* 💻 Machine setup
+    {
+      "label": "setup-git 👤 Set Git username and email",
+      "command": "./j.ps1 setup-git ${input:username} ${input:email}"
+    },
+    {
+      "label": "setup-git-recs 👤 Configure Git as recommended",
+      "command": "./j.ps1 setup-git-recs"
+    },
+    {
+      "label": "setup-gh 🔑 Log in to GitHub API",
+      "command": "./j.ps1 setup-gh"
+    },
+    {
+      "label": "setup-scripts 🔓 Allow running local PowerShell scripts",
+      "command": "./j.ps1 setup-scripts"
+    },
+
+    //TODO
+    {
+      "label": "todo ⚠️ Remove *.rej",
+      "command": "Get-ChildItem -Recurse -Filter *.rej | Remove-Item"
+    },
+    {
+      "label": "todo ⚠️ Rebase back to fork",
+      "command": "git rebase -i --fork-point main"
+    },
+    {
+      "label": "todo ⚠️ Show tree of packages requesting a dependency",
+      "command": "./j.ps1 uv-run pipdeptree --reverse --packages ${input:dependency}"
+    },
+    {
+      "label": "todo ⚠️ Profile this file",
+      "command": "./j.ps1 uv-run cProfile -o .prof ${file}"
+    },
+    {
+      "label": "todo ⚠️ View profile results with snakeviz",
+      "command": "./j.ps1 uv-run snakeviz .prof"
     }
   ]
 }

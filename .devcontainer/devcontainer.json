@@ -1,6 +1,6 @@
 {
   "name": "devcontainer",
-  "image": "mcr.microsoft.com/devcontainers/base:1.1.2-ubuntu-22.04",
+  "image": "mcr.microsoft.com/devcontainers/base:1.1.2-ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers/features/powershell:1.4.0": {
       "version": "7.4.1"
@@ -37,13 +37,8 @@
       "settings": {
         "notebook.experimental.remoteSave": true,
         "python.experiments.enabled": true,
-        "python.experiments.optInto": [
-          "pythonDiscoveryUsingWorkers",
-          "pythonREPLSmartSend",
-          "pythonTestAdapter",
-          "pythonTerminalEnvVarActivation"
-        ],
-        // ? Not picked up in workspace settings in Codespaces
+        "python.experiments.optInto": ["pythonTestAdapter"],
+        //? Not picked up in workspace settings in Codespaces
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff",
           "editor.wordWrap": "off"
@@ -55,7 +50,7 @@
       },
       "extensions": [
         "aaron-bond.better-comments@3.0.2",
-        "bierner.markdown-mermaid@1.23.1",
+        "astral-sh.ty@2026.28.0",
         "bierner.markdown-preview-github-styles@2.0.4",
         "charliermarsh.ruff@2024.30.0",
         "davidanson.vscode-markdownlint@0.55.0",

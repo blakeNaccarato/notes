@@ -10,52 +10,78 @@
     "workarounds:all"
   ],
   "dependencyDashboardApproval": true,
-  "lockFileMaintenance": { "enabled": true },
+  "recreateWhen": "never",
   "separateMajorMinor": false,
+  "lockFileMaintenance": { "enabled": true },
   "git-submodules": { "enabled": true },
-  "pre-commit": { "enabled": true },
   "enabledManagers": [
     "custom.regex",
     "devcontainer",
     "git-submodules",
     "github-actions",
-    "pep621",
-    "pre-commit"
+    "pep621"
   ],
+  "pep621": { "rangeStrategy": "bump" },
   "customManagers": [
+    {
+      "description": "copier",
+      "customType": "regex",
+      "datasourceTemplate": "pypi",
+      "depNameTemplate": "copier",
+      "managerFilePatterns": [
+        "^env\\.json$",
+        "^\\.github/workflows/env\\.yml$",
+        "^\\.vscode/settings\\.json$"
+      ],
+      "matchStrings": [
+        "^\\s+\"COPIER_VERSION\": \"(?<currentValue>[^\"]+)\",?$",
+        "^\\s+copier_version: { value: \"(?<currentValue>[^\"]+)\" }$"
+      ]
+    },
+    {
+      "description": "just",
+      "customType": "regex",
+      "datasourceTemplate": "pypi",
+      "depNameTemplate": "rust-just",
+      "managerFilePatterns": [
+        "^env\\.json$",
+        "^\\.github/workflows/env\\.yml$",
+        "^\\.vscode/settings\\.json$"
+      ],
+      "matchStrings": [
+        "^\\s+\"JUST_VERSION\": \"(?<currentValue>[^\"]+)\",?$",
+        "^\\s+just_version: { value: \"(?<currentValue>[^\"]+)\" }$"
+      ]
+    },
+    {
+      "description": "python",
+      "customType": "regex",
+      "datasourceTemplate": "python-version",
+      "depNameTemplate": "python",
+      "managerFilePatterns": [
+        "^env\\.json$",
+        "^\\.github/workflows/env\\.yml$",
+        "^\\.vscode/settings\\.json$"
+      ],
+      "matchStrings": [
+        "^\\s+\"PYTHON_VERSION\": \"(?<currentValue>[^\"]+)\",?$",
+        "^\\s+python_version: { value: \"(?<currentValue>[^\"]+)\" }$"
+      ]
+    },
     {
       "description": "uv",
       "customType": "regex",
-      "fileMatch": ["^\\.uv-version$"],
-      "matchStrings": ["(?<currentValue>[^\\n]+)"],
       "datasourceTemplate": "github-releases",
-      "depNameTemplate": "astral-sh/uv"
-    },
-    {
-      "description": "uv-gha",
-      "customType": "regex",
-      "fileMatch": ["^\\.github/workflows/.*$"],
-      "matchStrings": [
-        "- uses: \"astral-sh/setup-uv@.+\\n\\s+with:\\n\\s+version: \"(?<currentValue>.+)\""
+      "depNameTemplate": "astral-sh/uv",
+      "managerFilePatterns": [
+        "^env\\.json$",
+        "^\\.github/workflows/env\\.yml$",
+        "^\\.vscode/settings\\.json$"
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "astral-sh/uv"
-    },
-    {
-      "description": "Copier",
-      "customType": "regex",
-      "fileMatch": ["^\\.copier-version$"],
-      "matchStrings": ["(?<currentValue>[^\\n]+)"],
-      "datasourceTemplate": "pypi",
-      "depNameTemplate": "copier"
-    },
-    {
-      "description": "Pylance",
-      "customType": "regex",
-      "fileMatch": ["^\\.pylance-version$"],
-      "matchStrings": ["(?<currentValue>[^\\n]+)"],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "microsoft/pylance-release"
+      "matchStrings": [
+        "^\\s+\"UV_VERSION\": \"(?<currentValue>[^\"]+)\",?$",
+        "^\\s+uv_version: { value: \"(?<currentValue>[^\"]+)\" }$"
+      ]
     }
   ],
   "packageRules": [
@@ -67,7 +93,7 @@
     {
       "description": "Update regex pins separately",
       "groupName": "regex",
-      "matchManagers": ["regex"]
+      "matchManagers": ["custom.regex"]
     },
     {
       "description": "Update `.devcontainer` updates separately for manual testing",

@@ -7,3 +7,5 @@ data/**/.*
 *.ipynb
 #? Markdownlint handles this
 *.md
+#? Generated workflow
+.github/workflows/env.yml

@@ -163,9 +163,9 @@ bibtex_bibfiles = dpaths(BIB_TEMPLATE, BIB)
 bibtex_reference_style = "label"
 bibtex_default_style = "unsrt"
 # ! NB
+nb_execution_excludepatterns = ["concurrency-in-python/**"]
 nb_execution_mode = "cache"
 nb_execution_raise_on_error = True
-nb_execution_excludepatterns = ["concurrency-in-python/**"]
 # ! Other
 numfig = True
 math_eqref_format = "Eq. {number}"

@@ -6,20 +6,26 @@ params_schema.json
 dvc_plots
 *.ipynb.*
 
-# * -------------------------------------------------------------------------------- * #
-# * Template gitignore
+#* ---------------------------------------------------------------------------------- *#
+#* Template gitignore
 
-# Ignore local uv
-uv
-uv.exe
-uvx
-uvx.exe
-# Ignore local dev environment settings
+# Local uv
+/uv
+/uv.previous
+/uv.exe
+/uv.exe.previous.exe
+/uvx
+/uv.previous
+/uvx.exe
+/uv.exe.previous.exe
+# Logs
+log.jsonl
+# Dummy files for testing recipes
+.dummy*
+# Local dev environment settings
 *.env
 # local workspace extensions directory
 .vscode/extensions
-# uv binary
-bin
 # Locally-compiled dependencies
 .comps
 # Ignore `.ruff-cache` just in case, and to grey it out in the sidebar
@@ -34,29 +40,29 @@ pytest.ini
 *.rej
 # Don't commit code workspace files, which might be symlinked here
 *.code-workspace
-# Avoid committing local docs builds for previewing
+# Local docs builds
 _build/
 _site/
 # If using Google Cloud Platform Workload Identity Federation, avoid committing keys
 # Ignore generated credentials from google-github-actions/auth
 gha-creds-*.json
 
-# * -------------------------------------------------------------------------------- * #
-# * Node (partial)
-# * https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore
+#* ---------------------------------------------------------------------------------- *#
+#* Node (partial)
+#* https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore
 
 # NPM/Node.JS because of Pyright CI/CD dependency
 node_modules/
 
-# * -------------------------------------------------------------------------------- * #
-# * MyST-NB
+#* ---------------------------------------------------------------------------------- *#
+#* MyST-NB
 
 jupyter_execute
 .jupyter_cache
 
-# * -------------------------------------------------------------------------------- * #
-# * Python
-# * https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
+#* ---------------------------------------------------------------------------------- *#
+#* Python
+#* https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

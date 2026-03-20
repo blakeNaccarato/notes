@@ -6,10 +6,9 @@ Centralized repository of my Obsidian vaults and shared tooling..
 
 :::{toctree}
 :hidden:
-2024-11-12T14-25-57-set-up-amsl-obsidian-vault
 contributing
 changelog
 contributors
-apidocs/index$$
+apidocs/index
 references
 :::
