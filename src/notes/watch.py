@@ -15,7 +15,7 @@ INPUT_FILES = [path for path in WATCH_DIR.glob("*.json") if path.stem != "librar
 OUTPUT_FILE = WATCH_DIR / "libraries.json"
 
 
-def main():  # noqa: D103
+def main():
     with DirWatcher(WATCH_DIR, on_modified, INTERVAL) as watcher:
         logger.info(
             f"Watching for changes in {[file.name for file in INPUT_FILES]}."

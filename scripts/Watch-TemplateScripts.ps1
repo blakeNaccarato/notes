@@ -1,6 +1,6 @@
 <#.SYNOPSIS
 Watch changed files.#>
-. dev.ps1
+. ./j.ps1
 $VerbosePreference = 'Continue'
 Write-Verbose 'START PROBLEM MATCHER'
 $TemplateDir = 'data/local/vaults/personal/_templater-scripts'
@@ -27,6 +27,6 @@ if (!$Paths.Count) {
     Write-Verbose 'STOP PROBLEM MATCHER'
     return
 }
-$Paths | Format-TemplateScript.ps1
+& "$PSScriptRoot/Format-TemplateScript.ps1" $Paths
 Write-Debug 'Formatted template scripts'
 Write-Verbose 'STOP PROBLEM MATCHER'

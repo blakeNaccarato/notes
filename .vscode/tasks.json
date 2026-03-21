@@ -104,7 +104,7 @@
       "runOptions": { "runOn": "folderOpen" },
       "presentation": { "group": "background" },
       "icon": { "id": "beaker" },
-      "command": "uvx --from rust-just just watch-src-and-tests",
+      "command": "./j.ps1 proj::watch-src-and-tests",
       "group": { "kind": "test", "isDefault": true },
       "isBackground": true,
       "problemMatcher": [
@@ -148,7 +148,7 @@
       "runOptions": { "runOn": "folderOpen" },
       "presentation": { "group": "background" },
       "icon": { "id": "edit" },
-      "command": "uvx --from rust-just just watch-templates",
+      "command": "./j.ps1 proj::watch-templates",
       "isBackground": true,
       "problemMatcher": [
         {

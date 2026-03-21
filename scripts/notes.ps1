@@ -213,6 +213,5 @@ function Start-PythonProcess {
         }
         Remove-Item $Path
     }
-    $Process = Start-Process -PassThru -NoNewWindow 'pwsh' -ArgumentList '-Command', ". Invoke-Uv.ps1 -m $Module"
-    $Process.Id | Out-File $Path
+    $Process = Start-Process -PassThru -NoNewWindow 'pwsh' -ArgumentList '-Command', "uv run --module $Module"
 }
