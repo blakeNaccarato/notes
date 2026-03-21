@@ -1,4 +1,5 @@
 *
-!*.gitignore
 !*.dvcignore
 !*.dvc
+!*.gitignore
+!deprecated
