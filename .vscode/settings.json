@@ -216,9 +216,14 @@
   //* Jupyter Notebooks
   "jupyter.notebookFileRoot": "${workspaceFolder}",
   "jupyter.showVariableViewWhenDebugging": true,
+  //* Marimo
+  "marimo.disableUvIntegration": true,
+  "marimo.telemetry": false,
   //* MyST
   "myst.preview.extensions": ["colon_fence", "dollarmath"],
   //* Python
+  "python.createEnvironment.contentButton": "hide",
+  "python.createEnvironment.trigger": "off",
   "python.terminal.activateEnvInCurrentTerminal": false,
   "python.terminal.activateEnvironment": false,
   //* Pylance
@@ -260,7 +265,6 @@
   "python.analysis.packageIndexDepths": [
     { "name": "", "depth": 16, "includeAllSymbols": true }
   ],
-
   //* PowerShell
   "powershell.startAutomatically": false,
   "powershell.promptToUpdatePowerShell": false,

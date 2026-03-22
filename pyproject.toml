@@ -11,7 +11,6 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.11"
 classifiers = [
-  "License :: OSI Approved :: MIT License",
   #? Also in CI (https://github.com/actions/python-versions/releases)
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -49,7 +48,6 @@ dev = [
   "watchfiles==1.0.5",
   "pytest-instafail==0.5.0",
   "pytest-testmon==2.1.3",
-
   # ? Notebooks
   "markdown-it-pyrs>=0.4.0",
   #? Dev
@@ -57,14 +55,14 @@ dev = [
   "fawltydeps>=0.18.0",
   "pipdeptree>=2.23.0",
   "prek>=0.3.6",
-  "ruff>=0.9.3",
+  "ruff==0.15.6",
   "snakeviz>=2.2.0",
   "sourcery>=1.32.0",
-  "ty>=0.0.24",
+  "ty==0.0.23",
   #? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel>=6.29.5",
-  "pandas-stubs==2.2.3.*",
-  "pandas>=2.2.3",
+  "pandas-stubs>=2.2.3.250527",
+  "pandas>=3.0.1",
   "pyarrow>=17.0.0",
   "pyspark>=3.5.5",
   #? Docs

@@ -5,14 +5,33 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from functools import cached_property
 from re import search
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, ParamSpec, Protocol, TypeVar
 
-from pandas import DataFrame
+from pandas import DataFrame, Series
 from pint import UnitRegistry
 from pydantic import BaseModel
 
-from pipeline_helper.models.column import types
-from pipeline_helper.models.column.types import P, Ps, R, SupportsMul_T
+
+class SupportsMul(Protocol):
+    """Protocol for types that support multiplication."""
+
+    def __mul__(self, other: Any) -> Any: ...
+
+
+SupportsMul_T = TypeVar("SupportsMul_T", bound=SupportsMul)
+"""Type that supports multiplication."""
+P = TypeVar("P", contravariant=True)
+"""Contravariant type to represent parameters."""
+R = TypeVar("R", covariant=True)
+"""Covariant type to represent returns."""
+Ps = ParamSpec("Ps")
+"""Parameter type specification."""
+
+
+class TransformProto(Protocol[P, R, Ps]):
+    def __call__(
+        self, v: P, src: Col, dst: Col, /, *args: Ps.args, **kwds: Ps.kwargs
+    ) -> R: ...
 
 
 class Parts(NamedTuple):
@@ -146,7 +165,7 @@ def transform(
     v: P,
     src: Col,
     dst: Col,
-    f: types.Transform[P, R, Ps],
+    f: TransformProto[P, R, Ps],
     /,
     *args: Ps.args,
     **kwds: Ps.kwargs,
@@ -157,14 +176,26 @@ def transform(
 
 def scale(v: SupportsMul_T, s: SupportsMul_T, src: Col, dst: Col) -> SupportsMul_T:
     """Scale."""
-    return transform(v, src, dst, lambda v, src, dst: v * s)
+
+    def _scale(
+        v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs
+    ) -> SupportsMul_T:
+        return v * s
+
+    return transform(v, src, dst, _scale)
+
+
+def _identity(
+    v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs
+):
+    return v
 
 
 @dataclass
 class Transform:
     """Column transformer."""
 
-    f: types.Transform[Any, Any, Any] = lambda v, _src, _dst: v
+    f: TransformProto[Any, Any, Any] = _identity
     args: tuple[Any] = field(default_factory=tuple)
     kwds: dict[str, Any] = field(default_factory=dict)
 
@@ -179,9 +210,9 @@ class LinkedCol(Col):
         """Rename this column."""
         return df.rename(columns={self.source.raw: self()})
 
-    def convert(self, df: DataFrame, ureg: UnitRegistry) -> DataFrame:
+    def convert(self, df: DataFrame, ureg: UnitRegistry) -> Series:
         """Convert this column."""
-        return ureg.convert(df[[self.source()]], self.source.unit, self.unit)
+        return ureg.convert(df[self.source()], self.source.unit, self.unit)
 
 
 @dataclass
