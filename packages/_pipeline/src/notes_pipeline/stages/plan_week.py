@@ -61,14 +61,6 @@ def get_plan(match: Match[str], plans: Iterable[str]) -> str:
 
 
 @app.function
-def get_days(priority: Series, days: dict[str, str]) -> Series:
-    day_ = priority.astype(str)
-    for day, priority_ in days.items():
-        day_ = day_.replace(priority_, day)
-    return day_.astype(CategoricalDtype(ordered=True, categories=list(days)))
-
-
-@app.function
 def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
     return df.assign(
         **df["text"].str.extract(
@@ -82,7 +74,7 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
                 r"(?P<id_tok>\s*🆔\s*)",
                 r"(?P<id>[^\s]+)",
                 r"\s*",
-                rf"(?P<priority>[{''.join(priorities)}])",
+                rf"(?P<priority>[{''.join(priorities)}]?)",
                 r"(?P<rest>.*)",
                 r"$",
             ])
@@ -110,13 +102,27 @@ def get_plans(tasks: DataFrame) -> DataFrame:
     ]
 
 
+@app.function
+def get_days(priority: Series, days: dict[str, str]) -> Series:
+    day_ = priority.astype(str)
+    for day, priority_ in days.items():
+        day_ = day_.replace(priority_, day)
+    return day_.astype(CategoricalDtype(ordered=True, categories=list(days)))
+
+
 @app.cell
 def _():
-    priorities = ["🔺", "⏫", "🔼", "🔽", "⏬"]
-    _days = [day_name[(datetime.today() + timedelta(days=i)).weekday()] for i in range(7)]
-    days = {
-        _days[i]: priorities[j] for i, j in {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 4}.items()
-    }
+    priorities = ["", "🔺", "⏫", "🔼", "🔽", "⏬"]
+    days = dict(
+        zip(
+            [
+                day_name[(datetime.today() + timedelta(days=i)).weekday()]
+                for i, _ in enumerate(priorities)
+            ],
+            priorities,
+            strict=True,
+        )
+    )
     tasks = (
         DataFrame(
             columns=[
@@ -159,9 +165,9 @@ def _():
             .str.strip(),
             "entry": "[" + col("task") + "](" + col("path") + ")",
             "done": col("status") == "x",
-            "priority": col("priority").astype(
-                CategoricalDtype(ordered=True, categories=priorities)
-            ),
+            "priority": col("priority")
+            .fillna("")
+            .astype(CategoricalDtype(ordered=True, categories=priorities)),
             "day": col("priority").pipe(get_days, days),
         })
         .pipe(get_plans)
@@ -177,8 +183,7 @@ def _(tasks):
     ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
     """ + "".join(
         (
-            tasks
-            .set_index("day")[["entry"]]
+            tasks.set_index("day")[["entry"]]
             .groupby("day")
             .agg(
                 lambda ser: (
@@ -203,9 +208,10 @@ def _(tasks):
             )
         )["entry"].tolist()
     )
-    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(encoding="utf-8", data=week_plan)
+    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(
+        encoding="utf-8", data=week_plan
+    )
     mo.md(week_plan)
-    return
 
 
 @app.cell
@@ -230,7 +236,9 @@ def _(plans, tasks):
         "This week": Plan(START_OF_DAY - timedelta(days=7), "Reprioritize"),
         "Reprioritize": Plan(min_datetime, ""),
     }
-    PLAN_PAT = r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
+    PLAN_PAT = (
+        r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
+    )
     last_seen: dict[str, datetime] = {
         k: datetime.fromisoformat(v)
         for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
@@ -247,9 +255,9 @@ def _(plans, tasks):
             if (
                 False  # noqa: SIM223 # TODO: Reimplement done filter
                 and not (
-                    matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
-                        ["text", "done"]
-                    ]
+                    matches := tasks[
+                        tasks.text.str.contains(rf"\s🆔 {item}", na=False)
+                    ][["text", "done"]]
                 ).empty
                 and all(matches.done)
             ):
@@ -278,7 +286,6 @@ def _(plans, tasks):
                 ", ".join([f"🆔 {i}" for i in match["items"].split(",")])
             kind.match = match
     kinds
-    return
 
 
 if __name__ == "__main__":
