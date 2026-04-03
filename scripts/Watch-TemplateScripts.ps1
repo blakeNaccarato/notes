@@ -27,6 +27,7 @@ if (!$Paths.Count) {
     Write-Verbose 'STOP PROBLEM MATCHER'
     return
 }
-& "$PSScriptRoot/Format-TemplateScript.ps1" $Paths
+Write-Host $Paths
+$Paths | & "$PSScriptRoot/Format-TemplateScript.ps1"
 Write-Debug 'Formatted template scripts'
 Write-Verbose 'STOP PROBLEM MATCHER'

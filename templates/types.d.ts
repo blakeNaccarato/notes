@@ -19,13 +19,16 @@ export interface Templater {
       getDatetimeFmt: (typeof import("./getDatetimeFmt"))["default"];
       getEntry: (typeof import("./getEntry"))["default"];
       getEntryGroups: (typeof import("./getEntryGroups"))["default"];
+      getEntryMatch: (typeof import("./getEntryMatch"))["default"];
       getEntryId: (typeof import("./getEntryId"))["default"];
       getExpenses: (typeof import("./getExpenses"))["default"];
       getFilenameDatetimeFmt: (typeof import("./getFilenameDatetimeFmt"))["default"];
       getSelOrClip: (typeof import("./getSelOrClip"))["default"];
+      getTasks: (typeof import("./getTasks"))["default"];
       getTimeFmt: (typeof import("./getTimeFmt"))["default"];
       getToDo: (typeof import("./getToDo"))["default"];
       invokedFromTemplaterCreate: (typeof import("./invokedFromTemplaterCreate"))["default"];
+      taskBlock: (typeof import("./taskBlock"))["default"];
       testUserTemplates: (typeof import("./testUserTemplates"))["default"];
     };
     file: {

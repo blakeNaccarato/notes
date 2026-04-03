@@ -1,9 +1,12 @@
 <#.SYNOPSIS
 Format template scripts.#>
-Param([Parameter(Mandatory, ValueFromPipeline)][string]$Path)
-Begin { . ./j.ps1 }
-Process {
+param([Parameter(ValueFromPipeline)][string[]]$Path)
+begin { . ./j.ps1 }
+process {
     $Content = (prettier $Path) | Out-String
-    $NewContent = $Content -Replace '(?m)^"use strict";[\r\n]+' -Replace '(?m)^Object\.defineProperty\(exports, "__esModule", \{ value: true \}\);[\r\n]+'
+    $NewContent = $Content -replace
+        '(?m)^"use strict";[\r\n]+' -replace
+        '(?m)^Object\.defineProperty\(exports, "__esModule", \{ value: true \}\);[\r\n]+' -replace
+        '(?m)^// @ts-nocheck[\r\n]+'
     if ($NewContent -ne $Content) { $NewContent | Out-File $_ -NoNewline }
 }

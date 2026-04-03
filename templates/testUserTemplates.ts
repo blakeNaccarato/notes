@@ -18,11 +18,15 @@ export default async (): Promise<void> => {
   user.getDateFmt();
   user.getDatetimeFmt();
   user.getEntry();
+  user.getEntryGroups();
   user.getEntryId();
+  user.getEntryMatch();
   user.getExpenses();
   user.getFilenameDatetimeFmt();
   user.getSelOrClip();
+  user.getTasks("zzzzzz");
   user.getTimeFmt();
   user.getToDo();
   user.invokedFromTemplaterCreate();
+  user.taskBlock("");
 };

@@ -1,14 +1,10 @@
 {
   //! Terminal
-  //? Use PowerShell on all platforms, facilitates running template scripts
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.windows": "PowerShell", //? Use PowerShell on all platforms, facilitates running template scripts
   "terminal.integrated.defaultProfile.linux": "pwsh",
   "terminal.integrated.defaultProfile.osx": "pwsh",
   //! File excludes
   "files.exclude": {
-    //? Ignore this large file
-    "data/lists.md": true,
-    //? Python
     "**/__pycache__": true,
     "**/.cache": true,
     "**/.jupyter_cache": true,
@@ -16,8 +12,7 @@
   },
   "search.exclude": {
     "uv.lock": true,
-    //? Obsidian templater
-    "packages/templater-obsidian/**": true
+    "packages/templater-obsidian/**": true //? Obsidian templater
   },
   //! File nesting
   "explorer.sortOrder": "foldersNestsFiles",
@@ -73,10 +68,7 @@
   },
   "python.analysis.fixAll": ["source.convertImportFormat", "source.unusedImports"],
   //! TypeScript/JavaScript
-  //? `enableProjectDiagnostics` currently kinda buggy
-  //? Need `!node_modules` in Problems filter, but it chugs still
-  //? https://github.com/microsoft/TypeScript/issues/36664
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false, //TODO: Fixed? `enableProjectDiagnostics` currently kinda buggy, need `!node_modules` in Problems filter, but it chugs still. Canary (fixed?): https://github.com/microsoft/TypeScript/issues/36664
   "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
   "javascript.inlayHints.parameterNames.enabled": "all",
   "javascript.inlayHints.parameterTypes.enabled": true,
@@ -185,7 +177,7 @@
     },
     {
       "tag": "*",
-      "color": "#98C379",
+      "color": "#789359",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
