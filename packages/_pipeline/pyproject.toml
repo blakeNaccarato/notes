@@ -7,12 +7,13 @@ name = "notes-pipeline"
 version = "0.0.0"
 description = "Data pipeline"
 dependencies = [
-    "astroid>=3.3.1",
-    "cappa>=0.22.4",
-    "marimo[lsp,recommended]>=0.21.1",
-    "pandas>=3.0.1",
-    "pandas-stubs>=2.2.3.250527",
-    "pydantic>=2.9.1",
+  "astroid>=3.3.1",
+  "cappa>=0.22.4",
+  "marimo[lsp,sql]>=0.22.4",
+  "altair>=5.4.0",
+  "pandas>=3.0.1",
+  "pandas-stubs>=2.2.3.250527",
+  "pydantic>=2.9.1",
 ]
 [project.scripts]
 "copier-pipeline-pipeline" = "copier_pipeline_pipeline.__main__:main"
@@ -20,11 +21,7 @@ dependencies = [
 [tool.fawltydeps]
 deps = ["packages/_pipeline/pyproject.toml"]
 code = ["packages/_pipeline/src"]
-ignore_undeclared = [
-  "notes_dev",
-  "notes_pipeline",
-  "pipeline_helper",
-]
+ignore_undeclared = ["notes_dev", "notes_pipeline", "pipeline_helper"]
 
 [dependency-groups]
 dev = ["colorama>=0.4.6", "dvc>=3.61.0", "rich>=14.0.0"]

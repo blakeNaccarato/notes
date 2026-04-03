@@ -1,10 +1,9 @@
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.22.4"
 app = marimo.App()
 
 with app.setup:
-    from calendar import day_name
     from collections import defaultdict
     from collections.abc import Iterable
     from dataclasses import dataclass, field
@@ -18,7 +17,7 @@ with app.setup:
     from subprocess import run
 
     import marimo as mo
-    from more_itertools import only
+    from more_itertools import one, only
     from pandas import (
         CategoricalDtype,
         DataFrame,
@@ -83,31 +82,28 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
 
 
 @app.function
-def get_plans(tasks: DataFrame) -> DataFrame:
-    return tasks.loc[~col("done")].loc[
-        col("id").isin(
-            dict(
-                zip(
-                    ["Reminders", "Now", "Today", "This week", "Reprioritize"],
-                    [
-                        plan.split("⛔ ")[1].split(",")
-                        for plan in tasks.loc[
-                            col("path") == "__reps/2025-01-30T084608-0700-plans.md"
-                        ]["text"].tolist()
-                    ],
-                    strict=True,
-                )
-            )["This week"]
-        )
-    ]
-
-
-@app.function
 def get_days(priority: Series, days: dict[str, str]) -> Series:
     day_ = priority.astype(str)
     for day, priority_ in days.items():
         day_ = day_.replace(priority_, day)
     return day_.astype(CategoricalDtype(ordered=True, categories=list(days)))
+
+
+@app.function
+def get_plans(tasks: DataFrame) -> DataFrame:
+    return tasks.loc[
+        (~col("done"))
+        & col("id").isin(
+            one(
+                tasks
+                .loc[(col("path") == "__plan/plans.md") & (col("id") == "zzzzzz")][
+                    "rest"
+                ]
+                .str.extract(r"^.*⛔(?P<deps>.*)$")["deps"]
+                .str.split(",")
+            )
+        )
+    ]
 
 
 @app.cell
@@ -116,8 +112,12 @@ def _():
     days = dict(
         zip(
             [
-                day_name[(datetime.today() + timedelta(days=i)).weekday()]
-                for i, _ in enumerate(priorities)
+                "This week",
+                "Friday",
+                "Saturday",
+                "Sunday",
+                "Monday",
+                "Tuesday – Thursday",  # noqa: RUF001
             ],
             priorities,
             strict=True,
@@ -179,23 +179,36 @@ def _():
 
 @app.cell
 def _(tasks):
-    week_plan = """\
-    ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
-    """ + "".join(
-        (
-            tasks.set_index("day")[["entry"]]
-            .groupby("day")
-            .agg(
-                lambda ser: (
-                    f"""
-    - **{ser.index.get_level_values("day")[0]}**
+    day_plan = """
     - 04
     - 07
     - 10
     - 13
     - 16
     - 19
-    - **Plan**"""
+    - **Plan**
+    """
+    day_plans = {
+        "This week": "",
+        "Friday": day_plan,
+        "Saturday": day_plan,
+        "Sunday": day_plan,
+        "Monday": day_plan,
+        "Tuesday – Thursday": "",  # noqa: RUF001
+    }
+    week_plan = """\
+    ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
+    """ + "".join(
+        (
+            tasks
+            .set_index("day")[["entry"]]
+            .groupby("day")
+            .agg(
+                lambda ser: (
+                    f"""
+    - **{ser.index.get_level_values("day")[0]}**
+    {day_plans[ser.index.get_level_values("day")[0]]}
+    """
                     + reduce(
                         add,
                         [

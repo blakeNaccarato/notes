@@ -240,6 +240,10 @@ include_default_snippets = true # (default: true)
 presets = []
 [tool.marimo.mcp.mcpServers]
 
+[tool.marimo.venv]
+path = ".venv"
+writable = false
+
 [tool.towncrier]
 directory = "changelog"
 filename = "CHANGELOG.md"
