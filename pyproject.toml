@@ -113,7 +113,12 @@ notes-dev = { workspace = true }
 notes-pipeline = { workspace = true }
 pipeline-helper = { workspace = true }
 [tool.uv.workspace]
-members = ["packages/_dev", "packages/_pipeline", "packages/_pipeline-helper", "packages/my_shortcuts"]
+members = [
+  "packages/_dev",
+  "packages/_pipeline",
+  "packages/_pipeline-helper",
+  "packages/my_shortcuts",
+]
 
 [tool.coverage.report]
 exclude_also = ['if __name__ == "__main__":']
@@ -122,6 +127,7 @@ branch = true
 source = [
   "src",
   "docs",
+  "notebooks",
   "packages/_dev",
   "packages/_pipeline",
   "packages/_pipeline-helper",
@@ -292,6 +298,7 @@ show-fixes = true
 src = [
   "src",
   "docs",
+  "notebooks",
   "notebooks",
   "packages/_dev",
   "packages/_pipeline",
