@@ -24,7 +24,7 @@ from notes_pipeline.models.params import PARAMS
 from notes_pipeline.sync_lists import invoke_obsidian_command, sync_lists
 
 
-def main():  # noqa: C901  # sourcery skip: low-code-quality
+def main():  # sourcery skip: low-code-quality
     tokens = MD.parse(PARAMS.paths.plan.read_text(encoding="utf-8"))
     lists = sync_lists(
         path=PARAMS.paths.personal / "_data" / "unsynced" / "lists.md",

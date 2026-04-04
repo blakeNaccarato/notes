@@ -22,5 +22,5 @@ dependencies = [
 
 [tool.fawltydeps]
 deps = ["packages/_pipeline-helper/pyproject.toml"]
-code = ["packages/_pipeline-helper/src"]
-ignore_undeclared = ["notes_pipeline", "pipeline_helper"]
+code = ["packages/_pipeline-helper"]
+ignore_undeclared = ["notes", "notes_dev", "notes_pipeline", "pipeline_helper"]

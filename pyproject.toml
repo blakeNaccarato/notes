@@ -42,7 +42,6 @@ dependencies = [
 dev = [
   #TODO
   "ruamel.yaml>=0.18.6",
-  "unidiff>=0.7.5",
   "watchfiles>=1.1.1",
   "pytest-instafail>=0.5.0",
   "pytest-testmon>=2.1.3",
@@ -385,9 +384,14 @@ convention = "numpy"
 "data/deprecated/csl_models.py" = [
   "D1", # Allow missing docstrings in generated models
 ]
-"packages/_dev/dev/tools/add_changes.py" = [
+"packages/_dev/notes_dev/tools/add_changes.py" = [
   "S603", # Allow shell expressions here
   "S607", # Allow shell expressions here
+]
+"packages/_pipeline/notes_pipeline/stages/*.py" = [
+  "C901", # Allow complex Marimo cells
+  "N806", # Allow ALL_CAPS variables in Marimo cells
+  "B018", # Allow "useless" expressions for Marimo cell outputs
 ]
 "docs/**.ipynb" = [
   "E402", # Need to allow imports below patches in docs notebooks

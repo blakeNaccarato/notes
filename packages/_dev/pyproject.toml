@@ -16,6 +16,7 @@ dependencies = [
   "python-dotenv>=1.0.1",
   #? Docs
   "docutils>=0.21.2",
+  "loguru>=0.7.2",
   "myst-parser>=3.0.1",
   "numpydoc>=1.7.0",
   "python-dotenv>=1.1.1",
@@ -30,6 +31,6 @@ notes-dev = "notes_dev.__main__:main"
 [tool.fawltydeps]
 deps = ["packages/_dev/pyproject.toml"]
 code = ["packages/_dev", "docs", "tests"]
-ignore_undeclared = ["notes_dev", "notes_pipeline", "notes", "toml"]
+ignore_undeclared = ["notes", "notes_dev", "notes_pipeline", "pipeline_helper"]
 [tool.fawltydeps.custom_mapping]
 ruamel-yaml = ["ruamel"]

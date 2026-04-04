@@ -11,19 +11,27 @@ description = "Data pipeline"
 dependencies = [
   "astroid>=3.3.1",
   "cappa>=0.22.4",
+  "dulwich>=0.23.0",
   "marimo[lsp,sql]>=0.22.4",
-  "altair>=5.4.0",
-  "pandas>=3.0.1",
+  "markdown-it-py>=3.0.0",
+  "markdown-it-pyrs>=0.4.0",
+  "mdformat-frontmatter>=2.0.8",
+  "mdformat>=0.7.22",
+  "more-itertools>=10.7.0",
   "pandas-stubs>=2.2.3.250527",
+  "pandas>=3.0.1",
   "pydantic>=2.9.1",
+  "pyyaml>=6.0.2",
+  "typer>=0.9.0",
+  "unidiff>=0.7.5",
+  "watchfiles>=1.1.1",
 ]
+[dependency-groups]
+dev = ["altair>=5.4.0", "colorama>=0.4.6", "dvc>=3.61.0", "rich>=14.0.0"]
 [project.scripts]
 "copier-pipeline-pipeline" = "copier_pipeline_pipeline.__main__:main"
 
 [tool.fawltydeps]
 deps = ["packages/_pipeline/pyproject.toml"]
-code = ["packages/_pipeline/src"]
-ignore_undeclared = ["notes_dev", "notes_pipeline", "pipeline_helper"]
-
-[dependency-groups]
-dev = ["colorama>=0.4.6", "dvc>=3.61.0", "rich>=14.0.0"]
+code = ["packages/_pipeline"]
+ignore_undeclared = ["notes", "notes_dev", "notes_pipeline", "pipeline_helper"]

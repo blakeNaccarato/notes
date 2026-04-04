@@ -2,9 +2,9 @@
 
 from pathlib import Path
 
-import notes_pipeline
 from pydantic import BaseModel
 
+import notes_pipeline
 from pipeline_helper.paths import get_package_dir, map_stages
 
 

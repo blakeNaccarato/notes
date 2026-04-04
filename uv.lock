@@ -1913,7 +1913,6 @@ dev = [
     { name = "sphinxcontrib-towncrier" },
     { name = "towncrier" },
     { name = "ty" },
-    { name = "unidiff" },
     { name = "watchfiles" },
 ]
 
@@ -1979,7 +1978,6 @@ dev = [
     { name = "sphinxcontrib-towncrier", specifier = ">=0.5.0a0" },
     { name = "towncrier", specifier = ">=24.8.0" },
     { name = "ty", specifier = ">=0.0.28" },
-    { name = "unidiff", specifier = ">=0.7.5" },
     { name = "watchfiles", specifier = ">=1.1.1" },
 ]
 
@@ -1992,6 +1990,7 @@ dependencies = [
     { name = "cyclopts" },
     { name = "docutils" },
     { name = "dulwich" },
+    { name = "loguru" },
     { name = "myst-parser" },
     { name = "numpydoc" },
     { name = "pydantic-settings" },
@@ -2007,6 +2006,7 @@ requires-dist = [
     { name = "cyclopts", specifier = ">=3.14.2" },
     { name = "docutils", specifier = ">=0.21.2" },
     { name = "dulwich", specifier = ">=0.22.1" },
+    { name = "loguru", specifier = ">=0.7.2" },
     { name = "myst-parser", specifier = ">=3.0.1" },
     { name = "numpydoc", specifier = ">=1.7.0" },
     { name = "pydantic-settings", specifier = ">=2.5.2" },
@@ -2022,17 +2022,27 @@ name = "notes-pipeline"
 version = "0.0.0"
 source = { editable = "packages/_pipeline" }
 dependencies = [
-    { name = "altair" },
     { name = "astroid" },
     { name = "cappa" },
+    { name = "dulwich" },
     { name = "marimo", extra = ["lsp", "sql"] },
+    { name = "markdown-it-py" },
+    { name = "markdown-it-pyrs" },
+    { name = "mdformat" },
+    { name = "mdformat-frontmatter" },
+    { name = "more-itertools" },
     { name = "pandas" },
     { name = "pandas-stubs" },
     { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "typer" },
+    { name = "unidiff" },
+    { name = "watchfiles" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "altair" },
     { name = "colorama" },
     { name = "dvc" },
     { name = "rich" },
@@ -2040,17 +2050,27 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "altair", specifier = ">=5.4.0" },
     { name = "astroid", specifier = ">=3.3.1" },
     { name = "cappa", specifier = ">=0.22.4" },
+    { name = "dulwich", specifier = ">=0.23.0" },
     { name = "marimo", extras = ["lsp", "sql"], specifier = ">=0.22.4" },
+    { name = "markdown-it-py", specifier = ">=3.0.0" },
+    { name = "markdown-it-pyrs", specifier = ">=0.4.0" },
+    { name = "mdformat", specifier = ">=0.7.22" },
+    { name = "mdformat-frontmatter", specifier = ">=2.0.8" },
+    { name = "more-itertools", specifier = ">=10.7.0" },
     { name = "pandas", specifier = ">=3.0.1" },
     { name = "pandas-stubs", specifier = ">=2.2.3.250527" },
     { name = "pydantic", specifier = ">=2.9.1" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "typer", specifier = ">=0.9.0" },
+    { name = "unidiff", specifier = ">=0.7.5" },
+    { name = "watchfiles", specifier = ">=1.1.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "altair", specifier = ">=5.4.0" },
     { name = "colorama", specifier = ">=0.4.6" },
     { name = "dvc", specifier = ">=3.61.0" },
     { name = "rich", specifier = ">=14.0.0" },
