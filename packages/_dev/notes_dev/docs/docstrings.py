@@ -7,7 +7,6 @@ Copyright 2023 Digital Biology, Inc., SPDX-License-Identifier: Apache-2.0, https
 
 import re
 import textwrap
-from re import compile  # noqa: A004
 from typing import Final
 
 from docutils import nodes
@@ -32,7 +31,7 @@ _REGULAR_SECTIONS: Final[tuple[str, ...]] = (
     "References",
     "Examples",
 )
-_OTHER_PARAMETERS = compile(r".*Other Parameters *\n *--+ *\n")
+_OTHER_PARAMETERS = re.compile(r".*Other Parameters *\n *--+ *\n")
 """
 Regular expression to check if the "Other Parameters" section has been used.
 
@@ -46,7 +45,7 @@ Other Parameters
 ----------------
 ```
 """
-_OUTPUT_SECTION_TITLE = compile(
+_OUTPUT_SECTION_TITLE = re.compile(
     r"(?P<before>.*?)(?P<padding> *)Output Files\n *-+(?P<after>.*)",
     re.MULTILINE | re.DOTALL,
 )

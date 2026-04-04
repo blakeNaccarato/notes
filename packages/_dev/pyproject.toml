@@ -1,6 +1,8 @@
 [build-system]
 requires = ["uv-build==0.10.12"]
 build-backend = "uv_build"
+[tool.uv.build-backend]
+module-root = "."
 
 [project]
 name = "notes-dev"

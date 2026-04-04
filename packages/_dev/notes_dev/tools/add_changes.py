@@ -19,8 +19,8 @@ def add_change(typ: ChangeType = "change"):
     owner, repo, issue = get_issue_from_active_branch()
     change = get_change(owner, repo, issue)
     content = quote(f"{change.name}\n")
-    run(  # noqa: S603
-        split(f"""towncrier create --content {content} {change.id}.{typ}.md"""),
+    run(
+        args=split(f"""towncrier create --content {content} {change.id}.{typ}.md"""),
         check=True,
     )
 
@@ -47,8 +47,8 @@ def get_issue_from_active_branch() -> Issue:
         .split("/")
     )
     (_, ref), _ = repository.refs.follow(b"HEAD")  # ty:ignore[invalid-argument-type] not seeing that dulwich.refs.Ref is bytes
-    issue = ref.decode("utf-8").split("/")[-1].split("=")[0].split("-")[0]
-    return Issue(owner, repo, issue)  # ty:ignore[invalid-argument-type] not seeing that dulwich.refs.Ref is bytes
+    issue = int(ref.decode("utf-8").split("/")[-1].split("=")[0].split("-")[0])
+    return Issue(owner, repo, issue)
 
 
 @dataclass
@@ -93,8 +93,8 @@ def query_gh_issue(
     owner: str, repo: str, issue: int, query: str = "title"
 ) -> dict[str, Any]:
     """Query GitHub for an issue."""
-    result = run(  # noqa: S603
-        [  # noqa: S607
+    result = run(
+        args=[
             "gh",
             "api",
             "graphql",

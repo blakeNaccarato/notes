@@ -1,35 +1,16 @@
 """CLI for tools."""
 
 from collections.abc import Collection
-from json import dumps
 from pathlib import Path
 from re import finditer, sub
 from shlex import join, split
 from tomllib import loads
 
 from cyclopts import App
-from pydantic import BaseModel
 
-from notes_dev.tools import add_changes
+from notes_dev.tools import add_changes, environment
 from notes_dev.tools.environment import escape, run
 from notes_dev.tools.types import ChangeType
-
-PYLANCE_VERSION_FILE = Path(".pylance-version")
-
-
-class Constants(BaseModel):
-    """Constants for {mod}`~dev.tools.environment`."""
-
-    pylance_version: str = (
-        PYLANCE_VERSION_FILE.read_text(encoding="utf-8").strip()
-        if PYLANCE_VERSION_FILE.exists()
-        else "2024.6.1"
-    )
-    """Pylance version."""
-
-
-const = Constants()
-
 
 APP = App(help_format="markdown")
 """CLI."""
@@ -37,6 +18,12 @@ APP = App(help_format="markdown")
 
 def main():
     APP()
+
+
+@APP.command
+def init_shell():
+    """Initialize shell."""
+    log(environment.init_shell())
 
 
 @APP.command
@@ -94,26 +81,17 @@ def disable_concurrent_tests(addopts: str) -> str:
     return sub(pattern=r"-n\s[^\s]+", repl="-n 0", string=join(split(addopts)))
 
 
-@APP.command
-def elevate_pyright_warnings():
-    """Elevate Pyright warnings to errors."""
-    config = loads(Path("pyproject.toml").read_text("utf-8"))
-    pyright = config["tool"]["pyright"]
-    for k, v in pyright.items():
-        if (rule := k).startswith("report") and (_level := v) == "warning":
-            pyright[rule] = "error"
-    Path("pyrightconfig.json").write_text(
-        encoding="utf-8", data=dumps(pyright, indent=2)
-    )
-
-
 @APP.command()
 def build_docs():
     """Build docs."""
-    run([
-        "sphinx-autobuild --show-traceback docs _site",
-        *[f"--ignore **/{p}" for p in ["temp", "data", "apidocs", "*schema.json"]],
-    ])
+    run(
+        args=[
+            "sphinx-autobuild",
+            "--show-traceback",
+            "docs _site",
+            *[f"--ignore **/{p}" for p in ["temp", "data", "apidocs", "*schema.json"]],
+        ]
+    )
 
 
 def log(obj):
