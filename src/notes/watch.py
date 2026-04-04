@@ -28,7 +28,7 @@ def main():
 def on_modified(event: FileSystemEvent):
     """Concatenate JSON libraries into one main library."""
     logger.info("Modification detected.")
-    modified_file = Path(event.src_path)  # pyright: ignore[reportArgumentType]
+    modified_file = Path(event.src_path)  # ty:ignore[invalid-argument-type]
     if modified_file in INPUT_FILES:
         OUTPUT_FILE.write_text(
             encoding="utf-8", data=json.dumps(concat_json(INPUT_FILES))

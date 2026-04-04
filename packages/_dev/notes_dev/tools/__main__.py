@@ -10,7 +10,7 @@ from tomllib import loads
 from cyclopts import App
 from pydantic import BaseModel
 
-from notes_dev.tools import add_changes, environment
+from notes_dev.tools import add_changes
 from notes_dev.tools.environment import escape, run
 from notes_dev.tools.types import ChangeType
 
@@ -35,14 +35,8 @@ APP = App(help_format="markdown")
 """CLI."""
 
 
-def main():  # noqa: D103
+def main():
     APP()
-
-
-@APP.command
-def sync_environment_variables(pylance_version: str = const.pylance_version):
-    """Initialize shell."""
-    log(environment.sync_environment_variables(pylance_version=pylance_version))
 
 
 @APP.command
@@ -116,10 +110,10 @@ def elevate_pyright_warnings():
 @APP.command()
 def build_docs():
     """Build docs."""
-    run(
+    run([
         "sphinx-autobuild --show-traceback docs _site",
         *[f"--ignore **/{p}" for p in ["temp", "data", "apidocs", "*schema.json"]],
-    )
+    ])
 
 
 def log(obj):

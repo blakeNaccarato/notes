@@ -5,7 +5,7 @@ build-backend = "uv_build"
 [project]
 name = "notes-dev"
 version = "0.0.0"
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dependencies = [
   "cappa>=0.22.4",
   "cyclopts>=3.14.2",

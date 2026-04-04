@@ -1,22 +1,16 @@
 """CLI for tools."""
 
 from collections.abc import Collection
-from json import dumps
 from pathlib import Path
 from re import finditer, sub
 from shlex import join, split
-from sys import version_info
+from tomllib import loads
 
 from cyclopts import App
 
 from notes_dev.tools import add_changes, environment
 from notes_dev.tools.environment import escape, run
 from notes_dev.tools.types import ChangeType
-
-if version_info >= (3, 11):  # noqa: UP036, RUF100
-    from tomllib import loads
-else:
-    from toml import loads
 
 APP = App(help_format="markdown")
 """CLI."""

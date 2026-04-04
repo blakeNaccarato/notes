@@ -46,7 +46,7 @@ def get_issue_from_active_branch() -> Issue:
         .strip("/")
         .split("/")
     )
-    (_, ref), _ = repository.refs.follow(b"HEAD")
+    (_, ref), _ = repository.refs.follow(b"HEAD")  # ty:ignore[invalid-argument-type] not seeing that dulwich.refs.Ref is bytes
     issue = int(ref.decode("utf-8").split("/")[-1].split("=")[0].split("-")[0])
     return Issue(owner, repo, issue)
 

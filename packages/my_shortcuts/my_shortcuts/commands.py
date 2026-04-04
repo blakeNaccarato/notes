@@ -1,7 +1,5 @@
 """Commands."""
 
-from dataclasses import asdict
-
 from cappa import Output
 
 from my_shortcuts.actions import play_clicks, record_clicks
@@ -17,4 +15,4 @@ def record(params: Record, output: Output):
 
 
 def get_kwds(params: BaseCommand, output: Output):
-    return CliKwds(**asdict(params), output=output)
+    return CliKwds(dry=params.dry, verbose=params.verbose, output=output)

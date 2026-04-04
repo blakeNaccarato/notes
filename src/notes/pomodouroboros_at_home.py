@@ -17,7 +17,7 @@ from json import loads
 from pathlib import Path
 from re import MULTILINE, Match, finditer
 from time import sleep
-from typing import Literal, TypeAlias, TypedDict, TypeVar
+from typing import Literal, TypedDict
 
 import win32api
 import win32gui
@@ -330,14 +330,17 @@ def get_sep(name: str) -> str:
     return ";" if ";" in name else ","
 
 
-Kind: TypeAlias = Literal["related", "unrelated"]
+type Kind = Literal["related", "unrelated"]
 KINDS: tuple[Kind, ...] = ("related", "unrelated")
 
 
 def set_intent(path: Path, intent: str) -> dict[str, Intent]:
     """Add intent to intents file."""
     return set_intents(
-        path, merge_intents(get_intents(path), {intent: {**get_default_intent(intent)}})
+        path,
+        merge_intents(
+            get_intents(path), {intent: Intent(**get_default_intent(intent))}
+        ),
     )
 
 
@@ -381,7 +384,7 @@ def merge_intents(
     intents: Mapping[str, Intent], other: Mapping[str, Intent]
 ) -> dict[str, Intent]:
     """Merge intents."""
-    return {  # pyright: ignore[reportReturnType]  # TODO: Stop using TypedDict
+    return {
         name: {
             key: list(
                 ordered_union(
@@ -392,7 +395,7 @@ def merge_intents(
             for key in KINDS
         }
         for name in ordered_union(*intents, *other)
-    }
+    }  # ty:ignore[invalid-return-type]  # TODO: Stop using TypedDict
 
 
 def get_intents(path: Path) -> dict[str, Intent]:
@@ -400,10 +403,7 @@ def get_intents(path: Path) -> dict[str, Intent]:
     return loads(path.read_text(encoding="utf-8"))
 
 
-T = TypeVar("T")
-
-
-def ordered_union(*args: T) -> Iterable[T]:
+def ordered_union[T](*args: T) -> Iterable[T]:
     """Get the ordered union of unique elements over two iterables."""
     yield from dict.fromkeys(args)
 
@@ -516,7 +516,7 @@ def record_period(
     )
 
 
-Mode: TypeAlias = Literal["start", "stop"]
+type Mode = Literal["start", "stop"]
 
 
 def set_toggl_pomodoro(mode: Mode) -> None:

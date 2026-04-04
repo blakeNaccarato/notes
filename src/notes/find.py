@@ -57,7 +57,7 @@ def section(document: Document) -> list[Any]:
     splits = split_by_headings(document)
     sections: list[Any] = []
     for split in splits:
-        level = document.children[0].level  # pyright: ignore[reportAttributeAccessIssue]
+        level = document.children[0].level  # ty:ignore[unresolved-attribute]
         append_at_depth(seq=sections, item=split, depth=(level - 1))
     return sections
 
@@ -82,7 +82,7 @@ def append_at_depth(seq: MutableSequence[Any], item: Any, depth: int):
     # TODO: Annotate as a recursive/cyclic type
     # TODO: See https://github.com/python/mypy/issues/731
     # TODO: See https://github.com/python/mypy/issues/14219
-    if not isinstance(seq, MutableSequence):  # type: ignore
+    if not isinstance(seq, MutableSequence):
         raise TypeError(f"`seq` must be a mutable sequence. Got {type(seq)}.")
     for _ in range(depth):
         if len(seq) and isinstance(seq[-1], MutableSequence):
@@ -109,7 +109,7 @@ def split_by_headings(document: Document) -> list[Document]:
     splits = [make_document([first_element])]
     for element, level in levels_iter:
         if level == prev_level and not isinstance(element, Heading):
-            splits[-1].children.append(element)  # pyright: ignore[reportAttributeAccessIssue]
+            splits[-1].children.append(element)  # ty:ignore[unresolved-attribute]
         else:
             prev_level = level
             splits.append(make_document([element]))
@@ -131,7 +131,7 @@ def map_headings(document: Document) -> dict[BlockElement, int]:
     for child in document.children:
         if isinstance(child, Heading):
             level = child.level
-        levels[child] = level  # pyright: ignore[reportArgumentType]
+        levels[child] = level  # ty:ignore[invalid-assignment]
     return levels
 
 

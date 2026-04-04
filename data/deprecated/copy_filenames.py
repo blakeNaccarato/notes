@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-import clipboard  # pyright: ignore[reportMissingImports]
+import clipboard  # ty:ignore[unresolved-import]
 from rich import traceback
 from rich.console import Console
 from rich.markdown import Markdown
@@ -10,7 +10,7 @@ from rich.markdown import Markdown
 traceback.install()
 
 
-def main():  # noqa: D103
+def main():
     console = Console()
 
     # Get contents of the clipboard, check if it looks like it came from a Zotero

@@ -1,7 +1,8 @@
 """Command-line interface."""
 
+from cappa import invoke
+
 from notes_pipeline.cli import Pipeline
-from notes_pipeline.parser import invoke
 
 
 def main():

@@ -52,7 +52,7 @@ class DirWatcher:
     def __enter__(self) -> Self:
         self.observer.schedule(
             ModifiedFileHandler(self.on_modified, self.cooldown),
-            self.watch_dir,  # pyright: ignore[reportArgumentType]
+            self.watch_dir,  # ty:ignore[invalid-argument-type]
         )
         self.observer.start()
         return self
@@ -73,7 +73,7 @@ class DirWatcher:
         self.observer.join()
         return handled_exception
 
-    def error_message(self, interval_name: str, interval: int) -> str:  # noqa: D102
+    def error_message(self, interval_name: str, interval: int) -> str:
         return (
             f"{interval_name.capitalize()} of {interval} seconds is less than the"
             f" minimum cooldown of {self.min_cooldown} seconds."
@@ -88,7 +88,7 @@ class ModifiedFileHandler(FileSystemEventHandler):
         self.cooldown = timedelta(seconds=cooldown)
         self.triggered_time = min_datetime
 
-    def on_modified(self, event: FileSystemEvent):  # noqa: D102
+    def on_modified(self, event: FileSystemEvent):
         if (get_now() - self.triggered_time) > self.cooldown:
             self.func(event)
             self.triggered_time = get_now()

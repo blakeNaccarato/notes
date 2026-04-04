@@ -21,7 +21,7 @@ def get_module_name(module: ModuleType | ModuleSpec | Path | str) -> str:
     return path.parent.name if path.stem in ("__init__", "__main__") else path.stem
 
 
-def get_qualified_module_name(module: ModuleType | ModuleSpec) -> str:  # type: ignore
+def get_qualified_module_name(module: ModuleType | ModuleSpec) -> str:
     """Get a fully-qualified module name.
 
     Example: `get_module_name(__spec__ or __file__)`.

@@ -41,7 +41,7 @@ def dvc_prepare_stage(
     model: type[Model],
 ) -> Model:
     """Prepare a pipeline stage for `dvc.yaml`."""
-    if not (dvc := info.context.get(DVC)):
+    if not (dvc := info.context.get(DVC)):  # ty:ignore[unresolved-attribute]
         return handler(data)
     if not dvc.model.stages:
         dvc.params[const.table_key] = {}
@@ -67,15 +67,16 @@ def dvc_add_param(
     # sourcery skip: low-code-quality
     """Add param to global parameters and stage command for `dvc.yaml`."""
     param = first(
-        (m for m in fields[info.field_name].metadata if isinstance(m, Arg)), default=Arg
+        (m for m in fields[info.field_name].metadata if isinstance(m, Arg)),  # ty:ignore[invalid-argument-type]
+        default=Arg,
     )
     if (
-        (dvc := info.context.get(DVC))
+        (dvc := info.context.get(DVC))  # ty:ignore[unresolved-attribute]
         and not param.hidden
         and (params := dvc.params.get(const.table_key)) is not None
     ) and isinstance(value, Sequence | bool | int | float | complex | datetime):
         name = info.field_name
-        arg = name.replace("_", "-")
+        arg = name.replace("_", "-")  # ty:ignore[unresolved-attribute]
         sep = " "
         # ? Add to global parameters list if missing
         if not params.get(name):
@@ -114,7 +115,7 @@ def dvc_set_stage_path(
     path: Path, info: ValidationInfo, kind: Literal["deps", "outs"]
 ) -> Path:
     """Set stage path as a stage dep, plot, or out for `dvc.yaml`."""
-    if info.field_name != "context" and (dvc := info.context.get(DVC)):
+    if info.field_name != "context" and (dvc := info.context.get(DVC)):  # ty:ignore[unresolved-attribute]
         path = Path(path).resolve().relative_to(Path.cwd())
         if info.field_name == "plots":
             dvc.plot_dir = path
@@ -138,7 +139,7 @@ def dvc_set_only_sample(
     """Set the only sample for `dvc.yaml` if `only_sample` is enabled."""
     if (
         info.field_name != "context"
-        and (dvc := info.context.get(DVC))
+        and (dvc := info.context.get(DVC))  # ty:ignore[unresolved-attribute]
         and dvc.plot_dir
         and only_sample
     ):
@@ -150,7 +151,7 @@ def dvc_extend_with_timestamp_suffixed_plots(
     times: list[str], info: ValidationInfo
 ) -> list[str]:
     """Extend stage plots for `dvc.yaml` with timestamp-suffixed plots."""
-    if info.field_name != "context" and (dvc := info.context.get(DVC)) and dvc.plot_dir:
+    if info.field_name != "context" and (dvc := info.context.get(DVC)) and dvc.plot_dir:  # ty:ignore[unresolved-attribute]
         dvc.stage.plots.extend(
             sorted(
                 (dvc.plot_dir / ("_".join([f"{name}", time]) + ".png")).as_posix()
@@ -169,7 +170,7 @@ def dvc_extend_with_named_plots_if_missing(
     """Extend stage plots for `dvc.yaml` with named plots if plots haven't been set."""
     if (
         info.field_name != "context"
-        and (dvc := info.context.get(DVC))
+        and (dvc := info.context.get(DVC))  # ty:ignore[unresolved-attribute]
         and dvc.plot_dir
         and not dvc.stage.plots
     ):

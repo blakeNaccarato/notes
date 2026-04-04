@@ -87,6 +87,6 @@ class Config(BaseSettings):
     env: dict[str, str] = Field(default_factory=dict)
 
     @classmethod
-    def settings_customise_sources(cls, settings_cls, **_):  # pyright: ignore[reportIncompatibleMethodOverride]
+    def settings_customise_sources(cls, settings_cls, **_):  # ty:ignore[invalid-method-override]
         """Only load from `pyproject.toml`."""
         return (PyprojectTomlConfigSettingsSource(settings_cls),)

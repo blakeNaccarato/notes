@@ -40,7 +40,7 @@ class Paths(BaseModel):
     # ! Project
     project: Path = PROJECT_PATH
     # ! Package
-    package: Path = Path(notes_pipeline.__spec__.submodule_search_locations[0])
+    package: Path = Path(notes_pipeline.__spec__.submodule_search_locations[0])  # ty:ignore[unresolved-attribute, not-subscriptable]
     # ! Data
     data: Path = project / "data"
     stages: dict[str, FilePath] = (  # noqa: PLC3002

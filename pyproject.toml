@@ -40,23 +40,23 @@ dependencies = [
 ]
 [dependency-groups]
 dev = [
-  # TODO
+  #TODO
   "ruamel.yaml>=0.18.6",
   "unidiff>=0.7.5",
   "watchfiles>=1.1.1",
   "pytest-instafail>=0.5.0",
   "pytest-testmon>=2.1.3",
-  # ? Notebooks
+  #? Notebooks
   "markdown-it-pyrs>=0.4.0",
   #? Dev
   "debugpy>=1.8.2",
   "fawltydeps>=0.18.0",
   "pipdeptree>=2.23.0",
   "prek>=0.3.6",
-  "ruff==0.15.6",
+  "ruff>=0.15.6",
   "snakeviz>=2.2.0",
   "sourcery>=1.32.0",
-  "ty==0.0.23",
+  "ty>=0.0.28",
   #? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel>=6.29.5",
   "pandas-stubs>=2.2.3.250527",
@@ -96,11 +96,11 @@ Tracker = "https://github.com/blakeNaccarato/notes/issues"
 required-version = ">=0.10.12"
 constraint-dependencies = [
   "fawltydeps<0.19.0", #? Intentionally don't check new dependency groups where we keep dev deps, avoids lots of repetition in `tool.fawltydeps.ignore_unused`
+  "greenlet>=3.3.2",   #? uv sync to Python 3.14 on 2026-04-04: notes > sqlalchemy@2.0.49 > greenlet@3.2.0
+  "lxml>=6.0.2",       #? uv sync to Python 3.14 on 2026-04-04: notes > obsidiantools@0.10.0 > lxml@4.3.0
   "orjson>=3.11.8",    #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > dvc-data@3.18.3 > orjson@3.10.16
   "pygit2>=1.19.2",    #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > scmrepo@3.6.1 > pygit2@1.17.0
   "rpds-py>=0.30.0",   #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline > altair@6.0.0 > jsonschema@4.23.0 > rpds-py@0.24.0
-  "greenlet>=3.3.2",   #? uv sync to Python 3.14 on 2026-04-04: notes > sqlalchemy@2.0.49 > greenlet@3.2.0
-  "lxml>=6.0.2",       #? uv sync to Python 3.14 on 2026-04-04: notes > obsidiantools@0.10.0 > lxml@4.3.0
 ]
 [tool.uv.pip]
 python-version = "3.14"
@@ -109,7 +109,12 @@ notes-dev = { workspace = true }
 notes-pipeline = { workspace = true }
 pipeline-helper = { workspace = true }
 [tool.uv.workspace]
-members = ["packages/_dev", "packages/_pipeline", "packages/_pipeline-helper"]
+members = [
+  "packages/_dev",
+  "packages/_pipeline",
+  "packages/_pipeline-helper",
+  "packages/my_shortcuts",
+]
 
 [tool.coverage.report]
 exclude_also = ['if __name__ == "__main__":']
@@ -122,6 +127,7 @@ source = [
   "packages/_dev",
   "packages/_pipeline",
   "packages/_pipeline-helper",
+  "packages/my_shortcuts",
   "scripts",
   "tests",
 ]
@@ -130,7 +136,7 @@ source = [
 deps = ["pyproject.toml"]
 code = ["src"]
 ignore_unused = [
-  "pyarrow", # ? Used for pandas types
+  "pyarrow", #? Used for pandas types
 ]
 [tool.fawltydeps.custom_mapping]
 pywin32 = ["win32api", "win32con", "win32gui", "win32process"]
@@ -264,7 +270,8 @@ name = "Changes"
 showcontent = true
 
 [tool.pyright]
-typeCheckingMode = "off"
+typeCheckingMode = "off" #? Explicitly disable Pylance type checking to avoid prompt
+reportMissingImports = "none" #? Needed even when `typeCheckingMode` is `off`
 include = [
   "src",
   "docs",
@@ -277,7 +284,6 @@ include = [
   "tests",
 ]
 ignore = ["**/.*", "*:/**/.*", "*:/**/appdata"]
-
 
 [tool.ruff]
 cache-dir = ".cache/.ruff_cache"
@@ -352,6 +358,7 @@ ignore = [
   "PLW0642", # Allow reassignment to `cls` and `self`
   "PLW2901", # For loop variable
   "RET",     # Return checks are flaky, Sourcery does fine analysing these paths
+  "RUF067",  #TODO: Make __init__.py only have docstrings and re-exports
   "S301",    # Don't warn about pickling.
   "S403",    # Don't warn about pickle-like modules.
   "S404",    # Don't warn about subprocess.
@@ -395,5 +402,8 @@ convention = "numpy"
   "A005", # Allow types modules that shadow a stdlib module
 ]
 
+[tool.ty.analysis]
+allowed-unresolved-imports = ["win32*"] # From pywin32
 [tool.ty.rules]
 all = "warn"
+possibly-unresolved-reference = "ignore" # walrus narrowing issue https://github.com/astral-sh/ty/issues/626

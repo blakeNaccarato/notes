@@ -24,9 +24,9 @@ def DbField(name: str, sa_type, **kwds: Any):  # noqa: N802  # Derived from `Fie
 class Entry(SQLModel, table=True):
     """Entries."""
 
-    __tablename__ = "TimeEntries"  # pyright: ignore[reportAssignmentType]
+    __tablename__ = "TimeEntries"
 
-    id: int = IdField()  # pyright: ignore[reportRedeclaration]
+    id: int = IdField()
     description: str = DbField(name="Description", sa_type=sa.Text)
     duration: int | None = DbField(name="Duration", sa_type=sa.Integer)
 
@@ -34,7 +34,7 @@ class Entry(SQLModel, table=True):
 class Preferences(SQLModel, table=True):
     """Preferences."""
 
-    id: int = IdField()  # pyright: ignore[reportRedeclaration]
+    id: int = IdField()
     pomodoro_break_interval_in_minutes: int = DbField(
         name="PomodoroBreakIntervalInMinutes", sa_type=sa.Integer
     )

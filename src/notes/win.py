@@ -240,7 +240,7 @@ class SetCursorPos(Args):
     [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos#:~:text=%5Bin%5D%20y
     """
 
-    def args(self) -> tuple[Any, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def args(self) -> tuple[Any, ...]:
         """Get args. `pywin32` API expects `SetCursorPos` args as (`x`, `y`) tuple."""
         return (super().args(),)
 
