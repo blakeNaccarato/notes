@@ -60,28 +60,6 @@ def get_plan(match: Match[str], plans: Iterable[str]) -> str:
 
 
 @app.function
-def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
-    return df.assign(
-        **df["text"].str.extract(
-            "".join([
-                r"^",
-                r"(?P<checkbox>\s*-\s*\[[^\]]\])",  # Markdown-style checkbox
-                r"\s*",
-                r"(?P<tags>(?:#\w+\s)*)",  # Tags
-                r"\s*",
-                r"(?P<task>.*)",
-                r"(?P<id_tok>\s*🆔\s*)",
-                r"(?P<id>[^\s]+)",
-                r"\s*",
-                rf"(?P<priority>[{''.join(priorities)}]?)",
-                r"(?P<rest>.*)",
-                r"$",
-            ])
-        )
-    )
-
-
-@app.function
 def get_days(priority: Series, days: dict[str, str]) -> Series:
     day_ = priority.astype(str)
     for day, priority_ in days.items():
@@ -90,19 +68,36 @@ def get_days(priority: Series, days: dict[str, str]) -> Series:
 
 
 @app.function
+def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
+    sym = rf"🆔⛔{''.join(priorities)}🔁➕🛫⏳📅❌✅🏁"  # noqa: RUF001
+    return df.assign(
+        **df["text"].str.extract(
+            "".join([
+                r"^\s*-\s*\[[^\]]\]",  # Markdown-style checkbox
+                r"\s*(?P<tags>(?:#\w+\s)*)",
+                rf"(?P<task>[^{sym}]+)",
+                r"(?=.*🆔\s*(?P<id>[^\s]*))?",
+                r"(?=.*⛔\s*(?P<deps>[^\s]*))?",
+                rf"(?=.*(?P<priority>[{''.join(priorities)}]))?",
+                rf"(?=.*🔁\s*(?P<recurs>[^\{sym}]*))?",
+                r"(?=.*➕\s*(?P<created>[^\s]*))?",  # noqa: RUF001
+                r"(?=.*🛫\s*(?P<starts>[^\s]*))?",
+                r"(?=.*⏳\s*(?P<scheduled>[^\s]*))?",
+                r"(?=.*📅\s*(?P<due>[^\s]*))?",
+                r"(?=.*❌\s*(?P<cancelled>[^\s]*))?",
+                r"(?=.*✅\s*(?P<done>[^\s]*))?",
+                r"(?=.*🏁\s*(?P<after>[^\s]*))?",
+                r".*$",
+            ])
+        )
+    )
+
+
+@app.function
 def get_plans(tasks: DataFrame) -> DataFrame:
     return tasks.loc[
         (~col("done"))
-        & col("id").isin(
-            one(
-                tasks
-                .loc[(col("path") == "__plan/plans.md") & (col("id") == "zzzzzz")][
-                    "rest"
-                ]
-                .str.extract(r"^.*⛔(?P<deps>.*)$")["deps"]
-                .str.split(",")
-            )
-        )
+        & col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
     ]
 
 
@@ -123,43 +118,43 @@ def _():
             strict=True,
         )
     )
-    tasks = (
-        DataFrame(
-            columns=[
-                "path",
-                "line",
-                "text",
-                "checkbox",
-                "tags",
-                "task",
-                "entry",
-                "id_tok",
-                "id",
-                "priority",
-                "rest",
-                "status",
-                "done",
-                "day",
-            ],
-            data=read_csv(
-                StringIO(
-                    run(
-                        args=["obsidian", "tasks", "format=csv"],
-                        capture_output=True,
-                        check=True,
-                        encoding="utf-8",
-                    ).stdout
-                ),
-                header=None,
-                names=["status", "text", "path", "line"],
+    tasks = DataFrame(
+        columns=[
+            "status",
+            "text",
+            "path",
+            "line",
+            "tags",
+            "task",
+            "id",
+            "deps",
+            "priority",
+            "recurs",
+            "created",
+            "starts",
+            "scheduled",
+            "due",
+            "cancelled",
+            "done",
+            "after",
+            "entry",
+            "day",
+        ],
+        data=read_csv(
+            StringIO(
+                run(
+                    args=["obsidian", "tasks", "format=csv"],
+                    capture_output=True,
+                    check=True,
+                    encoding="utf-8",
+                ).stdout
             ),
+            header=None,
+            names=["status", "text", "path", "line"],
         )
         .pipe(extract_task_data, priorities)
         .assign(**{
             "task": col("task")
-            .str.replace(r"\[([^\]]+)\]\([^)]*\)", r"\1", regex=True)
-            .str.replace(r"\s{2,}", " ", regex=True)
-            .str.strip()
             .str.replace(r"\[([^\]]+)\]\([^)]*\)", r"\1", regex=True)
             .str.replace(r"\s{2,}", " ", regex=True)
             .str.strip(),
@@ -171,7 +166,7 @@ def _():
             "day": col("priority").pipe(get_days, days),
         })
         .pipe(get_plans)
-        .sort_values("day", na_position="first")
+        .sort_values("day", na_position="first"),
     )
     mo.ui.table(tasks)
     return (tasks,)
