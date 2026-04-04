@@ -5,7 +5,7 @@ from shutil import copy
 from notes_pipeline.models.params import PATHS
 
 
-def main():  # noqa: D103
+def main():
     copy(PATHS.set_up_amsl_obsidian_note, PATHS.set_up_amsl_obsidian_docs)
 
 

@@ -10,7 +10,7 @@ AUTHORS = ["Embedded.fm"]
 """Authors whose tags should be sanitized."""
 
 
-def main():  # noqa: D103
+def main():
     for path in PARAMS.paths.personal_links.iterdir():
         string = path.read_text(encoding="utf-8")
         if (

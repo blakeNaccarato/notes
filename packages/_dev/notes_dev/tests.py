@@ -2,36 +2,36 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, TypeAlias
+from typing import Any
 
 from _pytest.mark.structures import ParameterSet
 
 
 @dataclass
-class Args:  # noqa: D101
+class Args:
     args: list[Any]
     kwargs: dict[str, Any]
 
 
 @dataclass
-class Expectation:  # noqa: D101
+class Expectation:
     result: Path
     expected: Path
 
 
-Stages: TypeAlias = list[ParameterSet]
-AllArgs: TypeAlias = dict[str, Args]
-Expected: TypeAlias = dict[str, Expectation]
+type Stages = list[ParameterSet]
+type AllArgs = dict[str, Args]
+type Expected = dict[str, Expectation]
 
 
-def get_args() -> AllArgs:  # noqa: D103
+def get_args() -> AllArgs:
     return {
         module: Args(*args)
         for module, args in {"notes.stages.sync_settings": (["amsl"], {})}.items()
     }
 
 
-def get_expected() -> Expected:  # noqa: D103
+def get_expected() -> Expected:
     vaults = Path("data") / "local" / "vaults"
     expected_root = Path("tests") / "expected"
     return {

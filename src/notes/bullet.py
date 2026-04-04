@@ -18,7 +18,7 @@ BASE = ""
 SETTINGS = "settings"
 
 
-async def export_data(path: Path):  # noqa: D103
+async def export_data(path: Path):
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=False)
         ctx = await browser.new_context(

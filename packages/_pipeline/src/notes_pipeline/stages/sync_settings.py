@@ -21,7 +21,7 @@ ALLOWED_CHANGES = [
 
 
 @app.command()
-def main():  # noqa: D103
+def main():
     changes = get_changes()
     if changes and any(change not in ALLOWED_CHANGES for change in changes):
         raise ChangesPendingError("Cannot sync settings. There are pending changes.")
@@ -32,7 +32,7 @@ def main():  # noqa: D103
     )
 
 
-class ChangesPendingError(Exception): ...  # noqa: D101
+class ChangesPendingError(Exception): ...
 
 
 def get_changes() -> list[Path]:

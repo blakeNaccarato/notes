@@ -6,7 +6,7 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 from subprocess import run
 from time import sleep
-from typing import Generic, Self, TypeVar
+from typing import Self, TypeVar
 
 from markdown_it_pyrs import MarkdownIt, Node
 from more_itertools import islice_extended
@@ -20,7 +20,7 @@ T = TypeVar("T")
 
 
 @dataclass(frozen=True)
-class Sublist(UserList[T], Generic[T]):
+class Sublist[T](UserList[T]):
     """Sublist."""
 
     seq: Sequence[T]
@@ -85,25 +85,29 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
         })
         .assign(
             **{
-                "text": lambda df: df["text"]
-                .apply(
-                    lambda ser: "".join([
-                        n.meta.get("content", "")
-                        if n.name == "text"
-                        else (
-                            n.children[0].meta.get("content", "")
-                            if len(n.children) and n.name == "link"
-                            else ""
-                        )
-                        for n in ser
-                    ])
+                "text": lambda df: (
+                    df["text"]
+                    .apply(
+                        lambda ser: "".join([
+                            n.meta.get("content", "")
+                            if n.name == "text"
+                            else (
+                                n.children[0].meta.get("content", "")
+                                if len(n.children) and n.name == "link"
+                                else ""
+                            )
+                            for n in ser
+                        ])
+                    )
+                    .astype("string[pyarrow]")
                 )
-                .astype("string[pyarrow]")
             },
             **{
-                col: lambda df, col=col: df[col]
-                .apply(lambda text: text.casefold() == "true")
-                .astype("bool[pyarrow]")
+                col: lambda df, col=col: (
+                    df[col]
+                    .apply(lambda text: text.casefold() == "true")
+                    .astype("bool[pyarrow]")
+                )
                 for col in ["task"]
             },
         )

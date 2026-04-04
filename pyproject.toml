@@ -407,3 +407,10 @@ allowed-unresolved-imports = ["win32*"] # From pywin32
 [tool.ty.rules]
 all = "warn"
 possibly-unresolved-reference = "ignore" # walrus narrowing issue https://github.com/astral-sh/ty/issues/626
+
+[[tool.ty.overrides]]
+include = ["packages/lookback"] # Submodule not yet using ty
+[tool.ty.overrides.rules]
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+unresolved-import = "ignore"

@@ -161,7 +161,7 @@ class ConstCol(Col):
         return df.assign(**{self(): self.val})
 
 
-def transform(
+def transform[P, R, **Ps](
     v: P,
     src: Col,
     dst: Col,
@@ -174,7 +174,9 @@ def transform(
     return f(v, src, dst, *args, **kwds)
 
 
-def scale(v: SupportsMul_T, s: SupportsMul_T, src: Col, dst: Col) -> SupportsMul_T:
+def scale[SupportsMul_T: SupportsMul](
+    v: SupportsMul_T, s: SupportsMul_T, src: Col, dst: Col
+) -> SupportsMul_T:
     """Scale."""
 
     def _scale(
@@ -185,7 +187,7 @@ def scale(v: SupportsMul_T, s: SupportsMul_T, src: Col, dst: Col) -> SupportsMul
     return transform(v, src, dst, _scale)
 
 
-def _identity(
+def _identity[SupportsMul_T: SupportsMul, **Ps](
     v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs
 ):
     return v

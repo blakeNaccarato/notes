@@ -1,13 +1,13 @@
 """Pipeline types."""
 
 from collections.abc import Callable, ItemsView, Iterable, Mapping
-from typing import Any, Literal, TypeAlias, TypeVar
+from typing import Any, Literal, TypeVar
 
 from pydantic_settings import BaseSettings
 
 T = TypeVar("T")
-Slicer: TypeAlias = tuple[int, int]
-Slicer2D: TypeAlias = tuple[Slicer, Slicer]
+type Slicer = tuple[int, int]
+type Slicer2D = tuple[Slicer, Slicer]
 
 
 Bound = TypeVar("Bound", bound=tuple[float | str, float | str])
@@ -31,10 +31,10 @@ Joint = Literal["paste", "epoxy", "solder", "none"]
 Sample = Literal["B3"]
 """The sample attached to the coupon in this trial."""
 
-Action: TypeAlias = Literal["default", "error", "ignore", "always", "module", "once"]
+type Action = Literal["default", "error", "ignore", "always", "module", "once"]
 """Action to take for a warning."""
 
-Freezable: TypeAlias = (
+type Freezable = (
     Callable[..., Any] | Mapping[str, Any] | ItemsView[str, Any] | Iterable[Any]
 )
 """Value that can be frozen."""
@@ -43,8 +43,8 @@ SettingsModel = TypeVar("SettingsModel", bound=BaseSettings)
 """Settings model type."""
 
 
-Params: TypeAlias = Mapping[str, Any]
-Attributes: TypeAlias = Iterable[str]
+type Params = Mapping[str, Any]
+type Attributes = Iterable[str]
 
-SimpleNamespaceReceiver: TypeAlias = Callable[..., Any]
+type SimpleNamespaceReceiver = Callable[..., Any]
 """Should be a `Callable` with an `ns` parameter expecting a `SimpleNamespace`."""

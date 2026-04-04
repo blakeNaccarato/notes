@@ -9,7 +9,7 @@ from datetime import datetime, time, timedelta
 from json import loads
 from re import Match, finditer
 from textwrap import indent
-from typing import Generic, Self, TypeVar
+from typing import Self, TypeVar
 
 from markdown_it.token import Token
 from mdformat.renderer import MDRenderer
@@ -24,7 +24,7 @@ from notes_pipeline.models.params import PARAMS
 from notes_pipeline.sync_lists import invoke_obsidian_command, sync_lists
 
 
-def main():  # noqa: C901, D103  # sourcery skip: low-code-quality
+def main():  # noqa: C901  # sourcery skip: low-code-quality
     tokens = MD.parse(PARAMS.paths.plan.read_text(encoding="utf-8"))
     lists = sync_lists(
         path=PARAMS.paths.personal / "_data" / "unsynced" / "lists.md",
@@ -131,7 +131,7 @@ T = TypeVar("T")
 
 
 @dataclass(frozen=True)
-class Sublist(UserList[T], Generic[T]):
+class Sublist[T](UserList[T]):
     """Sublist."""
 
     seq: Iterable[T]

@@ -23,17 +23,17 @@ limitations under the License.
 
 from types import NoneType
 from typing import Annotated as Ann
-from typing import Any, TypeAlias
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-FilePath: TypeAlias = str
-VarKey: TypeAlias = str
-StageName: TypeAlias = str
-PlotIdOrFilePath: TypeAlias = str
-PlotColumn: TypeAlias = str
-PlotColumns: TypeAlias = str
-PlotTemplateName: TypeAlias = str
+type FilePath = str
+type VarKey = str
+type StageName = str
+type PlotIdOrFilePath = str
+type PlotColumn = str
+type PlotColumns = str
+type PlotTemplateName = str
 
 
 class DvcBaseModel(BaseModel, use_attribute_docstrings=True): ...
@@ -78,10 +78,10 @@ class PlotFlags(OutFlags):
     """Default plot template"""
 
 
-X: TypeAlias = Ann[dict[FilePath, PlotColumn] | None, Field(default=None)]
+type X = Ann[dict[FilePath, PlotColumn] | None, Field(default=None)]
 
 
-Y: TypeAlias = Ann[dict[FilePath, PlotColumns] | None, Field(default=None)]
+type Y = Ann[dict[FilePath, PlotColumns] | None, Field(default=None)]
 
 
 class TopLevelPlotFlags(DvcBaseModel):
@@ -100,7 +100,7 @@ class TopLevelPlotFlags(DvcBaseModel):
     """Default plot template"""
 
 
-EmptyTopLevelPlotFlags: TypeAlias = Ann[NoneType, Field(default=None)]
+type EmptyTopLevelPlotFlags = Ann[NoneType, Field(default=None)]
 
 
 class TopLevelArtifactFlags(DvcBaseModel):
@@ -117,37 +117,37 @@ class TopLevelArtifactFlags(DvcBaseModel):
     """Labels for the artifact"""
 
 
-DepModel: TypeAlias = Ann[
+type DepModel = Ann[
     FilePath,
     Field(description="Path to a dependency (input) file or directory for the stage."),
 ]
 
 
-Dependencies: TypeAlias = list[DepModel]
+type Dependencies = list[DepModel]
 
 
-ParamKey: TypeAlias = Ann[str, Field(description="Parameter name (dot-separated).")]
+type ParamKey = Ann[str, Field(description="Parameter name (dot-separated).")]
 
 
-CustomParamFileKeys: TypeAlias = Ann[
+type CustomParamFileKeys = Ann[
     dict[FilePath, list[ParamKey]],
     Field(description="Path to YAML/JSON/TOML/Python params file."),
 ]
 
 
-EmptyParamFileKeys: TypeAlias = Ann[
+type EmptyParamFileKeys = Ann[
     dict[FilePath, None],
     Field(description="Path to YAML/JSON/TOML/Python params file."),
 ]
 
 
-Param = ParamKey | CustomParamFileKeys | EmptyParamFileKeys
+type Param = ParamKey | CustomParamFileKeys | EmptyParamFileKeys
 
 
 Params = list[Param]
 
 
-Out: TypeAlias = Ann[
+type Out = Ann[
     FilePath | dict[FilePath, OutFlags],
     Field(description="Path to an output file or dir of the stage."),
 ]
@@ -156,23 +156,23 @@ Out: TypeAlias = Ann[
 Outs = list[Out]
 
 
-Metric: TypeAlias = Ann[
+type Metric = Ann[
     FilePath | dict[FilePath, OutFlags],
     Field(description="Path to a JSON/TOML/YAML metrics output of the stage."),
 ]
 
 
-Plot: TypeAlias = Ann[
+type Plot = Ann[
     FilePath | dict[FilePath, PlotFlags],
     Field(
         description="""Path to plots file or dir of the stage.\n\nData files may be JSON/YAML/CSV/TSV.\n\nImage files may be JPEG/GIF/PNG."""
     ),
 ]
 Plots = list[Plot]
-VarPath: TypeAlias = Ann[
+type VarPath = Ann[
     str, Field(description="Path to params file with values for substitution.")
 ]
-VarDecl: TypeAlias = Ann[
+type VarDecl = Ann[
     dict[VarKey, Any], Field(description="Dict of values for substitution.")
 ]
 Vars = list[VarPath | VarDecl]
@@ -215,7 +215,7 @@ class Stage(DvcBaseModel):
     """Additional information/metadata"""
 
 
-ParametrizedString: TypeAlias = Ann[str, Field(pattern=r"^\$\{.*?\}$")]
+type ParametrizedString = Ann[str, Field(pattern=r"^\$\{.*?\}$")]
 
 
 class ForeachDo(DvcBaseModel):
@@ -233,14 +233,10 @@ class Matrix(Stage):
 
 
 Definition = ForeachDo | Matrix | Stage
-TopLevelPlots: TypeAlias = dict[
-    PlotIdOrFilePath, TopLevelPlotFlags | EmptyTopLevelPlotFlags
-]
-TopLevelPlotsList: TypeAlias = list[PlotIdOrFilePath | TopLevelPlots]
-ArtifactIdOrFilePath: TypeAlias = Ann[
-    str, Field(pattern=r"^[a-z0-9]([a-z0-9-/]*[a-z0-9])?$")
-]
-TopLevelArtifacts: TypeAlias = dict[ArtifactIdOrFilePath, TopLevelArtifactFlags]
+type TopLevelPlots = dict[PlotIdOrFilePath, TopLevelPlotFlags | EmptyTopLevelPlotFlags]
+type TopLevelPlotsList = list[PlotIdOrFilePath | TopLevelPlots]
+type ArtifactIdOrFilePath = Ann[str, Field(pattern=r"^[a-z0-9]([a-z0-9-/]*[a-z0-9])?$")]
+type TopLevelArtifacts = dict[ArtifactIdOrFilePath, TopLevelArtifactFlags]
 
 
 class DvcYamlModel(DvcBaseModel):

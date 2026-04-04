@@ -102,7 +102,7 @@
     {
       "label": "Run pytest",
       "runOptions": { "runOn": "folderOpen" },
-      "presentation": { "group": "background" },
+      "presentation": { "group": "background", "reveal": "never" },
       "icon": { "id": "beaker" },
       "command": "./j.ps1 proj::watch-src-and-tests",
       "group": { "kind": "test", "isDefault": true },
@@ -113,8 +113,39 @@
           "source": "pytest",
           "background": {
             "beginsPattern": "=+ test session starts =+",
-            "endsPattern": "=+ (?:\\d+ passed|\\d+ failed|no tests ran).* =+"
+            "endsPattern": "=+ (?:\\d+ passed|\\d+ failed|no tests ran|\\d+ deselected).* =+"
           }
+        }
+      ]
+    },
+    {
+      "label": "Run ruff",
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "group": "background", "reveal": "never" },
+      "icon": { "id": "check" },
+      "command": "./j.ps1 tool-ruff --watch --output-format github",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "source": "Ruff",
+          "owner": "Ruff",
+          "severity": "warning",
+          "background": {
+            "beginsPattern": "\\[[^\\]]+\\] Found \\d+ errors\\. Watching for file changes\\.",
+            "endsPattern": "^$"
+          },
+          "pattern": [
+            {
+              "regexp": "^::\\w+ title=ruff \\(([^)]+)\\),file=[^,]+,line=(\\d+),col=(\\d+),endLine=(\\d+),endColumn=(\\d+)::([^:]+):\\d+:\\d+: [^\\s]+ (.*)$",
+              "code": 1,
+              "line": 2,
+              "column": 3,
+              "endLine": 4,
+              "endColumn": 5,
+              "file": 6,
+              "message": 7
+            }
+          ]
         }
       ]
     },
@@ -128,7 +159,7 @@
     {
       "label": "Run npm watcher",
       "runOptions": { "runOn": "folderOpen" },
-      "presentation": { "group": "background" },
+      "presentation": { "group": "background", "reveal": "never" },
       "icon": { "id": "package" },
       "command": "npm run watch",
       "isBackground": true,
@@ -146,7 +177,7 @@
     {
       "label": "Run template watcher",
       "runOptions": { "runOn": "folderOpen" },
-      "presentation": { "group": "background" },
+      "presentation": { "group": "background", "reveal": "never" },
       "icon": { "id": "edit" },
       "command": "./j.ps1 proj::watch-templates",
       "isBackground": true,

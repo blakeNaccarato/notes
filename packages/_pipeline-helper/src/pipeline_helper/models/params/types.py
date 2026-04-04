@@ -1,6 +1,6 @@
 """Types."""
 
-from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Any, ParamSpec, Protocol, TypeVar
 
 from pandas import DataFrame, Series
 
@@ -20,7 +20,7 @@ Data_T = TypeVar("Data_T", bound=Data[Dfs, Plots], covariant=True)
 """Model type."""
 Ps = ParamSpec("Ps")
 """Parameter type specification."""
-AnyParams: TypeAlias = "Params[Deps, Outs]"
+type AnyParams = "Params[Deps, Outs]"
 """Any parameters."""
 
 

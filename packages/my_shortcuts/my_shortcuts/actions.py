@@ -19,7 +19,7 @@ WAIT = 0.1
 
 def play_clicks(dry: bool, verbose: bool, output: Output):
     output("Playing back clicks...")
-    positions = [Position(pos) for pos in loads(POSITIONS.read_text(encoding="utf-8"))]
+    positions: list[Position] = loads(POSITIONS.read_text(encoding="utf-8"))
     with killable(), suppress(KeyboardInterrupt):
         for pos in positions:
             wait()

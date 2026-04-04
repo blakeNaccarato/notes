@@ -1,6 +1,6 @@
 """Stages."""
 
-from typing import Literal, TypeAlias
+from typing import Literal
 
-StageName: TypeAlias = Literal["example"]
+type StageName = Literal["example"]
 """Stage."""
