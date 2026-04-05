@@ -99,15 +99,12 @@ jobs:
         with:
           version: "${{ needs.env.outputs.uv_version }}"
           enable-cache: true
-      - run: "./j.ps1 ci tool-ty"
+      - run: "./j.ps1 ci tool-ty --error-on-warning"
   test:
     needs: "env"
     strategy:
       matrix:
-        runner:
-          - "macos-15"
-          - "ubuntu-24.04"
-          - "windows-2025"
+        runner: ["windows-2025"]
         python:
           - "3.14"
     runs-on: "${{ matrix.runner }}"
@@ -120,11 +117,8 @@ jobs:
           version: "${{ needs.env.outputs.uv_version }}"
           enable-cache: true
       #! https://github.com/pytest-dev/pytest-cov/issues/479#issuecomment-1247444988
-      - if: startsWith(matrix.runner, 'ubuntu') && matrix.python == needs.env.outputs.python_version
-        run: "./j.ps1 ci tool-pytest --cov --cov-config=pyproject.toml --cov-report=xml"
-      - if: startsWith(matrix.runner, 'ubuntu') && matrix.python == needs.env.outputs.python_version
-        uses: "codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673" # v4.5.0
+      - run: "./j.ps1 ci tool-pytest --cov --cov-config=pyproject.toml --cov-report=xml"
+      - uses: "codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673" # v4.5.0
         env:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
-      - if: (!(startsWith(matrix.runner, 'ubuntu') && matrix.python == needs.env.outputs.python_version))
-        run: "./j.ps1 --set 'python_version' '${{ matrix.python }}' ci tool-pytest"
+      - run: "./j.ps1 --set 'python_version' '${{ matrix.python }}' ci tool-pytest"

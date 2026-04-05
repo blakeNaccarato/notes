@@ -93,7 +93,7 @@ id = "ty"
 name = "ty"
 pass_filenames = false
 language = "system"
-entry = 'pwsh -NonInteractive -NoProfile ./j.ps1 tool-ty'
+entry = 'pwsh -NonInteractive -NoProfile ./j.ps1 tool-ty --error-on-warning'
 files = '''(?x)^(
   .*/pyproject\.toml
   |docs/.*
