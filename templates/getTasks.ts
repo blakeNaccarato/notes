@@ -1,6 +1,3 @@
-// @ts-nocheck
-
-import { Plugin } from "obsidian";
 import type { Templater, TemplaterPlugin } from "./types";
 
 /**
@@ -15,13 +12,13 @@ export default (id: string, showTree = false, showId = false): string => {
     (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
       .templater as Templater
   ).current_functions_object;
-  const dv = app.plugins.getPlugin("dataview").api as Plugin;
-  let planned = [];
-  const { tasks } = dv.pages('"__plan/plans.md"').file;
-  const filtered = tasks.filter((task) => task.text.includes(`🆔 ${id}`));
-  if (filtered.length) {
-    const match = filtered[0].text.match(/⛔\s([\w\d-,]+)/);
-    planned = match ? match[1].split(",") : [];
+  const dv = tp.app.plugins.getPlugin("dataview").api;
+  let planned: string[] = [];
+  const { tasks } = dv.page('"__plan/plans.md"')?.["file"] ?? { tasks: [] };
+  const first_filtered = tasks.filter((task) => task.text.includes(`🆔 ${id}`))[0];
+  if (first_filtered != undefined) {
+    const match = first_filtered.text.match(/⛔\s(?<deps>[\w\d-,]+)/);
+    planned = match?.groups?.["deps"]?.split(",") ?? [];
   }
   return tp.user.taskBlock(`
 group by function {3: "0. This week", 0: "1. Friday", 1: "2. Saturday", 2: "3. Sunday", 4: "4. Monday", 5: "5. Tuesday – Thursday"}[task.priorityNumber]

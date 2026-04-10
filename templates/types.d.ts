@@ -1,6 +1,8 @@
 export type { default as TemplaterPlugin } from "templater-obsidian";
-
 import type { Moment } from "moment";
+import type { App as RawApp } from "obsidian";
+import type { DataviewApi } from "obsidian-dataview/lib/api/plugin-api";
+import type { SMarkdownPage } from "obsidian-dataview/lib/data-model/serialized/markdown";
 import type { InternalModuleFile } from "templater-obsidian/dist/core/functions/internal_functions/file/InternalModuleFile";
 import type { InternalModuleSystem } from "templater-obsidian/dist/core/functions/internal_functions/system/InternalModuleSystem";
 
@@ -9,8 +11,19 @@ import type { InternalModuleSystem } from "templater-obsidian/dist/core/function
  */
 export interface Templater {
   current_functions_object: {
+    app: App;
+    file: {
+      content: Content;
+      path: Path;
+      selection: Selection;
+    };
     obsidian: {
       moment: () => Moment;
+    };
+    system: {
+      clipboard: Clipboard;
+      prompt: Prompt;
+      suggester: Suggester;
     };
     user: {
       cite: (typeof import("./cite"))["default"];
@@ -31,17 +44,20 @@ export interface Templater {
       taskBlock: (typeof import("./taskBlock"))["default"];
       testUserTemplates: (typeof import("./testUserTemplates"))["default"];
     };
-    file: {
-      content: Content;
-      path: Path;
-      selection: Selection;
-    };
-    system: {
-      clipboard: Clipboard;
-      prompt: Prompt;
-      suggester: Suggester;
-    };
   };
+}
+
+type App = RawApp & {
+  plugins: Omit<RawApp["plugins"], "getPlugin"> & {
+    getPlugin(id: "dataview"): DataviewPlugin;
+  };
+};
+
+interface DataviewPlugin {
+  api: Dataview;
+}
+interface Dataview {
+  page(...args: Parameters<DataviewApi["page"]>): SMarkdownPage | undefined;
 }
 
 type ContentGenerator = ReturnType<
