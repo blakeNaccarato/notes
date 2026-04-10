@@ -4,8 +4,8 @@
     "module": "NodeNext",
     "target": "ES2022",
     "types": ["obsidian-typings"],
-    "rootDir": "templates",
-    "outDir": "data/local/vaults/personal/_templater-scripts"
+    "outDir": "data/local/vaults/personal/_templater-scripts",
+    "rootDir": "templates"
   },
   "include": ["templates/*.ts"]
 }
