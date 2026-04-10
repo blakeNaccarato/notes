@@ -27,6 +27,6 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc-watch --pretty",
-    "postbuild": "uvx --from rust-just just format-templates"
+    "postbuild": "pwsh ./j.ps1 proj::format-templates"
   }
 }

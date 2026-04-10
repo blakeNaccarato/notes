@@ -1,12 +1,11 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
+
 /**
  * Get this month's expenses to-do list.
  */
 export default (): string => {
-  const tp = (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object;
+  const tp = (app as App).plugins.getPlugin("templater-obsidian").templater
+    .current_functions_object;
   const fmt = tp.user.getDatetimeFmt();
   const now = tp.obsidian.moment();
   const nextId = () => now.add(1, "seconds").format(fmt);

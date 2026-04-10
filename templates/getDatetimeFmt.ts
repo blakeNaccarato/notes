@@ -1,4 +1,4 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get datetime format.
@@ -13,9 +13,7 @@ export default (): string => {
   // - https://docs.obsidian.md/Plugins/Events
   // - https://momentjs.com/docs/#/displaying/as-iso-string/
   //
-  const { user } = (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object;
+  const { user } = (app as App).plugins.getPlugin("templater-obsidian").templater
+    .current_functions_object;
   return `${user.getDateFmt()}T${user.getTimeFmt()}`;
 };

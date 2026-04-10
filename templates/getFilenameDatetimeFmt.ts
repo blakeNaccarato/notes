@@ -1,11 +1,10 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get modified datetime format that is legal in filenames.
  */
 export default (): string => {
-  return `${(
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object.user.getDatetimeFmt()}`.replaceAll(":", "");
+  return `${(app as App).plugins
+    .getPlugin("templater-obsidian")
+    .templater.current_functions_object.user.getDatetimeFmt()}`.replaceAll(":", "");
 };

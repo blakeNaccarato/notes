@@ -1,4 +1,4 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get to-do list.
@@ -6,10 +6,8 @@ import type { Templater, TemplaterPlugin } from "./types";
  * @param folder Get unfinished tasks in folder, or all tasks in file.
  */
 export default async (folder = false): Promise<string[]> => {
-  const tp = (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object;
+  const tp = (app as App).plugins.getPlugin("templater-obsidian").templater
+    .current_functions_object;
   const tags = await tp.system.prompt("Tags to include (comma-separated)");
   const excludedTags = await tp.system.prompt("Tags to exclude (comma-separated)");
   const createTagsPattern = (input: string): string =>

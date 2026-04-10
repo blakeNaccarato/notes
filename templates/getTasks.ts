@@ -1,4 +1,4 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Function
@@ -8,11 +8,9 @@ import type { Templater, TemplaterPlugin } from "./types";
  * @param showId showId
  */
 export default (id: string, showTree = false, showId = false): string => {
-  const tp = (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object;
-  const dv = tp.app.plugins.getPlugin("dataview").api;
+  const tp = (app as App).plugins.getPlugin("templater-obsidian").templater
+    .current_functions_object;
+  const dv = (app as App).plugins.getPlugin("dataview").api;
   let planned: string[] = [];
   const { tasks } = dv.page('"__plan/plans.md"')?.["file"] ?? { tasks: [] };
   const first_filtered = tasks.filter((task) => task.text.includes(`🆔 ${id}`))[0];

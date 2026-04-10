@@ -1,13 +1,12 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get entry for selection or clipboard.
  */
 export default async (): Promise<void> => {
-  const { entry, logId, taskId } = await (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object.user.getEntryGroups();
+  const { entry, logId, taskId } = await (app as App).plugins
+    .getPlugin("templater-obsidian")
+    .templater.current_functions_object.user.getEntryGroups();
   const sp = " ";
   const text = entry
     .trim()

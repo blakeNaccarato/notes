@@ -1,4 +1,4 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get entry match object for selection or clipboard.
@@ -16,10 +16,9 @@ export default async (): Promise<{
   // Replace Markdown-style links with link text
   // Get entry
   return (
-    await (
-      (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-        .templater as Templater
-    ).current_functions_object.user.getSelOrClip()
+    await (app as App).plugins
+      .getPlugin("templater-obsidian")
+      .templater.current_functions_object.user.getSelOrClip()
   )
     .replace(/\[(?<linkText>[^\]]*)\]\([^)]*\)/g, "$<linkText>")
     .match(

@@ -1,4 +1,4 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Get choice.
@@ -7,13 +7,12 @@ import type { Templater, TemplaterPlugin } from "./types";
  * @param description Prompt/description shown to the user.
  */
 export default async <T>(description: string, choices: Record<string, T>) => {
-  return await (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object.system.suggester(
-    Object.keys(choices),
-    Object.values(choices),
-    true,
-    description,
-  );
+  return await (app as App).plugins
+    .getPlugin("templater-obsidian")
+    .templater.current_functions_object.system.suggester(
+      Object.keys(choices),
+      Object.values(choices),
+      true,
+      description,
+    );
 };

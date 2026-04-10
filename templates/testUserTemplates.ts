@@ -1,13 +1,11 @@
-import type { Templater, TemplaterPlugin } from "./types";
+import type { App } from "./types";
 
 /**
  * Test user templates.
  */
 export default async (): Promise<void> => {
-  const { user } = (
-    (app.plugins.getPlugin("templater-obsidian") as TemplaterPlugin)
-      .templater as Templater
-  ).current_functions_object;
+  const { user } = (app as App).plugins.getPlugin("templater-obsidian").templater
+    .current_functions_object;
   if (!user.invokedFromTemplaterCreate()) {
     new Notice('Use "Templater: Open insert template modal"');
     return;
