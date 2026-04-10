@@ -4,3 +4,6 @@
 [submodule "templater-obsidian"]
 	path = packages/templater-obsidian
 	url = https://github.com/blakeNaccarato/Templater
+[submodule "obsidian-tasks"]
+	path = packages/obsidian-tasks
+	url = https://github.com/blakeNaccarato/obsidian-tasks.git
