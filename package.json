@@ -1,17 +1,18 @@
 {
   "devDependencies": {
-    "@bitwarden/cli": "^2025.4.0",
-    "@eslint/js": "9.24.0",
-    "@tsconfig/strictest": "2.0.5",
-    "@types/moment": "^2.11.29",
-    "eslint": "9.24.0",
-    "markdownlint-cli2": "^0.18.1",
-    "obsidian-typings": "2.42.0",
-    "prettier": "3.5.3",
+    "@bitwarden/cli": "^2026.3.0",
+    "@eslint/js": "^10.0.1",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/moment": "^2.13.0",
+    "eslint": "^10.2.0",
+    "markdownlint-cli2": "^0.22.0",
+    "obsidian-dataview": "^0.5.68",
+    "obsidian-typings": "^5.20.0",
+    "prettier": "^3.8.2",
     "templater-obsidian": "file:packages/templater-obsidian",
-    "tsc-watch": "^6.2.1",
-    "typescript": "5.8.3",
-    "typescript-eslint": "8.29.1"
+    "tsc-watch": "^7.2.0",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.1"
   },
   "scripts": {
     "build": "tsc",
