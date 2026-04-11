@@ -9,7 +9,7 @@ export type App = RawApp & {
   plugins: {
     getPlugin(id: "dataview"): {
       api: {
-        page(...args: Parameters<DataviewApi["page"]>): SMarkdownPage | undefined;
+        pages(...args: Parameters<DataviewApi["pages"]>): SMarkdownPage[] | undefined;
       };
     };
     getPlugin(id: "templater-obsidian"): {

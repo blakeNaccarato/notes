@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import type { App } from "./types";
 
 /**
@@ -13,13 +11,12 @@ export default (id: string, showTree = false, showId = false): string => {
   const tp = (app as App).plugins.getPlugin("templater-obsidian").templater
     .current_functions_object;
   const dv = (app as App).plugins.getPlugin("dataview").api;
-  let planned = [];
-  const { tasks } = dv.pages('"__plan/plans.md"').file;
-  const filtered = tasks.filter((task) => task.text.includes(`🆔 ${id}`));
-  if (filtered.length) {
-    const match = filtered[0].text.match(/⛔\s([\w\d-,]+)/);
-    planned = match ? match[1].split(",") : [];
-  }
+  const { tasks } = dv.pages('"__plan/plans.md"')?.[0]?.file ?? {};
+  if (!tasks) throw new Error("No tasks found");
+  const identified = tasks.filter((task) => task.text.includes(`🆔 ${id}`))[0];
+  if (!identified) throw new Error("No task with that ID found");
+  const match = identified.text.match(/⛔\s(?<deps>[\w\d-,]+)/);
+  const planned: string[] = match?.groups?.["deps"]?.split(",") ?? [];
   return tp.user.taskBlock(`
 group by function {3: "0. This week", 0: "1. Friday", 1: "2. Saturday", 2: "3. Sunday", 4: "4. Monday", 5: "5. Tuesday – Thursday"}[task.priorityNumber]
 ${showTree ? "show tree" : ""}
