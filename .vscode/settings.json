@@ -45,6 +45,7 @@
   "files.associations": {
     ".all-contributorsrc": "jsonc",
     ".coveragerc": "ini",
+    "*.base": "yaml",
     "*.just": "just",
     "root.*Rt": "markdown"
   },
