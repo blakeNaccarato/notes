@@ -17,8 +17,15 @@ export default (id: string, showTree = false, showId = false): string => {
   if (!identified) throw new Error("No task with that ID found");
   const match = identified.text.match(/⛔\s(?<deps>[\w\d-,]+)/);
   const planned = match?.groups?.["deps"]?.split(",") ?? [];
+
+  const groups = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday – Thursday"];
+  const weekdayGroupIndex = [2, 3, 4, 4, 4, 0, 1];
+  const currentGroup = weekdayGroupIndex[new Date().getDay()] ?? 0;
+  const groupLabel = (groupIndex: number) =>
+    `${((groupIndex - currentGroup + groups.length) % groups.length) + 1}. ${groups[groupIndex]}`;
+
   return tp.user.taskBlock(`
-group by function {3: "0. This week", 0: "1. Friday", 1: "2. Saturday", 2: "3. Sunday", 4: "4. Monday", 5: "5. Tuesday – Thursday"}[task.priorityNumber]
+group by function {3: "0. This week", 0: "${groupLabel(0)}", 1: "${groupLabel(1)}", 2: "${groupLabel(2)}", 4: "${groupLabel(3)}", 5: "${groupLabel(4)}"}[task.priorityNumber]
 ${showTree ? "show tree" : ""}
 ${showId ? "full mode" : ""}
 ${showId ? "preset hide_date_fields" : ""}

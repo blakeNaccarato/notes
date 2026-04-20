@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.22.4"
+__generated_with = "0.23.1"
 app = marimo.App()
 
 with app.setup:
@@ -96,7 +96,8 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
 @app.function
 def get_plans(tasks: DataFrame) -> DataFrame:
     return tasks.loc[
-        (~col("done"))
+        (~col("cancelled"))
+        & (~col("done"))
         & col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
     ]
 
@@ -159,6 +160,7 @@ def _():
             .str.replace(r"\s{2,}", " ", regex=True)
             .str.strip(),
             "entry": "[" + col("task") + "](" + col("path") + ")",
+            "cancelled": col("status") == "-",
             "done": col("status") == "x",
             "priority": col("priority")
             .fillna("")
@@ -181,44 +183,48 @@ def _(tasks):
     - 13
     - 16
     - 19
-    - **Plan**
-    """
+    - **Plan**"""
+    weekday_group_index = {
+        4: 0,  # Friday
+        5: 1,  # Saturday
+        6: 2,  # Sunday
+        0: 3,  # Monday
+        1: 4,  # Tuesday
+        2: 4,  # Wednesday
+        3: 4,  # Thursday
+    }
+    start = weekday_group_index[get_now().weekday()] - 1
+    groups = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday – Thursday"]  # noqa: RUF001
+    ordered_groups = groups[start:] + groups[:start]
     day_plans = {
-        "This week": "",
-        "Friday": day_plan,
-        "Saturday": day_plan,
-        "Sunday": day_plan,
-        "Monday": day_plan,
-        "Tuesday – Thursday": "",  # noqa: RUF001
+        day: "" if day == "Tuesday – Thursday" else day_plan  # noqa: RUF001
+        for day in ordered_groups
     }
     week_plan = """\
     ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
     """ + "".join(
-        (
-            tasks
-            .set_index("day")[["entry"]]
-            .groupby("day")
-            .agg(
-                lambda ser: (
-                    f"""
-    - **{ser.index.get_level_values("day")[0]}**
-    {day_plans[ser.index.get_level_values("day")[0]]}
-    """
-                    + reduce(
-                        add,
-                        [
-                            f"""
+        tasks
+        .set_index("day")[["entry"]]
+        .groupby("day")
+        .agg(
+            lambda ser: (
+                f"""
+    - **{ser.index.get_level_values("day")[0]}**{day_plans[ser.index.get_level_values("day")[0]]}"""
+                + reduce(
+                    add,
+                    [
+                        f"""
     - {entry}"""
-                            for entry in ser
-                        ],
-                    )
+                        for entry in ser
+                    ],
                 )
             )
-        )["entry"].tolist()
+        )
+        .reindex(ordered_groups)
+        .dropna(subset=["entry"])["entry"]
+        .tolist()
     )
-    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(
-        encoding="utf-8", data=week_plan
-    )
+    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(encoding="utf-8", data=week_plan)
     mo.md(week_plan)
 
 
@@ -244,9 +250,7 @@ def _(plans, tasks):
         "This week": Plan(START_OF_DAY - timedelta(days=7), "Reprioritize"),
         "Reprioritize": Plan(min_datetime, ""),
     }
-    PLAN_PAT = (
-        r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
-    )
+    PLAN_PAT = r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
     last_seen: dict[str, datetime] = {
         k: datetime.fromisoformat(v)
         for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
@@ -263,9 +267,9 @@ def _(plans, tasks):
             if (
                 False  # noqa: SIM223 # TODO: Reimplement done filter
                 and not (
-                    matches := tasks[
-                        tasks.text.str.contains(rf"\s🆔 {item}", na=False)
-                    ][["text", "done"]]
+                    matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
+                        ["text", "done"]
+                    ]
                 ).empty
                 and all(matches.done)
             ):
