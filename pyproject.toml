@@ -73,9 +73,10 @@ dev = [
   "sphinxcontrib-mermaid>=0.9.2",
   "sphinxcontrib-towncrier>=0.5.0a0",
   "towncrier>=24.8.0",
-  #? Marimo deps
-  "ruff==0.15.10", # Minimum ruff from VSCode extension 2026.40.0
-  "ty==0.0.31",    # Minimum ty from VSCode extension 2026.38.0
+  #? Marimo
+  "marimo[lsp,sql]==0.23.2", #! Satisfies Marimo VSCode extension requirement
+  "ruff==0.15.10",           #! Satisfies Ruff and Marimo VSCode extension requirements
+  "ty==0.0.32",              #! Satisfies Ty and Marimo VSCode extension requirements
   #? Tests
   "pytest-cov>=5.0.0",
   "pytest-custom-exit-code>=0.3.0",

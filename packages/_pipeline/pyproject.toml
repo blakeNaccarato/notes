@@ -12,7 +12,7 @@ dependencies = [
   "astroid>=3.3.1",
   "cappa>=0.22.4",
   "dulwich>=0.23.0",
-  "marimo[lsp,sql]==0.23.1",     # Minimum Marimo from VSCode extension 0.12.5
+  "marimo[lsp,sql]>=0.23.2",     #! Also satisfies Marimo VSCode extension requirement
   "markdown-it-py>=3.0.0",
   "markdown-it-pyrs>=0.4.0",
   "mdformat-frontmatter>=2.0.8",
@@ -25,8 +25,6 @@ dependencies = [
   "typer>=0.9.0",
   "unidiff>=0.7.5",
   "watchfiles>=1.1.1",
-  #? Marimo deps
-  "altair>=5.4.0",
 ]
 [dependency-groups]
 dev = ["altair>=5.4.0", "colorama>=0.4.6", "dvc>=3.61.0", "rich>=14.0.0"]
