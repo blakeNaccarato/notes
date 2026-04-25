@@ -1,32 +1,33 @@
 import marimo
 
-__generated_with = "0.23.1"
+__generated_with = "0.23.2"
 app = marimo.App()
 
 with app.setup:
-    from collections import defaultdict
     from collections.abc import Iterable
     from dataclasses import dataclass, field
-    from datetime import datetime, time, timedelta
+    from datetime import datetime
     from functools import reduce
     from io import StringIO
-    from json import loads
+    from json import dumps, loads
     from operator import add
     from pathlib import Path
-    from re import Match, finditer
+    from re import Match, sub
     from subprocess import run
 
     import marimo as mo
-    from more_itertools import one, only
+    from more_itertools import one
     from pandas import (
         CategoricalDtype,
         DataFrame,
+        NaT,
         Series,
         col,  # ty:ignore[unresolved-import]
         read_csv,
+        to_timedelta,
     )
 
-    from notes.times import get_now, get_time_today, min_datetime
+    from notes.times import current_tz, get_now
     from notes_pipeline.data import get_data
 
     data = get_data(Path.cwd())
@@ -102,8 +103,32 @@ def get_plans(tasks: DataFrame) -> DataFrame:
     ]
 
 
+@app.function
+def compute_last_planned(df):
+    return df["last_seen"] + to_timedelta(
+        df["day"]
+        .map({
+            "Monday": 0,
+            "Tuesday – Thursday": 1,  # noqa: RUF001,
+            "Friday": 4,
+            "Saturday": 5,
+            "Sunday": 6,
+        })
+        .sub(df["last_seen"].dt.weekday)
+        .add(7)
+        .mod(7)
+        .replace(0, 7)
+        .fillna(NaT),
+        unit="D",
+    )
+
+
 @app.cell
 def _():
+    last_seen: dict[str, datetime] = {
+        k: datetime.fromisoformat(v)
+        for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
+    }
     priorities = ["", "🔺", "⏫", "🔼", "🔽", "⏬"]
     days = dict(
         zip(
@@ -138,8 +163,11 @@ def _():
             "cancelled",
             "done",
             "after",
+            "last_seen",
             "entry",
             "day",
+            "last_planned",
+            "new_priority",
         ],
         data=read_csv(
             StringIO(
@@ -166,12 +194,49 @@ def _():
             .fillna("")
             .astype(CategoricalDtype(ordered=True, categories=priorities)),
             "day": col("priority").pipe(get_days, days),
+            "last_seen": lambda df: (
+                df["id"]
+                .map(last_seen)
+                .fillna(get_now())
+                .astype("datetime64[s, UTC]")
+                .dt.tz_convert(current_tz)
+                .dt.normalize()
+            ),
+            "last_planned": lambda df: df.pipe(compute_last_planned),
+            "new_priority": col("priority").where(col("last_planned") > get_now(), ""),
         })
         .pipe(get_plans)
-        .sort_values("day", na_position="first"),
+        .sort_values("day", na_position="first")
     )
     mo.ui.table(tasks)
     return (tasks,)
+
+
+@app.function
+def update_task(row):
+    q = row.to_dict()
+    path = data["personal"] / q["path"]
+    lines = path.read_text(encoding="utf-8").splitlines(True)
+    lines[q["line"] - 1] = sub(
+        rf"\s+{q['priority']}", q["new_priority"], lines[q["line"] - 1]
+    )
+    path.write_text("".join(lines), encoding="utf-8")
+    return row
+
+
+@app.cell
+def _(tasks):
+    to_reset = tasks.loc[col("priority") != col("new_priority")]
+    if False:
+        # TODO: Remove entries from "seeen_plans" if they were updated here
+        data["seen_plans"].write_text(
+            dumps(
+                tasks.set_index("id")["last_seen"].apply(lambda ts: ts.isoformat()).to_dict()
+            ),
+            encoding="utf-8",
+        )
+        to_reset.apply(update_task, axis="columns")
+    mo.ui.table(to_reset)
 
 
 @app.cell
@@ -229,75 +294,72 @@ def _(tasks):
 
 
 @app.cell
-def _(plans, tasks):
-    # TODO: Implement plan reprioritization
+def _():
+    # # TODO: Implement plan reprioritization
 
-    mo.stop(True)
+    # mo.stop(True)
 
-    # # Render to Markdown and save the times that items were first seen
-    # PARAMS.paths.plan.write_text(encoding="utf-8", data=render(tokens))
-    # PARAMS.paths.seen_plans.write_text(
-    #     encoding="utf-8",
-    #     data=f"{ser_json({k: ser_datetime(v) for k, v in seen.items()})}\n",
-    # )
-    # invoke_obsidian_command("app:reload")
+    # # # Render to Markdown and save the times that items were first seen
+    # # PARAMS.paths.plan.write_text(encoding="utf-8", data=render(tokens))
+    # # PARAMS.paths.seen_plans.write_text(
+    # #     encoding="utf-8",
+    # #     data=f"{ser_json({k: ser_datetime(v) for k, v in seen.items()})}\n",
+    # # )
+    # # invoke_obsidian_command("app:reload")
 
-    START_OF_DAY = get_time_today(time(0))
-    PLANS = {
-        "Reminders": Plan(min_datetime, ""),
-        "Now": Plan(get_now() - timedelta(hours=2), "Today"),
-        "Today": Plan(START_OF_DAY, "This week"),
-        "This week": Plan(START_OF_DAY - timedelta(days=7), "Reprioritize"),
-        "Reprioritize": Plan(min_datetime, ""),
-    }
-    PLAN_PAT = r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
-    last_seen: dict[str, datetime] = {
-        k: datetime.fromisoformat(v)
-        for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
-    }
-    seen: dict[str, datetime] = {}
-    kinds: dict[str, Kind] = defaultdict(Kind)
-    for plan in plans:
-        if not (match := only(finditer(PLAN_PAT, plan))) or not (
-            plan := PLANS.get(match["kind"])
-        ):
-            continue
-        # Check for old items in the plan
-        for item in match["items"].split(","):
-            if (
-                False  # noqa: SIM223 # TODO: Reimplement done filter
-                and not (
-                    matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
-                        ["text", "done"]
-                    ]
-                ).empty
-                and all(matches.done)
-            ):
-                continue
-            kinds[match["kind"]].match = match
-            if not match["items"]:
-                continue
-            seen_time = last_seen.get(item) or get_now()
-            # TODO: Reimplement cutoff
-            if False or seen_time < plan.cutoff:
-                # An item seen before the cutoff will be moved, forget that it was seen
-                kinds[plan.destination].plans.append(item)
-            else:
-                # Otherwise the item stays put and the first time it was seen is kept
-                kinds[match["kind"]].plans.append(item)
-                seen[item] = seen_time
-    # Update plan items
-    for kind in kinds.values():
-        if not kind.match:
-            continue
-        kind.content = get_plan(kind.match, kind.plans)
-        if not kind.content or not kind.match:
-            continue
-        if match := only(finditer(PLAN_PAT, kind.content)):
-            if match["items"] and match["kind"] == "Now":
-                ", ".join([f"🆔 {i}" for i in match["items"].split(",")])
-            kind.match = match
-    kinds
+    # START_OF_DAY = get_time_today(time(0))
+    # PLANS = {
+    #     "Reminders": Plan(min_datetime, ""),
+    #     "Now": Plan(get_now() - timedelta(hours=2), "Today"),
+    #     "Today": Plan(START_OF_DAY, "This week"),
+    #     "This week": Plan(START_OF_DAY - timedelta(days=7), "Reprioritize"),
+    #     "Reprioritize": Plan(min_datetime, ""),
+    # }
+    # PLAN_PAT = r"^-\s\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
+    # seen: dict[str, datetime] = {}
+    # kinds: dict[str, Kind] = defaultdict(Kind)
+    # for plan in plans:
+    #     if not (match := only(finditer(PLAN_PAT, plan))) or not (
+    #         plan := PLANS.get(match["kind"])
+    #     ):
+    #         continue
+    #     # Check for old items in the plan
+    #     for item in match["items"].split(","):
+    #         if (
+    #             False  # TODO: Reimplement done filter
+    #             and not (
+    #                 matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
+    #                     ["text", "done"]
+    #                 ]
+    #             ).empty
+    #             and all(matches.done)
+    #         ):
+    #             continue
+    #         kinds[match["kind"]].match = match
+    #         if not match["items"]:
+    #             continue
+    #         seen_time = last_seen.get(item) or get_now()
+    #         # TODO: Reimplement cutoff
+    #         if False or seen_time < plan.cutoff:
+    #             # An item seen before the cutoff will be moved, forget that it was seen
+    #             kinds[plan.destination].plans.append(item)
+    #         else:
+    #             # Otherwise the item stays put and the first time it was seen is kept
+    #             kinds[match["kind"]].plans.append(item)
+    #             seen[item] = seen_time
+    # # Update plan items
+    # for kind in kinds.values():
+    #     if not kind.match:
+    #         continue
+    #     kind.content = get_plan(kind.match, kind.plans)
+    #     if not kind.content or not kind.match:
+    #         continue
+    #     if match := only(finditer(PLAN_PAT, kind.content)):
+    #         if match["items"] and match["kind"] == "Now":
+    #             ", ".join([f"🆔 {i}" for i in match["items"].split(",")])
+    #         kind.match = match
+    # kinds
+    return
 
 
 if __name__ == "__main__":

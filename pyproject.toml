@@ -211,7 +211,7 @@ enabled = false
 manager = "uv" # (inferred by default) one of "pip", "rye", "uv", "poetry", or "pixi"
 
 [tool.marimo.runtime]
-auto_instantiate = false # (default: false) whether to autorun cells on editing startup
+auto_instantiate = true # (default: false) whether to autorun cells on editing startup
 auto_reload = "autorun" # (default: "off") "autorun" cells importing modified modules or mark stale if "lazy"
 default_auto_download = [ # (empty by default) whether to auto-download outputs to __marimo__ folders
 ]
@@ -392,6 +392,7 @@ convention = "numpy"
   "C901", # Allow complex Marimo cells
   "N806", # Allow ALL_CAPS variables in Marimo cells
   "B018", # Allow "useless" expressions for Marimo cell outputs
+  "E302", # Allow one blank line in "top-level" Marimo cells
 ]
 "docs/**.ipynb" = [
   "E402", # Need to allow imports below patches in docs notebooks
