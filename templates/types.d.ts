@@ -38,14 +38,13 @@ export type App = RawApp & {
           };
           user: {
             cite: (typeof import("./cite"))["default"];
-            getDateFmt: (typeof import("./getDateFmt"))["default"];
             getChoice: (typeof import("./getChoice"))["default"];
+            getDateFmt: (typeof import("./getDateFmt"))["default"];
             getDatetimeFmt: (typeof import("./getDatetimeFmt"))["default"];
             getEntry: (typeof import("./getEntry"))["default"];
             getEntryGroups: (typeof import("./getEntryGroups"))["default"];
-            getEntryMatch: (typeof import("./getEntryMatch"))["default"];
             getEntryId: (typeof import("./getEntryId"))["default"];
-            getExpenses: (typeof import("./getExpenses"))["default"];
+            getEntryMatch: (typeof import("./getEntryMatch"))["default"];
             getFilenameDatetimeFmt: (typeof import("./getFilenameDatetimeFmt"))["default"];
             getSelOrClip: (typeof import("./getSelOrClip"))["default"];
             getTasks: (typeof import("./getTasks"))["default"];

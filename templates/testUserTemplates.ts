@@ -12,14 +12,12 @@ export default async (): Promise<void> => {
   }
   user.cite();
   user.getChoice("", {});
-  user.getExpenses();
   user.getDateFmt();
   user.getDatetimeFmt();
   user.getEntry();
   user.getEntryGroups();
   user.getEntryId();
   user.getEntryMatch();
-  user.getExpenses();
   user.getFilenameDatetimeFmt();
   user.getSelOrClip();
   user.getTasks("zzzzzz");
