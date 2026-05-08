@@ -364,14 +364,14 @@
     "JUST_EXPLAIN": "true",
     "JUST_LIST_SUBMODULES": "true",
     "JUST_UNSORTED": "true",
-    "JUST_VERSION": "1.41.0",
+    "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.2",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.12.6",
+    "PROJECT_MARIMO_VERSION": "0.23.5",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
-    "PROJECT_TY_VERSION": "0.0.32",
-    "PROJECT_TY_VSCODE_VERSION": "2026.40.0",
+    "PROJECT_TY_VERSION": "0.0.34",
+    "PROJECT_TY_VSCODE_VERSION": "2026.44.0",
     "PYDEVD_DISABLE_FILE_VALIDATION": "1",
     "PYTHONIOENCODING": "utf-8:strict",
     "PYTHONPYCACHEPREFIX": ".cache/.pycache",
@@ -380,7 +380,7 @@
     "PYTHONWARNINGS": "ignore",
     "UV_INSTALL_DIR": ".",
     "UV_NO_MODIFY_PATH": "1",
-    "UV_VERSION": "0.10.12"
+    "UV_VERSION": "0.11.11"
   },
   //! Please only update by modifying `env.json` then running `./j.ps1 con` to sync
   "terminal.integrated.env.osx": {
@@ -394,14 +394,14 @@
     "JUST_EXPLAIN": "true",
     "JUST_LIST_SUBMODULES": "true",
     "JUST_UNSORTED": "true",
-    "JUST_VERSION": "1.41.0",
+    "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.2",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.12.6",
+    "PROJECT_MARIMO_VERSION": "0.23.5",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
-    "PROJECT_TY_VERSION": "0.0.32",
-    "PROJECT_TY_VSCODE_VERSION": "2026.40.0",
+    "PROJECT_TY_VERSION": "0.0.34",
+    "PROJECT_TY_VSCODE_VERSION": "2026.44.0",
     "PYDEVD_DISABLE_FILE_VALIDATION": "1",
     "PYTHONIOENCODING": "utf-8:strict",
     "PYTHONPYCACHEPREFIX": ".cache/.pycache",
@@ -410,7 +410,7 @@
     "PYTHONWARNINGS": "ignore",
     "UV_INSTALL_DIR": ".",
     "UV_NO_MODIFY_PATH": "1",
-    "UV_VERSION": "0.10.12"
+    "UV_VERSION": "0.11.11"
   },
   //! Please only update by modifying `env.json` then running `./j.ps1 con` to sync
   "terminal.integrated.env.windows": {
@@ -424,14 +424,14 @@
     "JUST_EXPLAIN": "true",
     "JUST_LIST_SUBMODULES": "true",
     "JUST_UNSORTED": "true",
-    "JUST_VERSION": "1.41.0",
+    "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.2",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.12.6",
+    "PROJECT_MARIMO_VERSION": "0.23.5",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
-    "PROJECT_TY_VERSION": "0.0.32",
-    "PROJECT_TY_VSCODE_VERSION": "2026.40.0",
+    "PROJECT_TY_VERSION": "0.0.34",
+    "PROJECT_TY_VSCODE_VERSION": "2026.44.0",
     "PYDEVD_DISABLE_FILE_VALIDATION": "1",
     "PYTHONIOENCODING": "utf-8:strict",
     "PYTHONPYCACHEPREFIX": ".cache/.pycache",
@@ -440,7 +440,7 @@
     "PYTHONWARNINGS": "ignore",
     "UV_INSTALL_DIR": ".",
     "UV_NO_MODIFY_PATH": "1",
-    "UV_VERSION": "0.10.12"
+    "UV_VERSION": "0.11.11"
   },
   //! Other
   //? Other automatically added settings below
