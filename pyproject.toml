@@ -54,7 +54,7 @@ dev = [
   "sourcery>=1.32.0",
   #? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel>=6.29.5",
-  "pandas-stubs>=2.2.3.250527",
+  "pandas-stubs>=3.0.0.260204",
   "pandas>=3.0.1",
   "pyarrow>=17.0.0",
   "pyspark>=3.5.5",
@@ -390,10 +390,11 @@ convention = "numpy"
   "S607", # Allow shell expressions here
 ]
 "packages/_pipeline/notes_pipeline/stages/*.py" = [
-  "C901", # Allow complex Marimo cells
-  "N806", # Allow ALL_CAPS variables in Marimo cells
-  "B018", # Allow "useless" expressions for Marimo cell outputs
-  "E302", # Allow one blank line in "top-level" Marimo cells
+  "B018",   # Allow "useless" expressions for Marimo cell outputs
+  "C901",   # Allow complex Marimo cells
+  "E302",   # Allow one blank line in "top-level" Marimo cells
+  "N806",   # Allow ALL_CAPS variables in Marimo cells
+  "RUF052", # Allow underscore-prefixed variable access
 ]
 "docs/**.ipynb" = [
   "E402", # Need to allow imports below patches in docs notebooks

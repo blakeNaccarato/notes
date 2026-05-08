@@ -87,14 +87,45 @@
   "notebook.formatOnSave.enabled": true,
   //! Code Actions
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.organizeImports": "always"
+    "source.addTypeAnnotation": "never",
+    "source.convertImportFormat": "never",
+    "source.convertImportStar": "never",
+    "source.convertImportToModule": "never",
+    "source.fixAll.eslint": "always",
+    "source.fixAll.prettier": "always",
+    "source.fixAll.pylance": "never",
+    "source.fixAll.ruff": "always",
+    "source.fixAll": "never",
+    "source.organizeImports.ruff": "never",
+    "source.organizeImports": "never",
+    "source.renameShadowedStdlibImports": "never",
+    "source.sort.json": "never",
+    "source.unusedImports": "never"
   },
   "notebook.codeActionsOnSave": {
-    "notebook.source.fixAll": "explicit",
-    "source.organizeImports": "explicit"
+    "notebook.source.fixAll.ruff": "explicit",
+    "notebook.source.fixAll": "never",
+    "source.addTypeAnnotation": "never",
+    "source.convertImportFormat": "never",
+    "source.convertImportStar": "never",
+    "source.convertImportToModule": "never",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.prettier": "explicit",
+    "source.fixAll.pylance": "never",
+    "source.fixAll.ruff": "never",
+    "source.fixAll": "never",
+    "source.organizeImports.ruff": "never",
+    "source.organizeImports": "never",
+    "source.renameShadowedStdlibImports": "never",
+    "source.sort.json": "never",
+    "source.unusedImports": "never"
   },
-  "python.analysis.fixAll": ["source.convertImportFormat", "source.unusedImports"],
+  "python.analysis.fixAll": [
+    // "source.addTypeAnnotation",
+    // "source.convertImportFormat",
+    // "source.convertImportStar",
+    // "source.unusedImports"
+  ],
   //! TypeScript/JavaScript
   "js/ts.experimental.expandableHover": true,
   "js/ts.implementationsCodeLens.enabled": true,
