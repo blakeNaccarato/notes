@@ -104,6 +104,7 @@
   },
   "notebook.codeActionsOnSave": {
     "notebook.source.fixAll.ruff": "explicit",
+    "notebook.source.organizeImports.ruff": "explicit",
     "notebook.source.fixAll": "never",
     "source.addTypeAnnotation": "never",
     "source.convertImportFormat": "never",
@@ -112,9 +113,9 @@
     "source.fixAll.eslint": "explicit",
     "source.fixAll.prettier": "explicit",
     "source.fixAll.pylance": "never",
-    "source.fixAll.ruff": "never",
+    // "source.fixAll.ruff": "never", //! Warned that it leads to unexpected behavior
     "source.fixAll": "never",
-    "source.organizeImports.ruff": "never",
+    // "source.organizeImports.ruff": "never", //! Warned that it leads to unexpected behavior
     "source.organizeImports": "never",
     "source.renameShadowedStdlibImports": "never",
     "source.sort.json": "never",
