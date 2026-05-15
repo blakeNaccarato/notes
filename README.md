@@ -18,12 +18,6 @@ return results.vChildren.children.map(matchedFile => {
 - [Docs](<https://blakeNaccarato.github.io/notes>)
 - [Contributing](<https://blakeNaccarato.github.io/notes/contributing.html>)
 
-## Project information
-
-- [Changes](<https://blakeNaccarato.github.io/notes/changelog.html>)
-- [Docs](<https://blakeNaccarato.github.io/notes>)
-- [Contributing](<https://blakeNaccarato.github.io/notes/contributing.html>)
-
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->

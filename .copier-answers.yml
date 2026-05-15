@@ -4,7 +4,7 @@ _src_path: gh:softboiler/copier-pipeline
 actions_runner: windows-2025
 github_repo_name: notes
 package_name: notes
-project_description: Centralized repository of my Obsidian vaults and shared tooling.
+project_description: Centralized repository of my Obsidian vaults and shared tooling
 project_email: blake.naccarato@gmail.com
 project_name: notes
 project_owner_github_username: blakeNaccarato

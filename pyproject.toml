@@ -6,7 +6,7 @@ build-backend = "uv_build"
 name = "notes"
 version = "0.0.0"
 authors = [{ name = "Blake Naccarato", email = "blake.naccarato@gmail.com" }]
-description = "Centralized repository of my Obsidian vaults and shared tooling."
+description = "Centralized repository of my Obsidian vaults and shared tooling"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.14"
