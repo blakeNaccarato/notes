@@ -325,7 +325,7 @@ This project defines VSCode Tasks ([Palette: `Tasks: Run task`](#vscode-command-
 - `setup: Sync contributor environment`: Run the [contribution environment sync](#contribution-environment-sync) script.
 - `prek`: Trigger `prek` on your staged changes.
 - `git: Rebase back to fork`: Trigger an interactive rebase of commits made to a feature branch
-- `task: Run pytest with coverage`: Generates a local coverage report for review with `coverage report` or for local gutter highlights with the [Coverage Gutters VSCode extension](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters).
+- `task: Run pytest with coverage`: Generates a local coverage report for review with `coverage report`.
 - `task: sphinx-autobuild docs (preview)`: Build and serve the documentation locally for previewing. `Ctrl+click` on the displayed IP `http://127.0.0.1:8000` (points to `localhost`) in the terminal to preview documentation live as you make changes.
 - `task: profile this file`: Profile the currently open Python file with `cProfile`.
 - `task: view profile results with snakeviz`: View the results of the latest profiling run.

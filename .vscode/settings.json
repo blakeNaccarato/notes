@@ -4,7 +4,6 @@
   "chat.detectParticipant.enabled": false, //! Allows "Ask" mode to "escape" ask mode and make edits via `@workspace` participant, often escaping to edit WAY MORE than it should, https://github.com/orgs/community/discussions/153443
   "chat.mcp.autostart": "never", //! Disable MCP autostart until we're actually using it
   "chat.tools.edits.autoApprove": { "**/*": false }, //! Just say "no" to agent auto-approve!
-  "chat.tools.global.autoApprove": false, //! Just say "no" to agent auto-approve!
   "chat.tools.terminal.autoApprove": { "/.*/": false }, //! Just say "no" to agent auto-approve!
   "chat.tools.terminal.autoApproveWorkspaceNpmScripts": false, //! Just say "no" to agent auto-approve!
   "chat.tools.terminal.enableAutoApprove": false, //! Just say "no" to agent auto-approve!
@@ -161,7 +160,7 @@
   //! Extensions
   //* autoDocstring
   "autoDocstring.docstringFormat": "numpy-notypes",
-  //* DataWrangler
+  //* Data Wrangler
   "dataWrangler.defaultViewingFilterOptions": "advanced",
   "dataWrangler.enabledFileTypes": {
     "csv": true,

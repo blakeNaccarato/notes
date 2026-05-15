@@ -173,7 +173,7 @@ mermaid_d3_zoom = False
 # ! Autodoc2
 nitpicky = True
 autodoc2_packages = [
-    f"../{PACKAGE}",
+    f"../src/{PACKAGE}",
     f"../packages/_dev/{PACKAGE}_dev",
     f"../packages/pipeline/{PACKAGE}_pipeline",
 ]
