@@ -15,10 +15,11 @@ export default async (folder = false): Promise<string[]> => {
   const tagsPat = tags ? createTagsPattern(tags) : null;
   const excludedTagsPat = excludedTags ? createTagsPattern(excludedTags) : null;
 
-  const common = String.raw`group by function task.tags${
+  const config = String.raw`group by function task.tags${
     tags ? String.raw`.filter( (tag) => !${tagsPat}.test(tag) )` : ""
-  }.sort().join(" ") || "#Ω-other"
-${folder ? "( NOT done ) AND " : ""}( ( path REGEX MATCHES /^{{ query.file.${folder ? "folder }}.+.md" : "path }}"}$/ )${
+  }.sort().join(" ") || "#Ω-other"`;
+
+  const pathTagFilter = String.raw`( ( path REGEX MATCHES /^{{ query.file.${folder ? "folder }}.+.md" : "path }}"}$/ )${
     tagsPat || excludedTagsPat
       ? ` OR ( ( HAS tags )${tagsPat ? ` AND ( tag REGEX MATCHES ${tagsPat} )` : ""}${
           excludedTagsPat ? ` AND ( tag REGEX DOES NOT MATCH ${excludedTagsPat} )` : ""
@@ -26,10 +27,10 @@ ${folder ? "( NOT done ) AND " : ""}( ( path REGEX MATCHES /^{{ query.file.${fol
       : ""
   } )`;
 
-  const priority = String.raw`(\
+  const priorityFilter = String.raw`(\
   ( status.type IS IN_PROGRESS )\
   OR NOT (priority IS none)\
-  OR ( ( starts BEFORE tomorrow ) AND ( ( HAS due date ) OR ( HAS scheduled date ) ) )\
+  OR ( (starts BEFORE tomorrow) OR (scheduled BEFORE in one month) OR (due BEFORE in one month) )\
 )`;
 
   const openFence = "```tasks";
@@ -38,13 +39,23 @@ ${folder ? "( NOT done ) AND " : ""}( ( path REGEX MATCHES /^{{ query.file.${fol
   return [
     // Priority
     String.raw`${openFence}
-${common}\
-AND ${priority}\
+${config}
+${pathTagFilter}\
+AND ${priorityFilter}\
+AND NOT ( done )\
 ${closeFence}`,
     // Other
     String.raw`${openFence}
-${common}\
-AND NOT ${priority}\
+${config}
+${pathTagFilter}\
+AND NOT ${priorityFilter}\
+AND NOT ( done )\
+${closeFence}`,
+    // Done
+    String.raw`${openFence}
+${config}
+${pathTagFilter}\
+AND ( done )\
 ${closeFence}`,
   ];
 };
