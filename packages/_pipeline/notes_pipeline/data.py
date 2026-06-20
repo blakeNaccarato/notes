@@ -20,6 +20,7 @@ def get_data(root: Path | None = None) -> dict[str, Path]:
         personal_obsidian: Path = personal / ".obsidian"
         personal_plugins: Path = personal_obsidian / "plugins"
         # ! Inputs
+        clues_by_sam: Path = root_ / "clues-by-sam"
         personal_links: Path = personal / "_sources/links"
         plan: Path = personal / "__reps/2025-01-30T084608-0700-plans.md"
         # ! Results

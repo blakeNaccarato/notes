@@ -54,8 +54,7 @@ dev = [
   "sourcery>=1.32.0",
   #? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel>=6.29.5",
-  "pandas-stubs>=3.0.0.260204",
-  "pandas>=3.0.1",
+  "pandas>=3.0.3",
   "pyarrow>=17.0.0",
   "pyspark>=3.5.5",
   #? Docs
@@ -75,14 +74,14 @@ dev = [
   "towncrier>=24.8.0",
   #? Marimo
   #! Satisfies Marimo VSCode extension requirement
-  "ruff==0.15.10", #! Satisfies Ruff and Marimo VSCode extension requirements
-  "ty==0.0.34",    #! Satisfies Ty and Marimo VSCode extension requirements
+  "ruff==0.15.18", #! Satisfies Ruff and Marimo VSCode extension requirements
+  "ty==0.0.51",    #! Satisfies Ty and Marimo VSCode extension requirements
   #? Tests
   "pytest-cov>=5.0.0",
   "pytest-custom-exit-code>=0.3.0",
   "pytest-github-actions-annotate-failures>=0.2.0",
   "pytest>=8.3.4",
-  "marimo[lsp,sql]==0.23.5",
+  "marimo[lsp,sql]==0.23.10",
 ]
 [project.urls]
 Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
@@ -393,8 +392,10 @@ convention = "numpy"
   "B018",   # Allow "useless" expressions for Marimo cell outputs
   "C901",   # Allow complex Marimo cells
   "E302",   # Allow one blank line in "top-level" Marimo cells
+  "E305",   # Allow one blank line in "top-level" Marimo cells
   "N806",   # Allow ALL_CAPS variables in Marimo cells
   "RUF052", # Allow underscore-prefixed variable access
+  "PLR1711", # Allow "useless" returns in Marimo cells
 ]
 "docs/**.ipynb" = [
   "E402", # Need to allow imports below patches in docs notebooks
@@ -421,3 +422,8 @@ include = ["packages/lookback"] # Submodule not yet using ty
 invalid-argument-type = "ignore"
 invalid-assignment = "ignore"
 unresolved-import = "ignore"
+
+[[tool.ty.overrides]]
+include = ["packages/_pipeline/notes_pipeline/stages/clues_by_sam.py"] # Marimo
+[tool.ty.overrides.rules]
+unused-ignore-comment = "ignore" # Differs in/out of Marimo

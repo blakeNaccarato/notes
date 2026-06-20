@@ -1,5 +1,6 @@
 {
   //! AI chat agent settings
+  "chat.autopilot.advanced.enabled": false, //! Disable autopilot until we can usefully constrain it
   "chat.agent.enabled": false, //! Disable agent until we can usefully constrain it
   "chat.detectParticipant.enabled": false, //! Allows "Ask" mode to "escape" ask mode and make edits via `@workspace` participant, often escaping to edit WAY MORE than it should, https://github.com/orgs/community/discussions/153443
   "chat.mcp.autostart": "never", //! Disable MCP autostart until we're actually using it
@@ -73,8 +74,6 @@
   //! pytest
   "python.testing.pytestEnabled": true,
   //! Formatting
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
   "editor.wordWrap": "bounded",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
@@ -82,49 +81,61 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "notebook.insertFinalNewline": false,
-  "notebook.formatOnCellExecution": true,
-  "notebook.formatOnSave.enabled": true,
+  //! Formatting on save
+  // "files.autoSave": "onFocusChange",
+  // "editor.formatOnPaste": true,
+  // "editor.formatOnSave": true,
+  // "notebook.formatOnCellExecution": true,
+  // "notebook.formatOnSave.enabled": true,
+  // "editor.codeActions.triggerOnFocusChange": true,
   //! Code Actions
   "editor.codeActionsOnSave": {
     "source.addTypeAnnotation": "never",
     "source.convertImportFormat": "never",
     "source.convertImportStar": "never",
     "source.convertImportToModule": "never",
-    "source.fixAll.eslint": "always",
-    "source.fixAll.prettier": "always",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.markdownlint": "always",
+    "source.fixAll.prettier": "explicit",
     "source.fixAll.pylance": "never",
-    "source.fixAll.ruff": "always",
+    "source.fixAll.ruff": "never",
     "source.fixAll": "never",
     "source.organizeImports.ruff": "never",
     "source.organizeImports": "never",
+    "source.organizeLinkDefinitions": "never",
     "source.renameShadowedStdlibImports": "never",
     "source.sort.json": "never",
     "source.unusedImports": "never"
   },
   "notebook.codeActionsOnSave": {
-    "notebook.source.fixAll.ruff": "explicit",
-    "notebook.source.organizeImports.ruff": "explicit",
-    "notebook.source.fixAll": "never",
+    "notebook.source.fixAll.ruff": "explicit", //! Omitting `notebook` leads to unexpected behavior
+    "notebook.source.organizeImports.ruff": "explicit", //! Omitting `notebook` leads to unexpected behavior
     "source.addTypeAnnotation": "never",
     "source.convertImportFormat": "never",
     "source.convertImportStar": "never",
     "source.convertImportToModule": "never",
     "source.fixAll.eslint": "explicit",
+    "source.fixAll.markdownlint": "explicit",
     "source.fixAll.prettier": "explicit",
     "source.fixAll.pylance": "never",
-    // "source.fixAll.ruff": "never", //! Warned that it leads to unexpected behavior
     "source.fixAll": "never",
-    // "source.organizeImports.ruff": "never", //! Warned that it leads to unexpected behavior
-    "source.organizeImports": "never",
+    "source.organizeLinkDefinitions": "explicit",
     "source.renameShadowedStdlibImports": "never",
     "source.sort.json": "never",
     "source.unusedImports": "never"
   },
+  "python.analysis.aiCodeActions": {
+    "convertFormatString": true,
+    "convertLambdaToNamedFunction": false,
+    "generateDocstring": true,
+    "generateSymbol": true,
+    "implementAbstractClasses": true
+  },
   "python.analysis.fixAll": [
-    // "source.addTypeAnnotation",
-    // "source.convertImportFormat",
-    // "source.convertImportStar",
-    // "source.unusedImports"
+    "source.addTypeAnnotation",
+    "source.convertImportFormat",
+    "source.convertImportStar",
+    "source.unusedImports"
   ],
   //! TypeScript/JavaScript
   "js/ts.experimental.expandableHover": true,
@@ -182,11 +193,12 @@
   "dataWrangler.outputRenderer.pagination.defaultSize": 10,
   "dataWrangler.panels.displayOnTabFocus": false,
   "dataWrangler.useRelativePath": true,
-  //* Better Comments
+  //! Better Comments
+  "better-comments.multilineComments": false, //! Unpacking a Python variable in a multiline list operation unintentionally triggers the "asterisk" comment type.
   "better-comments.tags": [
     {
       "tag": "!",
-      "color": "#FF2D00",
+      "color": "#FF2D00FF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -195,7 +207,7 @@
     },
     {
       "tag": "?",
-      "color": "#3498DB",
+      "color": "#3498DBFF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -204,7 +216,7 @@
     },
     {
       "tag": "//",
-      "color": "#474747",
+      "color": "#474747FF",
       "strikethrough": true,
       "underline": false,
       "backgroundColor": "transparent",
@@ -213,7 +225,7 @@
     },
     {
       "tag": "todo",
-      "color": "#FF8C00",
+      "color": "#FF8C00FF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -222,7 +234,7 @@
     },
     {
       "tag": ".....",
-      "color": "#FF8C00",
+      "color": "#FF8C00FF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -231,7 +243,7 @@
     },
     {
       "tag": "*",
-      "color": "#789359",
+      "color": "#2E3741FF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -240,7 +252,7 @@
     },
     {
       "tag": "NB:",
-      "color": "#3498DB",
+      "color": "#3498DBFF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -249,7 +261,7 @@
     },
     {
       "tag": "...",
-      "color": "#3498DB",
+      "color": "#3498DBFF",
       "strikethrough": false,
       "underline": false,
       "backgroundColor": "transparent",
@@ -303,11 +315,6 @@
   "python.analysis.supportRestructuredText": true,
   "python.analysis.userFileIndexingLimit": -1,
   "python.languageServer": "Pylance",
-  "python.analysis.aiCodeActions": {
-    "implementAbstractClasses": true,
-    "generateDocstring": true,
-    "generateSymbol": true
-  },
   "python.analysis.packageIndexDepths": [
     { "name": "", "depth": 16, "includeAllSymbols": true }
   ],
@@ -397,8 +404,8 @@
     "JUST_UNSORTED": "true",
     "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.5",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
+    "PROJECT_MARIMO_VERSION": "0.23.9",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.5",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
     "PROJECT_TY_VERSION": "0.0.34",
@@ -427,8 +434,8 @@
     "JUST_UNSORTED": "true",
     "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.5",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
+    "PROJECT_MARIMO_VERSION": "0.23.9",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.5",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
     "PROJECT_TY_VERSION": "0.0.34",
@@ -457,8 +464,8 @@
     "JUST_UNSORTED": "true",
     "JUST_VERSION": "1.50.0",
     "POWERSHELL_YAML_VERSION": "0.4.12",
-    "PROJECT_MARIMO_VERSION": "0.23.5",
-    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.1",
+    "PROJECT_MARIMO_VERSION": "0.23.9",
+    "PROJECT_MARIMO_VSCODE_VERSION": "0.13.5",
     "PROJECT_RUFF_VERSION": "0.15.10",
     "PROJECT_RUFF_VSCODE_VERSION": "2026.40.0",
     "PROJECT_TY_VERSION": "0.0.34",
