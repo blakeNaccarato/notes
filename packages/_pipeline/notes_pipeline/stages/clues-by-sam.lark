@@ -5,48 +5,48 @@
 // ..... - Merge `line` and relatives into `loc`
 // ..... - Handle rules not matching clue set
 // ..... - Absorb DIRECTLY into DIR
-// ..... - Merge EXISTS <...> STATUS
-// ..... - Consider WORD from `%import common.WORD` for names and professions (differentiate since PROF preceded by e.g. STATUS/SOME?)
+// ..... - Merge EXISTS <...> ID
+// ..... - Consider WORD from `%import common.WORD` for names and professions (differentiate since PROF preceded by e.g. ID/SOME?)
 
-h01: line "is the" QUANT LINE "with" quant STATUS
+h01: line "is the" QUANT LINE "with" quant ID
 
-h03: quant STATUS "in" loc HAS COUNT STATUS DIRECTLY DIR "them"
-h04: COUNT STATUS loc HAS COUNT STATUS DIRECTLY DIR "them"
+h03: quant ID "in" loc HAS COUNT ID DIRECTLY DIR "them"
+h04: COUNT ID loc HAS COUNT ID DIRECTLY DIR "them"
 
-h02: SOME PROF HAS COUNT STATUS DIRECTLY DIR "them"
-h05: SOME line HAS quant STATUS
-h06: SOME STATUS "in" line conn
-h07: SOME STATUS DIR name conn
+h02: SOME PROF HAS COUNT ID DIRECTLY DIR "them"
+h05: SOME line HAS quant ID
+h06: SOME ID "in" line conn
+h07: SOME ID DIR name conn
 
-h08: EXISTS COMPARISON STATUS "in" line "than" line
-h09: EXISTS COMPARISON STATUS "in" line COUNT "and" COUNT
-h13: EXISTS PARITY STATUS NEIGHBOR name
-h14: EXISTS PARITY STATUS DIR name
-h15: EXISTS COMPARISON STATUS PROF "than" STATUS PROF
-h16: EXISTS COMPARISON STATUS "in" lines
+h08: EXISTS COMPARISON ID "in" line "than" line
+h09: EXISTS COMPARISON ID "in" line COUNT "and" COUNT
+h13: EXISTS PARITY ID NEIGHBOR name
+h14: EXISTS PARITY ID DIR name
+h15: EXISTS COMPARISON ID PROF "than" ID PROF
+h16: EXISTS COMPARISON ID "in" lines
 
-h10: exists STATUS DIR name
-h11: exists STATUS "in" line
-h12: exists STATUS "in" loc
+h10: exists ID DIR name
+h11: exists ID "in" line
+h12: exists ID "in" loc
 
-h18: name HAS quant STATUS NEIGHBOR
-h19: name LINK among STATUS "in" line
-h20: name LINK among STATUS DIR name
-h21: names HAS quant STATUS NEIGHBOR "in common"
+h18: name HAS quant ID NEIGHBOR
+h19: name LINK among ID "in" line
+h20: name LINK among ID DIR name
+h21: names HAS quant ID NEIGHBOR "in common"
 
-h17: quant STATUS "in" loc HAS quant STATUS NEIGHBOR
-h22: quant "of the" COUNT STATUS "in" line neighbor
-h23: quant "of the" COUNT STATUS loc neighbor
-h24: quant "of the" COUNT STATUS NEIGHBOR name neighbor
-h25: quant among STATUS "in" line neighbor
-h26: quant among STATUS loc neighbor
-h27: quant among STATUS conn name neighbor
-h28: quant LINE HAS quant STATUS
-h29: quant STATUS "in" line conn
-h30: quant STATUS "in" line conn name
-h31: quant STATUS "in" line DIR name
-h32: quant STATUS "in" loc HAS quant STATUS conn
-h33: quant STATUS DIR name LINK NEIGHBOR name
+h17: quant ID "in" loc HAS quant ID NEIGHBOR
+h22: quant "of the" COUNT ID "in" line neighbor
+h23: quant "of the" COUNT ID loc neighbor
+h24: quant "of the" COUNT ID NEIGHBOR name neighbor
+h25: quant among ID "in" line neighbor
+h26: quant among ID loc neighbor
+h27: quant among ID conn name neighbor
+h28: quant LINE HAS quant ID
+h29: quant ID "in" line conn
+h30: quant ID "in" line conn name
+h31: quant ID "in" line DIR name
+h32: quant ID "in" loc HAS quant ID conn
+h33: quant ID DIR name LINK NEIGHBOR name
 
 // unknown: /[\s\S]+/
 
@@ -55,7 +55,7 @@ names: NAME "and" NAME
 name: NAME "s"?
 NAME: ( "alex"i | "alice"i | "amy"i | "bruce"i | "bunty"i | "chase"i | "daniel"i | "derek"i | "diane"i | "ellie"i | "eric"i | "esha"i | "eve"i | "floyd"i | "freya"i | "frida"i | "gabe"i | "ghani"i | "gus"i | "henry"i | "hope"i | "igor"i | "ike"i | "ivan"i | "jason"i | "jose"i | "joy"i | "julie"i | "karen"i | "laura"i | "lisa"i | "lucy"i | "mark"i | "martin"i | "nala"i | "nick"i | "nicole"i | "olga"i | "olivia"i | "olof"i | "paul"i | "peter"i | "phil"i | "quita"i | "rohan"i | "ronald"i | "ryan"i | "salil"i | "samira"i | "scott"i | "stella"i | "tina"i | "uma"i | "vera"i | "vicky"i | "vince"i | "wally"i | "wanda"i | "will"i | "xavi"i | "xola"i | "zara"i | "zed"i | "zoe" ) "s"?
 
-totality: EXISTS COUNT STATUS "in total"
+totality: EXISTS COUNT ID "in total"
 exists: EXISTS quant
 EXISTS: "there is"i | "there are"i | "there's an"i
 
@@ -93,7 +93,7 @@ PARITY:  "even number of"i | "odd number of"i
 
 HAS: "has"i | "have"
 PROF: ( "builder"i | "clerk"i | "coder"i | "cook"i | "cop"i | "doctor"i | "dog"i | "farmer"i | "guard"i | "mech"i | "painter"i | "pilot"i | "singer"i | "sleuth"i | "teacher"i | "woodchuck"i ) "s"?
-STATUS: ( "criminal"i | "innocent"i | "person"i ) "s"?
+ID: ( "criminal"i | "innocent"i | "person"i ) "s"?
 
 %ignore WS
 %import common.INT
