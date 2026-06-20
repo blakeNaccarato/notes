@@ -22,9 +22,7 @@ with app.setup:
 
 @app.function
 def parse_hint(text: str) -> Tree:
-    return Lark(
-        Path(data["clues_by_sam"] / "clues-by-sam.lark").read_text(encoding="utf-8")
-    ).parse(text)
+    return Lark(Path("clues-by-sam.lark").read_text(encoding="utf-8")).parse(text)
 
 
 @app.cell
@@ -53,8 +51,9 @@ def _():
         items=[
             mo.ui.table(
                 label="Suspect",
-                # hidden_columns=hidden_suspect_cols,
-                data=suspects,
+                hidden_columns=hidden_suspect_cols,
+                wrapped_columns=["hint"],
+                data=suspects.loc[col("hint") != ""],
             )
         ]
     )
@@ -65,6 +64,7 @@ def _():
 def _(hidden_suspect_cols, suspects):
     suspects_with_hints = suspects.loc[col("hint") != ""].assign(**{
         "tree": col("hint").map(parse_hint),
+        "pretty": col("tree").map(lambda tree: tree.pretty().strip()),
         "rule": col("tree").map(lambda tree: tree.data),
         "children": col("tree").map(lambda tree: tree.children),
     })
@@ -72,8 +72,15 @@ def _(hidden_suspect_cols, suspects):
         items=[
             mo.ui.table(
                 label="Suspects with hints",
-                hidden_columns=[*hidden_suspect_cols, "profession", "tree"],
-                data=suspects_with_hints.sort_values("hint").reset_index(drop=True),
+                hidden_columns=[
+                    *hidden_suspect_cols,
+                    "profession",
+                    "tree",
+                    "rule",
+                    "children",
+                ],
+                wrapped_columns=["hint", "pretty"],
+                data=suspects_with_hints.sort_values("rule").reset_index(drop=True),
             )
         ]
     )
@@ -98,7 +105,7 @@ def _(suspects_with_hints):
 @app.cell
 def _(suspects):
     _hints = [
-        f'h{_i + 29:02d}: "{_hint}"'
+        f'h{_i}: "{_hint}"'
         for _i, _hint in enumerate(suspects["hint"].drop_duplicates().sort_values())
         if _hint
     ]
