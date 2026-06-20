@@ -84,21 +84,6 @@ def _(hidden_suspect_cols, suspects):
             )
         ]
     )
-    return (suspects_with_hints,)
-
-
-@app.cell
-def _(suspects_with_hints):
-    sus = first(suspects_with_hints.loc[col("rule") == "h06"].to_dict(orient="records"))
-    mo.vstack(
-        items=[
-            mo.md("#### Tree"),
-            sus["tree"],
-            mo.md("#### Pretty tree"),
-            mo.plain_text(sus["tree"].pretty()),
-            mo.ui.table(label="Suspect", data=sus),
-        ]
-    )
     return
 
 
