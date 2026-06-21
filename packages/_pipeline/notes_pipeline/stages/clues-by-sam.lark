@@ -19,8 +19,8 @@ h06: EXISTS COMP ID "in" line "than" line
 h07: EXISTS COMP ID "in" line COUNT "and" COUNT
 h08: EXISTS COMP ID "in" lines
 h09: EXISTS COMP ID PROF "than" ID PROF
-h10: EXISTS PARITY ID DIR name
-h11: EXISTS PARITY ID NEIGH name
+h10: EXISTS PAR ID DIR name
+h11: EXISTS PAR ID NEIGH name
 
 h12: line "is the" QUANT LINE "with" quant ID
 
@@ -93,7 +93,7 @@ COUNT: INT | "a"i | "an"i | "one"i | "two"i | "three"i | "four"i | "five"i | "si
 DIRECTLY: "directly"i
 COMP: "more"i | "fewer"i | "equal number of"i
 DIR: "above"i | "below"i | "to the right of"i | "to the left of"i
-PARITY:  "even number of"i | "odd number of"i
+PAR:  "even number of"i | "odd number of"i
 
 HAS: "has"i | "have"
 PROF: ( "builder"i | "clerk"i | "coder"i | "cook"i | "cop"i | "doctor"i | "dog"i | "farmer"i | "guard"i | "judge"i | "mech"i | "painter"i | "pilot"i | "singer"i | "sleuth"i | "teacher"i | "woodchuck"i ) "s"?
