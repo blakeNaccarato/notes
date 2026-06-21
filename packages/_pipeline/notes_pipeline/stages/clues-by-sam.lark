@@ -8,52 +8,52 @@
 // ..... - Merge EXISTS <...> ID
 // ..... - Consider WORD from `%import common.WORD` for names and professions (differentiate since PROF preceded by e.g. ID/SOME?)
 
-h01: line "is the" QUANT LINE "with" quant ID
+h01: COUNT ID loc HAS COUNT ID DIRECTLY DIR "them"
+h02: COUNT PROF HAS COUNT ID DIRECTLY DIR "them"
 
-h03: quant ID "in" loc HAS COUNT ID DIRECTLY DIR "them"
-h04: COUNT ID loc HAS COUNT ID DIRECTLY DIR "them"
+h03: EXISTS quant ID "in" line
+h04: EXISTS quant ID "in" loc
+h05: EXISTS quant ID DIR name
 
-h02: SOME PROF HAS COUNT ID DIRECTLY DIR "them"
-h05: SOME line HAS quant ID
-h06: SOME ID "in" line conn
-h07: SOME ID DIR name conn
+h06: EXISTS COMP ID "in" line "than" line
+h07: EXISTS COMP ID "in" line COUNT "and" COUNT
+h08: EXISTS COMP ID "in" lines
+h09: EXISTS COMP ID PROF "than" ID PROF
+h10: EXISTS PARITY ID DIR name
+h11: EXISTS PARITY ID NEIGH name
 
-h08: EXISTS COMPARISON ID "in" line "than" line
-h09: EXISTS COMPARISON ID "in" line COUNT "and" COUNT
-h13: EXISTS PARITY ID NEIGH name
-h14: EXISTS PARITY ID DIR name
-h15: EXISTS COMPARISON ID PROF "than" ID PROF
-h16: EXISTS COMPARISON ID "in" lines
+h12: line "is the" QUANT LINE "with" quant ID
 
-h10: exists ID DIR name
-h11: exists ID "in" line
-h12: exists ID "in" loc
+h13: name HAS quant ID NEIGH
+h14: name IS "one of" owner COUNT ID NEIGH
+h15: name IS among ID "in" line
+h16: name IS among ID DIR name
+h17: name IS among ID LOC
 
-h18: name HAS quant ID NEIGH
-h19: name IS among ID "in" line
-h20: name IS among ID DIR name
-h21: names HAS quant ID NEIGH "in common"
+h18: names HAS quant ID NEIGH "in common"
 
-h17: quant ID "in" loc HAS quant ID NEIGH
-h22: quant "of the" COUNT ID "in" line neighbor
-h23: quant "of the" COUNT ID loc neighbor
-h24: quant "of the" COUNT ID NEIGH name neighbor
-h25: quant among ID "in" line neighbor
-h26: quant among ID loc neighbor
-h27: quant among ID conn name neighbor
-h28: quant LINE HAS quant ID
-h29: quant ID "in" line conn
-h30: quant ID "in" line conn name
-h31: quant ID "in" line DIR name
+h19: quant "of the" COUNT ID "in" line neigh
+h20: quant "of the" COUNT ID loc neigh
+h21: quant "of the" COUNT ID NEIGH name IS "in" line
+h22: quant "of the" COUNT ID NEIGH name IS LOC
+h23: quant "of the" COUNT ID NEIGH name neigh
+h24: quant "of" owner COUNT ID NEIGH "also" NEIGH name
+h25: quant among ID "in" line neigh
+h26: quant among ID conn name neigh
+h27: quant among ID loc neigh
+h28: quant ID "in" line conn
+h29: quant ID "in" line conn name
+h30: quant ID "in" line DIR name
+h31: quant ID "in" loc HAS COUNT ID DIRECTLY DIR "them"
 h32: quant ID "in" loc HAS quant ID conn
-h33: quant ID DIR name IS NEIGH name
-// TODO (2026-06-18)
-h34: COUNT PROF HAS COUNT ID DIRECTLY DIR "them"
-h35: quant "of" owner COUNT ID NEIGH "also" NEIGH name
-h36: quant "of the" COUNT ID NEIGH name IS LOC
-h37: quant "of the" COUNT ID NEIGH name IS "in" line
-h38: name IS among ID LOC
-h39: name IS "one of" owner COUNT ID NEIGH
+h33: quant ID "in" loc HAS quant ID NEIGH
+h34: quant ID DIR name IS NEIGH name
+h35: quant LINE HAS quant ID
+
+h36: SOME ID "in" line conn
+h37: SOME ID DIR name conn
+h38: SOME line HAS quant ID
+h39: SOME PROF HAS COUNT ID DIRECTLY DIR "them"
 
 owner: NAME "'s"?
 names: NAME "and" NAME
@@ -61,7 +61,6 @@ name: NAME "s"?
 NAME: "alex"i | "alice"i | "amy"i | "bobby"i | "bonnie"i | "bruce"i | "bunty"i | "chase"i | "chloe"i | "chuck"i | "daniel"i | "derek"i | "diane"i | "eli"i | "ellie"i | "eric"i | "esha"i | "eve"i | "flora"i | "floyd"i | "franco"i | "freya"i | "frida"i | "gabe"i | "ghani"i | "graham"i | "gus"i | "habiba"i | "helen"i | "henry"i | "hope"i | "igor"i | "ike"i | "ivan"i | "jason"i | "john"i | "jose"i | "joy"i | "julie"i | "karen"i | "kyle"i | "laura"i | "lisa"i | "lucy"i | "mark"i | "martin"i | "michael"i | "nala"i | "nick"i | "nicole"i | "olga"i | "olivia"i | "olof"i | "oscar"i | "paul"i | "paula"i | "peter"i | "phil"i | "quita"i | "rohan"i | "ronald"i | "ruby"i | "ryan"i | "saga"i | "salil"i | "samira"i | "scott"i | "stella"i | "terry"i | "tina"i | "uma"i | "umar"i | "vera"i | "vicky"i | "vince"i | "wally"i | "wanda"i | "will"i | "xavi"i | "xena"i | "xola"i | "zane"i | "zara"i | "zed"i | "zoe"i
 
 totality: EXISTS COUNT ID "in total"
-exists: EXISTS quant
 EXISTS: "there is"i | "there are"i | "there's an"i
 
 lines: line "and" line | LINE id "and" id
@@ -72,12 +71,12 @@ id: COL_ID | ROW_ID
 COL_ID: "a"i | "b"i | "c"i | "d"i | "e"i
 ROW_ID: "1"i | "2"i | "3"i | "4"i | "5"i
 
-neighbor: IS owner NEIGH
-conn: IS ( CONNECTED | NEIGH )
+neigh: IS owner NEIGH
+conn: IS ( CONN | NEIGH )
 loc: mine | LOC
 mine: "my"i LINE
 LOC: "a corner"i | "on the edges"i
-CONNECTED: "connected"i
+CONN: "connected"i
 NEIGH: "neighbor"i ( "s"? | "ing" )?
 IS: "is"i | "are"i
 
@@ -92,7 +91,7 @@ among: "one of"i COUNT
 COUNT: INT | "a"i | "an"i | "one"i | "two"i | "three"i | "four"i | "five"i | "six"i | "seven"i | "eight"i | "nine"i | "ten"i | "eleven"i | "twelve"i | "thirteen"i | "fourteen"i | "fifteen"i | "sixteen"i | "seventeen"i | "eighteen"i | "nineteen"i | "twenty"i
 
 DIRECTLY: "directly"i
-COMPARISON: "more"i | "fewer"i | "equal number of"i
+COMP: "more"i | "fewer"i | "equal number of"i
 DIR: "above"i | "below"i | "to the right of"i | "to the left of"i
 PARITY:  "even number of"i | "odd number of"i
 
