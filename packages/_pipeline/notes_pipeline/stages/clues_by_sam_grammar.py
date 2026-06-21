@@ -10,7 +10,6 @@ with app.setup:
 
     import marimo as mo
     from lark import Lark, Tree
-    from more_itertools import first
     from pandas import DataFrame, col
 
     from notes_pipeline.data import get_data
@@ -43,7 +42,7 @@ def _():
                         encoding="utf-8"
                     )
                 ).stack()
-                for _day in [14, 15, 16, 17]
+                for _day in range(14, 21)
             ])
         ]
     )
