@@ -44,7 +44,7 @@ Path("params.yaml").write_text(
         },
     ),
 )
-run(
+run(  # ruff: ignore[subprocess-without-shell-equals-true]
     check=False,
     capture_output=True,
     args=[*["pwsh", "-Command"], "./Invoke-Uv.ps1 pre-commit run --all-files prettier"],

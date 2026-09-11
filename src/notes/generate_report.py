@@ -46,7 +46,7 @@ def report_as_docx(text: str, destination: Path, template: Path, workdir: Path):
     Since result would be `bytes`, write directly to `destination`.
     """
     with chdir(workdir):  # Pandoc expects links relative to working directory
-        run(
+        run(  # ruff: ignore[subprocess-without-shell-equals-true]
             encoding="utf-8",
             input=text,
             check=False,

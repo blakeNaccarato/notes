@@ -51,9 +51,9 @@ def sync_stages():
                 """Stage."""
                 '''),
         )
-        run(
+        run(  # ruff: ignore[subprocess-without-shell-equals-true]
             check=True,
-            args=[
+            args=[  # ruff: ignore[start-process-with-partial-path]
                 "pwsh",
                 "-Command",
                 f"& {quote(executable)} -m ruff format {quote(stages_literals.as_posix())}",

@@ -202,9 +202,9 @@ enable_pydocstyle = false # (default: false) Check docstring style
 enable_pylint = false # (default: false) Linting with pylint
 enable_pyflakes = false # (default: false) Syntax checking with pyflakes
 [tool.marimo.language_servers.basedpyright]
-enabled = true
-[tool.marimo.language_servers.ty]
 enabled = false
+[tool.marimo.language_servers.ty]
+enabled = true
 
 [tool.marimo.package_management]
 manager = "uv" # (inferred by default) one of "pip", "rye", "uv", "poetry", or "pixi"
@@ -420,9 +420,18 @@ include = ["packages/lookback"] # Submodule not yet using ty
 [tool.ty.overrides.rules]
 invalid-argument-type = "ignore"
 invalid-assignment = "ignore"
+missing-override-decorator = "ignore"
+missing-type-argument = "ignore"
 unresolved-import = "ignore"
+unsound-assignment = "ignore"
+unsound-return-statement = "ignore"
 
 [[tool.ty.overrides]]
-include = ["packages/_pipeline/notes_pipeline/stages/clues_by_sam.py"] # Marimo
+include = [ # Marimo notebooks
+  "packages/_pipeline/notes_pipeline/stages/clues_by_sam.py",
+  "packages/_pipeline/notes_pipeline/stages/plan_week.py"
+]
 [tool.ty.overrides.rules]
+dynamic-function-decorator-return = "ignore" # Marimo doesn't annotate its decorators
 unused-ignore-comment = "ignore" # Differs in/out of Marimo
+unsound-return-statement = "ignore" # Marimo's cell returns are usually unsound

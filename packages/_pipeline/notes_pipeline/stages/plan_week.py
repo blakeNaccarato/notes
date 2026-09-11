@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.2"
+__generated_with = "0.24.0"
 app = marimo.App()
 
 with app.setup:
@@ -14,6 +14,7 @@ with app.setup:
     from pathlib import Path
     from re import Match, sub
     from subprocess import run
+    from textwrap import dedent
 
     import marimo as mo
     from more_itertools import one
@@ -95,15 +96,23 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
 
 
 @app.function
-def get_plans(tasks: DataFrame) -> DataFrame:
+def get_actively_planned(tasks: DataFrame) -> DataFrame:
+    return tasks.loc[~col("cancelled") & ~col("done")]
+
+
+@app.function
+def get_stale(tasks: DataFrame) -> DataFrame:
+    return tasks.loc[col("cancelled") | col("done")]
+
+
+@app.function
+def get_all_planned(tasks: DataFrame) -> DataFrame:
     return tasks.loc[  # ty: ignore[unsound-return-statement]
-        (~col("cancelled"))
-        & (~col("done"))
-        & col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
+        col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
     ]
 
 
-@app.function  # ty: ignore[dynamic-function-decorator-return]
+@app.function
 def compute_last_planned(df):
     return df["last_seen"] + to_timedelta(
         df["day"]
@@ -205,14 +214,36 @@ def _():
             "last_planned": lambda df: df.pipe(compute_last_planned),
             "new_priority": col("priority").where(col("last_planned") > get_now(), ""),
         })
-        .pipe(get_plans)
-        .sort_values("day", na_position="first")
+        .pipe(get_all_planned)
+        .sort_values("day", na_position="first"),
     )
     mo.ui.table(tasks)
     return (tasks,)
 
 
-@app.function  # ty: ignore[dynamic-function-decorator-return]
+@app.cell
+def _(tasks):
+    plans = tasks.pipe(get_actively_planned)
+    mo.ui.table(plans)
+    return (plans,)
+
+
+@app.cell
+def _(tasks):
+    inactive_plans = tasks.pipe(lambda df: df.drop(df.pipe(get_actively_planned).index))
+    mo.md(
+        "No inactive plans"
+        if inactive_plans.empty
+        else dedent(f"""
+            Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
+
+            {inactive_plans.id.str.cat(sep=",|")}
+        """)
+    )
+    return
+
+
+@app.function
 def update_task(row):
     q = row.to_dict()
     path = data["personal"] / q["path"]
@@ -225,22 +256,27 @@ def update_task(row):
 
 
 @app.cell
-def _(tasks):  # sourcery skip: remove-redundant-if
-    to_reset = tasks.loc[col("priority") != col("new_priority")]
+def _(plans):
+    # sourcery skip: remove-redundant-if
+    to_reset = plans.loc[col("priority") != col("new_priority")]
     if False:
-        # TODO: Remove entries from "seeen_plans" if they were updated here
+        # TODO: Remove entries from "seen_plans" if they were updated here
         data["seen_plans"].write_text(
             dumps(
-                tasks.set_index("id")["last_seen"].apply(lambda ts: ts.isoformat()).to_dict()
+                plans
+                .set_index("id")["last_seen"]
+                .apply(lambda ts: ts.isoformat())
+                .to_dict()
             ),
             encoding="utf-8",
         )
         to_reset.apply(update_task, axis="columns")
     mo.ui.table(to_reset)
+    return
 
 
 @app.cell
-def _(tasks):
+def _(plans):
     # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
     day_plan = """
     - 04
@@ -269,7 +305,7 @@ def _(tasks):
     week_plan = """\
     ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
     """ + "".join(
-        tasks
+        plans
         .set_index("day")[["entry"]]
         .groupby("day")
         .agg(
@@ -292,6 +328,7 @@ def _(tasks):
     )
     (data["personal"] / "_Ω/Snip/Week plan.md").write_text(encoding="utf-8", data=week_plan)
     mo.md(week_plan)
+    return
 
 
 @app.cell

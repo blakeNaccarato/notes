@@ -11,7 +11,7 @@ def run(
 ):
     """Run command."""
     sep = " "
-    subprocess.run(
+    subprocess.run(  # ruff: ignore[subprocess-without-shell-equals-true]
         check=check,
         capture_output=capture_output,
         args=[
