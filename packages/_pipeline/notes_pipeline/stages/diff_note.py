@@ -4,7 +4,7 @@ from re import MULTILINE, finditer
 from unidiff import PatchSet
 
 text = Path("data/_notetaking.diff").read_text(encoding="utf-8")
-print(  # noqa: T201
+print(  # ruff: ignore[print]
     *(
         m.group("content")
         for m in finditer(
@@ -13,4 +13,4 @@ print(  # noqa: T201
     ),
     end="\n",
 )
-print(PatchSet.from_string(text))  # noqa: T201
+print(PatchSet.from_string(text))  # ruff: ignore[print]

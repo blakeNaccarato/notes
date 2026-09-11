@@ -70,7 +70,7 @@ def get_days(priority: Series, days: dict[str, str]) -> Series:
 
 @app.function
 def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
-    sym = rf"🆔⛔{''.join(priorities)}🔁➕🛫⏳📅❌✅🏁"  # noqa: RUF001
+    sym = rf"🆔⛔{''.join(priorities)}🔁➕🛫⏳📅❌✅🏁"  # ruff: ignore[ambiguous-unicode-character-string]
     return df.assign(
         **df["text"].str.extract(
             "".join([
@@ -81,7 +81,7 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
                 r"(?=.*⛔\s*(?P<deps>[^\s]*))?",
                 rf"(?=.*(?P<priority>[{''.join(priorities)}]))?",
                 rf"(?=.*🔁\s*(?P<recurs>[^\{sym}]*))?",
-                r"(?=.*➕\s*(?P<created>[^\s]*))?",  # noqa: RUF001
+                r"(?=.*➕\s*(?P<created>[^\s]*))?",  # ruff: ignore[ambiguous-unicode-character-string]
                 r"(?=.*🛫\s*(?P<starts>[^\s]*))?",
                 r"(?=.*⏳\s*(?P<scheduled>[^\s]*))?",
                 r"(?=.*📅\s*(?P<due>[^\s]*))?",
@@ -109,7 +109,7 @@ def compute_last_planned(df):
         df["day"]
         .map({
             "Monday": 0,
-            "Tuesday – Thursday": 1,  # noqa: RUF001,
+            "Tuesday – Thursday": 1,  # ruff: ignore[ambiguous-unicode-character-string],
             "Friday": 4,
             "Saturday": 5,
             "Sunday": 6,
@@ -138,7 +138,7 @@ def _():
                 "Saturday",
                 "Sunday",
                 "Monday",
-                "Tuesday – Thursday",  # noqa: RUF001
+                "Tuesday – Thursday",  # ruff: ignore[ambiguous-unicode-character-string]
             ],
             priorities,
             strict=True,
@@ -259,10 +259,10 @@ def _(tasks):
         3: 4,  # Thursday
     }
     start = weekday_group_index[get_now().weekday()] - 1
-    groups = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday – Thursday"]  # noqa: RUF001
+    groups = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday – Thursday"]  # ruff: ignore[ambiguous-unicode-character-string]
     ordered_groups = groups[start:] + groups[:start]
     day_plans = {
-        day: "" if day == "Tuesday – Thursday" else day_plan  # noqa: RUF001
+        day: "" if day == "Tuesday – Thursday" else day_plan  # ruff: ignore[ambiguous-unicode-character-string]
         for day in ordered_groups
     }
     week_plan = """\

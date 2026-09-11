@@ -103,7 +103,7 @@ def dpath(path: Path, rel: Path = DOCS) -> str:
 
 # ! Basics
 project = PACKAGE
-copyright = f"{date.today().year}, {AUTHORS}"  # noqa: A001
+copyright = f"{date.today().year}, {AUTHORS}"  # ruff: ignore[builtin-variable-shadowing]
 version = VERSION
 master_doc = "index"
 language = "en"

@@ -44,7 +44,7 @@ from notes.win import MessageBox, MouseEvent, SetCursorPos, WindowInfo
 # ! TODO: Implement as a state machine.
 
 
-def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
+def main(  # sourcery skip: low-code-quality  # ruff: ignore[complex-structure, too-many-branches, too-many-statements]
     pom: Pom,
 ) -> None:
     """Start Pomodoros."""
@@ -55,7 +55,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     pom_period = work_period + periods.brk
     day_start = max(get_time_today(pom.start), get_now())
     day_end = get_time_today(pom.end)
-    print(  # noqa: T201
+    print(  # ruff: ignore[print]
         get_startup_message(
             poms := list(time_range(day_start, day_end + break_period, pom_period))
             or [day_start]
@@ -63,16 +63,16 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     )
     # ! EARLY
     if get_now() < day_start:
-        print(EARLY_MSG)  # noqa: T201
+        print(EARLY_MSG)  # ruff: ignore[print]
         try:
             sleep((day_start - get_now()).total_seconds())
         except KeyboardInterrupt:
             set_split_intents(pom.intents)
-            print(DONE_MSG)  # noqa: T201
+            print(DONE_MSG)  # ruff: ignore[print]
             return
     # ! IN POMODORO
     set_toggl_pomodoro("start")
-    for start in poms:  # noqa: PLR1702
+    for start in poms:  # ruff: ignore[too-many-nested-blocks]
         cancel = force_ask_done = False
         distracted = False
         after = reward = intent = ""
@@ -92,7 +92,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             reward=reward,
         )
         # ! IN CHECKS
-        print(START_MSG)  # noqa: T201
+        print(START_MSG)  # ruff: ignore[print]
         while get_now() < start + work_period:
             # ! WAITING FOR CHECK
             try:
@@ -119,7 +119,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                         if prompt(ASK_CANCEL):
                             cancel = True
                         intent = NO_INTENT
-                        print(DID_NOT_SET_INTENT_MSG)  # noqa: T201
+                        print(DID_NOT_SET_INTENT_MSG)  # ruff: ignore[print]
                         break
                 if cancel:
                     break
@@ -127,7 +127,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     intents = set_intent(path=pom.intents, intent=intent)
                     after = input(f"{ASK_AFTER}\n")
                     reward = input(f"{ASK_REWARD}\n")
-                    print(DID_SET_INTENT_MSG)  # noqa: T201
+                    print(DID_SET_INTENT_MSG)  # ruff: ignore[print]
                 intent_set = get_now()
                 continue
             if (
@@ -139,7 +139,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                 intents = set_intent(path=pom.intents, intent=intent)
                 after = input(f"{ASK_AFTER}\n")
                 reward = input(f"{ASK_REWARD}\n")
-                print(DID_SET_INTENT_MSG)  # noqa: T201
+                print(DID_SET_INTENT_MSG)  # ruff: ignore[print]
                 intent_set = get_now()
                 continue
             if not intent_set or not intent or intent == NO_INTENT:
@@ -170,12 +170,12 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             # ! CHECKING COMPLETION
             now = get_now()
             if (distracted or force_ask_done) and prompt(ask_done(intent)):
-                print(COMPLETED_INTENT_MSG)  # noqa: T201
+                print(COMPLETED_INTENT_MSG)  # ruff: ignore[print]
                 done = now
             force_ask_done = False
             if distracted:
                 distracted = False
-                print(FOCUS_MSG)  # noqa: T201
+                print(FOCUS_MSG)  # ruff: ignore[print]
             else:
                 focused += now - checked
             checked = now
@@ -194,7 +194,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
         # ! FINAL CHECKING OF FOCUS AND COMPLETION
         now = get_now()
         if intent and intent != NO_INTENT and not done and prompt(ask_done(intent)):
-            print(COMPLETED_INTENT_MSG)  # noqa: T201
+            print(COMPLETED_INTENT_MSG)  # ruff: ignore[print]
             done = now
         if intent and intent != NO_INTENT and not distracted:
             focused += now - checked
@@ -214,7 +214,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             break
         # ! TAKING A BREAK
         while get_now() < start + pom_period:
-            print(get_break_msg(break_period := (start + pom_period) - get_now()))  # noqa: T201
+            print(get_break_msg(break_period := (start + pom_period) - get_now()))  # ruff: ignore[print]
             try:
                 sleep(break_period.total_seconds())
             except KeyboardInterrupt:
@@ -228,7 +228,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
                     and not after_done
                     and prompt(ask_done(after))
                 ):
-                    print(COMPLETED_AFTER_MSG)  # noqa: T201
+                    print(COMPLETED_AFTER_MSG)  # ruff: ignore[print]
                     after_done = now
         if (
             intent_set
@@ -237,7 +237,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
             and not after_done
             and prompt(ask_done(after))
         ):
-            print(COMPLETED_AFTER_MSG)  # noqa: T201
+            print(COMPLETED_AFTER_MSG)  # ruff: ignore[print]
             after_done = now
         record_period(
             data=pom.poms,
@@ -256,7 +256,7 @@ def main(  # sourcery skip: low-code-quality  # noqa: C901, PLR0912, PLR0915
     # ! STOPPING POMODOROS AND CLEANING UP
     set_toggl_pomodoro("stop")
     set_split_intents(pom.intents)
-    print(DONE_MSG)  # noqa: T201
+    print(DONE_MSG)  # ruff: ignore[print]
 
 
 CHECK_PERIOD = timedelta(minutes=1)

@@ -16,7 +16,7 @@ for item in cwd.iterdir():
         num_words = len(title.split())
         num_words_all.append(num_words)
 
-print(  # noqa: T201
+print(  # ruff: ignore[print]
     f"Number of words in academic papers in the {cwd.resolve().stem} directory:\n"
     f"Mean: {mean(num_words_all):.1f}\n"
     f"Median: {median(num_words_all):.1f}\n"

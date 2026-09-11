@@ -11,12 +11,12 @@ import sqlalchemy as sa
 from sqlmodel import Field, SQLModel
 
 
-def IdField():  # noqa: N802  # Derived from `Field()`, also a class-like function
+def IdField():  # ruff: ignore[invalid-function-name]  # Derived from `Field()`, also a class-like function
     """Field as it is named in the database. Allows the SQLModel field name to vary."""
     return DbField(name="Id", sa_type=sa.Integer, primary_key=True)
 
 
-def DbField(name: str, sa_type, **kwds: Any):  # noqa: N802  # Derived from `Field()`, also a class-like function
+def DbField(name: str, sa_type, **kwds: Any):  # ruff: ignore[invalid-function-name]  # Derived from `Field()`, also a class-like function
     """Field as it is named in the database. Allows the SQLModel field name to vary."""
     return Field(sa_column=sa.Column(name, sa_type, **kwds))
 

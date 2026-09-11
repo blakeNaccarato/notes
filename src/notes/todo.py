@@ -11,7 +11,7 @@ from requests import get
 # sourcery skip: remove-redundant-if
 if False:
     # ? `notebooks/sunshine.ipynb`
-    get  # noqa: B018
+    get  # ruff: ignore[useless-expression]
     # ? `notebooks/sync_bullet_overflow.ipynb`
     MDRenderer().render(
         tokens=[], options={"parser_extension": [plugin]}, env={}, finalize=False

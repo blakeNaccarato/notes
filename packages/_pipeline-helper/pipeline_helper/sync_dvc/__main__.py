@@ -115,7 +115,7 @@ def clear_defaults(model: Model) -> Model:
         dict(model).items(), model.model_fields.values(), strict=True
     ):
         if (
-            value is not None  # noqa: PLR0916
+            value is not None  # ruff: ignore[too-many-boolean-expressions]
             and (ann := info.annotation)
             and (
                 (isinstance(value, Sized) and not len(value))

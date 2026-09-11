@@ -7,7 +7,7 @@ from datetime import datetime
 from importlib.machinery import ModuleSpec
 from os import walk
 from pathlib import Path
-from re import NOFLAG, VERBOSE, Match, compile  # noqa: A004
+from re import NOFLAG, VERBOSE, Match, compile  # ruff: ignore[builtin-import-shadowing]
 from shlex import quote
 from string import Template
 from types import ModuleType

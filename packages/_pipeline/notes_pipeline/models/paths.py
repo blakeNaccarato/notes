@@ -43,7 +43,7 @@ class Paths(BaseModel):
     package: Path = Path(notes_pipeline.__spec__.submodule_search_locations[0])  # ty:ignore[unresolved-attribute, not-subscriptable]
     # ! Data
     data: Path = project / "data"
-    stages: dict[str, FilePath] = (  # noqa: PLC3002
+    stages: dict[str, FilePath] = (  # ruff: ignore[unnecessary-direct-lambda-call]
         lambda package: {
             stage: package / "stages" / f"{stage}.py"
             for stage in ["sanitize_source_tags", "sync_docs", "sync_settings"]

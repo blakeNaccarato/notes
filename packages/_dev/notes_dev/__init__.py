@@ -14,11 +14,11 @@ def log(obj):
     """Send object to `stdout`."""
     match obj:
         case str():
-            print(obj)  # noqa: T201
+            print(obj)  # ruff: ignore[print]
         case Collection():
             for o in obj:
                 log(o)
         case Path():
             log(escape(obj))
         case _:
-            print(obj)  # noqa: T201
+            print(obj)  # ruff: ignore[print]

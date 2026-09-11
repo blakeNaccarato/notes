@@ -73,15 +73,14 @@ dev = [
   "sphinxcontrib-towncrier>=0.5.0a0",
   "towncrier>=24.8.0",
   #? Marimo
-  #! Satisfies Marimo VSCode extension requirement
-  "ruff==0.15.18", #! Satisfies Ruff and Marimo VSCode extension requirements
-  "ty==0.0.51",    #! Satisfies Ty and Marimo VSCode extension requirements
+  "marimo[lsp,sql]>=0.24.2", #! Satisfies Marimo VSCode extension requirement
+  "ruff>=0.16.7", #! Satisfies Ruff and Marimo VSCode extension requirements
+  "ty>=0.0.80", #! Satisfies Ty and Marimo VSCode extension requirements
   #? Tests
   "pytest-cov>=5.0.0",
   "pytest-custom-exit-code>=0.3.0",
   "pytest-github-actions-annotate-failures>=0.2.0",
   "pytest>=8.3.4",
-  "marimo[lsp,sql]==0.23.10",
 ]
 [project.urls]
 Changes = "https://blakeNaccarato.github.io/notes/changelog.html"
@@ -95,11 +94,11 @@ Tracker = "https://github.com/blakeNaccarato/notes/issues"
 required-version = ">=0.11.11"
 constraint-dependencies = [
   "fawltydeps<0.19.0", #? Intentionally don't check new dependency groups where we keep dev deps, avoids lots of repetition in `tool.fawltydeps.ignore_unused`
-  "greenlet>=3.3.2",   #? uv sync to Python 3.14 on 2026-04-04: notes > sqlalchemy@2.0.49 > greenlet@3.2.0
-  "lxml>=6.0.2",       #? uv sync to Python 3.14 on 2026-04-04: notes > obsidiantools@0.10.0 > lxml@4.3.0
-  "orjson>=3.11.8",    #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > dvc-data@3.18.3 > orjson@3.10.16
-  "pygit2>=1.19.2",    #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > scmrepo@3.6.1 > pygit2@1.17.0
-  "rpds-py>=0.30.0",   #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline > altair@6.0.0 > jsonschema@4.23.0 > rpds-py@0.24.0
+  "greenlet>=3.3.2", #? uv sync to Python 3.14 on 2026-04-04: notes > sqlalchemy@2.0.49 > greenlet@3.2.0
+  "lxml>=6.0.2", #? uv sync to Python 3.14 on 2026-04-04: notes > obsidiantools@0.10.0 > lxml@4.3.0
+  "orjson>=3.11.8", #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > dvc-data@3.18.3 > orjson@3.10.16
+  "pygit2>=1.19.2", #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline:dev > dvc@3.67.0 > scmrepo@3.6.1 > pygit2@1.17.0
+  "rpds-py>=0.30.0", #? uv sync to Python 3.14 on 2026-04-04: notes-pipeline > altair@6.0.0 > jsonschema@4.23.0 > rpds-py@0.24.0
 ]
 [tool.uv.pip]
 python-version = "3.14"
@@ -162,30 +161,30 @@ custom_models = []
 displayed_models = []
 
 [tool.marimo.completion]
-activate_on_typing = false      # (default: true) if false, completion won't activate until the completion hotkey is entered
+activate_on_typing = false # (default: true) if false, completion won't activate until the completion hotkey is entered
 signature_hint_on_typing = true # (default: false) if false, signature hint won't be shown when typing
-copilot = false                 # (default: false) false or one of "github", "codeium", or "custom"
+copilot = false # (default: false) false or one of "github", "codeium", or "custom"
 
 [tool.marimo.datasources]
-auto_discover_schemas = true   # (default: true) whether to include schemas in the datasource
-auto_discover_tables = "auto"  # (default: "auto") whether to include tables in the datasource
+auto_discover_schemas = true # (default: true) whether to include schemas in the datasource
+auto_discover_tables = "auto" # (default: "auto") whether to include tables in the datasource
 auto_discover_columns = "auto" # (default: false) whether to include columns & table metadata in the datasource
 
 [tool.marimo.diagnostics]
-enabled = false   # (default: false) if true, diagnostics will be shown in the editor
+enabled = false # (default: false) if true, diagnostics will be shown in the editor
 sql_linter = true # (default: true) if true, SQL cells will have linting enabled
 
 [tool.marimo.display]
-theme = "system"               # (default: "light") one of "light", "dark", or "system"
-code_editor_font_size = 14     # (default: 14) font size for the code editor
-cell_output = "below"          # (default: "below") one of "above" or "below"
-default_width = "medium"       # (default: "medium")
-dataframes = "rich"            # (default: "rich") one of "rich" or "plain"
-default_table_page_size = 10   # (default: 10) default number of rows to display in tables
+theme = "system" # (default: "light") one of "light", "dark", or "system"
+code_editor_font_size = 14 # (default: 14) font size for the code editor
+cell_output = "below" # (default: "below") one of "above" or "below"
+default_width = "medium" # (default: "medium")
+dataframes = "rich" # (default: "rich") one of "rich" or "plain"
+default_table_page_size = 10 # (default: 10) default number of rows to display in tables
 default_table_max_columns = 50 # (default: 50) default maximum number of columns to display in tables
-reference_highlighting = true  # (default: true) if true, highlight reactive variable references
-custom_css = []                # (empty by default) list of paths to custom CSS files
-locale = "en-US"               # (inferred by default) locale for date formatting and internationalization (e.g., "en-US", "en-GB", "de-DE")
+reference_highlighting = true # (default: true) if true, highlight reactive variable references
+custom_css = [] # (empty by default) list of paths to custom CSS files
+locale = "en-US" # (inferred by default) locale for date formatting and internationalization (e.g., "en-US", "en-GB", "de-DE")
 
 [tool.marimo.formatting]
 line_length = 88 # (default: 79) max line length
@@ -195,13 +194,13 @@ preset = "default"
 [tool.marimo.keymap.overrides]
 
 [tool.marimo.language_servers.pylsp]
-enabled = true            # (default: false) Enable/disable the Python language server
-enable_mypy = false       # (default: true if installed) Type checking with mypy
-enable_ruff = true        # (default: true if installed) Linting with ruff
-enable_flake8 = false     # (default: false) Linting with flake8
+enabled = true # (default: false) Enable/disable the Python language server
+enable_mypy = false # (default: true if installed) Type checking with mypy
+enable_ruff = true # (default: true if installed) Linting with ruff
+enable_flake8 = false # (default: false) Linting with flake8
 enable_pydocstyle = false # (default: false) Check docstring style
-enable_pylint = false     # (default: false) Linting with pylint
-enable_pyflakes = false   # (default: false) Syntax checking with pyflakes
+enable_pylint = false # (default: false) Linting with pylint
+enable_pyflakes = false # (default: false) Syntax checking with pyflakes
 [tool.marimo.language_servers.basedpyright]
 enabled = true
 [tool.marimo.language_servers.ty]
@@ -227,7 +226,7 @@ watcher_on_save = "autorun" # (default: "lazy") whether to "autorun" affected ce
 
 [tool.marimo.save]
 autosave = "after_delay" # (default: "after_delay") one of "after_delay" or "off"
-autosave_delay = 1_000   # (default: 1_000) milliseconds
+autosave_delay = 1_000 # (default: 1_000) milliseconds
 format_on_save = true
 
 [tool.marimo.server]
@@ -235,7 +234,7 @@ browser = "default"
 follow_symlink = false
 
 [tool.marimo.snippets]
-custom_paths = []               # (empty by default) paths to custom snippets directories
+custom_paths = [] # (empty by default) paths to custom snippets directories
 include_default_snippets = true # (default: true)
 
 [tool.marimo.mcp]
@@ -306,65 +305,65 @@ src = [
 [tool.ruff.lint]
 fixable = ["ALL"]
 select = [
-  "ALL",  # Select all rules
-  "D417", # Explicitly enable parameter check even when using Numpy docstrings
+  "ALL", # Select all rules
+  "undocumented-param", # Explicitly enable parameter check even when using Numpy docstrings
 ]
 unfixable = [
-  "PIE790", # Don't remove `pass`/`...`, overridden in prek
+  "unnecessary-placeholder", # Don't remove `pass`/`...`, overridden in prek
 ]
 extend-safe-fixes = [
-  "F401", # Allow autofix for unused imports even in `__init__.py`
+  "unused-import", # Allow autofix for unused imports even in `__init__.py`
 ]
 ignore = [
-  "ANN",     # Don't require type annotations
-  "ARG005",  # Allow unused lambda argument. For consistency across df pipelines.
-  "C408",    # Allow dict calls
-  "COM",     # Allow magic commas and magic missing commas
-  "CPY001",  # Don't check for copyright
-  "D10",     # Allow missing docstrings
-  "DOC",     # Don't require documented returns, yields, exceptions, etc.
-  "DTZ",     # Timezones are important, but only contextually necessary.
-  "E501",    # Don't check line length. Black handles this.
-  "EM",      # Don't check for exception message issues
-  "ERA",     # False positives. Don't get rid of commented out code.
-  "FBT",     # Allow boolean "traps"
-  "FIX002",  # Allow TODOs
-  "FLY002",  # Allow different string representations
-  "FURB118", # Incorrectly applies `itemgetter`
-  "FURB140", # Don't replace comprehensions with starmap
-  "G0",      # Allow f-strings, etc. in Loguru logging
-  "ICN",     # Don't require these ad-hoc "conventional" import names
-  "INP001",  # False positives. Checks for packages missing `__init__.py`
-  "ISC",     # False positives. Implicit string concatenation is fine.
-  "PD009",   # Allow `df.iat`.
-  "PD011",   # Allow use of `.values`. False positives.
-  "PD013",   # Allow `stack` instead of `melt`. They're not a direct swap.
-  "PD101",   # Allow use of nunique(). False positives
-  "PD011",   # Allow use of `.values`. False positives.
-  "PLR6201", # Don't require set literal for membership checks
-  "PGH003",  # Until black stops wrapping special ignores, let's allow bare
-  "PIE804",  # Allow dict unpack even if unnecessary, consisent for df.assign{**...}
-  "PLC0105", # Dont enforce Hungarian notation for `TypeVar` variance
-  "PLC2701", # Allow private name imports
-  "PLR0913", # Allow more than five function arguments
-  "PLR0914", # Allow lots of local variables
-  "PLR0917", # Allow more than five positional arguments
-  "PLR1704", # Allow redefining arguments, often for sanitization
-  "PLR2004", # Allow magic values. This check is too sensitive
-  "PLR6201", # Don't require set literal for membership checks
-  "PLR6301", # Allow methods that don't reference self, may be overridden
-  "PLW0108", # Don't warn about unnecessary lambda. Often needed in pandas chains
-  "PLW0642", # Allow reassignment to `cls` and `self`
-  "PLW2901", # For loop variable
-  "RET",     # Return checks are flaky, Sourcery does fine analysing these paths
-  "RUF067",  #TODO: Make __init__.py only have docstrings and re-exports
-  "S301",    # Don't warn about pickling.
-  "S403",    # Don't warn about pickle-like modules.
-  "S404",    # Don't warn about subprocess.
-  "TC",      # Type checking linter doesn't play nicely with pydantic
-  "TD",      # Disable to-do validation. Too pedantic for now.
-  "TRY003",  # Allow long exception messages
-  "W2",      # Allow whitespace issues. Fixed automatically by black.
+  "ANN", # Don't require type annotations
+  "unused-lambda-argument", # Allow unused lambda argument. For consistency across df pipelines.
+  "unnecessary-collection-call", # Allow dict calls
+  "COM", # Allow magic commas and magic missing commas
+  "missing-copyright-notice", # Don't check for copyright
+  "D10", # Allow missing docstrings
+  "DOC", # Don't require documented returns, yields, exceptions, etc.
+  "DTZ", # Timezones are important, but only contextually necessary.
+  "line-too-long", # Don't check line length. Black handles this.
+  "EM", # Don't check for exception message issues
+  "ERA", # False positives. Don't get rid of commented out code.
+  "FBT", # Allow boolean "traps"
+  "line-contains-todo", # Allow TODOs
+  "static-join-to-f-string", # Allow different string representations
+  "reimplemented-operator", # Incorrectly applies `itemgetter`
+  "reimplemented-starmap", # Don't replace comprehensions with starmap
+  "G0", # Allow f-strings, etc. in Loguru logging
+  "ICN", # Don't require these ad-hoc "conventional" import names
+  "implicit-namespace-package", # False positives. Checks for packages missing `__init__.py`
+  "ISC", # False positives. Implicit string concatenation is fine.
+  "pandas-use-of-dot-iat", # Allow `df.iat`.
+  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
+  "pandas-use-of-dot-stack", # Allow `stack` instead of `melt`. They're not a direct swap.
+  "pandas-nunique-constant-series-check", # Allow use of nunique(). False positives
+  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
+  "literal-membership", # Don't require set literal for membership checks
+  "blanket-type-ignore", # Until black stops wrapping special ignores, let's allow bare
+  "unnecessary-dict-kwargs", # Allow dict unpack even if unnecessary, consisent for df.assign{**...}
+  "type-name-incorrect-variance", # Dont enforce Hungarian notation for `TypeVar` variance
+  "import-private-name", # Allow private name imports
+  "too-many-arguments", # Allow more than five function arguments
+  "too-many-locals", # Allow lots of local variables
+  "too-many-positional-arguments", # Allow more than five positional arguments
+  "redefined-argument-from-local", # Allow redefining arguments, often for sanitization
+  "magic-value-comparison", # Allow magic values. This check is too sensitive
+  "literal-membership", # Don't require set literal for membership checks
+  "no-self-use", # Allow methods that don't reference self, may be overridden
+  "unnecessary-lambda", # Don't warn about unnecessary lambda. Often needed in pandas chains
+  "self-or-cls-assignment", # Allow reassignment to `cls` and `self`
+  "redefined-loop-name", # For loop variable
+  "RET", # Return checks are flaky, Sourcery does fine analysing these paths
+  "non-empty-init-module", #TODO: Make __init__.py only have docstrings and re-exports
+  "suspicious-pickle-usage", # Don't warn about pickling.
+  "suspicious-pickle-import", # Don't warn about pickle-like modules.
+  "suspicious-subprocess-import", # Don't warn about subprocess.
+  "TC", # Type checking linter doesn't play nicely with pydantic
+  "TD", # Disable to-do validation. Too pedantic for now.
+  "raise-vanilla-args", # Allow long exception messages
+  "W2", # Allow whitespace issues. Fixed automatically by black.
 ]
 [tool.ruff.lint.isort]
 split-on-trailing-comma = false
@@ -374,40 +373,40 @@ skip-magic-trailing-comma = true
 convention = "numpy"
 [tool.ruff.lint.extend-per-file-ignores]
 "**/*.ipynb" = [
-  "B018", # Allow "useless" expressions, which do suppress outputs in notebooks
-  "D1",   # Allow missing docstrings in notebooks
-  "E703", # Allow semicolons to suppress outputs in notebooks
-  "F821", # Allow undefined names, such as `display`
-  "S101", # Allow assert
-  "T201", # Allow print in notebooks
+  "useless-expression", # Allow "useless" expressions, which do suppress outputs in notebooks
+  "D1", # Allow missing docstrings in notebooks
+  "useless-semicolon", # Allow semicolons to suppress outputs in notebooks
+  "undefined-name", # Allow undefined names, such as `display`
+  "assert", # Allow assert
+  "print", # Allow print in notebooks
 ]
 "data/deprecated/csl_models.py" = [
   "D1", # Allow missing docstrings in generated models
 ]
 "packages/_dev/notes_dev/tools/add_changes.py" = [
-  "S603", # Allow shell expressions here
-  "S607", # Allow shell expressions here
+  "subprocess-without-shell-equals-true", # Allow shell expressions here
+  "start-process-with-partial-path", # Allow shell expressions here
 ]
 "packages/_pipeline/notes_pipeline/stages/*.py" = [
-  "B018",   # Allow "useless" expressions for Marimo cell outputs
-  "C901",   # Allow complex Marimo cells
-  "E302",   # Allow one blank line in "top-level" Marimo cells
-  "E305",   # Allow one blank line in "top-level" Marimo cells
-  "N806",   # Allow ALL_CAPS variables in Marimo cells
-  "RUF052", # Allow underscore-prefixed variable access
-  "PLR1711", # Allow "useless" returns in Marimo cells
+  "useless-expression", # Allow "useless" expressions for Marimo cell outputs
+  "complex-structure", # Allow complex Marimo cells
+  "blank-lines-top-level", # Allow one blank line in "top-level" Marimo cells
+  "blank-lines-after-function-or-class", # Allow one blank line in "top-level" Marimo cells
+  "non-lowercase-variable-in-function", # Allow ALL_CAPS variables in Marimo cells
+  "used-dummy-variable", # Allow underscore-prefixed variable access
+  "useless-return", # Allow "useless" returns in Marimo cells
 ]
 "docs/**.ipynb" = [
-  "E402", # Need to allow imports below patches in docs notebooks
+  "module-import-not-at-top-of-file", # Need to allow imports below patches in docs notebooks
 ]
 "tests/**" = [
-  "ARG001", # Allow unused arguments
-  "S101",   # Allow assert
-  "SIM300", # Allow constants (expectations) on the RHS
-  "SLF001", # Allow private member access in tests
+  "unused-function-argument", # Allow unused arguments
+  "assert", # Allow assert
+  "yoda-conditions", # Allow constants (expectations) on the RHS
+  "private-member-access", # Allow private member access in tests
 ]
 "types.py" = [
-  "A005", # Allow types modules that shadow a stdlib module
+  "stdlib-module-shadowing", # Allow types modules that shadow a stdlib module
 ]
 
 [tool.ty.analysis]

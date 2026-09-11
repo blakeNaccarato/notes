@@ -28,7 +28,7 @@ def sync_stages():
     # ? `extract_node` unpacks singletons, so wrap in list for consistency
     nodes = nodes if isinstance((nodes := extract_node(src)), list) else [nodes]
     if (
-        nodes  # noqa: PLR0916
+        nodes  # ruff: ignore[too-many-boolean-expressions]
         and isinstance(nodes[0], AnnAssign)
         and (rhs := nodes[0].value)
         and isinstance(rhs, Subscript)
