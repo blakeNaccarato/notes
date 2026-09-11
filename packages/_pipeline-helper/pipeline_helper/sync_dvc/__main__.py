@@ -73,7 +73,7 @@ def get_dvc_context(params: dict[str, Any], stages: str) -> DvcContext:
 
     class CombinedContext(stage.model_fields["context"].annotation, DvcContexts): ...
 
-    return create_model(
+    return create_model(  # ty: ignore[unsound-return-statement]
         "_Stages",
         **{
             k: (v, ...) for k, v in {"context": CombinedContext, **stage_models}.items()

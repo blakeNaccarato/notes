@@ -27,7 +27,7 @@ def get_data(root: Path | None = None) -> dict[str, Path]:
         seen_plans: Path = root_ / "seen_plans.json"
         personal_timestamped: Path = personal / "_timestamped"
 
-    return asdict(_Data())
+    return asdict(_Data())  # ty: ignore[unsound-return-statement]
 
 
 def walk_to_path(start: Path, target: Path) -> Path:

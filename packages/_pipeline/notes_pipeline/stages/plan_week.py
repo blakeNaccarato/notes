@@ -22,7 +22,7 @@ with app.setup:
         DataFrame,
         NaT,
         Series,
-        col,  # ty:ignore[unresolved-import]
+        col,
         read_csv,
         to_timedelta,
     )
@@ -96,14 +96,14 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
 
 @app.function
 def get_plans(tasks: DataFrame) -> DataFrame:
-    return tasks.loc[
+    return tasks.loc[  # ty: ignore[unsound-return-statement]
         (~col("cancelled"))
         & (~col("done"))
         & col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
     ]
 
 
-@app.function
+@app.function  # ty: ignore[dynamic-function-decorator-return]
 def compute_last_planned(df):
     return df["last_seen"] + to_timedelta(
         df["day"]
@@ -172,7 +172,7 @@ def _():
         data=read_csv(
             StringIO(
                 run(
-                    args=["obsidian", "tasks", "format=csv"],
+                    args=["obsidian", "tasks", "format=csv"],  # ruff: ignore[start-process-with-partial-path]
                     capture_output=True,
                     check=True,
                     encoding="utf-8",
@@ -212,7 +212,7 @@ def _():
     return (tasks,)
 
 
-@app.function
+@app.function  # ty: ignore[dynamic-function-decorator-return]
 def update_task(row):
     q = row.to_dict()
     path = data["personal"] / q["path"]
@@ -225,7 +225,7 @@ def update_task(row):
 
 
 @app.cell
-def _(tasks):
+def _(tasks):  # sourcery skip: remove-redundant-if
     to_reset = tasks.loc[col("priority") != col("new_priority")]
     if False:
         # TODO: Remove entries from "seeen_plans" if they were updated here
@@ -241,6 +241,7 @@ def _(tasks):
 
 @app.cell
 def _(tasks):
+    # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
     day_plan = """
     - 04
     - 07

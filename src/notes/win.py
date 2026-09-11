@@ -19,7 +19,7 @@ def get_windows() -> dict[str, WindowInfo]:
     win32gui.EnumWindows(
         partial(enum_window_callback, child=False, windows=(windows := {})), None
     )
-    return windows
+    return windows  # ty: ignore[unsound-return-statement]
 
 
 @dataclass
@@ -240,7 +240,7 @@ class SetCursorPos(Args):
     [docs]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setcursorpos#:~:text=%5Bin%5D%20y
     """
 
-    def args(self) -> tuple[Any, ...]:
+    def args(self) -> tuple[Any, ...]:  # ty: ignore[missing-override-decorator]
         """Get args. `pywin32` API expects `SetCursorPos` args as (`x`, `y`) tuple."""
         return (super().args(),)
 

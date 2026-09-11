@@ -96,7 +96,7 @@ def render_parameter(parameter: Parameter) -> str:
         output += f" (_{escaped_type}_)"
     if parameter.desc:
         output += ": " + " ".join(parameter.desc)
-    return output
+    return output  # ty: ignore[unsound-return-statement]
 
 
 def render_parameter_section(section: list[Parameter]) -> str:
@@ -181,7 +181,7 @@ def replace_output_files_title(doc: str, source: str | None) -> str:
 class MystNumpyDocHybridParser(MystParser):
     """Hybrid docstring. Use NumpyDoc style, but allow Markdown instead of rST."""
 
-    def parse(self, inputstring: str, document: nodes.document) -> None:
+    def parse(self, inputstring: str, document: nodes.document) -> None:  # ty: ignore[missing-override-decorator]
         """
         Parse source text.
 

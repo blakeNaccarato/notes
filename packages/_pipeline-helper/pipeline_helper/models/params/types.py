@@ -10,7 +10,7 @@ from pipeline_helper.models.stage import Deps, Outs
 if TYPE_CHECKING:
     from pipeline_helper.models.params import Params
 
-DfOrS_T = TypeVar("DfOrS_T", bound="DataFrame | Series[Any]")
+DfOrS_T = TypeVar("DfOrS_T", bound="DataFrame | Series[Any]")  # ty: ignore[invalid-type-form]
 """DataFrame or Series type."""
 Deps_T = TypeVar("Deps_T", bound=Deps, covariant=True)
 """Dependencies type."""

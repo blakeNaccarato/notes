@@ -196,7 +196,7 @@ def main(  # sourcery skip: low-code-quality  # ruff: ignore[complex-structure, 
         if intent and intent != NO_INTENT and not done and prompt(ask_done(intent)):
             print(COMPLETED_INTENT_MSG)  # ruff: ignore[print]
             done = now
-        if intent and intent != NO_INTENT and not distracted:
+        if intent and intent != NO_INTENT and not distracted:  # ty: ignore[redundant-condition-strict]
             focused += now - checked
         record_period(
             data=pom.poms,
@@ -290,7 +290,7 @@ def notify(message: str):
 def prompt(message: str) -> bool:
     """Prompt user."""
     return (
-        win32api.MessageBox(
+        win32api.MessageBox(  # ty: ignore[unsound-return-statement]
             *MessageBox(
                 0, message, APP_NAME, MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2
             ).args()
@@ -400,7 +400,7 @@ def merge_intents(
 
 def get_intents(path: Path) -> dict[str, Intent]:
     """Get intents."""
-    return loads(path.read_text(encoding="utf-8"))
+    return loads(path.read_text(encoding="utf-8"))  # ty: ignore[unsound-return-statement]
 
 
 def ordered_union[T](*args: T) -> Iterable[T]:

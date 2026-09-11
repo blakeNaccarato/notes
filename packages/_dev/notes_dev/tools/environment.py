@@ -32,10 +32,10 @@ def run(
 ):
     """Run command."""
     sep = " "
-    subprocess.run(
+    subprocess.run(  # ruff: ignore[subprocess-without-shell-equals-true]
         check=check,
         capture_output=capture_output,
-        args=[
+        args=[  # ruff: ignore[start-process-with-partial-path]
             "pwsh",
             "-Command",
             sep.join([
@@ -54,7 +54,7 @@ class Environment(BaseSettings):
     )
 
     @classmethod
-    def settings_customise_sources(cls, settings_cls, **_):  # ty:ignore[invalid-method-override]
+    def settings_customise_sources(cls, settings_cls, **_):  # ty:ignore[invalid-method-override, missing-override-decorator]
         """Customize so that all keys are loaded despite not being model fields."""
         return (PyprojectTomlConfigSettingsSource(settings_cls),)
 

@@ -88,7 +88,7 @@ class ModifiedFileHandler(FileSystemEventHandler):
         self.cooldown = timedelta(seconds=cooldown)
         self.triggered_time = min_datetime
 
-    def on_modified(self, event: FileSystemEvent):
+    def on_modified(self, event: FileSystemEvent):  # ty: ignore[missing-override-decorator]
         if (get_now() - self.triggered_time) > self.cooldown:
             self.func(event)
             self.triggered_time = get_now()

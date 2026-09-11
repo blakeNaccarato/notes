@@ -20,7 +20,7 @@ with app.setup:
 
 
 @app.function
-def parse_hint(text: str) -> Tree:
+def parse_hint(text: str) -> Tree:  # ty: ignore[missing-type-argument]
     return Lark(Path("clues-by-sam.lark").read_text(encoding="utf-8")).parse(text)
 
 

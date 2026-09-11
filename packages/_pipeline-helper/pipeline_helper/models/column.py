@@ -180,7 +180,7 @@ def scale[SupportsMul_T: SupportsMul](
     """Scale."""
 
     def _scale(
-        v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs
+        v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs  # ty: ignore[unbound-type-variable]
     ) -> SupportsMul_T:
         return v * s
 
@@ -208,13 +208,13 @@ class LinkedCol(Col):
 
     source: Col = field(default_factory=Col)
 
-    def rename(self, df: DataFrame) -> DataFrame:
+    def rename(self, df: DataFrame) -> DataFrame:  # ty: ignore[missing-override-decorator]
         """Rename this column."""
         return df.rename(columns={self.source.raw: self()})
 
-    def convert(self, df: DataFrame, ureg: UnitRegistry) -> Series:
+    def convert(self, df: DataFrame, ureg: UnitRegistry) -> Series:  # ty: ignore[missing-type-argument]
         """Convert this column."""
-        return ureg.convert(df[self.source()], self.source.unit, self.unit)
+        return ureg.convert(df[self.source()], self.source.unit, self.unit)  # ty: ignore[unsound-return-statement]
 
 
 @dataclass
@@ -231,7 +231,7 @@ def rename(df: DataFrame, columns: list[LinkedCol]) -> DataFrame:
     return df.rename(columns={col.source.raw: col() for col in columns})
 
 
-def convert(df: DataFrame, cols: list[LinkedCol], ureg: UnitRegistry) -> DataFrame:
+def convert(df: DataFrame, cols: list[LinkedCol], ureg: UnitRegistry) -> DataFrame:  # ty: ignore[missing-type-argument]
     """Convert."""
     return df.assign(**{col(): col.convert(df, ureg) for col in cols})
 

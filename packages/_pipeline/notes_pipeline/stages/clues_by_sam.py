@@ -72,8 +72,8 @@ class Suspect:
 
 
 @app.function
-def parse_suspects(html: str) -> DataFrame[Suspect]:
-    data: dict[Column, list[Suspect]] = {key: [] for key in ["A", "B", "C", "D"]}  # ty:ignore[invalid-assignment]
+def parse_suspects(html: str) -> DataFrame[Suspect]:  # ty: ignore[invalid-type-form]
+    data: dict[Column, list[Suspect]] = {key: [] for key in ["A", "B", "C", "D"]}
     for card in [
         Card(
             coord=Coord(*[  # ty:ignore[invalid-argument-type]
@@ -111,7 +111,7 @@ def parse_suspects(html: str) -> DataFrame[Suspect]:
 
 
 @app.function
-def get_neighbors(suspects: DataFrame[Suspect], name: str) -> list[Suspect]:
+def get_neighbors(suspects: DataFrame[Suspect], name: str) -> list[Suspect]:  # ty: ignore[invalid-type-form]
     row, col = (
         one(idx) for idx in where(suspects.map(lambda suspect: suspect.name) == name)
     )

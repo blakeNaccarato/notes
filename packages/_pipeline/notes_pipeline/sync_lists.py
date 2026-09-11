@@ -116,13 +116,13 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
 
 def join_nodes(nodes: Iterable[Node]) -> str:
     """Join nodes."""
-    return "".join([node.meta.get("content", "") for node in nodes])
+    return "".join([node.meta.get("content", "") for node in nodes])  # ty: ignore[unsound-return-statement]
 
 
 def invoke_obsidian_command(command: str):
     """Invoke Obsidian command."""
-    run(
-        args=[
+    run(  # ruff: ignore[subprocess-without-shell-equals-true]
+        args=[  # ruff: ignore[start-process-with-partial-path]
             "powershell",
             "-NonInteractive",
             "-NoProfile",
