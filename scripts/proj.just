@@ -28,7 +28,13 @@ default:
 # 📒 Run NPM build
 [group('📒 Notes')]
 npm-build:
-  npm run build
+  npm install
+  tsc
+
+# 📒 Run NPM watcher
+[group('📒 Notes')]
+npm-watch:
+  tsc-watch --pretty
 
 # 📒 Run pytest
 [group('📒 Notes')]
@@ -60,15 +66,24 @@ dvc-dag:
   {{notes_pre}} (iuv dvc dag --md) -Replace 'mermaid', '{mermaid}' | Set-Content 'docs/_static/dag.md'
   markdownlint-cli2 'docs/_static/dag.md'
 
-compiled_templates :=\
-  'data/local/vaults/personal/_templater-scripts'
 format_templates :=\
   notes_pre + sp + '(' \
     + 'Get-ChildItem' \
     + sp + compiled_templates \
     + sp + '-Filter *.js' \
   + ')' \
-  + sp + '|' + sp + './scripts/Format-TemplateScript.ps1'
+  + sp + '|' + sp + './scripts/Format-TemplateScript.ps1' + ';' \
+  + sp + 'Copy-Item -Force' + sp + compiled_templates + sp + vault
+
+formatted_templates :=\
+  vault + '/' + '_templater-scripts'
+
+vault :=\
+  if path_exists('data/local/vaults/personal')==true { 'data/local/vaults/personal' } else { empty } \
+  || 'data/local/vaults/personal-local'
+
+compiled_templates :=\
+  'dist/_templater-scripts'
 
 #* 📒 Vault
 

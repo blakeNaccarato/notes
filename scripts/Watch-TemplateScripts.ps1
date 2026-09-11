@@ -3,16 +3,14 @@ Watch changed files.#>
 . ./j.ps1
 $VerbosePreference = 'Continue'
 Write-Verbose 'START PROBLEM MATCHER'
-$TemplateDir = 'data/local/vaults/personal/_templater-scripts'
+$CompiledTemplates = 'dist/_templater-scripts'
 $TemplateTypes = 'types.js'
-if (Test-Path ($Types = "$TemplateDir/$TemplateTypes")) {
+if (Test-Path ($Types = "$CompiledTemplates/$TemplateTypes")) {
     Remove-Item $Types
 }
-if (!$TemplateDir -or !$TemplateTypes) {
-    Write-Debug 'Template directory or types environment variables not set'
-    Write-Verbose 'STOP PROBLEM MATCHER'
-    return
-}
+if (!(Test-Path ($Vault = "data/local/vaults/personal"))) { $Vault = "data/local/vaults/personal-local" }
+$TemplateDir = "$Vault/_templater-scripts"
+Copy-Item -Force $CompiledTemplates $Vault
 if (!$Env:WATCHFILES_CHANGES -or ($Env:WATCHFILES_CHANGES -eq '[]')) {
     Write-Debug 'No changes'
     Write-Verbose 'STOP PROBLEM MATCHER'

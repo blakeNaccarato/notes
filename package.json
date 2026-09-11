@@ -1,4 +1,5 @@
 {
+  "name": "notes",
   "devDependencies": {
     "@bitwarden/cli": "^2026.3.0",
     "@eslint/js": "^10.0.1",
@@ -25,8 +26,8 @@
     "tmp": ">0.2.3"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc-watch --pretty",
+    "build": "pwsh ./j.ps1 proj::npm-build",
+    "watch": "pwsh ./j.ps1 proj::npm-watch",
     "postbuild": "pwsh ./j.ps1 proj::format-templates"
   }
 }

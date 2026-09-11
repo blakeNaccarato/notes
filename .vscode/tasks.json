@@ -152,7 +152,7 @@
     {
       "label": "Run npm build",
       "icon": { "id": "package" },
-      "command": "npm run build",
+      "command": "./j.ps1 proj::npm-build",
       "group": { "kind": "build", "isDefault": true },
       "problemMatcher": ["$tsc-watch"]
     },
