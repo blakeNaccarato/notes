@@ -15,7 +15,7 @@ def get_data(root: Path | None = None) -> dict[str, Path]:
         local: Path = root_ / "local"
         # ! Vaults
         vaults: Path = local / "vaults"
-        personal: Path = vaults / "personal"
+        personal: Path = vaults / "personal-local" if (vaults / "personal-local").exists() else vaults / "personal"
         # ! .obsidian folders
         personal_obsidian: Path = personal / ".obsidian"
         personal_plugins: Path = personal_obsidian / "plugins"

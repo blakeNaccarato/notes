@@ -316,54 +316,54 @@ extend-safe-fixes = [
 ]
 ignore = [
   "ANN", # Don't require type annotations
-  "unused-lambda-argument", # Allow unused lambda argument. For consistency across df pipelines.
-  "unnecessary-collection-call", # Allow dict calls
   "COM", # Allow magic commas and magic missing commas
-  "missing-copyright-notice", # Don't check for copyright
   "D10", # Allow missing docstrings
   "DOC", # Don't require documented returns, yields, exceptions, etc.
   "DTZ", # Timezones are important, but only contextually necessary.
-  "line-too-long", # Don't check line length. Black handles this.
   "EM", # Don't check for exception message issues
   "ERA", # False positives. Don't get rid of commented out code.
   "FBT", # Allow boolean "traps"
-  "line-contains-todo", # Allow TODOs
-  "static-join-to-f-string", # Allow different string representations
-  "reimplemented-operator", # Incorrectly applies `itemgetter`
-  "reimplemented-starmap", # Don't replace comprehensions with starmap
   "G0", # Allow f-strings, etc. in Loguru logging
   "ICN", # Don't require these ad-hoc "conventional" import names
-  "implicit-namespace-package", # False positives. Checks for packages missing `__init__.py`
   "ISC", # False positives. Implicit string concatenation is fine.
-  "pandas-use-of-dot-iat", # Allow `df.iat`.
-  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
-  "pandas-use-of-dot-stack", # Allow `stack` instead of `melt`. They're not a direct swap.
-  "pandas-nunique-constant-series-check", # Allow use of nunique(). False positives
-  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
-  "literal-membership", # Don't require set literal for membership checks
+  "RET", # Return checks are flaky, Sourcery does fine analysing these paths
+  "TC", # Type checking linter doesn't play nicely with pydantic
+  "TD", # Disable to-do validation. Too pedantic for now.
+  "W2", # Allow whitespace issues. Fixed automatically by black.
   "blanket-type-ignore", # Until black stops wrapping special ignores, let's allow bare
-  "unnecessary-dict-kwargs", # Allow dict unpack even if unnecessary, consisent for df.assign{**...}
-  "type-name-incorrect-variance", # Dont enforce Hungarian notation for `TypeVar` variance
+  "implicit-namespace-package", # False positives. Checks for packages missing `__init__.py`
   "import-private-name", # Allow private name imports
+  "line-contains-todo", # Allow TODOs
+  "line-too-long", # Don't check line length. Black handles this.
+  "literal-membership", # Don't require set literal for membership checks
+  "literal-membership", # Don't require set literal for membership checks
+  "magic-value-comparison", # Allow magic values. This check is too sensitive
+  "missing-copyright-notice", # Don't check for copyright
+  "no-self-use", # Allow methods that don't reference self, may be overridden
+  "non-empty-init-module", #TODO: Make __init__.py only have docstrings and re-exports
+  "pandas-nunique-constant-series-check", # Allow use of nunique(). False positives
+  "pandas-use-of-dot-iat", # Allow `df.iat`.
+  "pandas-use-of-dot-stack", # Allow `stack` instead of `melt`. They're not a direct swap.
+  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
+  "pandas-use-of-dot-values", # Allow use of `.values`. False positives.
+  "raise-vanilla-args", # Allow long exception messages
+  "redefined-argument-from-local", # Allow redefining arguments, often for sanitization
+  "redefined-loop-name", # For loop variable
+  "reimplemented-operator", # Incorrectly applies `itemgetter`
+  "reimplemented-starmap", # Don't replace comprehensions with starmap
+  "self-or-cls-assignment", # Allow reassignment to `cls` and `self`
+  "static-join-to-f-string", # Allow different string representations
+  "suspicious-pickle-import", # Don't warn about pickle-like modules.
+  "suspicious-pickle-usage", # Don't warn about pickling.
+  "suspicious-subprocess-import", # Don't warn about subprocess.
   "too-many-arguments", # Allow more than five function arguments
   "too-many-locals", # Allow lots of local variables
   "too-many-positional-arguments", # Allow more than five positional arguments
-  "redefined-argument-from-local", # Allow redefining arguments, often for sanitization
-  "magic-value-comparison", # Allow magic values. This check is too sensitive
-  "literal-membership", # Don't require set literal for membership checks
-  "no-self-use", # Allow methods that don't reference self, may be overridden
+  "type-name-incorrect-variance", # Dont enforce Hungarian notation for `TypeVar` variance
+  "unnecessary-collection-call", # Allow dict calls
+  "unnecessary-dict-kwargs", # Allow dict unpack even if unnecessary, consisent for df.assign{**...}
   "unnecessary-lambda", # Don't warn about unnecessary lambda. Often needed in pandas chains
-  "self-or-cls-assignment", # Allow reassignment to `cls` and `self`
-  "redefined-loop-name", # For loop variable
-  "RET", # Return checks are flaky, Sourcery does fine analysing these paths
-  "non-empty-init-module", #TODO: Make __init__.py only have docstrings and re-exports
-  "suspicious-pickle-usage", # Don't warn about pickling.
-  "suspicious-pickle-import", # Don't warn about pickle-like modules.
-  "suspicious-subprocess-import", # Don't warn about subprocess.
-  "TC", # Type checking linter doesn't play nicely with pydantic
-  "TD", # Disable to-do validation. Too pedantic for now.
-  "raise-vanilla-args", # Allow long exception messages
-  "W2", # Allow whitespace issues. Fixed automatically by black.
+  "unused-lambda-argument", # Allow unused lambda argument. For consistency across df pipelines.
 ]
 [tool.ruff.lint.isort]
 split-on-trailing-comma = false
@@ -388,12 +388,13 @@ convention = "numpy"
   "start-process-with-partial-path", # Allow shell expressions here
 ]
 "packages/_pipeline/notes_pipeline/stages/*.py" = [
-  "useless-expression", # Allow "useless" expressions for Marimo cell outputs
-  "complex-structure", # Allow complex Marimo cells
-  "blank-lines-top-level", # Allow one blank line in "top-level" Marimo cells
   "blank-lines-after-function-or-class", # Allow one blank line in "top-level" Marimo cells
+  "blank-lines-top-level", # Allow one blank line in "top-level" Marimo cells
+  "complex-structure", # Allow complex Marimo cells
   "non-lowercase-variable-in-function", # Allow ALL_CAPS variables in Marimo cells
+  "start-process-with-partial-path", # Differs in/out of Marimo
   "used-dummy-variable", # Allow underscore-prefixed variable access
+  "useless-expression", # Allow "useless" expressions for Marimo cell outputs
   "useless-return", # Allow "useless" returns in Marimo cells
 ]
 "docs/**.ipynb" = [

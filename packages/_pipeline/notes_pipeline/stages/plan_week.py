@@ -6,7 +6,7 @@ app = marimo.App()
 with app.setup:
     from collections.abc import Iterable
     from dataclasses import dataclass, field
-    from datetime import datetime
+    from datetime import date, datetime
     from functools import reduce
     from io import StringIO
     from json import dumps, loads
@@ -18,15 +18,7 @@ with app.setup:
 
     import marimo as mo
     from more_itertools import one
-    from pandas import (
-        CategoricalDtype,
-        DataFrame,
-        NaT,
-        Series,
-        col,
-        read_csv,
-        to_timedelta,
-    )
+    from pandas import CategoricalDtype, DataFrame, NaT, Series, col, read_csv, to_timedelta
 
     from notes.times import current_tz, get_now
     from notes_pipeline.data import get_data
@@ -75,7 +67,7 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
     return df.assign(
         **df["text"].str.extract(
             "".join([
-                r"^\s*-\s*\[[^\]]\]",  # Markdown-style checkbox
+                r"^\s*(?:>\s*)?-\s*\[[^\]]\]",  # Markdown-style checkbox
                 r"\s*(?P<tags>(?:#\w+\s)*)",
                 rf"(?P<task>[^{sym}]+)",
                 r"(?=.*🆔\s*(?P<id>[^\s]*))?",
@@ -93,23 +85,6 @@ def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
             ])
         )
     )
-
-
-@app.function
-def get_actively_planned(tasks: DataFrame) -> DataFrame:
-    return tasks.loc[~col("cancelled") & ~col("done")]
-
-
-@app.function
-def get_stale(tasks: DataFrame) -> DataFrame:
-    return tasks.loc[col("cancelled") | col("done")]
-
-
-@app.function
-def get_all_planned(tasks: DataFrame) -> DataFrame:
-    return tasks.loc[  # ty: ignore[unsound-return-statement]
-        col("id").isin(one(tasks.loc[(col("id") == "zzzzzz")]["deps"].str.split(",")))
-    ]
 
 
 @app.function
@@ -132,8 +107,35 @@ def compute_last_planned(df):
     )
 
 
+@app.function
+def update_task(row):
+    q = row.to_dict()
+    path = data["personal"] / q["path"]
+    lines = path.read_text(encoding="utf-8").splitlines(True)
+    lines[q["line"] - 1] = sub(
+        rf"\s+{q['priority']}", q["new_priority"], lines[q["line"] - 1]
+    )
+    path.write_text("".join(lines), encoding="utf-8")
+    return row
+
+
+@app.function
+def demote_task(row):
+    task = row.to_dict()
+    path = data["personal"] / task["path"]
+    lines = path.read_text(encoding="utf-8").splitlines(True)
+    lines[task["line"] - 1] = sub(
+        rf"- \[{task['status']}\]", "- #task", lines[task["line"] - 1]
+    )
+    path.write_text("".join(lines), encoding="utf-8")
+    return row
+
+
 @app.cell
 def _():
+    # TODO: Don't change this back to True until fixing identified demoted tasks matching e.g. /- #task.+✅ 2026-0(?:6|7|8|9)/
+    DEMOTE_UNIDENTIFIED_INDEPENDENT_FINISHED_UNPLANNED_TASKS = False
+
     last_seen: dict[str, datetime] = {
         k: datetime.fromisoformat(v)
         for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
@@ -181,7 +183,7 @@ def _():
         data=read_csv(
             StringIO(
                 run(
-                    args=["obsidian", "tasks", "format=csv"],  # ruff: ignore[start-process-with-partial-path]
+                    args=["obsidian", "tasks", "format=csv"],
                     capture_output=True,
                     check=True,
                     encoding="utf-8",
@@ -197,8 +199,12 @@ def _():
             .str.replace(r"\s{2,}", " ", regex=True)
             .str.strip(),
             "entry": "[" + col("task") + "](" + col("path") + ")",
-            "cancelled": col("status") == "-",
-            "done": col("status") == "x",
+            "done": col("done").where(
+                (col("status") != "x") | col("done").notna(), date.min
+            ),
+            "cancelled": col("cancelled").where(
+                (col("status") != "-") | col("cancelled").notna(), date.min
+            ),
             "priority": col("priority")
             .fillna("")
             .astype(CategoricalDtype(ordered=True, categories=priorities)),
@@ -213,57 +219,76 @@ def _():
             ),
             "last_planned": lambda df: df.pipe(compute_last_planned),
             "new_priority": col("priority").where(col("last_planned") > get_now(), ""),
-        })
-        .pipe(get_all_planned)
-        .sort_values("day", na_position="first"),
+        }),
     )
-    mo.ui.table(tasks)
-    return (tasks,)
+    planned_meta_task = tasks.loc[(col("id") == "zzzzzz")]
+    reprioritize_meta_task = tasks.loc[(col("id") == "xxxxxx")]
+    is_planned = col("id").isin(one(planned_meta_task["deps"].str.split(",")))
+    do_reprioritize = col("id").isin(one(reprioritize_meta_task["deps"].str.split(",")))
+    is_active = col("cancelled").isna() & col("done").isna()
+    unidentified_independent_finished_unplanned_tasks = tasks.loc[
+        col("deps").isna()
+        & col("id").isna()
+        & col("done").notna()
+        & ~is_planned
+        & ~do_reprioritize
+    ]
+    last_of_unidentified_independent_finished_unplanned_tasks = (
+        unidentified_independent_finished_unplanned_tasks.tail(300)
+    )
+    if DEMOTE_UNIDENTIFIED_INDEPENDENT_FINISHED_UNPLANNED_TASKS:
+        last_of_unidentified_independent_finished_unplanned_tasks.apply(
+            demote_task, axis="columns"
+        )
+    mo.vstack(
+        items=[
+            mo.ui.table(
+                label="last_of_unidentified_independent_finished_unplanned_tasks",
+                data=last_of_unidentified_independent_finished_unplanned_tasks,
+            ),
+            mo.ui.table(
+                label="unidentified_independent_finished_unplanned_tasks",
+                data=unidentified_independent_finished_unplanned_tasks,
+            ),
+            mo.ui.table(label="tasks", data=tasks),
+        ]
+    )
+    return do_reprioritize, is_active, is_planned, tasks
 
 
 @app.cell
-def _(tasks):
-    plans = tasks.pipe(get_actively_planned)
-    mo.ui.table(plans)
-    return (plans,)
-
-
-@app.cell
-def _(tasks):
-    inactive_plans = tasks.pipe(lambda df: df.drop(df.pipe(get_actively_planned).index))
-    mo.md(
-        "No inactive plans"
-        if inactive_plans.empty
-        else dedent(f"""
+def _(do_reprioritize, is_active, is_planned, tasks):
+    plans = tasks.sort_values("day", na_position="first")
+    inactive_plans = plans.loc[~is_active & (is_planned | do_reprioritize)]
+    active_plans = plans.loc[is_planned & is_active]
+    reprioritize = tasks.loc[do_reprioritize & is_active]
+    mo.vstack(
+        items=[
+            mo.md(
+                "No inactive plans"
+                if inactive_plans.empty
+                else dedent(f"""
             Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
 
             {inactive_plans.id.str.cat(sep=",|")}
         """)
+            ),
+            mo.ui.table(label="active_plans", data=active_plans),
+            mo.ui.table(label="reprioritize", data=reprioritize),
+        ]
     )
-    return
-
-
-@app.function
-def update_task(row):
-    q = row.to_dict()
-    path = data["personal"] / q["path"]
-    lines = path.read_text(encoding="utf-8").splitlines(True)
-    lines[q["line"] - 1] = sub(
-        rf"\s+{q['priority']}", q["new_priority"], lines[q["line"] - 1]
-    )
-    path.write_text("".join(lines), encoding="utf-8")
-    return row
+    return (active_plans,)
 
 
 @app.cell
-def _(plans):
+def _(active_plans):
     # sourcery skip: remove-redundant-if
-    to_reset = plans.loc[col("priority") != col("new_priority")]
+    to_reset = active_plans.loc[col("priority") != col("new_priority")]
     if False:
         # TODO: Remove entries from "seen_plans" if they were updated here
         data["seen_plans"].write_text(
             dumps(
-                plans
+                active_plans
                 .set_index("id")["last_seen"]
                 .apply(lambda ts: ts.isoformat())
                 .to_dict()
@@ -276,7 +301,7 @@ def _(plans):
 
 
 @app.cell
-def _(plans):
+def _(active_plans):
     # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
     day_plan = """
     - 04
@@ -305,7 +330,7 @@ def _(plans):
     week_plan = """\
     ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
     """ + "".join(
-        plans
+        active_plans
         .set_index("day")[["entry"]]
         .groupby("day")
         .agg(
