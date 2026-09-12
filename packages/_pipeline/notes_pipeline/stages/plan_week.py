@@ -352,16 +352,44 @@ def demote_task(data, sub):
 
 @app.cell
 def _(disp, get_tasks):
-    get_tasks()  # TODO: Figure out why we have to warm up `obsidian tasks` cmd here
     _tasks = get_tasks()
+
+    # TODO: Fix flaky `obsidian tasks` command, or else maybe Marimo is doing some funny caching?
 
     disp(_tasks=_tasks)
     return
 
 
 @app.cell
+def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
+    _tasks = get_tasks()
+    _plans = _tasks.sort_values("day", na_position="first")
+    inactive_plans = _plans.loc[~is_active & (is_planned | do_reprioritize)]
+    active_plans = _plans.loc[is_active & is_planned]
+    reprioritize = _tasks.loc[is_active & do_reprioritize]
+    mo.vstack(
+        items=[
+            mo.md(
+                "No inactive plans"
+                if inactive_plans.empty
+                else dedent(f"""
+            Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
+
+            {inactive_plans.id.str.cat(sep=",|")}
+        """)
+            ),
+            mo.ui.table(label="inactive_plans", data=inactive_plans),
+            mo.ui.table(label="active_plans", data=active_plans),
+            mo.ui.table(label="reprioritize", data=reprioritize),
+        ]
+    )
+    return (active_plans,)
+
+
+@app.cell
 def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
-    DEMOTE_TASKS = False
+    DEMOTE_TASKS = False  # ! Don't enable this unless you want to modify the vault
+    DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO = 3
     TASKS_TO_DEMOTE = 0
 
     _tasks = get_tasks()
@@ -378,7 +406,10 @@ def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
         & ~do_reprioritize
         & (
             col("done")
-            < (Timestamp.today().normalize() - DateOffset(months=3)).tz_localize("UTC")
+            < (
+                Timestamp.today().normalize()
+                - DateOffset(months=DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO)
+            ).tz_localize("UTC")
         )
     ].sort_values("done")
     tasks_to_demote = demotable_tasks.head(TASKS_TO_DEMOTE)
@@ -386,30 +417,6 @@ def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
         tasks_to_demote.apply(demote_task, axis="columns")
     disp(tasks_to_demote=tasks_to_demote, demotable_tasks=demotable_tasks)
     return do_reprioritize, is_active, is_planned
-
-
-@app.cell
-def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
-    plans = get_tasks().sort_values("day", na_position="first")
-    inactive_plans = plans.loc[~is_active & (is_planned | do_reprioritize)]
-    active_plans = plans.loc[is_planned & is_active]
-    reprioritize = get_tasks().loc[do_reprioritize & is_active]
-    mo.vstack(
-        items=[
-            mo.md(
-                "No inactive plans"
-                if inactive_plans.empty
-                else dedent(f"""
-            Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
-
-            {inactive_plans.id.str.cat(sep=",|")}
-        """)
-            ),
-            mo.ui.table(label="active_plans", data=active_plans),
-            mo.ui.table(label="reprioritize", data=reprioritize),
-        ]
-    )
-    return (active_plans,)
 
 
 @app.cell
