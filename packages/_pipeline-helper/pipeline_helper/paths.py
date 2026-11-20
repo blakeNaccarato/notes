@@ -7,7 +7,7 @@ from datetime import datetime
 from importlib.machinery import ModuleSpec
 from os import walk
 from pathlib import Path
-from re import NOFLAG, VERBOSE, Match, compile  # ruff: ignore[builtin-import-shadowing]
+from re import NOFLAG, VERBOSE, Match, compile, sub  # ruff: ignore[builtin-import-shadowing]
 from shlex import quote
 from string import Template
 from types import ModuleType
@@ -139,7 +139,7 @@ def get_module_rel(module: str, relative: str) -> str:
     return (
         "."
         if module == relative
-        else compile(rf"^.*{relative}\.").sub(repl="", string=module)
+        else sub(pattern=rf"^.*{relative}\.", repl="", string=module)
     )
 
 

@@ -96,7 +96,7 @@ def render_parameter(parameter: Parameter) -> str:
         output += f" (_{escaped_type}_)"
     if parameter.desc:
         output += ": " + " ".join(parameter.desc)
-    return output  # ty: ignore[unsound-return-statement]
+    return output  # ty: ignore[unsound-return]
 
 
 def render_parameter_section(section: list[Parameter]) -> str:

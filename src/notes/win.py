@@ -19,7 +19,7 @@ def get_windows() -> dict[str, WindowInfo]:
     win32gui.EnumWindows(
         partial(enum_window_callback, child=False, windows=(windows := {})), None
     )
-    return windows  # ty: ignore[unsound-return-statement]
+    return windows  # ty: ignore[unsound-return]
 
 
 @dataclass

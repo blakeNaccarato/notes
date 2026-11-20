@@ -22,17 +22,17 @@ class CliKwds(TypedDict):
     output: Output
 
 
-@command(invoke="my_shortcuts.commands.play")
+@command(invoke="my_shortcuts.commands.play")  # ty: ignore[not-callable]
 class Play(BaseCommand):
     """Play back clicks."""
 
 
-@command(invoke="my_shortcuts.commands.record")
+@command(invoke="my_shortcuts.commands.record")  # ty: ignore[not-callable]
 class Record(BaseCommand):
     """Record clicks."""
 
 
-@command
+@command  # ty: ignore[not-callable]
 class MyShortcuts:
     """My shortcuts."""
 

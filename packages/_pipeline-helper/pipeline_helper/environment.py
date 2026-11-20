@@ -14,7 +14,7 @@ def run(
     subprocess.run(  # ruff: ignore[subprocess-without-shell-equals-true]
         check=check,
         capture_output=capture_output,
-        args=[
+        args=[  # ruff: ignore[start-process-with-partial-path]
             "pwsh",
             "-Command",
             sep.join([

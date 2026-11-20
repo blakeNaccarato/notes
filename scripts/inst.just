@@ -1,8 +1,8 @@
 #* Variables
 just_version :=\
   env('JUST_VERSION', empty)
-powershell_yaml_version :=\
-  env('POWERSHELL_YAML_VERSION', empty)
+PROJECT_POWERSHELL_YAML_VERSION :=\
+  env('PROJECT_POWERSHELL_YAML_VERSION', empty)
 
 #* Settings
 set unstable
@@ -212,7 +212,7 @@ inst_powershell_yaml :=\
         + sp + '-InstallationPolicy' + sp + quote('Trusted') + ';' \
       + sp + 'Install-Module' \
         + sp + '-Name' + sp + quote('powershell-yaml') \
-        + sp + '-RequiredVersion' + sp + quote(powershell_yaml_version) \
+        + sp + '-RequiredVersion' + sp + quote(PROJECT_POWERSHELL_YAML_VERSION) \
     + sp + '}' \
     + if ci!=empty { 'finally {} }' } \
     else { \

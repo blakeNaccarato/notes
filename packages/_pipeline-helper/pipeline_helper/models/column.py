@@ -180,11 +180,16 @@ def scale[SupportsMul_T: SupportsMul](
     """Scale."""
 
     def _scale(
-        v: SupportsMul_T, _src: Col, _dst: Col, /, *_args: Ps.args, **_kwds: Ps.kwargs  # ty: ignore[unbound-type-variable]
+        v: SupportsMul_T,
+        _src: Col,
+        _dst: Col,
+        /,
+        *_args: Ps.args,  # ty: ignore[unbound-type-variable]
+        **_kwds: Ps.kwargs,
     ) -> SupportsMul_T:
         return v * s
 
-    return transform(v, src, dst, _scale)
+    return transform(v, src, dst, _scale)  # ty: ignore[missing-argument, invalid-argument-type]
 
 
 def _identity[SupportsMul_T: SupportsMul, **Ps](
@@ -198,7 +203,7 @@ class Transform:
     """Column transformer."""
 
     f: TransformProto[Any, Any, Any] = _identity
-    args: tuple[Any] = field(default_factory=tuple)
+    args: tuple[Any, ...] = ()
     kwds: dict[str, Any] = field(default_factory=dict)
 
 
@@ -214,7 +219,7 @@ class LinkedCol(Col):
 
     def convert(self, df: DataFrame, ureg: UnitRegistry) -> Series:  # ty: ignore[missing-type-argument]
         """Convert this column."""
-        return ureg.convert(df[self.source()], self.source.unit, self.unit)  # ty: ignore[unsound-return-statement]
+        return ureg.convert(df[self.source()], self.source.unit, self.unit)
 
 
 @dataclass

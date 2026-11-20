@@ -112,6 +112,7 @@
           "base": "$python",
           "source": "pytest",
           "background": {
+            "activeOnStart": true,
             "beginsPattern": "=+ test session starts =+",
             "endsPattern": "=+ (?:\\d+ passed|\\d+ failed|no tests ran|\\d+ deselected).* =+"
           }
@@ -130,22 +131,55 @@
           "source": "Ruff",
           "owner": "Ruff",
           "severity": "warning",
+          "fileLocation": ["relative", "${workspaceFolder}"],
           "background": {
-            "beginsPattern": "\\[[^\\]]+\\] Found \\d+ errors\\. Watching for file changes\\.",
-            "endsPattern": "^$"
+            "activeOnStart": true,
+            "beginsPattern": "^\\[[^\\]]+\\] (?:Starting linter in watch mode|File change detected)\\.\\.\\.$",
+            "endsPattern": "^\\[[^\\]]+\\] Found \\d+ errors?\\. Watching for file changes\\.$"
           },
           "pattern": [
             {
-              "regexp": "^::\\w+ title=ruff \\(([^)]+)\\),file=[^,]+,line=(\\d+),col=(\\d+),endLine=(\\d+),endColumn=(\\d+)::([^:]+):\\d+:\\d+: [^\\s]+ (.*)$",
-              "code": 1,
-              "line": 2,
-              "column": 3,
+              "regexp": "^::(\\w+) title=ruff \\(([^)]+)\\),file=[^,]+,line=(\\d+)(?:,col=\\d+)?(?:,endLine=(\\d+))?(?:,endColumn=(\\d+))?::(.+?):\\d+:(\\d+): [^\\s]+ (.*)$",
+              // "severity": 1,
+              "code": 2,
+              "line": 3,
               "endLine": 4,
               "endColumn": 5,
               "file": 6,
-              "message": 7
+              "column": 7,
+              "message": 8
             }
           ]
+        }
+      ]
+    },
+    {
+      "label": "Run ty",
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "group": "background", "reveal": "never" },
+      "icon": { "id": "check" },
+      "command": "./j.ps1 tool-ty-nb --watch --output-format concise",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "source": "ty",
+          "owner": "ty",
+          "severity": "warning",
+          "fileLocation": ["relative", "${workspaceFolder}"],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*$",
+            "endsPattern": "^(?:Found \\d+ diagnostics?|All checks passed!)$"
+          },
+          "pattern": {
+            "regexp": "^(.+?):(?:cell \\d+:)?(\\d+):(\\d+):\\s+(error|warning)\\[([^\\]]+)\\]\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            // "severity": 4,
+            "code": 5,
+            "message": 6
+          }
         }
       ]
     },
@@ -168,8 +202,9 @@
           "base": "$tsc-watch",
           "source": "tsc",
           "background": {
-            "beginsPattern": "Starting compilation in watch mode\\.\\.\\.|File change detected\\.",
-            "endsPattern": "Compilation complete\\.|Found \\d+ error[s]?\\. Watching"
+            "activeOnStart": true,
+            "beginsPattern": "^\\[[^\\]]+\\] (?:Starting compilation in watch mode\\.\\.\\.|File change detected\\.)$",
+            "endsPattern": "^\\[[^\\]]+\\] (?:Compilation complete\\.|Found \\d+ error[s]?\\. Watching for file changes\\.)$"
           }
         }
       ]
@@ -197,6 +232,7 @@
             }
           ],
           "background": {
+            "activeOnStart": true,
             "beginsPattern": "^(?:VERBOSE: START PROBLEM MATCHER)",
             "endsPattern": "^(?:VERBOSE: STOP PROBLEM MATCHER)"
           }

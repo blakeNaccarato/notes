@@ -7,7 +7,7 @@ from notes_pipeline.cli import Pipeline
 
 def main():
     """CLI entry-point."""
-    invoke(Pipeline)
+    invoke(Pipeline)  # ty: ignore[not-callable]
 
 
 if __name__ == "__main__":

@@ -15,7 +15,11 @@ def get_data(root: Path | None = None) -> dict[str, Path]:
         local: Path = root_ / "local"
         # ! Vaults
         vaults: Path = local / "vaults"
-        personal: Path = vaults / "personal-local" if (vaults / "personal-local").exists() else vaults / "personal"
+        personal: Path = (
+            vaults / "personal-local"
+            if (vaults / "personal-local").exists()
+            else vaults / "personal"
+        )
         # ! .obsidian folders
         personal_obsidian: Path = personal / ".obsidian"
         personal_plugins: Path = personal_obsidian / "plugins"
@@ -27,7 +31,7 @@ def get_data(root: Path | None = None) -> dict[str, Path]:
         seen_plans: Path = root_ / "seen_plans.json"
         personal_timestamped: Path = personal / "_timestamped"
 
-    return asdict(_Data())  # ty: ignore[unsound-return-statement]
+    return asdict(_Data())  # ty: ignore[unsound-return]
 
 
 def walk_to_path(start: Path, target: Path) -> Path:

@@ -57,7 +57,7 @@ def section(document: Document) -> list[Any]:
     splits = split_by_headings(document)
     sections: list[Any] = []
     for split in splits:
-        level = document.children[0].level  # ty:ignore[unresolved-attribute]
+        level = document.children[0].level  # ty: ignore[missing-attribute]
         append_at_depth(seq=sections, item=split, depth=(level - 1))
     return sections
 
@@ -109,7 +109,7 @@ def split_by_headings(document: Document) -> list[Document]:
     splits = [make_document([first_element])]
     for element, level in levels_iter:
         if level == prev_level and not isinstance(element, Heading):
-            splits[-1].children.append(element)  # ty:ignore[unresolved-attribute]
+            splits[-1].children.append(element)  # ty: ignore[missing-attribute]
         else:
             prev_level = level
             splits.append(make_document([element]))

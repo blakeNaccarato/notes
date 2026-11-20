@@ -290,7 +290,7 @@ def notify(message: str):
 def prompt(message: str) -> bool:
     """Prompt user."""
     return (
-        win32api.MessageBox(  # ty: ignore[unsound-return-statement]
+        win32api.MessageBox(  # ty: ignore[unsound-return]
             *MessageBox(
                 0, message, APP_NAME, MB_SYSTEMMODAL | MB_YESNO | MB_DEFBUTTON2
             ).args()
@@ -395,12 +395,12 @@ def merge_intents(
             for key in KINDS
         }
         for name in ordered_union(*intents, *other)
-    }  # ty:ignore[invalid-return-type]  # TODO: Stop using TypedDict
+    }  # ty:ignore[invalid-explicit-return]  # TODO: Stop using TypedDict
 
 
 def get_intents(path: Path) -> dict[str, Intent]:
     """Get intents."""
-    return loads(path.read_text(encoding="utf-8"))  # ty: ignore[unsound-return-statement]
+    return loads(path.read_text(encoding="utf-8"))  # ty: ignore[unsound-return]
 
 
 def ordered_union[T](*args: T) -> Iterable[T]:

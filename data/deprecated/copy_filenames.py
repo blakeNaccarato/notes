@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-import clipboard  # ty:ignore[unresolved-import]
+import clipboard  # ty:ignore[import-not-found]
 from rich import traceback
 from rich.console import Console
 from rich.markdown import Markdown

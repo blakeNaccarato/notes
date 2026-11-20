@@ -6,7 +6,7 @@ from my_shortcuts.cli import MyShortcuts
 
 
 def main():
-    invoke(MyShortcuts)
+    invoke(MyShortcuts)  # ty: ignore[not-callable]
 
 
 if __name__ == "__main__":

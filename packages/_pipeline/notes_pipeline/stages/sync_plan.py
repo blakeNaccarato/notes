@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import UserList, defaultdict
-from collections.abc import Iterable, Sequence
+from collections.abc import Sequence
 from dataclasses import dataclass, field, replace
 from datetime import datetime, time, timedelta
 from json import loads
@@ -100,7 +100,7 @@ def main():  # sourcery skip: low-code-quality
     invoke_obsidian_command("app:reload")
 
 
-def sync_dataview_plan(tokens: Iterable[Token], items: Sequence[str]) -> list[Token]:
+def sync_dataview_plan(tokens: Sequence[Token], items: Sequence[str]) -> list[Token]:
     """Sync DataView query."""
     tokens = Sublist(tokens)
     while (tokens := tokens.walk()) and one(tokens).type != "fence":
@@ -130,11 +130,11 @@ def sync_dataview_plan(tokens: Iterable[Token], items: Sequence[str]) -> list[To
 T = TypeVar("T")
 
 
-@dataclass(frozen=True)
+@dataclass
 class Sublist[T](UserList[T]):
     """Sublist."""
 
-    seq: Iterable[T]
+    seq: Sequence[T]
     data: list[T] = field(default_factory=list)
     idx: int = -1
 
@@ -172,7 +172,7 @@ PLANS = {
 PLAN_PAT = r"^\[\s\]\s#hide\s(?P<kind>.+)(?P<id>\s🆔.+?)(?:\s⛔\s(?P<items>.+))?$"
 
 
-def get_plan(match: Match[str], plans: Iterable[str]) -> str:
+def get_plan(match: Match[str], plans: Sequence[str]) -> str:
     """Get plan string."""
     plans_ = f" ⛔ {','.join(plans)}" if plans else ""
     return match.expand(rf"[ ] #hide \g<kind>\g<id>{plans_}")

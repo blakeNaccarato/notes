@@ -83,16 +83,7 @@ def _():
 
 
 @app.cell
-def _(
-    Any,
-    Html,
-    IntoDataFrame,
-    IntoLazyFrame,
-    JSONType,
-    ListOrTuple,
-    MIME,
-    mo,
-):
+def _(Any, Html, IntoDataFrame, IntoLazyFrame, JSONType, ListOrTuple, MIME, mo):
     def disp(
         **kwds: ListOrTuple[str | int | float | bool | MIME | None]
         | ListOrTuple[dict[str, JSONType]]
@@ -129,7 +120,7 @@ def Kind(Match, dataclass, field):
 
         content: str = ""
         match: Match[str] | None = None
-        plans: list[str] = field(default_factory=list)
+        plans: list[str] = field(default_factory=list)  # ty: ignore[unsound-assignment]
 
     return
 
@@ -328,7 +319,9 @@ def get_tasks(
                     .dt.normalize()
                 ),
                 "last_planned": lambda df: df.pipe(compute_last_planned),
-                "new_priority": col("priority").where(col("last_planned") > get_now(), ""),
+                "new_priority": col("priority").where(
+                    col("last_planned") > get_now(), ""
+                ),
             }),
         )
 
@@ -490,7 +483,9 @@ def _(active_plans, add, data, get_now, mo, reduce):
         .dropna(subset=["entry"])["entry"]
         .tolist()
     )
-    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(encoding="utf-8", data=week_plan)
+    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(
+        encoding="utf-8", data=week_plan
+    )
     mo.md(week_plan)
     return
 

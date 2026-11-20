@@ -19,7 +19,7 @@ from notes.markdown import one
 T = TypeVar("T")
 
 
-@dataclass(frozen=True)
+@dataclass
 class Sublist[T](UserList[T]):
     """Sublist."""
 
@@ -116,7 +116,7 @@ def sync_lists(path: Path, backup: Path, dry: bool = False) -> DataFrame:
 
 def join_nodes(nodes: Iterable[Node]) -> str:
     """Join nodes."""
-    return "".join([node.meta.get("content", "") for node in nodes])  # ty: ignore[unsound-return-statement]
+    return "".join([node.meta.get("content", "") for node in nodes])  # ty: ignore[unsound-return]
 
 
 def invoke_obsidian_command(command: str):

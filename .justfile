@@ -295,6 +295,11 @@ tool-fawltydeps *args:
 tool-ty *args:
   {{pre}} {{uvr}} ty check {{args}}
 
+# ✔️  ty-nb
+[group('⚙️  Tools')]
+tool-ty-nb *args:
+  {{pre}} {{uvr}} ty check --config 'src.include=[''**/*.ipynb'']' {{args}}
+
 # ✔️  ruff check ... '.'
 [group('⚙️  Tools')]
 tool-ruff *args:

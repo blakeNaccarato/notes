@@ -40,7 +40,7 @@ class Paths(BaseModel):
     # ! Project
     project: Path = PROJECT_PATH
     # ! Package
-    package: Path = Path(notes_pipeline.__spec__.submodule_search_locations[0])  # ty:ignore[unresolved-attribute, not-subscriptable]
+    package: Path = Path(notes_pipeline.__spec__.submodule_search_locations[0])  # ty:ignore[not-subscriptable, missing-union-attribute]
     # ! Data
     data: Path = project / "data"
     stages: dict[str, FilePath] = (  # ruff: ignore[unnecessary-direct-lambda-call]
@@ -55,7 +55,11 @@ class Paths(BaseModel):
     local: Path = data / "local"
     # ! Vaults
     vaults: Path = local / "vaults"
-    personal: Path = vaults / "personal-local" if (vaults / "personal-local").exists() else vaults / "personal"
+    personal: Path = (
+        vaults / "personal-local"
+        if (vaults / "personal-local").exists()
+        else vaults / "personal"
+    )
     # ! .obsidian folders
     personal_obsidian: Path = personal / ".obsidian"
     personal_plugins: Path = personal_obsidian / "plugins"

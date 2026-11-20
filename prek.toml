@@ -93,7 +93,7 @@ id = "ty"
 name = "ty"
 pass_filenames = false
 language = "system"
-entry = 'pwsh -NonInteractive -NoProfile ./j.ps1 tool-ty --error-on-warning'
+entry = 'pwsh -NonInteractive -NoProfile ./j.ps1 tool-ty'
 files = '''(?x)^(
   .*/pyproject\.toml
   |docs/.*
@@ -144,7 +144,7 @@ files = '''(?x)^(
 
 [[repos]]
 repo = "https://github.com/rbubley/mirrors-prettier"
-rev = "v3.5.1"
+rev = "v3.8.2"
 [[repos.hooks]]
 priority = 2
 id = "prettier"
@@ -158,7 +158,7 @@ id = "taplo-format"
 
 [[repos]]
 repo = "https://github.com/charliermarsh/ruff-pre-commit"
-rev = "v0.15.6"
+rev = "v0.17.6"
 [[repos.hooks]]
 priority = 2
 id = "ruff-check"

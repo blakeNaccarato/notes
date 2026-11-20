@@ -126,7 +126,9 @@ def get_neighbors(suspects: DataFrame[Suspect], name: str) -> list[Suspect]:  # 
 @app.cell
 def _():
     suspects = parse_suspects(
-        Path(data["clues_by_sam"] / "2026-06-15-card-grid.html").read_text(encoding="utf-8")
+        Path(data["clues_by_sam"] / "2026-06-15-card-grid.html").read_text(
+            encoding="utf-8"
+        )
     )
     return (suspects,)
 
@@ -155,7 +157,7 @@ def _(suspects):
                         else "neutral",
                     )
                     for col in range(suspects.shape[1])
-                    if (_sus := suspects.iloc[row, col]) or True
+                    if (_sus := suspects.iloc[row, col]) or True  # ty: ignore[redundant-condition-strict]
                 ],
             )
             for row in range(suspects.shape[0])
@@ -189,7 +191,7 @@ def _(suspects):
                             else "neutral",
                         )
                         for col in range(suspects.shape[1])
-                        if (_sus := suspects.iloc[row, col]) or True
+                        if (_sus := suspects.iloc[row, col]) or True  # ty: ignore[redundant-condition-strict]
                     ],
                 )
                 for row in range(suspects.shape[0])
@@ -217,7 +219,7 @@ def _(suspects):
                             else "neutral",
                         )
                         for col in range(suspects.shape[1])
-                        if (_sus := suspects.iloc[row, col]) or True
+                        if (_sus := suspects.iloc[row, col]) or True  # ty: ignore[redundant-condition-strict]
                     ],
                 )
                 for row in range(suspects.shape[0])
@@ -245,7 +247,7 @@ def _(suspects):
                             else "neutral",
                         )
                         for col in range(suspects.shape[1])
-                        if (_sus := suspects.iloc[row, col]) or True
+                        if (_sus := suspects.iloc[row, col]) or True  # ty: ignore[redundant-condition-strict]
                     ],
                 )
                 for row in range(suspects.shape[0])
@@ -258,7 +260,9 @@ def _(suspects):
 
 @app.cell
 def _(suspects):
-    mo.ui.table([_hint for _hint in suspects.map(lambda sus: sus.hint).stack() if _hint])
+    mo.ui.table([
+        _hint for _hint in suspects.map(lambda sus: sus.hint).stack() if _hint
+    ])
     return
 
 
