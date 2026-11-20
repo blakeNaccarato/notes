@@ -2096,7 +2096,7 @@ requires-dist = [
     { name = "cappa", specifier = ">=0.22.4" },
     { name = "dulwich", specifier = ">=0.23.0" },
     { name = "lark", extras = ["regex"], specifier = ">=1.3.1" },
-    { name = "marimo", extras = ["lsp", "sql"], specifier = ">=0.23.2" },
+    { name = "marimo", extras = ["lsp", "sql"], specifier = ">=0.25.2" },
     { name = "markdown-it-py", specifier = ">=3.0.0" },
     { name = "markdown-it-pyrs", specifier = ">=0.4.0" },
     { name = "mdformat", specifier = ">=0.7.22" },
