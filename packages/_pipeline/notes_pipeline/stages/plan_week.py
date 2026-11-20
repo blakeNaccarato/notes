@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.24.0"
+__generated_with = "0.25.2"
 app = marimo.App()
 
 
@@ -129,7 +129,7 @@ def Kind(Match, dataclass, field):
 def get_plan(Iterable, Match):
     def get_plan(match: Match[str], plans: Iterable[str]) -> str:
         """Get plan string."""
-        plans_ = f" ⛔ {','.join(plans)}" if plans else ""
+        plans_ = f" ⛔ {','.join(plans)}" if plans else ""  # ty: ignore[truthiness-test-of-iterable]
         return match.expand(rf"[ ] #hide \g<kind>\g<id>{plans_}")
 
     return
@@ -354,32 +354,6 @@ def _(disp, get_tasks):
 
 
 @app.cell
-def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
-    _tasks = get_tasks()
-    _plans = _tasks.sort_values("day", na_position="first")
-    inactive_plans = _plans.loc[~is_active & (is_planned | do_reprioritize)]
-    active_plans = _plans.loc[is_active & is_planned]
-    reprioritize = _tasks.loc[is_active & do_reprioritize]
-    mo.vstack(
-        items=[
-            mo.md(
-                "No inactive plans"
-                if inactive_plans.empty
-                else dedent(f"""
-            Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
-
-            {inactive_plans.id.str.cat(sep=",|")}
-        """)
-            ),
-            mo.ui.table(label="inactive_plans", data=inactive_plans),
-            mo.ui.table(label="active_plans", data=active_plans),
-            mo.ui.table(label="reprioritize", data=reprioritize),
-        ]
-    )
-    return (active_plans,)
-
-
-@app.cell
 def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
     DEMOTE_TASKS = False  # ! Don't enable this unless you want to modify the vault
     DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO = 3
@@ -413,10 +387,38 @@ def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
 
 
 @app.cell
+def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
+    _tasks = get_tasks()
+    _plans = _tasks.sort_values("day", na_position="first")
+    inactive_plans = _plans.loc[~is_active & (is_planned | do_reprioritize)]
+    active_plans = _plans.loc[is_active & is_planned]
+    reprioritize = _tasks.loc[is_active & do_reprioritize]
+    mo.vstack(
+        items=[
+            mo.md(
+                "No inactive plans"
+                if inactive_plans.empty
+                else dedent(f"""
+            Regular expression to strip inactive plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:
+
+            {inactive_plans.id.str.cat(sep=",|")}
+        """)
+            ),
+            mo.ui.table(label="inactive_plans", data=inactive_plans),
+            mo.ui.table(label="active_plans", data=active_plans),
+            mo.ui.table(label="reprioritize", data=reprioritize),
+        ]
+    )
+    return (active_plans,)
+
+
+@app.cell
 def _(active_plans, col, data, dumps, mo, update_task):
     # sourcery skip: remove-redundant-if
+    DEMOTE_PLANS = False  # ! Don't enable this unless you want to modify the vault
+
     to_reset = active_plans.loc[col("priority") != col("new_priority")]
-    if False:
+    if DEMOTE_PLANS:  # ty: ignore[redundant-condition-strict]
         # TODO: Remove entries from "seen_plans" if they were updated here
         data["seen_plans"].write_text(
             dumps(
@@ -435,6 +437,8 @@ def _(active_plans, col, data, dumps, mo, update_task):
 @app.cell
 def _(active_plans, add, data, get_now, mo, reduce):
     # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
+    UPDATE_WEEK_PLAN = False  # ! Don't enable this unless you want to modify the vault
+
     day_plan = """
     - 04
     - 07
@@ -483,18 +487,25 @@ def _(active_plans, add, data, get_now, mo, reduce):
         .dropna(subset=["entry"])["entry"]
         .tolist()
     )
-    (data["personal"] / "_Ω/Snip/Week plan.md").write_text(
-        encoding="utf-8", data=week_plan
-    )
+
+    if UPDATE_WEEK_PLAN:
+        (data["personal"] / "_Ω/Snip/Week plan.md").write_text(
+            encoding="utf-8", data=week_plan
+        )
+
     mo.md(week_plan)
     return
 
 
 @app.cell
-def _():
-    # # TODO: Implement plan reprioritization
+def _(mo):
+    # TODO: Implement plan reprioritization
+    REPRIORITIZE_TASKS = (  # ! Don't enable this unless you want to modify the vault
+        False
+    )
 
-    # mo.stop(True)
+    if not REPRIORITIZE_TASKS:  # ty: ignore[redundant-condition-strict]
+        mo.stop(True)
 
     # # # Render to Markdown and save the times that items were first seen
     # # PARAMS.paths.plan.write_text(encoding="utf-8", data=render(tokens))
