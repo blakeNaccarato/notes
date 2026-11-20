@@ -51,7 +51,7 @@ dev = [
   "pipdeptree>=2.23.0",
   "prek>=0.3.6",
   "snakeviz>=2.2.0",
-  "sourcery>=1.32.0",
+  "sourcery>=1.46.0",
   #? For VSCode Jupyter notebooks and Data Wrangler
   "ipykernel>=6.29.5",
   "pandas>=3.0.3",
