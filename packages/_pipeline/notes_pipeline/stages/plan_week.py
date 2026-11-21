@@ -239,9 +239,7 @@ def get_tasks() -> DataFrame:
                 .dt.normalize()
             ),
             "last_planned": lambda df: df.pipe(compute_last_planned),
-            "new_priority": col("priority").where(
-                col("last_planned") > get_now(), ""
-            ),
+            "new_priority": col("priority").where(col("last_planned") > get_now(), ""),
         }),
     )
 
@@ -260,24 +258,23 @@ def demote_task(row):
 
 @app.cell
 def _():
-    _tasks = get_tasks()
-    disp(_tasks=get_tasks())
-    return
+    tasks = get_tasks()
+    disp(tasks=tasks)
+    return (tasks,)
 
 
 @app.cell
-def _():
+def _(tasks):
     DEMOTE_TASKS = False  # ! Don't enable this unless you want to modify the vault
     DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO = 3
     TASKS_TO_DEMOTE = 0
 
-    _tasks = get_tasks()
-    planned_meta_task = _tasks.loc[(col("id") == "zzzzzz")]
-    reprioritize_meta_task = _tasks.loc[(col("id") == "xxxxxx")]
+    planned_meta_task = tasks.loc[(col("id") == "zzzzzz")]
+    reprioritize_meta_task = tasks.loc[(col("id") == "xxxxxx")]
     is_planned = col("id").isin(one(planned_meta_task["deps"].str.split(",")))
     do_reprioritize = col("id").isin(one(reprioritize_meta_task["deps"].str.split(",")))
     is_active = col("cancelled").isna() & col("done").isna()
-    demotable_tasks = _tasks.loc[
+    demotable_tasks = tasks.loc[
         col("deps").isna()
         & col("id").isna()
         & col("done").notna()
@@ -299,12 +296,11 @@ def _():
 
 
 @app.cell
-def _(do_reprioritize, is_active, is_planned):
-    _tasks = get_tasks()
-    plans = _tasks.sort_values("day", na_position="first")
+def _(do_reprioritize, is_active, is_planned, tasks):
+    plans = tasks.sort_values("day", na_position="first")
     inactive_plans = plans.loc[~is_active & (is_planned | do_reprioritize)]
     active_plans = plans.loc[is_active & is_planned]
-    reprioritize = _tasks.loc[is_active & do_reprioritize]
+    reprioritize = tasks.loc[is_active & do_reprioritize]
     mo.vstack(
         items=[
             mo.md(
@@ -322,6 +318,43 @@ def _(do_reprioritize, is_active, is_planned):
         ]
     )
     return active_plans, plans
+
+
+@app.cell
+def _(active_plans, is_active, tasks):
+    eternal_active_plans = active_plans.loc[
+        col("status").isin(["A", "d"]) & ~col("path").str.startswith("__")
+    ]
+    related_tasks = (
+        tasks
+        .merge(
+            eternal_active_plans[["path", "id"]].rename(columns={"id": "related_id"}),
+            on="path",
+            how="left",
+            validate="many_to_one",
+        )
+        .loc[
+            is_active
+            & ~col("path").str.startswith("__")
+            & col("path").isin(eternal_active_plans["path"])
+            & (col("id") != col("related_id"))
+            & (col("priority") == "")
+        ]
+        .assign(**{
+            "entry": (
+                col("entry").fillna("").astype(str)
+                + " 🆔 "
+                + col("related_id").fillna("").astype(str)
+            ).str.strip()
+        })
+    )
+    mo.vstack(
+        items=[
+            mo.ui.table(label="eternal_plans", data=eternal_active_plans),
+            mo.ui.table(label="related_tasks", data=related_tasks),
+        ]
+    )
+    return (related_tasks,)
 
 
 @app.cell
@@ -374,17 +407,17 @@ def _(active_plans):
 
 
 @app.cell
-def _(active_plans):
+def _(active_plans, related_tasks):
     # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
     UPDATE_WEEK_PLAN = False  # ! Don't enable this unless you want to modify the vault
 
     day_plan = """
-    - 04
-    - 07
+    - 08
     - 10
-    - 13
+    - 12
+    - 14
     - 16
-    - 19
+    - 18
     - **Plan**"""
     weekday_group_index = {
         4: 0,  # Friday
@@ -395,36 +428,54 @@ def _(active_plans):
         2: 4,  # Wednesday
         3: 4,  # Thursday
     }
-    start = weekday_group_index[get_now().weekday()] - 1
+    start = weekday_group_index[get_now().weekday()]
     groups = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday – Thursday"]  # ruff: ignore[ambiguous-unicode-character-string]
     ordered_groups = groups[start:] + groups[:start]
     day_plans = {
         day: "" if day == "Tuesday – Thursday" else day_plan  # ruff: ignore[ambiguous-unicode-character-string]
         for day in ordered_groups
     }
-    week_plan = """\
-    ## <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
-    """ + "".join(
-        active_plans
-        .set_index("day")[["entry"]]
-        .groupby("day")
-        .agg(
-            lambda ser: (
-                f"""
+    week_plan = (
+        """\
+    ### <% `Week plan (${tp.obsidian.moment().format(tp.user.getDateFmt())})` %>
+    """
+        + "".join(
+            active_plans
+            .loc[col("day") != "This week"]
+            .set_index("day")[["entry"]]
+            .groupby("day")
+            .agg(
+                lambda ser: (
+                    f"""
     - **{ser.index.get_level_values("day")[0]}**{day_plans[ser.index.get_level_values("day")[0]]}"""
-                + reduce(
-                    add,
-                    [
-                        f"""
+                    + reduce(
+                        add,
+                        [
+                            f"""
     - {entry}"""
-                        for entry in ser
-                    ],
+                            for entry in ser
+                        ],
+                    )
                 )
             )
+            .reindex(ordered_groups)
+            .dropna(subset=["entry"])["entry"]
+            .tolist()
         )
-        .reindex(ordered_groups)
-        .dropna(subset=["entry"])["entry"]
-        .tolist()
+        + """
+    - **This week**
+    """
+        + "\n".join(
+            active_plans.loc[col("day") == "This week"]["entry"].apply(
+                lambda ser: "- " + ser
+            )
+        )
+        +
+        # TODO: Task headers for the parent task for each related task
+        """
+    - **Related**
+    """
+        + "\n".join(related_tasks["entry"].apply(lambda ser: "- " + ser))
     )
 
     if UPDATE_WEEK_PLAN:
@@ -475,7 +526,7 @@ def _():
     #         if (
     #             False  # TODO: Reimplement done filter
     #             and not (
-    #                 matches := tasks[get_tasks().text.str.contains(rf"\s🆔 {item}", na=False)][
+    #                 matches := tasks[tasks.text.str.contains(rf"\s🆔 {item}", na=False)][
     #                     ["text", "done"]
     #                 ]
     #             ).empty
