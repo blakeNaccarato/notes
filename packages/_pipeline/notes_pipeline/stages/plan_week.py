@@ -345,27 +345,23 @@ def demote_task(data, sub):
 
 @app.cell
 def _(disp, get_tasks):
-    _tasks = get_tasks()
-
-    # TODO: Fix flaky `obsidian tasks` command, or else maybe Marimo is doing some funny caching?
-
-    disp(_tasks=_tasks)
-    return
+    tasks = get_tasks()
+    disp(_tasks=tasks)
+    return (tasks,)
 
 
 @app.cell
-def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
+def _(DateOffset, Timestamp, col, demote_task, disp, one, tasks):
     DEMOTE_TASKS = False  # ! Don't enable this unless you want to modify the vault
     DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO = 3
     TASKS_TO_DEMOTE = 0
 
-    _tasks = get_tasks()
-    planned_meta_task = _tasks.loc[(col("id") == "zzzzzz")]
-    reprioritize_meta_task = _tasks.loc[(col("id") == "xxxxxx")]
+    planned_meta_task = tasks.loc[(col("id") == "zzzzzz")]
+    reprioritize_meta_task = tasks.loc[(col("id") == "xxxxxx")]
     is_planned = col("id").isin(one(planned_meta_task["deps"].str.split(",")))
     do_reprioritize = col("id").isin(one(reprioritize_meta_task["deps"].str.split(",")))
     is_active = col("cancelled").isna() & col("done").isna()
-    demotable_tasks = _tasks.loc[
+    demotable_tasks = tasks.loc[
         col("deps").isna()
         & col("id").isna()
         & col("done").notna()
@@ -387,12 +383,11 @@ def _(DateOffset, Timestamp, col, demote_task, disp, get_tasks, one):
 
 
 @app.cell
-def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
-    _tasks = get_tasks()
-    _plans = _tasks.sort_values("day", na_position="first")
-    inactive_plans = _plans.loc[~is_active & (is_planned | do_reprioritize)]
-    active_plans = _plans.loc[is_active & is_planned]
-    reprioritize = _tasks.loc[is_active & do_reprioritize]
+def _(dedent, do_reprioritize, is_active, is_planned, mo, tasks):
+    plans = tasks.sort_values("day", na_position="first")
+    inactive_plans = plans.loc[~is_active & (is_planned | do_reprioritize)]
+    active_plans = plans.loc[is_active & is_planned]
+    reprioritize = tasks.loc[is_active & do_reprioritize]
     mo.vstack(
         items=[
             mo.md(
@@ -409,7 +404,34 @@ def _(dedent, do_reprioritize, get_tasks, is_active, is_planned, mo):
             mo.ui.table(label="reprioritize", data=reprioritize),
         ]
     )
-    return (active_plans,)
+    return active_plans, plans
+
+
+@app.cell
+def _(col, is_planned, mo, plans):
+    _planned_no_priority = plans.loc[is_planned & (col("priority") == "")]
+    mo.vstack(
+        items=[
+            mo.md(
+                "Regular expression to strip unprioritized plans from `__plan/plans.md`. **NOTE: Fix any double-commas after manually find/replace!**:"
+            ),
+            mo.md(
+                "No unprioritized plans"
+                if _planned_no_priority.empty
+                else _planned_no_priority.id.str.cat(sep=",|")
+            ),
+            mo.md(
+                'IDs to add to the "Reprioritize" meta plan (🆔 xxxxxx) in `__plan/plans.md`.:'
+            ),
+            mo.md(
+                "No unprioritized plans"
+                if _planned_no_priority.empty
+                else _planned_no_priority.id.str.cat(sep=",")
+            ),
+            mo.ui.table(label="_planned_no_priority", data=_planned_no_priority),
+        ]
+    )
+    return
 
 
 @app.cell
