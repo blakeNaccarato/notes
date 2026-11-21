@@ -3,9 +3,7 @@ import marimo
 __generated_with = "0.25.2"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     from collections.abc import Iterable
     from dataclasses import dataclass, field
     from datetime import date, datetime
@@ -43,325 +41,243 @@ def _():
 
     data = get_data(Path.cwd())
     mo.json(data)
-    return (
-        Any,
-        CategoricalDtype,
-        DataFrame,
-        DateOffset,
-        Html,
-        IntoDataFrame,
-        IntoLazyFrame,
-        Iterable,
-        JSONType,
-        ListOrTuple,
-        MIME,
-        Match,
-        NaT,
-        Series,
-        StringIO,
-        Timestamp,
-        add,
-        col,
-        current_tz,
-        data,
-        dataclass,
-        date,
-        datetime,
-        dedent,
-        dumps,
-        field,
-        get_now,
-        loads,
-        mo,
-        one,
-        read_csv,
-        reduce,
-        run,
-        sub,
-        to_timedelta,
+
+
+@app.function
+def disp(
+    **kwds: ListOrTuple[str | int | float | bool | MIME | None]
+    | ListOrTuple[dict[str, JSONType]]
+    | dict[str, ListOrTuple[JSONType]]
+    | list[dict[str, Any]]
+    | dict[str, list[Any]]
+    | IntoDataFrame
+    | IntoLazyFrame,
+) -> Html:
+    return mo.vstack(
+        items=[mo.ui.table(label=label, data=data) for label, data in kwds.items()]
     )
 
 
-@app.cell
-def _(Any, Html, IntoDataFrame, IntoLazyFrame, JSONType, ListOrTuple, MIME, mo):
-    def disp(
-        **kwds: ListOrTuple[str | int | float | bool | MIME | None]
-        | ListOrTuple[dict[str, JSONType]]
-        | dict[str, ListOrTuple[JSONType]]
-        | list[dict[str, Any]]
-        | dict[str, list[Any]]
-        | IntoDataFrame
-        | IntoLazyFrame,
-    ) -> Html:
-        return mo.vstack(
-            items=[mo.ui.table(label=label, data=data) for label, data in kwds.items()]
+@app.class_definition
+@dataclass
+class Plan:
+    """A plan item."""
+
+    cutoff: datetime
+    destination: str
+
+
+@app.class_definition
+@dataclass
+class Kind:
+    """A plan kind."""
+
+    content: str = ""
+    match: Match[str] | None = None
+    plans: list[str] = field(default_factory=list)
+
+
+@app.function
+def get_plan(match: Match[str], plans: Iterable[str]) -> str:
+    """Get plan string."""
+    plans_ = f" ⛔ {','.join(plans)}" if plans else ""  # ty: ignore[truthiness-test-of-iterable]
+    return match.expand(rf"[ ] #hide \g<kind>\g<id>{plans_}")
+
+
+@app.function
+def get_days(priority: Series, days: dict[str, str]) -> Series:
+    day_ = priority.astype(str)
+    for day, priority_ in days.items():
+        day_ = day_.replace(priority_, day)
+    return day_.astype(CategoricalDtype(ordered=True, categories=list(days)))
+
+
+@app.function
+def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
+    sym = rf"🆔⛔{''.join(priorities)}🔁➕🛫⏳📅❌✅🏁"  # ruff: ignore[ambiguous-unicode-character-string]
+    return df.assign(
+        **df["text"].str.extract(
+            "".join([
+                r"^\s*(?:>\s*)?-\s*\[[^\]]\]",  # Markdown-style checkbox
+                r"\s*(?P<tags>(?:#\w+\s)*)",
+                rf"(?P<task>[^{sym}]+)",
+                r"(?=.*🆔\s*(?P<id>[^\s]*))?",
+                r"(?=.*⛔\s*(?P<deps>[^\s]*))?",
+                rf"(?=.*(?P<priority>[{''.join(priorities)}]))?",
+                rf"(?=.*🔁\s*(?P<recurs>[^\{sym}]*))?",
+                r"(?=.*➕\s*(?P<created>[^\s]*))?",  # ruff: ignore[ambiguous-unicode-character-string]
+                r"(?=.*🛫\s*(?P<starts>[^\s]*))?",
+                r"(?=.*⏳\s*(?P<scheduled>[^\s]*))?",
+                r"(?=.*📅\s*(?P<due>[^\s]*))?",
+                r"(?=.*❌\s*(?P<cancelled>[^\s]*))?",
+                r"(?=.*✅\s*(?P<done>[^\s]*))?",
+                r"(?=.*🏁\s*(?P<after>[^\s]*))?",
+                r".*$",
+            ])
         )
-
-    return (disp,)
-
-
-@app.cell
-def Plan(dataclass, datetime):
-    @dataclass
-    class Plan:
-        """A plan item."""
-
-        cutoff: datetime
-        destination: str
-
-    return
+    )
 
 
-@app.cell
-def Kind(Match, dataclass, field):
-    @dataclass
-    class Kind:
-        """A plan kind."""
-
-        content: str = ""
-        match: Match[str] | None = None
-        plans: list[str] = field(default_factory=list)  # ty: ignore[unsound-assignment]
-
-    return
-
-
-@app.cell
-def get_plan(Iterable, Match):
-    def get_plan(match: Match[str], plans: Iterable[str]) -> str:
-        """Get plan string."""
-        plans_ = f" ⛔ {','.join(plans)}" if plans else ""  # ty: ignore[truthiness-test-of-iterable]
-        return match.expand(rf"[ ] #hide \g<kind>\g<id>{plans_}")
-
-    return
+@app.function
+def compute_last_planned(df):
+    return df["last_seen"] + to_timedelta(
+        df["day"]
+        .map({
+            "Monday": 0,
+            "Tuesday – Thursday": 1,  # ruff: ignore[ambiguous-unicode-character-string],
+            "Friday": 4,
+            "Saturday": 5,
+            "Sunday": 6,
+        })
+        .sub(df["last_seen"].dt.weekday)
+        .add(7)
+        .mod(7)
+        .replace(0, 7)
+        .fillna(NaT),
+        unit="D",
+    )
 
 
-@app.cell
-def get_days(CategoricalDtype, Series):
-    def get_days(priority: Series, days: dict[str, str]) -> Series:
-        day_ = priority.astype(str)
-        for day, priority_ in days.items():
-            day_ = day_.replace(priority_, day)
-        return day_.astype(CategoricalDtype(ordered=True, categories=list(days)))
-
-    return (get_days,)
-
-
-@app.cell
-def extract_task_data(DataFrame, Iterable):
-    def extract_task_data(df: DataFrame, priorities: Iterable[str]) -> DataFrame:
-        sym = rf"🆔⛔{''.join(priorities)}🔁➕🛫⏳📅❌✅🏁"  # ruff: ignore[ambiguous-unicode-character-string]
-        return df.assign(
-            **df["text"].str.extract(
-                "".join([
-                    r"^\s*(?:>\s*)?-\s*\[[^\]]\]",  # Markdown-style checkbox
-                    r"\s*(?P<tags>(?:#\w+\s)*)",
-                    rf"(?P<task>[^{sym}]+)",
-                    r"(?=.*🆔\s*(?P<id>[^\s]*))?",
-                    r"(?=.*⛔\s*(?P<deps>[^\s]*))?",
-                    rf"(?=.*(?P<priority>[{''.join(priorities)}]))?",
-                    rf"(?=.*🔁\s*(?P<recurs>[^\{sym}]*))?",
-                    r"(?=.*➕\s*(?P<created>[^\s]*))?",  # ruff: ignore[ambiguous-unicode-character-string]
-                    r"(?=.*🛫\s*(?P<starts>[^\s]*))?",
-                    r"(?=.*⏳\s*(?P<scheduled>[^\s]*))?",
-                    r"(?=.*📅\s*(?P<due>[^\s]*))?",
-                    r"(?=.*❌\s*(?P<cancelled>[^\s]*))?",
-                    r"(?=.*✅\s*(?P<done>[^\s]*))?",
-                    r"(?=.*🏁\s*(?P<after>[^\s]*))?",
-                    r".*$",
-                ])
-            )
-        )
-
-    return (extract_task_data,)
+@app.function
+def update_task(row):
+    q = row.to_dict()
+    path = data["personal"] / q["path"]
+    lines = path.read_text(encoding="utf-8").splitlines(True)
+    lines[q["line"] - 1] = sub(
+        rf"\s+{q['priority']}", q["new_priority"], lines[q["line"] - 1]
+    )
+    path.write_text("".join(lines), encoding="utf-8")
+    return row
 
 
-@app.cell
-def compute_last_planned(NaT, to_timedelta):
-    def compute_last_planned(df):
-        return df["last_seen"] + to_timedelta(
-            df["day"]
-            .map({
-                "Monday": 0,
-                "Tuesday – Thursday": 1,  # ruff: ignore[ambiguous-unicode-character-string],
-                "Friday": 4,
-                "Saturday": 5,
-                "Sunday": 6,
-            })
-            .sub(df["last_seen"].dt.weekday)
-            .add(7)
-            .mod(7)
-            .replace(0, 7)
-            .fillna(NaT),
-            unit="D",
-        )
-
-    return (compute_last_planned,)
-
-
-@app.cell
-def update_task(data, sub):
-    def update_task(row):
-        q = row.to_dict()
-        path = data["personal"] / q["path"]
-        lines = path.read_text(encoding="utf-8").splitlines(True)
-        lines[q["line"] - 1] = sub(
-            rf"\s+{q['priority']}", q["new_priority"], lines[q["line"] - 1]
-        )
-        path.write_text("".join(lines), encoding="utf-8")
-        return row
-
-    return (update_task,)
-
-
-@app.cell
-def get_tasks(
-    CategoricalDtype,
-    DataFrame,
-    StringIO,
-    col,
-    compute_last_planned,
-    current_tz,
-    data,
-    date,
-    datetime,
-    extract_task_data,
-    get_days,
-    get_now,
-    loads,
-    read_csv,
-    run,
-):
-    def get_tasks() -> DataFrame:
-        last_seen: dict[str, datetime] = {
-            k: datetime.fromisoformat(v)
-            for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
-        }
-        priorities = ["", "🔺", "⏫", "🔼", "🔽", "⏬"]
-        days = dict(
-            zip(
-                [
-                    "This week",
-                    "Friday",
-                    "Saturday",
-                    "Sunday",
-                    "Monday",
-                    "Tuesday – Thursday",  # ruff: ignore[ambiguous-unicode-character-string]
-                ],
-                priorities,
-                strict=True,
-            )
-        )
-        return DataFrame(
-            columns=[
-                "status",
-                "text",
-                "path",
-                "line",
-                "tags",
-                "task",
-                "id",
-                "deps",
-                "priority",
-                "recurs",
-                "created",
-                "starts",
-                "scheduled",
-                "due",
-                "cancelled",
-                "done",
-                "after",
-                "last_seen",
-                "entry",
-                "day",
-                "last_planned",
-                "new_priority",
+@app.function
+def get_tasks() -> DataFrame:
+    last_seen: dict[str, datetime] = {
+        k: datetime.fromisoformat(v)
+        for k, v in loads(data["seen_plans"].read_text(encoding="utf-8")).items()
+    }
+    priorities = ["", "🔺", "⏫", "🔼", "🔽", "⏬"]
+    days = dict(
+        zip(
+            [
+                "This week",
+                "Friday",
+                "Saturday",
+                "Sunday",
+                "Monday",
+                "Tuesday – Thursday",  # ruff: ignore[ambiguous-unicode-character-string]
             ],
-            data=read_csv(
-                StringIO(
-                    run(
-                        args=["obsidian", "tasks", "format=csv"],
-                        capture_output=True,
-                        check=True,
-                        encoding="utf-8",
-                    ).stdout
-                ),
-                header=None,
-                names=["status", "text", "path", "line"],
-            )
-            .pipe(extract_task_data, priorities)
-            .loc[~col("path").str.contains("_Ω")]
-            .assign(**{
-                "task": col("task")
-                .str.replace(r"\[([^\]]+)\]\([^)]*\)", r"\1", regex=True)
-                .str.replace(r"\s{2,}", " ", regex=True)
-                .str.strip(),
-                "entry": "[" + col("task") + "](" + col("path") + ")",
-                "created": col("created").astype("datetime64[s, UTC]"),
-                "starts": col("starts").astype("datetime64[s, UTC]"),
-                "scheduled": col("scheduled").astype("datetime64[s, UTC]"),
-                "due": col("due").astype("datetime64[s, UTC]"),
-                "cancelled": col("cancelled")
-                .where((col("status") != "-") | col("cancelled").notna(), date.min)
-                .astype("datetime64[s, UTC]"),
-                "done": col("done")
-                .where((col("status") != "x") | col("done").notna(), date.min)
-                .astype("datetime64[s, UTC]"),
-                "priority": col("priority")
-                .fillna("")
-                .astype(CategoricalDtype(ordered=True, categories=priorities)),
-                "day": col("priority").pipe(get_days, days),
-                "last_seen": lambda df: (
-                    df["id"]
-                    .map(last_seen)
-                    .fillna(get_now())
-                    .astype("datetime64[s, UTC]")
-                    .dt.tz_convert(current_tz)
-                    .dt.normalize()
-                ),
-                "last_planned": lambda df: df.pipe(compute_last_planned),
-                "new_priority": col("priority").where(
-                    col("last_planned") > get_now(), ""
-                ),
-            }),
+            priorities,
+            strict=True,
         )
-
-    return (get_tasks,)
-
-
-@app.cell
-def demote_task(data, sub):
-    def demote_task(row):
-        task = row.to_dict()
-        path = data["personal"] / task["path"]
-        lines = path.read_text(encoding="utf-8").splitlines(True)
-        lines[task["line"] - 1] = sub(
-            rf"- \[{task['status']}\]", "- #task", lines[task["line"] - 1]
+    )
+    return DataFrame(
+        columns=[
+            "status",
+            "text",
+            "path",
+            "line",
+            "tags",
+            "task",
+            "id",
+            "deps",
+            "priority",
+            "recurs",
+            "created",
+            "starts",
+            "scheduled",
+            "due",
+            "cancelled",
+            "done",
+            "after",
+            "last_seen",
+            "entry",
+            "day",
+            "last_planned",
+            "new_priority",
+        ],
+        data=read_csv(
+            StringIO(
+                run(
+                    args=["obsidian", "tasks", "format=csv"],
+                    capture_output=True,
+                    check=True,
+                    encoding="utf-8",
+                ).stdout
+            ),
+            header=None,
+            names=["status", "text", "path", "line"],
         )
-        path.write_text("".join(lines), encoding="utf-8")
-        return row
+        .pipe(extract_task_data, priorities)
+        .loc[~col("path").str.contains("_Ω")]
+        .assign(**{
+            "task": col("task")
+            .str.replace(r"\[([^\]]+)\]\([^)]*\)", r"\1", regex=True)
+            .str.replace(r"\s{2,}", " ", regex=True)
+            .str.strip(),
+            "entry": "[" + col("task") + "](" + col("path") + ")",
+            "created": col("created").astype("datetime64[s, UTC]"),
+            "starts": col("starts").astype("datetime64[s, UTC]"),
+            "scheduled": col("scheduled").astype("datetime64[s, UTC]"),
+            "due": col("due").astype("datetime64[s, UTC]"),
+            "cancelled": col("cancelled")
+            .where((col("status") != "-") | col("cancelled").notna(), date.min)
+            .astype("datetime64[s, UTC]"),
+            "done": col("done")
+            .where((col("status") != "x") | col("done").notna(), date.min)
+            .astype("datetime64[s, UTC]"),
+            "priority": col("priority")
+            .fillna("")
+            .astype(CategoricalDtype(ordered=True, categories=priorities)),
+            "day": col("priority").pipe(get_days, days),
+            "last_seen": lambda df: (
+                df["id"]
+                .map(last_seen)
+                .fillna(get_now())
+                .astype("datetime64[s, UTC]")
+                .dt.tz_convert(current_tz)
+                .dt.normalize()
+            ),
+            "last_planned": lambda df: df.pipe(compute_last_planned),
+            "new_priority": col("priority").where(
+                col("last_planned") > get_now(), ""
+            ),
+        }),
+    )
 
-    return (demote_task,)
+
+@app.function
+def demote_task(row):
+    task = row.to_dict()
+    path = data["personal"] / task["path"]
+    lines = path.read_text(encoding="utf-8").splitlines(True)
+    lines[task["line"] - 1] = sub(
+        rf"- \[{task['status']}\]", "- #task", lines[task["line"] - 1]
+    )
+    path.write_text("".join(lines), encoding="utf-8")
+    return row
 
 
 @app.cell
-def _(disp, get_tasks):
-    tasks = get_tasks()
-    disp(_tasks=tasks)
-    return (tasks,)
+def _():
+    _tasks = get_tasks()
+    disp(_tasks=get_tasks())
+    return
 
 
 @app.cell
-def _(DateOffset, Timestamp, col, demote_task, disp, one, tasks):
+def _():
     DEMOTE_TASKS = False  # ! Don't enable this unless you want to modify the vault
     DEMOTE_TASKS_DONE_LATER_THAN_MONTHS_AGO = 3
     TASKS_TO_DEMOTE = 0
 
-    planned_meta_task = tasks.loc[(col("id") == "zzzzzz")]
-    reprioritize_meta_task = tasks.loc[(col("id") == "xxxxxx")]
+    _tasks = get_tasks()
+    planned_meta_task = _tasks.loc[(col("id") == "zzzzzz")]
+    reprioritize_meta_task = _tasks.loc[(col("id") == "xxxxxx")]
     is_planned = col("id").isin(one(planned_meta_task["deps"].str.split(",")))
     do_reprioritize = col("id").isin(one(reprioritize_meta_task["deps"].str.split(",")))
     is_active = col("cancelled").isna() & col("done").isna()
-    demotable_tasks = tasks.loc[
+    demotable_tasks = _tasks.loc[
         col("deps").isna()
         & col("id").isna()
         & col("done").notna()
@@ -383,11 +299,12 @@ def _(DateOffset, Timestamp, col, demote_task, disp, one, tasks):
 
 
 @app.cell
-def _(dedent, do_reprioritize, is_active, is_planned, mo, tasks):
-    plans = tasks.sort_values("day", na_position="first")
+def _(do_reprioritize, is_active, is_planned):
+    _tasks = get_tasks()
+    plans = _tasks.sort_values("day", na_position="first")
     inactive_plans = plans.loc[~is_active & (is_planned | do_reprioritize)]
     active_plans = plans.loc[is_active & is_planned]
-    reprioritize = tasks.loc[is_active & do_reprioritize]
+    reprioritize = _tasks.loc[is_active & do_reprioritize]
     mo.vstack(
         items=[
             mo.md(
@@ -408,7 +325,7 @@ def _(dedent, do_reprioritize, is_active, is_planned, mo, tasks):
 
 
 @app.cell
-def _(col, is_planned, mo, plans):
+def _(is_planned, plans):
     _planned_no_priority = plans.loc[is_planned & (col("priority") == "")]
     mo.vstack(
         items=[
@@ -435,7 +352,7 @@ def _(col, is_planned, mo, plans):
 
 
 @app.cell
-def _(active_plans, col, data, dumps, mo, update_task):
+def _(active_plans):
     # sourcery skip: remove-redundant-if
     DEMOTE_PLANS = False  # ! Don't enable this unless you want to modify the vault
 
@@ -457,7 +374,7 @@ def _(active_plans, col, data, dumps, mo, update_task):
 
 
 @app.cell
-def _(active_plans, add, data, get_now, mo, reduce):
+def _(active_plans):
     # sourcery skip: move-assign-in-block, use-fstring-for-concatenation
     UPDATE_WEEK_PLAN = False  # ! Don't enable this unless you want to modify the vault
 
@@ -520,7 +437,7 @@ def _(active_plans, add, data, get_now, mo, reduce):
 
 
 @app.cell
-def _(mo):
+def _():
     # TODO: Implement plan reprioritization
     REPRIORITIZE_TASKS = (  # ! Don't enable this unless you want to modify the vault
         False
