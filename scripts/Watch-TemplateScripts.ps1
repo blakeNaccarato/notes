@@ -10,9 +10,8 @@ if (Test-Path ($Types = "$CompiledTemplates/$TemplateTypes")) {
 }
 if (!(Test-Path ($Vault = "data/local/vaults/personal"))) { $Vault = "data/local/vaults/personal-local" }
 $TemplateDir = "$Vault/_templater-scripts"
-Copy-Item -Force $CompiledTemplates $Vault
 if (!$Env:WATCHFILES_CHANGES -or ($Env:WATCHFILES_CHANGES -eq '[]')) {
-    Write-Debug 'No changes'
+    Write-Verbose 'No changes'
     Write-Verbose 'STOP PROBLEM MATCHER'
     return
 }
@@ -21,11 +20,12 @@ $Paths = @(
         Where-Object { (Split-Path -Leaf $_) -ne $TemplateTypes }
 )
 if (!$Paths.Count) {
-    Write-Debug 'No changes other than types'
+    Write-Verbose 'No changes other than types'
     Write-Verbose 'STOP PROBLEM MATCHER'
     return
 }
 Write-Host $Paths
 $Paths | & "$PSScriptRoot/Format-TemplateScript.ps1"
-Write-Debug 'Formatted template scripts'
+$Paths | Copy-Item -Destination $TemplateDir
+Write-Verbose 'Formatted template scripts'
 Write-Verbose 'STOP PROBLEM MATCHER'

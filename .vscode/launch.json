@@ -73,7 +73,7 @@
       "type": "PowerShell",
       "request": "launch",
       "script": "${file}",
-      "cwd": "${workspaceFolder}/data/local/vaults/personal"
+      "cwd": "${workspaceFolder}/data/local/vaults/personal" // TODO: Handle personal/personal-local difference
     },
     {
       "name": "PowerShell: Launch Current File",

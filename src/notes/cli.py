@@ -15,6 +15,7 @@ from notes.times import current_tz
 class AssociatePdfs(BaseModel):
     """Associate literature notes with PDFs."""
 
+    # TODO: Handle personal/personal-local difference
     path: DirectoryPath = Path("data/local/vaults/personal/_notes/zotero")
     """Path to literature notes."""
 

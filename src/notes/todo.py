@@ -17,5 +17,6 @@ if False:
         tokens=[], options={"parser_extension": [plugin]}, env={}, finalize=False
     )
     # ? Other
+    # TODO: Handle personal/personal-local difference
     vault = Vault(Path("data/local/vaults/personal"))
     foo = AsyncPath("")
