@@ -335,17 +335,18 @@ def _(active_plans, is_active, tasks):
         )
         .loc[
             is_active
+            & col("related_id").notna()
             & ~col("path").str.startswith("__")
-            & col("path").isin(eternal_active_plans["path"])
+            & ~col("id").isin(active_plans["id"])
             & (col("id") != col("related_id"))
-            & (col("priority") == "")
         ]
         .assign(**{
+            "related_id": col("id").mask(col("id") == "", col("related_id")),  # ruff: ignore[compare-to-empty-string]
             "entry": (
                 col("entry").fillna("").astype(str)
                 + " 🆔 "
                 + col("related_id").fillna("").astype(str)
-            ).str.strip()
+            ).str.strip(),
         })
     )
     mo.vstack(
